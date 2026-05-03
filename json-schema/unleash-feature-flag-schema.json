@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://getunleash.io/schemas/feature-flag",
+  "title": "Unleash Feature Flag",
+  "description": "Represents an Unleash feature flag (feature toggle) with its configuration, environments, strategies, and variants.",
+  "type": "object",
+  "required": ["name", "project", "type"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique feature flag identifier (kebab-case recommended)",
+      "pattern": "^[a-zA-Z0-9._-]+$",
+      "example": "my-new-feature"
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "Human-readable description of the feature flag purpose"
+    },
+    "type": {
+      "type": "string",
+      "description": "Flag lifecycle type",
+      "enum": ["release", "experiment", "operational", "kill-switch", "permission"],
+      "example": "release"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project the flag belongs to",
+      "example": "default"
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Legacy global enabled status (use environment-specific enabled instead)",
+      "default": false
+    },
+    "stale": {
+      "type": "boolean",
+      "description": "Whether the flag has been marked as stale and should be cleaned up",
+      "default": false
+    },
+    "impressionData": {
+      "type": "boolean",
+      "description": "Whether impression events are enabled for this flag",
+      "default": false
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the flag was created"
+    },
+    "updatedAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the flag was last updated"
+    },
+    "lastSeenAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the flag was last evaluated"
+    },
+    "createdBy": {
+      "type": "object",
+      "description": "User who created the flag",
+      "properties": {
+        "id": {"type": "integer"},
+        "name": {"type": "string"},
+        "imageUrl": {"type": "string"}
+      }
+    },
+    "environments": {
+      "type": "array",
+      "description": "Per-environment configuration of the flag",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string", "description": "Environment name"},
+          "enabled": {"type": "boolean", "description": "Whether flag is enabled in this environment"},
+          "type": {"type": "string", "description": "Environment type (development, staging, production)"},
+          "strategies": {
+            "type": "array",
+            "description": "Activation strategies for this environment",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "string"},
+                "name": {"type": "string", "description": "Strategy type name"},
+                "constraints": {"type": "array"},
+                "parameters": {"type": "object"},
+                "segments": {"type": "array"},
+                "disabled": {"type": "boolean"}
+              }
+            }
+          },
+          "variants": {
+            "type": "array",
+            "description": "Variants for A/B testing or multivariate experiments"
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for organizing and filtering flags",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string"},
+          "value": {"type": "string"}
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://app.unleash-instance.example.com/api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/on",
+    "headers": {
+      "Authorization": "Bearer *:development:xxxxxxxxxxxxxxxxxxxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {}
+  }
+}

@@ -1,0 +1,86 @@
+extends: [[spectral:oas, all]]
+
+rules:
+
+  # Unleash Admin API paths use kebab-case prefixed with /api/admin/
+  unleash-admin-path-prefix:
+    description: Admin API paths must start with /api/admin/
+    message: "Path '{{path}}' should be prefixed with /api/admin/"
+    severity: info
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/api/(admin|client|frontend)"
+
+  # Operation summaries must be Title Case
+  unleash-title-case-summary:
+    description: Operation summaries must use Title Case
+    message: "Summary '{{value}}' should use Title Case"
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z]"
+
+  # Operations must have tags for grouping
+  unleash-operation-tags:
+    description: All operations must have at least one tag
+    message: "{{description}}: {{path}}"
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: tags
+      function: truthy
+
+  # All operations must have operationIds
+  unleash-operation-id:
+    description: All operations must have an operationId
+    message: "Operation at {{path}} missing operationId"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: operationId
+      function: truthy
+
+  # Authorization header for admin API operations
+  unleash-auth-header:
+    description: Admin API operations must require Authorization header
+    message: "Admin operation may require Authorization header parameter"
+    severity: info
+    given: "$.paths[/api/admin*][*]"
+    then:
+      field: security
+      function: defined
+
+  # Features paths use project-scoped routes
+  unleash-feature-project-scope:
+    description: Feature flag paths should be scoped under /projects/{projectId}/
+    message: "Feature path should be scoped: /api/admin/projects/{projectId}/features"
+    severity: info
+    given: "$.paths[/api/admin/features*]~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^/api/admin/features"
+
+  # 404 responses for resource paths
+  unleash-not-found-response:
+    description: Resource endpoints should define 404 responses
+    message: "Missing 404 response for resource operation"
+    severity: warn
+    given: "$.paths[*][get,delete,put,patch]"
+    then:
+      field: "responses.404"
+      function: defined
+
+  # 401 for unauthenticated requests
+  unleash-unauthorized-response:
+    description: Protected operations should define 401 responses
+    message: "Protected operation should define 401 response"
+    severity: warn
+    given: "$.paths[/api/admin*][*]"
+    then:
+      field: "responses.401"
+      function: defined

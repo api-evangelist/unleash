@@ -1,0 +1,37 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://app.unleash-instance.example.com/api/client/features",
+    "headers": {
+      "Authorization": "*:development:xxxxxxxxxxxxxxxxxxxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "version": 2,
+      "features": [
+        {
+          "name": "my-new-feature",
+          "description": "A new feature flag for the checkout flow",
+          "enabled": true,
+          "impressionData": false,
+          "strategies": [
+            {
+              "name": "default",
+              "constraints": [],
+              "parameters": {},
+              "segments": []
+            }
+          ],
+          "variants": []
+        }
+      ],
+      "segments": [],
+      "query": {
+        "project": ["default"],
+        "environment": "development"
+      }
+    }
+  }
+}

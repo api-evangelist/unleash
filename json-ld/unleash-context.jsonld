@@ -1,0 +1,126 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "unleash": "https://getunleash.io/ontology#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "FeatureFlag": "unleash:FeatureFlag",
+    "Project": "schema:Project",
+    "Environment": "unleash:Environment",
+    "Strategy": "unleash:Strategy",
+    "Segment": "unleash:Segment",
+    "Variant": "unleash:Variant",
+    "User": "schema:Person",
+    "APIToken": "unleash:APIToken",
+    "Constraint": "unleash:Constraint",
+
+    "name": "schema:name",
+    "description": "schema:description",
+    "enabled": {
+      "@id": "schema:actionStatus",
+      "@type": "xsd:boolean"
+    },
+    "createdAt": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updatedAt": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "lastSeenAt": {
+      "@id": "unleash:lastSeenAt",
+      "@type": "xsd:dateTime"
+    },
+    "project": {
+      "@id": "schema:isPartOf",
+      "@type": "@id"
+    },
+    "type": {
+      "@id": "unleash:flagType",
+      "@type": "xsd:string"
+    },
+    "stale": {
+      "@id": "unleash:stale",
+      "@type": "xsd:boolean"
+    },
+    "impressionData": {
+      "@id": "unleash:impressionData",
+      "@type": "xsd:boolean"
+    },
+    "environments": {
+      "@id": "unleash:environments",
+      "@container": "@set"
+    },
+    "strategies": {
+      "@id": "unleash:strategies",
+      "@container": "@set"
+    },
+    "constraints": {
+      "@id": "unleash:constraints",
+      "@container": "@set"
+    },
+    "parameters": {
+      "@id": "schema:additionalProperty"
+    },
+    "segments": {
+      "@id": "unleash:segments",
+      "@container": "@set"
+    },
+    "variants": {
+      "@id": "unleash:variants",
+      "@container": "@set"
+    },
+    "tags": {
+      "@id": "schema:keywords",
+      "@container": "@set"
+    },
+    "context": {
+      "@id": "unleash:context"
+    },
+    "contextName": {
+      "@id": "unleash:contextName",
+      "@type": "xsd:string"
+    },
+    "operator": {
+      "@id": "unleash:operator",
+      "@type": "xsd:string"
+    },
+    "values": {
+      "@id": "schema:value",
+      "@container": "@set"
+    },
+    "weight": {
+      "@id": "schema:weight",
+      "@type": "xsd:integer"
+    },
+    "weightType": {
+      "@id": "unleash:weightType",
+      "@type": "xsd:string"
+    },
+    "payload": {
+      "@id": "schema:value"
+    },
+    "email": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "rootRole": {
+      "@id": "schema:roleName",
+      "@type": "xsd:string"
+    },
+    "tokenType": {
+      "@id": "unleash:tokenType",
+      "@type": "xsd:string"
+    },
+    "secret": {
+      "@id": "unleash:secret",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "schema:version",
+      "@type": "xsd:string"
+    }
+  }
+}

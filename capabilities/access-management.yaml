@@ -1,0 +1,132 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: Unleash Access Management
+  description: >-
+    Workflow capability for managing access control in Unleash, including user management,
+    API token lifecycle, service accounts, and personal access tokens. Used by platform
+    admins and security teams to govern who can access Unleash and with what permissions.
+  tags:
+    - Unleash
+    - Access Control
+    - Users
+    - API Tokens
+    - Administration
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      UNLEASH_API_TOKEN: UNLEASH_API_TOKEN
+      UNLEASH_BASE_URL: UNLEASH_BASE_URL
+
+capability:
+  consumes:
+    - import: unleash-admin
+      location: ./shared/unleash-admin.yaml
+
+  exposes:
+    - type: rest
+      port: 8081
+      namespace: unleash-access-api
+      description: Unified REST API for Unleash access and token management.
+      resources:
+        - path: /v1/users
+          name: users
+          description: User management
+          operations:
+            - method: GET
+              name: list-users
+              description: List all users
+              call: "unleash-admin.list-users"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-user
+              description: Create a new user
+              call: "unleash-admin.create-user"
+              with:
+                email: "rest.email"
+                name: "rest.name"
+                rootRole: "rest.rootRole"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/tokens
+          name: api-tokens
+          description: API token management
+          operations:
+            - method: GET
+              name: list-tokens
+              description: List all API tokens
+              call: "unleash-admin.list-tokens"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-token
+              description: Create a new API token
+              call: "unleash-admin.create-token"
+              with:
+                username: "rest.username"
+                type: "rest.type"
+                environment: "rest.environment"
+                project: "rest.project"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9091
+      namespace: unleash-access-mcp
+      transport: http
+      description: MCP server for AI-assisted Unleash access management.
+      tools:
+        - name: list-users
+          description: List all users in the Unleash instance
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "unleash-admin.list-users"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-user
+          description: Create a new Unleash user with email and role assignment
+          hints:
+            readOnly: false
+            destructive: false
+          call: "unleash-admin.create-user"
+          with:
+            email: "tools.email"
+            name: "tools.name"
+            rootRole: "tools.rootRole"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-api-tokens
+          description: List all API tokens in the Unleash instance
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "unleash-admin.list-tokens"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-api-token
+          description: Create a new API token for an Unleash SDK or integration
+          hints:
+            readOnly: false
+            destructive: false
+          call: "unleash-admin.create-token"
+          with:
+            username: "tools.username"
+            type: "tools.type"
+            environment: "tools.environment"
+            project: "tools.project"
+          outputParameters:
+            - type: object
+              mapping: "$."

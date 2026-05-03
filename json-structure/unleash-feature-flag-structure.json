@@ -1,0 +1,62 @@
+{
+  "title": "Unleash Feature Flag Structure",
+  "description": "Structural documentation for Unleash feature flag objects",
+  "entity": "FeatureFlag",
+  "fields": [
+    {"name": "name", "type": "string", "required": true, "description": "Unique flag identifier (kebab-case)"},
+    {"name": "description", "type": "string|null", "required": false, "description": "Human-readable flag description"},
+    {"name": "type", "type": "enum", "required": true, "description": "Flag lifecycle type: release|experiment|operational|kill-switch|permission"},
+    {"name": "project", "type": "string", "required": true, "description": "Parent project ID"},
+    {"name": "enabled", "type": "boolean", "required": false, "default": false, "description": "Global enabled status (legacy)"},
+    {"name": "stale", "type": "boolean", "required": false, "default": false, "description": "Marked for cleanup"},
+    {"name": "impressionData", "type": "boolean", "required": false, "default": false, "description": "Emit impression events"},
+    {"name": "createdAt", "type": "datetime", "required": false, "description": "Creation timestamp (ISO 8601)"},
+    {"name": "updatedAt", "type": "datetime|null", "required": false, "description": "Last update timestamp"},
+    {"name": "lastSeenAt", "type": "datetime|null", "required": false, "description": "Last evaluation timestamp"},
+    {
+      "name": "createdBy",
+      "type": "object",
+      "required": false,
+      "description": "Creator user info",
+      "fields": [
+        {"name": "id", "type": "integer", "description": "User ID"},
+        {"name": "name", "type": "string", "description": "User name"},
+        {"name": "imageUrl", "type": "string", "description": "Avatar URL"}
+      ]
+    },
+    {
+      "name": "environments",
+      "type": "array<object>",
+      "required": false,
+      "description": "Per-environment configurations",
+      "fields": [
+        {"name": "name", "type": "string", "description": "Environment name"},
+        {"name": "enabled", "type": "boolean", "description": "Enabled in this environment"},
+        {"name": "type", "type": "string", "description": "Environment type"},
+        {
+          "name": "strategies",
+          "type": "array<object>",
+          "description": "Activation strategies",
+          "fields": [
+            {"name": "id", "type": "string", "description": "Strategy ID"},
+            {"name": "name", "type": "string", "description": "Strategy type name"},
+            {"name": "constraints", "type": "array", "description": "Context constraints"},
+            {"name": "parameters", "type": "object", "description": "Strategy parameters"},
+            {"name": "segments", "type": "array<integer>", "description": "Applied segment IDs"},
+            {"name": "disabled", "type": "boolean", "description": "Strategy disabled"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tags",
+      "type": "array<object>",
+      "required": false,
+      "description": "Organizational tags",
+      "fields": [
+        {"name": "type", "type": "string", "description": "Tag type"},
+        {"name": "value", "type": "string", "description": "Tag value"}
+      ]
+    }
+  ]
+}

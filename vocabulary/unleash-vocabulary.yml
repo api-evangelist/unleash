@@ -1,0 +1,222 @@
+vocabulary:
+  provider: Unleash
+  description: >-
+    Domain vocabulary for Unleash, the open-source feature management platform.
+    Covers feature flags, activation strategies, environments, projects, targeting
+    segments, variants, metrics, and access control concepts.
+  version: '2026-05-03'
+  tags:
+    - Feature Flags
+    - Feature Management
+    - Progressive Delivery
+    - Experimentation
+
+  terms:
+
+    - term: Feature Flag
+      definition: >-
+        A conditional toggle in code that enables or disables a feature without
+        deploying new code. Also called a feature toggle or feature switch. Unleash
+        feature flags are named identifiers with per-environment enablement states
+        and activation strategies.
+      tags:
+        - Core Concept
+
+    - term: Feature Toggle
+      definition: >-
+        Synonym for Feature Flag. A mechanism to turn features on or off at runtime
+        without code deployment, enabling trunk-based development, A/B testing,
+        canary releases, and kill switches.
+      tags:
+        - Core Concept
+
+    - term: Project
+      definition: >-
+        A logical grouping of feature flags in Unleash. Projects have their own
+        set of environments, members, and access controls. The default project is
+        named "default".
+      tags:
+        - Organization
+
+    - term: Environment
+      definition: >-
+        A deployment target context (e.g. development, staging, production) where
+        feature flags can be independently enabled or disabled. Flags may be on in
+        development but off in production until a release is ready.
+      tags:
+        - Infrastructure
+
+    - term: Activation Strategy
+      definition: >-
+        A rule defining when a feature flag is considered enabled for a given request
+        context. Strategies include gradual rollout (by percentage), user ID lists,
+        IP addresses, hostnames, and custom strategies.
+      tags:
+        - Targeting
+
+    - term: Gradual Rollout
+      definition: >-
+        A built-in Unleash strategy that enables a flag for a configurable percentage
+        of users or sessions, using sticky hashing to ensure consistent evaluation
+        for the same user. Enables canary releases and progressive delivery.
+      tags:
+        - Targeting
+        - Strategy
+
+    - term: Segment
+      definition: >-
+        A reusable group of constraints that can be applied to multiple strategies.
+        Segments allow common targeting rules (e.g., "beta users", "enterprise customers")
+        to be defined once and reused across many flags.
+      tags:
+        - Targeting
+        - Reusability
+
+    - term: Constraint
+      definition: >-
+        A condition on an Unleash context field that limits when a strategy applies.
+        Constraints can check context values using operators like IN, NOT_IN,
+        STR_CONTAINS, NUM_GTE, DATE_BEFORE, etc.
+      tags:
+        - Targeting
+
+    - term: Unleash Context
+      definition: >-
+        The set of attributes describing the current request or user that Unleash
+        uses for flag evaluation. Standard fields include userId, sessionId, remoteAddress,
+        and environment. Custom properties can also be added.
+      tags:
+        - Evaluation
+
+    - term: Variant
+      definition: >-
+        A named value returned by a feature flag for A/B testing or multivariate
+        experiments. Variants have a weight (percentage allocation), optional payload
+        (string, JSON, CSV), and override rules for specific users.
+      tags:
+        - Experimentation
+
+    - term: Impression Data
+      definition: >-
+        An Unleash flag setting that emits events every time the flag is evaluated.
+        Useful for tracking exposure in experiments and for compliance/audit purposes.
+      tags:
+        - Analytics
+        - Observability
+
+    - term: Kill Switch
+      definition: >-
+        A feature flag of type "kill-switch" designed to rapidly disable a problematic
+        feature in production without a code deployment. Distinct from release flags
+        in that it is expected to remain permanently in the codebase.
+      tags:
+        - Operations
+        - Safety
+
+    - term: Release Flag
+      definition: >-
+        A short-lived feature flag (type "release") used to control the rollout of a
+        new feature. Once fully released and the old code path is removed, the flag
+        should be archived.
+      tags:
+        - Release Management
+
+    - term: Experiment Flag
+      definition: >-
+        A feature flag of type "experiment" used for A/B testing and hypothesis validation.
+        Paired with variants to deliver different experiences to user segments.
+      tags:
+        - Experimentation
+
+    - term: Client API
+      definition: >-
+        The Unleash API endpoint (/api/client) consumed by backend SDKs to fetch
+        complete flag configurations. Returns all flags and their strategies for
+        local evaluation, enabling zero-latency flag checks.
+      tags:
+        - API
+        - SDK
+
+    - term: Frontend API
+      definition: >-
+        The Unleash API endpoint (/api/frontend) consumed by client-side SDKs. Returns
+        only the evaluated state of flags (enabled/disabled) for a specific context,
+        without exposing strategies or configuration details.
+      tags:
+        - API
+        - SDK
+
+    - term: Admin API
+      definition: >-
+        The Unleash REST API (/api/admin) providing full programmatic control over
+        flags, projects, environments, users, tokens, and configuration. Powers the
+        Unleash Admin UI and automation integrations.
+      tags:
+        - API
+        - Administration
+
+    - term: Backend Token
+      definition: >-
+        An API token for server-side SDKs scoped to specific projects and environments.
+        Must be kept secret. Used with the Client API to fetch flag configurations.
+      tags:
+        - Authentication
+        - Security
+
+    - term: Frontend Token
+      definition: >-
+        An API token for client-side SDKs that is safe to expose in browser/mobile
+        code. Limited to the Frontend API — cannot access admin operations.
+      tags:
+        - Authentication
+        - Security
+
+    - term: Personal Access Token (PAT)
+      definition: >-
+        A user-specific API token for manually testing or debugging Unleash integrations.
+        Inherits the permissions of the creating user account.
+      tags:
+        - Authentication
+
+    - term: Service Account Token
+      definition: >-
+        The recommended token type for automation, CI/CD, and integration workflows.
+        Service accounts can have specific RBAC roles assigned independent of human users.
+      tags:
+        - Authentication
+        - Automation
+
+    - term: Change Request
+      definition: >-
+        An Unleash workflow feature (Enterprise/Pro) that requires changes to flag
+        configurations in production environments to be reviewed and approved before
+        applying, similar to a pull request for feature flags.
+      tags:
+        - Governance
+        - Enterprise
+
+    - term: Stale Flag
+      definition: >-
+        A feature flag that has been active beyond its expected lifetime and should
+        be cleaned up from the codebase. Unleash can automatically mark flags as stale
+        based on configurable age thresholds.
+      tags:
+        - Technical Debt
+
+    - term: Unleash Edge
+      definition: >-
+        Unleash's high-performance edge proxy (replacing Unleash Proxy) that sits between
+        client SDKs and the Unleash server to minimize latency, reduce load, and support
+        offline operation.
+      tags:
+        - Infrastructure
+        - Performance
+
+    - term: SDK
+      definition: >-
+        A language-specific client library for evaluating Unleash feature flags.
+        Official SDKs are available for Node.js, Java, .NET, Python, Go, Ruby, PHP,
+        iOS (Swift), Android (Kotlin), and React.
+      tags:
+        - Integration
+        - SDK

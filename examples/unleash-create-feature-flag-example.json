@@ -1,0 +1,42 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://app.unleash-instance.example.com/api/admin/projects/{projectId}/features",
+    "headers": {
+      "Authorization": "Bearer *:development:xxxxxxxxxxxxxxxxxxxx",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "my-new-feature",
+      "description": "A new feature flag for the checkout flow",
+      "type": "release",
+      "impressionData": false
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "name": "my-new-feature",
+      "description": "A new feature flag for the checkout flow",
+      "type": "release",
+      "project": "default",
+      "enabled": false,
+      "stale": false,
+      "impressionData": false,
+      "createdAt": "2026-05-03T10:00:00.000Z",
+      "lastSeenAt": null,
+      "createdBy": {
+        "id": 1,
+        "name": "Admin User",
+        "imageUrl": ""
+      },
+      "environments": [
+        {
+          "name": "development",
+          "enabled": false,
+          "strategies": []
+        }
+      ]
+    }
+  }
+}
