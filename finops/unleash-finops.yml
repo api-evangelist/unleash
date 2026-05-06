@@ -1,5 +1,6 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
@@ -8,145 +9,68 @@ alignedWith:
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
 provider: Unleash
 providerId: unleash
-publisherName: Unleash
-serviceCategory: API
+publisherName: Bricks Software AS (Unleash)
+serviceCategory: Developer Tools
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Feature Flags
-  - Feature Management
-  - Progressive Delivery
-  - A/B Testing
-  - Open Source
   - Developer Tools
   - FinOps
-  - Cost Management
   - FOCUS
-description: FinOps framework definition for the Unleash API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+description: 'FOCUS-aligned FinOps for Unleash: per-seat subscription with a monthly included API request allowance and per-million overage. Enterprise contracts swap the seat list price and overage for negotiated commitments.'
+sources:
+  - https://www.getunleash.io/pricing
+  - https://focus.finops.org/focus-specification/v1-3/
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Subscription + Usage Overage
+  billingFrequency: Monthly (Pay-As-You-Go) / Annual (Enterprise)
   billingCurrency: USD
   chargeCategories:
     - Usage
     - Purchase
     - Tax
-    - Credit
     - Adjustment
-  chargeFrequency: Recurring
+    - Credit
 focusColumns:
   ServiceName: Unleash
-  ServiceCategory: Developer Tools / API
+  ServiceCategory: Developer Tools
   ProviderName: Unleash
-  PublisherName: Unleash
-  InvoiceIssuerName: Unleash
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  PublisherName: Bricks Software AS
+  InvoiceIssuerName: Bricks Software AS
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
+  - name: seats
+    description: Active named seats on the Unleash subscription
+    unit: seat
+    aggregation: max
+    dimensions:
+      - plan
+  - name: api_requests_included
+    description: API requests counted against the monthly included allowance
     unit: request
     aggregation: sum
     dimensions:
       - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+      - environment
+  - name: api_requests_overage
+    description: API requests above the included monthly allowance, billed per million
+    unit: request
     aggregation: sum
     dimensions:
       - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Unleash Admin API
-    baseURL: https://app.unleash-instance.example.com
-    tags:
-      - Admin
-      - Feature Flags
-      - Projects
-      - Environments
-      - Users
-      - Events
-    serviceName: Unleash Admin API
-    serviceCategory: API
-  - name: Unleash Client API
-    baseURL: https://app.unleash-instance.example.com
-    tags:
-      - Client
-      - SDK
-      - Feature Flags
-    serviceName: Unleash Client API
-    serviceCategory: API
-  - name: Unleash Frontend API
-    baseURL: https://app.unleash-instance.example.com
-    tags:
-      - Frontend
-      - SDK
-      - Feature Flags
-    serviceName: Unleash Frontend API
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+      - environment
+principles:
+  - name: Visibility
+    description: Use the Unleash admin UI usage views and exported audit logs (up to 2 years) to track API request volume against the monthly allowance and seat counts.
+  - name: Allocation
+    description: Allocate cost by Unleash project and environment; tag SDK clients with consumer identifiers and reconcile via project/environment dimensions in the metrics export.
+  - name: Optimization
+    description: Use SDK-side caching and the Unleash Edge / Frontend API to reduce direct Admin API hits; right-size seats by reviewing inactive users; consider self-hosted or hybrid for high-volume workloads where overage outweighs infrastructure cost.
+  - name: Accountability
+    description: Assign a feature-flag platform owner who reviews monthly seat changes and request overage charges; alert when monthly request volume approaches the 53M included threshold.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

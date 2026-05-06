@@ -4,97 +4,31 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Unleash
 providerId: unleash
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
   - Feature Flags
   - Feature Management
-  - Progressive Delivery
-  - A/B Testing
-  - Open Source
   - Developer Tools
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Unleash API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: Unleash does not publish per-second or per-minute API request rate limits in its public documentation. The commercial constraint is the monthly API request allowance defined in the plan (53M/month on Pay-As-You-Go, custom on Enterprise) with $5/M overage. Self-hosted instances enforce limits set by the operator. Numbers should be sourced from the customer's instance configuration or contract.
+sources:
+  - https://www.getunleash.io/pricing
+  - https://docs.getunleash.io/
+notes: No public per-request-rate limits are documented; quota is enforced at the plan level (monthly API request allowance) rather than as request-per-second throttling.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Unleash Admin API
-      - Unleash Client API
-      - Unleash Frontend API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Unleash Admin API
-      - Unleash Client API
-      - Unleash Frontend API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Unleash Admin API
-      - Unleash Client API
-      - Unleash Frontend API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Unleash Admin API
-      - Unleash Client API
-      - Unleash Frontend API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Unleash Admin API
-      - Unleash Client API
-      - Unleash Frontend API
+  - name: Plan-Level Monthly API Requests
+    scope: account
+    metric: varies
+    limit: see plan (53M/month Pay-As-You-Go; custom Enterprise)
+    notes: Plan-driven; not a request-rate throttle. Overage billed at $5 per million.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Plan-Driven Quota
+    description: API consumption is governed by the per-month request allowance attached to the seat-based plan; there is no public per-second rate-limit policy.
+  - name: Self-Hosted Operator Discretion
+    description: For self-hosted and hybrid deployments, request-rate throttling is configured by the customer at their proxy or Edge layer.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
