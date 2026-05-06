@@ -1,317 +1,556 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
   label: Unleash Feature Flag Management
-  description: >-
-    Workflow capability for managing the complete lifecycle of feature flags using Unleash.
-    Covers creating and configuring flags, toggling environments, managing strategies and
-    segments, tracking events, and administering projects. Used by engineering teams,
-    product managers, and release engineers to safely ship and control features.
+  description: Workflow capability for managing the complete lifecycle of feature flags using Unleash. Covers creating and
+    configuring flags, toggling environments, managing strategies and segments, tracking events, and administering projects.
+    Used by engineering teams, product managers, and release engineers to safely ship and control features.
   tags:
-    - Unleash
-    - Feature Flags
-    - Feature Management
-    - Release Management
-    - Progressive Delivery
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - Unleash
+  - Feature Flags
+  - Feature Management
+  - Release Management
+  - Progressive Delivery
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      UNLEASH_API_TOKEN: UNLEASH_API_TOKEN
-      UNLEASH_BASE_URL: UNLEASH_BASE_URL
-
+- namespace: env
+  keys:
+    UNLEASH_API_TOKEN: UNLEASH_API_TOKEN
+    UNLEASH_BASE_URL: UNLEASH_BASE_URL
 capability:
   consumes:
-    - import: unleash-admin
-      location: ./shared/unleash-admin.yaml
-
+  - type: http
+    namespace: unleash-admin
+    baseUri: '{{UNLEASH_BASE_URL}}'
+    description: Unleash Admin API for feature flag management
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{UNLEASH_API_TOKEN}}'
+      placement: header
+    resources:
+    - name: features
+      path: /api/admin/projects
+      description: Feature flag management scoped to projects
+      operations:
+      - name: list-features
+        method: GET
+        description: List All Feature Flags
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+          description: Project identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-feature
+        method: POST
+        description: Create Feature Flag
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+          description: Project identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+            description: '{{tools.description}}'
+            type: '{{tools.type}}'
+      - name: get-feature
+        method: GET
+        description: Get Feature Flag
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+          description: Project identifier
+        - name: featureName
+          in: path
+          type: string
+          required: true
+          description: Feature flag name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: enable-feature
+        method: POST
+        description: Enable Feature Flag
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+          description: Project identifier
+        - name: featureName
+          in: path
+          type: string
+          required: true
+          description: Feature flag name
+        - name: environment
+          in: path
+          type: string
+          required: true
+          description: Environment name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: disable-feature
+        method: POST
+        description: Disable Feature Flag
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+          description: Project identifier
+        - name: featureName
+          in: path
+          type: string
+          required: true
+          description: Feature flag name
+        - name: environment
+          in: path
+          type: string
+          required: true
+          description: Environment name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: projects
+      path: /api/admin/projects
+      description: Project management
+      operations:
+      - name: list-projects
+        method: GET
+        description: List All Projects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-project
+        method: POST
+        description: Create Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            id: '{{tools.id}}'
+            name: '{{tools.name}}'
+            description: '{{tools.description}}'
+    - name: environments
+      path: /api/admin/environments
+      description: Environment management
+      operations:
+      - name: list-environments
+        method: GET
+        description: List All Environments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: users
+      path: /api/admin/user-admin
+      description: User management
+      operations:
+      - name: list-users
+        method: GET
+        description: List All Users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-user
+        method: POST
+        description: Create User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            email: '{{tools.email}}'
+            name: '{{tools.name}}'
+            rootRole: '{{tools.rootRole}}'
+    - name: api-tokens
+      path: /api/admin/api-tokens
+      description: API token management
+      operations:
+      - name: list-tokens
+        method: GET
+        description: List All API Tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-token
+        method: POST
+        description: Create API Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            username: '{{tools.username}}'
+            type: '{{tools.type}}'
+            environment: '{{tools.environment}}'
+            project: '{{tools.project}}'
+    - name: segments
+      path: /api/admin/segments
+      description: Segment management
+      operations:
+      - name: list-segments
+        method: GET
+        description: List All Segments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-segment
+        method: POST
+        description: Create Segment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+            description: '{{tools.description}}'
+            constraints: '{{tools.constraints}}'
+    - name: events
+      path: /api/admin/events
+      description: Event log access
+      operations:
+      - name: list-events
+        method: GET
+        description: List All Events
+        inputParameters:
+        - name: project
+          in: query
+          type: string
+          required: false
+          description: Filter events by project
+        - name: limit
+          in: query
+          type: integer
+          required: false
+          description: Number of events to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: unleash-feature-management-api
-      description: Unified REST API for Unleash feature flag lifecycle management.
-      resources:
-        - path: /v1/projects
-          name: projects
-          description: Project management
-          operations:
-            - method: GET
-              name: list-projects
-              description: List all projects
-              call: "unleash-admin.list-projects"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-project
-              description: Create a new project
-              call: "unleash-admin.create-project"
-              with:
-                id: "rest.id"
-                name: "rest.name"
-                description: "rest.description"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/projects/{projectId}/flags
-          name: flags
-          description: Feature flag management within a project
-          operations:
-            - method: GET
-              name: list-flags
-              description: List all feature flags in a project
-              call: "unleash-admin.list-features"
-              with:
-                projectId: "rest.projectId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-flag
-              description: Create a new feature flag
-              call: "unleash-admin.create-feature"
-              with:
-                projectId: "rest.projectId"
-                name: "rest.name"
-                description: "rest.description"
-                type: "rest.type"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/projects/{projectId}/flags/{flagName}
-          name: flag
-          description: Single flag operations
-          operations:
-            - method: GET
-              name: get-flag
-              description: Get feature flag details
-              call: "unleash-admin.get-feature"
-              with:
-                projectId: "rest.projectId"
-                featureName: "rest.flagName"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/projects/{projectId}/flags/{flagName}/environments/{environment}/enable
-          name: flag-enable
-          description: Enable a flag in an environment
-          operations:
-            - method: POST
-              name: enable-flag
-              description: Enable a feature flag in the specified environment
-              call: "unleash-admin.enable-feature"
-              with:
-                projectId: "rest.projectId"
-                featureName: "rest.flagName"
-                environment: "rest.environment"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/projects/{projectId}/flags/{flagName}/environments/{environment}/disable
-          name: flag-disable
-          description: Disable a flag in an environment
-          operations:
-            - method: POST
-              name: disable-flag
-              description: Disable a feature flag in the specified environment
-              call: "unleash-admin.disable-feature"
-              with:
-                projectId: "rest.projectId"
-                featureName: "rest.flagName"
-                environment: "rest.environment"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/environments
-          name: environments
-          description: Environment management
-          operations:
-            - method: GET
-              name: list-environments
-              description: List all environments
-              call: "unleash-admin.list-environments"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/segments
-          name: segments
-          description: Segment management for targeting groups
-          operations:
-            - method: GET
-              name: list-segments
-              description: List all segments
-              call: "unleash-admin.list-segments"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-segment
-              description: Create a targeting segment
-              call: "unleash-admin.create-segment"
-              with:
-                name: "rest.name"
-                description: "rest.description"
-                constraints: "rest.constraints"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/events
-          name: events
-          description: Event log for audit and observability
-          operations:
-            - method: GET
-              name: list-events
-              description: List recent events
-              call: "unleash-admin.list-events"
-              with:
-                project: "rest.project"
-                limit: "rest.limit"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: unleash-feature-management-mcp
-      transport: http
-      description: MCP server for AI-assisted feature flag management with Unleash.
-      tools:
-        - name: list-projects
-          description: List all Unleash projects
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "unleash-admin.list-projects"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-project
-          description: Create a new Unleash project for organizing feature flags
-          hints:
-            readOnly: false
-            destructive: false
-          call: "unleash-admin.create-project"
-          with:
-            id: "tools.id"
-            name: "tools.name"
-            description: "tools.description"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-feature-flags
-          description: List all feature flags in a project
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "unleash-admin.list-features"
-          with:
-            projectId: "tools.projectId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-feature-flag
-          description: Create a new feature flag in a project
-          hints:
-            readOnly: false
-            destructive: false
-          call: "unleash-admin.create-feature"
-          with:
-            projectId: "tools.projectId"
-            name: "tools.name"
-            description: "tools.description"
-            type: "tools.type"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-feature-flag
-          description: Get details of a feature flag including environments and strategies
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "unleash-admin.get-feature"
-          with:
-            projectId: "tools.projectId"
-            featureName: "tools.featureName"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: enable-feature-flag
-          description: Enable a feature flag in the specified environment
-          hints:
-            readOnly: false
-            destructive: false
-            idempotent: true
-          call: "unleash-admin.enable-feature"
-          with:
-            projectId: "tools.projectId"
-            featureName: "tools.featureName"
-            environment: "tools.environment"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: disable-feature-flag
-          description: Disable a feature flag in the specified environment
-          hints:
-            readOnly: false
-            destructive: false
-            idempotent: true
-          call: "unleash-admin.disable-feature"
-          with:
-            projectId: "tools.projectId"
-            featureName: "tools.featureName"
-            environment: "tools.environment"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-environments
-          description: List all configured environments in Unleash
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "unleash-admin.list-environments"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-segments
-          description: List all targeting segments
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "unleash-admin.list-segments"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-segment
-          description: Create a targeting segment for feature flag strategies
-          hints:
-            readOnly: false
-            destructive: false
-          call: "unleash-admin.create-segment"
-          with:
-            name: "tools.name"
-            description: "tools.description"
-            constraints: "tools.constraints"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-events
-          description: List recent audit events for a project or globally
-          hints:
-            readOnly: true
-            openWorld: false
-          call: "unleash-admin.list-events"
-          with:
-            project: "tools.project"
-            limit: "tools.limit"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: unleash-feature-management-api
+    description: Unified REST API for Unleash feature flag lifecycle management.
+    resources:
+    - path: /v1/projects
+      name: projects
+      description: Project management
+      operations:
+      - method: GET
+        name: list-projects
+        description: List all projects
+        call: unleash-admin.list-projects
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-project
+        description: Create a new project
+        call: unleash-admin.create-project
+        with:
+          id: rest.id
+          name: rest.name
+          description: rest.description
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{projectId}/flags
+      name: flags
+      description: Feature flag management within a project
+      operations:
+      - method: GET
+        name: list-flags
+        description: List all feature flags in a project
+        call: unleash-admin.list-features
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-flag
+        description: Create a new feature flag
+        call: unleash-admin.create-feature
+        with:
+          projectId: rest.projectId
+          name: rest.name
+          description: rest.description
+          type: rest.type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{projectId}/flags/{flagName}
+      name: flag
+      description: Single flag operations
+      operations:
+      - method: GET
+        name: get-flag
+        description: Get feature flag details
+        call: unleash-admin.get-feature
+        with:
+          projectId: rest.projectId
+          featureName: rest.flagName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{projectId}/flags/{flagName}/environments/{environment}/enable
+      name: flag-enable
+      description: Enable a flag in an environment
+      operations:
+      - method: POST
+        name: enable-flag
+        description: Enable a feature flag in the specified environment
+        call: unleash-admin.enable-feature
+        with:
+          projectId: rest.projectId
+          featureName: rest.flagName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{projectId}/flags/{flagName}/environments/{environment}/disable
+      name: flag-disable
+      description: Disable a flag in an environment
+      operations:
+      - method: POST
+        name: disable-flag
+        description: Disable a feature flag in the specified environment
+        call: unleash-admin.disable-feature
+        with:
+          projectId: rest.projectId
+          featureName: rest.flagName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environments
+      name: environments
+      description: Environment management
+      operations:
+      - method: GET
+        name: list-environments
+        description: List all environments
+        call: unleash-admin.list-environments
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/segments
+      name: segments
+      description: Segment management for targeting groups
+      operations:
+      - method: GET
+        name: list-segments
+        description: List all segments
+        call: unleash-admin.list-segments
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-segment
+        description: Create a targeting segment
+        call: unleash-admin.create-segment
+        with:
+          name: rest.name
+          description: rest.description
+          constraints: rest.constraints
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/events
+      name: events
+      description: Event log for audit and observability
+      operations:
+      - method: GET
+        name: list-events
+        description: List recent events
+        call: unleash-admin.list-events
+        with:
+          project: rest.project
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: unleash-feature-management-mcp
+    transport: http
+    description: MCP server for AI-assisted feature flag management with Unleash.
+    tools:
+    - name: list-projects
+      description: List all Unleash projects
+      hints:
+        readOnly: true
+        openWorld: false
+      call: unleash-admin.list-projects
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-project
+      description: Create a new Unleash project for organizing feature flags
+      hints:
+        readOnly: false
+        destructive: false
+      call: unleash-admin.create-project
+      with:
+        id: tools.id
+        name: tools.name
+        description: tools.description
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-feature-flags
+      description: List all feature flags in a project
+      hints:
+        readOnly: true
+        openWorld: false
+      call: unleash-admin.list-features
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-feature-flag
+      description: Create a new feature flag in a project
+      hints:
+        readOnly: false
+        destructive: false
+      call: unleash-admin.create-feature
+      with:
+        projectId: tools.projectId
+        name: tools.name
+        description: tools.description
+        type: tools.type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-feature-flag
+      description: Get details of a feature flag including environments and strategies
+      hints:
+        readOnly: true
+        openWorld: false
+      call: unleash-admin.get-feature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: enable-feature-flag
+      description: Enable a feature flag in the specified environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: unleash-admin.enable-feature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: disable-feature-flag
+      description: Disable a feature flag in the specified environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: unleash-admin.disable-feature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environments
+      description: List all configured environments in Unleash
+      hints:
+        readOnly: true
+        openWorld: false
+      call: unleash-admin.list-environments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-segments
+      description: List all targeting segments
+      hints:
+        readOnly: true
+        openWorld: false
+      call: unleash-admin.list-segments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-segment
+      description: Create a targeting segment for feature flag strategies
+      hints:
+        readOnly: false
+        destructive: false
+      call: unleash-admin.create-segment
+      with:
+        name: tools.name
+        description: tools.description
+        constraints: tools.constraints
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-events
+      description: List recent audit events for a project or globally
+      hints:
+        readOnly: true
+        openWorld: false
+      call: unleash-admin.list-events
+      with:
+        project: tools.project
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
