@@ -3,11 +3,11 @@
   "feeds": [
     {
       "source": "https://www.getunleash.io/blog",
-      "feed_url": "https://www.getunleash.io/feed",
-      "saved": 10,
-      "title": "Unleash"
+      "feed_url": "https://www.getunleash.io/feed/",
+      "title": "Unleash",
+      "saved": 0
     }
   ],
   "post_count": 10,
-  "fetched": "2026-05-03T23:38:05Z"
+  "fetched": "2026-05-09T20:17:51Z"
 }
