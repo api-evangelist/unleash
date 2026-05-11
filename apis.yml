@@ -115,6 +115,16 @@ common:
   - type: JSONSchema
     url: >-
       https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/json-schema/unleash-feature-flag-schema.json
+  - type: Integrations
+    url: https://www.getunleash.io/partners
+integrations:
+  - name: Unleash
+  - name: Github
+  - name: LinkedIn
+  - name: Twitter
+  - name: Slack
+  - name: YouTube
+  - name: Reddit
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
