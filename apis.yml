@@ -102,7 +102,7 @@ common:
     url: https://www.getunleash.io/pricing
   - type: Blog
     url: https://www.getunleash.io/blog
-  - type: Changelog
+  - type: ChangeLog
     url: https://github.com/Unleash/unleash/releases
   - type: SDK
     url: https://docs.getunleash.io/reference/sdks
