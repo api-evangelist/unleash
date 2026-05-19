@@ -1,0 +1,276 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Public signup tokens
+  description: 'Unleash Admin API — Public signup tokens. 6 operations. Lead operation: Get Public Signup Tokens. Self-contained
+    Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Public signup tokens
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-public-signup-tokens
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Public signup tokens business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-invite-link-tokens
+      path: /api/admin/invite-link/tokens
+      operations:
+      - name: getallpublicsignuptokens
+        method: GET
+        description: Get Public Signup Tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createpublicsignuptoken
+        method: POST
+        description: Create a Public Signup Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-invite-link-tokens-token
+      path: /api/admin/invite-link/tokens/{token}
+      operations:
+      - name: getpublicsignuptoken
+        method: GET
+        description: Retrieve a Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: token
+          in: path
+          type: string
+          required: true
+      - name: updatepublicsignuptoken
+        method: PUT
+        description: Update a Public Signup Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: token
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: invite-token-signup
+      path: /invite/{token}/signup
+      operations:
+      - name: addpublicsignuptokenuser
+        method: POST
+        description: Add a User Via a Signup Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: token
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: invite-token-validate
+      path: /invite/{token}/validate
+      operations:
+      - name: validatepublicsignuptoken
+        method: GET
+        description: Validate Signup Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: token
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-public-signup-tokens-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Public signup tokens. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/invite-link/tokens
+      name: api-admin-invite-link-tokens
+      description: REST surface for api-admin-invite-link-tokens.
+      operations:
+      - method: GET
+        name: getallpublicsignuptokens
+        description: Get Public Signup Tokens
+        call: admin-public-signup-tokens.getallpublicsignuptokens
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpublicsignuptoken
+        description: Create a Public Signup Token
+        call: admin-public-signup-tokens.createpublicsignuptoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/invite-link/tokens/{token}
+      name: api-admin-invite-link-tokens-token
+      description: REST surface for api-admin-invite-link-tokens-token.
+      operations:
+      - method: GET
+        name: getpublicsignuptoken
+        description: Retrieve a Token
+        call: admin-public-signup-tokens.getpublicsignuptoken
+        with:
+          token: rest.token
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatepublicsignuptoken
+        description: Update a Public Signup Token
+        call: admin-public-signup-tokens.updatepublicsignuptoken
+        with:
+          token: rest.token
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/invite/{token}/signup
+      name: invite-token-signup
+      description: REST surface for invite-token-signup.
+      operations:
+      - method: POST
+        name: addpublicsignuptokenuser
+        description: Add a User Via a Signup Token
+        call: admin-public-signup-tokens.addpublicsignuptokenuser
+        with:
+          token: rest.token
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/invite/{token}/validate
+      name: invite-token-validate
+      description: REST surface for invite-token-validate.
+      operations:
+      - method: GET
+        name: validatepublicsignuptoken
+        description: Validate Signup Token
+        call: admin-public-signup-tokens.validatepublicsignuptoken
+        with:
+          token: rest.token
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-public-signup-tokens-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Public signup tokens. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: get-public-signup-tokens
+      description: Get Public Signup Tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-public-signup-tokens.getallpublicsignuptokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-public-signup-token
+      description: Create a Public Signup Token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-public-signup-tokens.createpublicsignuptoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-token
+      description: Retrieve a Token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-public-signup-tokens.getpublicsignuptoken
+      with:
+        token: tools.token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-public-signup-token
+      description: Update a Public Signup Token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-public-signup-tokens.updatepublicsignuptoken
+      with:
+        token: tools.token
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-user-signup-token
+      description: Add a User Via a Signup Token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-public-signup-tokens.addpublicsignuptokenuser
+      with:
+        token: tools.token
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-signup-token
+      description: Validate Signup Token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-public-signup-tokens.validatepublicsignuptoken
+      with:
+        token: tools.token
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,269 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Banners
+  description: 'Unleash Admin API — Banners. 6 operations. Lead operation: Get All Banners.. Self-contained Naftiko capability
+    covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Banners
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-banners
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Banners business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-banners
+      path: /api/admin/banners
+      operations:
+      - name: getbanners
+        method: GET
+        description: Get All Banners.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createbanner
+        method: POST
+        description: Create a Banner.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-banners-id
+      path: /api/admin/banners/{id}
+      operations:
+      - name: updatebanner
+        method: PUT
+        description: Update a Banner.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletebanner
+        method: DELETE
+        description: Delete a Banner.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: api-admin-banners-id-off
+      path: /api/admin/banners/{id}/off
+      operations:
+      - name: disablebanner
+        method: POST
+        description: Disables a Banner.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: api-admin-banners-id-on
+      path: /api/admin/banners/{id}/on
+      operations:
+      - name: enablebanner
+        method: POST
+        description: Enables a Banner.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-banners-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Banners. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/banners
+      name: api-admin-banners
+      description: REST surface for api-admin-banners.
+      operations:
+      - method: GET
+        name: getbanners
+        description: Get All Banners.
+        call: admin-banners.getbanners
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createbanner
+        description: Create a Banner.
+        call: admin-banners.createbanner
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/banners/{id}
+      name: api-admin-banners-id
+      description: REST surface for api-admin-banners-id.
+      operations:
+      - method: PUT
+        name: updatebanner
+        description: Update a Banner.
+        call: admin-banners.updatebanner
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletebanner
+        description: Delete a Banner.
+        call: admin-banners.deletebanner
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/banners/{id}/off
+      name: api-admin-banners-id-off
+      description: REST surface for api-admin-banners-id-off.
+      operations:
+      - method: POST
+        name: disablebanner
+        description: Disables a Banner.
+        call: admin-banners.disablebanner
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/banners/{id}/on
+      name: api-admin-banners-id-on
+      description: REST surface for api-admin-banners-id-on.
+      operations:
+      - method: POST
+        name: enablebanner
+        description: Enables a Banner.
+        call: admin-banners.enablebanner
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-banners-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Banners. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-all-banners
+      description: Get All Banners.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-banners.getbanners
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-banner
+      description: Create a Banner.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-banners.createbanner
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-banner
+      description: Update a Banner.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-banners.updatebanner
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-banner
+      description: Delete a Banner.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-banners.deletebanner
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: disables-banner
+      description: Disables a Banner.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-banners.disablebanner
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: enables-banner
+      description: Enables a Banner.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-banners.enablebanner
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

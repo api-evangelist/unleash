@@ -1,0 +1,979 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Release Templates
+  description: 'Unleash Admin API — Release Templates. 20 operations. Lead operation: Get Release Plans.. Self-contained Naftiko
+    capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Release Templates
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-release-templates
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Release Templates business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release-plans
+      operations:
+      - name: getreleaseplans
+        method: GET
+        description: Get Release Plans.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+      - name: addreleaseplan
+        method: POST
+        description: Add a Release Plan.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release-plans/{planId}
+      operations:
+      - name: removereleaseplan
+        method: DELETE
+        description: Remove a Release Plan.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: planId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release-plans/{planId}/milestones/{milestoneId}/start
+      operations:
+      - name: startmilestone
+        method: POST
+        description: Start a Release Plan Milestone.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: planId
+          in: path
+          type: string
+          required: true
+        - name: milestoneId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release_plans
+      operations:
+      - name: oldgetreleaseplans
+        method: GET
+        description: Get Release Plans.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+      - name: oldaddreleaseplan
+        method: POST
+        description: Add a Release Plan.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release_plans/{planId}
+      operations:
+      - name: oldremovereleaseplan
+        method: DELETE
+        description: Remove a Release Plan.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: planId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release_plans/{planId}/milestones/{milestoneId}/start
+      operations:
+      - name: oldstartmilestone
+        method: POST
+        description: Start a Release Plan Milestone.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: planId
+          in: path
+          type: string
+          required: true
+        - name: milestoneId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-release-plan-templates
+      path: /api/admin/release-plan-templates
+      operations:
+      - name: getreleasetemplates
+        method: GET
+        description: Get All Release Templates.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createreleasetemplate
+        method: POST
+        description: Create a Release Template.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-release-plan-templates-archive-templateId
+      path: /api/admin/release-plan-templates/archive/{templateId}
+      operations:
+      - name: archivereleasetemplate
+        method: POST
+        description: Archives a Release Template by Its Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-release-plan-templates-templateId
+      path: /api/admin/release-plan-templates/{templateId}
+      operations:
+      - name: getreleasetemplate
+        method: GET
+        description: Get a Release Template by Its Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+      - name: deletereleasetemplate
+        method: DELETE
+        description: Deletes a Release Template by Its Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+      - name: updatereleasetemplate
+        method: PUT
+        description: Updates a Release Template by Its Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-release-plan-templates-templateId-milestones
+      path: /api/admin/release-plan-templates/{templateId}/milestones
+      operations:
+      - name: addmilestonetoreleasetemplate
+        method: POST
+        description: Adds a Milestone to a Release Template.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-release-plan-templates-templateId-milestones-milestoneId
+      path: /api/admin/release-plan-templates/{templateId}/milestones/{milestoneId}
+      operations:
+      - name: updatereleasetemplatemilestone
+        method: PUT
+        description: Updates Existing Milestone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+        - name: milestoneId
+          in: path
+          type: string
+          required: true
+      - name: removereleasetemplatemilestone
+        method: DELETE
+        description: Removes an Existing Milestone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+        - name: milestoneId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-release-plan-templates-templateId-milestones-milestoneId-strategies
+      path: /api/admin/release-plan-templates/{templateId}/milestones/{milestoneId}/strategies
+      operations:
+      - name: addstrategytomilestone
+        method: POST
+        description: Adds a Strategy to a Milestone.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+        - name: milestoneId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-release-plan-templates-templateId-milestones-milestoneId-strategies-st
+      path: /api/admin/release-plan-templates/{templateId}/milestones/{milestoneId}/strategies/{strategyId}
+      operations:
+      - name: updatemilestonestrategy
+        method: PUT
+        description: Updates a Strategy Attached to a Milestone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+        - name: milestoneId
+          in: path
+          type: string
+          required: true
+        - name: strategyId
+          in: path
+          type: string
+          required: true
+      - name: remotemilestonestrategy
+        method: DELETE
+        description: Removes a Strategy Attached to a Milestone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: templateId
+          in: path
+          type: string
+          required: true
+        - name: milestoneId
+          in: path
+          type: string
+          required: true
+        - name: strategyId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-release-templates-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Release Templates. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: GET
+        name: getreleaseplans
+        description: Get Release Plans.
+        call: admin-release-templates.getreleaseplans
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addreleaseplan
+        description: Add a Release Plan.
+        call: admin-release-templates.addreleaseplan
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans/{planid}
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: DELETE
+        name: removereleaseplan
+        description: Remove a Release Plan.
+        call: admin-release-templates.removereleaseplan
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          planId: rest.planId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans/{planid}/milestones/{milestoneid}/start
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: POST
+        name: startmilestone
+        description: Start a Release Plan Milestone.
+        call: admin-release-templates.startmilestone
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          planId: rest.planId
+          milestoneId: rest.milestoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: GET
+        name: oldgetreleaseplans
+        description: Get Release Plans.
+        call: admin-release-templates.oldgetreleaseplans
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: oldaddreleaseplan
+        description: Add a Release Plan.
+        call: admin-release-templates.oldaddreleaseplan
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans/{planid}
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: DELETE
+        name: oldremovereleaseplan
+        description: Remove a Release Plan.
+        call: admin-release-templates.oldremovereleaseplan
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          planId: rest.planId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans/{planid}/milestones/{milestoneid}/start
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: POST
+        name: oldstartmilestone
+        description: Start a Release Plan Milestone.
+        call: admin-release-templates.oldstartmilestone
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          planId: rest.planId
+          milestoneId: rest.milestoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/release-plan-templates
+      name: api-admin-release-plan-templates
+      description: REST surface for api-admin-release-plan-templates.
+      operations:
+      - method: GET
+        name: getreleasetemplates
+        description: Get All Release Templates.
+        call: admin-release-templates.getreleasetemplates
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createreleasetemplate
+        description: Create a Release Template.
+        call: admin-release-templates.createreleasetemplate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/release-plan-templates/archive/{templateid}
+      name: api-admin-release-plan-templates-archive-templateid
+      description: REST surface for api-admin-release-plan-templates-archive-templateId.
+      operations:
+      - method: POST
+        name: archivereleasetemplate
+        description: Archives a Release Template by Its Id.
+        call: admin-release-templates.archivereleasetemplate
+        with:
+          templateId: rest.templateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/release-plan-templates/{templateid}
+      name: api-admin-release-plan-templates-templateid
+      description: REST surface for api-admin-release-plan-templates-templateId.
+      operations:
+      - method: GET
+        name: getreleasetemplate
+        description: Get a Release Template by Its Id.
+        call: admin-release-templates.getreleasetemplate
+        with:
+          templateId: rest.templateId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletereleasetemplate
+        description: Deletes a Release Template by Its Id.
+        call: admin-release-templates.deletereleasetemplate
+        with:
+          templateId: rest.templateId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatereleasetemplate
+        description: Updates a Release Template by Its Id.
+        call: admin-release-templates.updatereleasetemplate
+        with:
+          templateId: rest.templateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/release-plan-templates/{templateid}/milestones
+      name: api-admin-release-plan-templates-templateid-milestones
+      description: REST surface for api-admin-release-plan-templates-templateId-milestones.
+      operations:
+      - method: POST
+        name: addmilestonetoreleasetemplate
+        description: Adds a Milestone to a Release Template.
+        call: admin-release-templates.addmilestonetoreleasetemplate
+        with:
+          templateId: rest.templateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/release-plan-templates/{templateid}/milestones/{milestoneid}
+      name: api-admin-release-plan-templates-templateid-milestones-milestoneid
+      description: REST surface for api-admin-release-plan-templates-templateId-milestones-milestoneId.
+      operations:
+      - method: PUT
+        name: updatereleasetemplatemilestone
+        description: Updates Existing Milestone
+        call: admin-release-templates.updatereleasetemplatemilestone
+        with:
+          templateId: rest.templateId
+          milestoneId: rest.milestoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removereleasetemplatemilestone
+        description: Removes an Existing Milestone
+        call: admin-release-templates.removereleasetemplatemilestone
+        with:
+          templateId: rest.templateId
+          milestoneId: rest.milestoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/release-plan-templates/{templateid}/milestones/{milestoneid}/strategies
+      name: api-admin-release-plan-templates-templateid-milestones-milestoneid-strategies
+      description: REST surface for api-admin-release-plan-templates-templateId-milestones-milestoneId-strategies.
+      operations:
+      - method: POST
+        name: addstrategytomilestone
+        description: Adds a Strategy to a Milestone.
+        call: admin-release-templates.addstrategytomilestone
+        with:
+          templateId: rest.templateId
+          milestoneId: rest.milestoneId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/release-plan-templates/{templateid}/milestones/{milestoneid}/strategies/{strategyid}
+      name: api-admin-release-plan-templates-templateid-milestones-milestoneid-strategies-st
+      description: REST surface for api-admin-release-plan-templates-templateId-milestones-milestoneId-strategies-st.
+      operations:
+      - method: PUT
+        name: updatemilestonestrategy
+        description: Updates a Strategy Attached to a Milestone
+        call: admin-release-templates.updatemilestonestrategy
+        with:
+          templateId: rest.templateId
+          milestoneId: rest.milestoneId
+          strategyId: rest.strategyId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: remotemilestonestrategy
+        description: Removes a Strategy Attached to a Milestone
+        call: admin-release-templates.remotemilestonestrategy
+        with:
+          templateId: rest.templateId
+          milestoneId: rest.milestoneId
+          strategyId: rest.strategyId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-release-templates-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Release Templates. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-release-plans
+      description: Get Release Plans.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-release-templates.getreleaseplans
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-release-plan
+      description: Add a Release Plan.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.addreleaseplan
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-release-plan
+      description: Remove a Release Plan.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-release-templates.removereleaseplan
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        planId: tools.planId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: start-release-plan-milestone
+      description: Start a Release Plan Milestone.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.startmilestone
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        planId: tools.planId
+        milestoneId: tools.milestoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-release-plans-2
+      description: Get Release Plans.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-release-templates.oldgetreleaseplans
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-release-plan-2
+      description: Add a Release Plan.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.oldaddreleaseplan
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-release-plan-2
+      description: Remove a Release Plan.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-release-templates.oldremovereleaseplan
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        planId: tools.planId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: start-release-plan-milestone-2
+      description: Start a Release Plan Milestone.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.oldstartmilestone
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        planId: tools.planId
+        milestoneId: tools.milestoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-release-templates
+      description: Get All Release Templates.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-release-templates.getreleasetemplates
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-release-template
+      description: Create a Release Template.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.createreleasetemplate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: archives-release-template-its-id
+      description: Archives a Release Template by Its Id.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.archivereleasetemplate
+      with:
+        templateId: tools.templateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-release-template-its-id
+      description: Get a Release Template by Its Id.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-release-templates.getreleasetemplate
+      with:
+        templateId: tools.templateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletes-release-template-its-id
+      description: Deletes a Release Template by Its Id.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-release-templates.deletereleasetemplate
+      with:
+        templateId: tools.templateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updates-release-template-its-id
+      description: Updates a Release Template by Its Id.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-release-templates.updatereleasetemplate
+      with:
+        templateId: tools.templateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adds-milestone-release-template
+      description: Adds a Milestone to a Release Template.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.addmilestonetoreleasetemplate
+      with:
+        templateId: tools.templateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updates-existing-milestone
+      description: Updates Existing Milestone
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-release-templates.updatereleasetemplatemilestone
+      with:
+        templateId: tools.templateId
+        milestoneId: tools.milestoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: removes-existing-milestone
+      description: Removes an Existing Milestone
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-release-templates.removereleasetemplatemilestone
+      with:
+        templateId: tools.templateId
+        milestoneId: tools.milestoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adds-strategy-milestone
+      description: Adds a Strategy to a Milestone.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-release-templates.addstrategytomilestone
+      with:
+        templateId: tools.templateId
+        milestoneId: tools.milestoneId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updates-strategy-attached-milestone
+      description: Updates a Strategy Attached to a Milestone
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-release-templates.updatemilestonestrategy
+      with:
+        templateId: tools.templateId
+        milestoneId: tools.milestoneId
+        strategyId: tools.strategyId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: removes-strategy-attached-milestone
+      description: Removes a Strategy Attached to a Milestone
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-release-templates.remotemilestonestrategy
+      with:
+        templateId: tools.templateId
+        milestoneId: tools.milestoneId
+        strategyId: tools.strategyId
+      outputParameters:
+      - type: object
+        mapping: $.

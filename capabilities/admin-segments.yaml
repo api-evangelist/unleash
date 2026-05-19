@@ -1,0 +1,349 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Segments
+  description: 'Unleash Admin API — Segments. 8 operations. Lead operation: Create a New Segment. Self-contained Naftiko capability
+    covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Segments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-segments
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Segments business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-segments
+      path: /api/admin/segments
+      operations:
+      - name: createsegment
+        method: POST
+        description: Create a New Segment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getsegments
+        method: GET
+        description: Get All Segments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-segments-strategies-strategyId
+      path: /api/admin/segments/strategies/{strategyId}
+      operations:
+      - name: getsegmentsbystrategyid
+        method: GET
+        description: Get Strategy Segments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: strategyId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-segments-validate
+      path: /api/admin/segments/validate
+      operations:
+      - name: validatesegment
+        method: POST
+        description: Validates If a Segment Name Exists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-segments-id
+      path: /api/admin/segments/{id}
+      operations:
+      - name: removesegment
+        method: DELETE
+        description: Deletes a Segment by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: a segment id
+          required: true
+      - name: updatesegment
+        method: PUT
+        description: Update Segment by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: a segment id
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getsegment
+        method: GET
+        description: Get a Segment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: a segment id
+          required: true
+    - name: api-admin-segments-id-strategies
+      path: /api/admin/segments/{id}/strategies
+      operations:
+      - name: getstrategiesbysegmentid
+        method: GET
+        description: Get Strategies That Reference Segment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: a segment id
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-segments-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Segments. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/segments
+      name: api-admin-segments
+      description: REST surface for api-admin-segments.
+      operations:
+      - method: POST
+        name: createsegment
+        description: Create a New Segment
+        call: admin-segments.createsegment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getsegments
+        description: Get All Segments
+        call: admin-segments.getsegments
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/segments/strategies/{strategyid}
+      name: api-admin-segments-strategies-strategyid
+      description: REST surface for api-admin-segments-strategies-strategyId.
+      operations:
+      - method: GET
+        name: getsegmentsbystrategyid
+        description: Get Strategy Segments
+        call: admin-segments.getsegmentsbystrategyid
+        with:
+          strategyId: rest.strategyId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/segments/validate
+      name: api-admin-segments-validate
+      description: REST surface for api-admin-segments-validate.
+      operations:
+      - method: POST
+        name: validatesegment
+        description: Validates If a Segment Name Exists
+        call: admin-segments.validatesegment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/segments/{id}
+      name: api-admin-segments-id
+      description: REST surface for api-admin-segments-id.
+      operations:
+      - method: DELETE
+        name: removesegment
+        description: Deletes a Segment by ID
+        call: admin-segments.removesegment
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesegment
+        description: Update Segment by ID
+        call: admin-segments.updatesegment
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getsegment
+        description: Get a Segment
+        call: admin-segments.getsegment
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/segments/{id}/strategies
+      name: api-admin-segments-id-strategies
+      description: REST surface for api-admin-segments-id-strategies.
+      operations:
+      - method: GET
+        name: getstrategiesbysegmentid
+        description: Get Strategies That Reference Segment
+        call: admin-segments.getstrategiesbysegmentid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-segments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Segments. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: create-new-segment
+      description: Create a New Segment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-segments.createsegment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-segments
+      description: Get All Segments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-segments.getsegments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-strategy-segments
+      description: Get Strategy Segments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-segments.getsegmentsbystrategyid
+      with:
+        strategyId: tools.strategyId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validates-if-segment-name-exists
+      description: Validates If a Segment Name Exists
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-segments.validatesegment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletes-segment-id
+      description: Deletes a Segment by ID
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-segments.removesegment
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-segment-id
+      description: Update Segment by ID
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-segments.updatesegment
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-segment
+      description: Get a Segment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-segments.getsegment
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-strategies-that-reference-segment
+      description: Get Strategies That Reference Segment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-segments.getstrategiesbysegmentid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

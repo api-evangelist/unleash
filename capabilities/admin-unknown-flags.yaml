@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Unknown Flags
+  description: 'Unleash Admin API — Unknown Flags. 1 operations. Lead operation: Get Unknown Flags. Self-contained Naftiko
+    capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Unknown Flags
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-unknown-flags
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Unknown Flags business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-metrics-unknown-flags
+      path: /api/admin/metrics/unknown-flags
+      operations:
+      - name: getunknownflags
+        method: GET
+        description: Get Unknown Flags
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-unknown-flags-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Unknown Flags. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/metrics/unknown-flags
+      name: api-admin-metrics-unknown-flags
+      description: REST surface for api-admin-metrics-unknown-flags.
+      operations:
+      - method: GET
+        name: getunknownflags
+        description: Get Unknown Flags
+        call: admin-unknown-flags.getunknownflags
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-unknown-flags-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Unknown Flags. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-unknown-flags
+      description: Get Unknown Flags
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unknown-flags.getunknownflags
+      outputParameters:
+      - type: object
+        mapping: $.

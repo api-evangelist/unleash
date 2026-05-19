@@ -1,0 +1,1896 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Unstable
+  description: 'Unleash Admin API — Unstable. 43 operations. Lead operation: Create a Cdn Token.. Self-contained Naftiko capability
+    covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Unstable
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-unstable
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Unstable business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-cdn-tokens
+      path: /api/admin/cdn/tokens
+      operations:
+      - name: createcdntoken
+        method: POST
+        description: Create a Cdn Token.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getcdntokens
+        method: GET
+        description: Get a Cdn Tokens.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-email-subscription-subscription
+      path: /api/admin/email-subscription/{subscription}
+      operations:
+      - name: subscribeemailsubscription
+        method: PUT
+        description: Subscribe to Email Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscription
+          in: path
+          type: string
+          required: true
+      - name: unsubscribeemailsubscription
+        method: DELETE
+        description: Unsubscribe From Email Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscription
+          in: path
+          type: string
+          required: true
+    - name: api-admin-feedback
+      path: /api/admin/feedback
+      operations:
+      - name: getfeedback
+        method: GET
+        description: Get All Feedback Events. Limited to 2000 Items.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-impact-metrics-config
+      path: /api/admin/impact-metrics/config
+      operations:
+      - name: saveinstanceimpactmetricsconfig
+        method: POST
+        description: Save Instance Level Impact Metrics Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getinstanceimpactmetricsconfigs
+        method: GET
+        description: Get Impact Metrics Configuration for the Instance
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-impact-metrics-config-id
+      path: /api/admin/impact-metrics/config/{id}
+      operations:
+      - name: deleteinstanceimpactmetricconfig
+        method: DELETE
+        description: Delete Instance Level Impact Metric Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: api-admin-impact-metrics-plausible
+      path: /api/admin/impact-metrics/plausible
+      operations:
+      - name: getplausiblemetrics
+        method: GET
+        description: Get Plausible Analytics Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-insights
+      path: /api/admin/insights
+      operations:
+      - name: getinstanceinsights
+        method: GET
+        description: Get Instance Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: from
+          in: query
+          type: string
+          description: The beginning of the date range in yyyy-MM-dd format
+        - name: to
+          in: query
+          type: string
+          description: The end of the date range in yyyy-MM-dd format
+    - name: api-admin-licensed-users
+      path: /api/admin/licensed-users
+      operations:
+      - name: getalllicensedusers
+        method: GET
+        description: Retrieves All Licensed Users Data.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-lifecycle-count
+      path: /api/admin/lifecycle/count
+      operations:
+      - name: getfeaturelifecyclestagecount
+        method: GET
+        description: Get All Features Lifecycle Stage Count
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-metrics-connection
+      path: /api/admin/metrics/connection
+      operations:
+      - name: getconnectionsforperiod
+        method: GET
+        description: Get Aggregated Metered Connections for a Given Time Period.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: grouping
+          in: query
+          type: string
+          description: Whether to aggregate the data by month or by day
+          required: true
+        - name: from
+          in: query
+          type: string
+          description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+          required: true
+        - name: to
+          in: query
+          type: string
+          description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+          required: true
+    - name: api-admin-metrics-request
+      path: /api/admin/metrics/request
+      operations:
+      - name: getrequestsforperiod
+        method: GET
+        description: Get Aggregated Metered Requests for a Given Time Period.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: grouping
+          in: query
+          type: string
+          description: Whether to aggregate the data by month or by day
+          required: true
+        - name: from
+          in: query
+          type: string
+          description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+          required: true
+        - name: to
+          in: query
+          type: string
+          description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+          required: true
+    - name: api-admin-personal-dashboard
+      path: /api/admin/personal-dashboard
+      operations:
+      - name: getpersonaldashboard
+        method: GET
+        description: Get Personal Dashboard
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-personal-dashboard-projectId
+      path: /api/admin/personal-dashboard/{projectId}
+      operations:
+      - name: getpersonaldashboardprojectdetails
+        method: GET
+        description: Get Personal Project Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-archive-projectId
+      path: /api/admin/projects/archive/{projectId}
+      operations:
+      - name: archiveproject
+        method: POST
+        description: Archive Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-revive-projectId
+      path: /api/admin/projects/revive/{projectId}
+      operations:
+      - name: reviveproject
+        method: POST
+        description: Revive Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-change-requests-actionable
+      path: /api/admin/projects/{projectId}/change-requests/actionable
+      operations:
+      - name: getactionablechangerequests
+        method: GET
+        description: Get the Number of Change Requests You Can Do Something With
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-impact-metrics-config
+      path: /api/admin/projects/{projectId}/features/{featureName}/impact-metrics/config
+      operations:
+      - name: savefeatureimpactmetricsconfig
+        method: POST
+        description: Save Flag Level Impact Metrics Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getflagimpactmetricsconfigsbyfeature
+        method: GET
+        description: Get Impact Metrics Configurations for a Single Feature
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-impact-metrics-config-id
+      path: /api/admin/projects/{projectId}/features/{featureName}/impact-metrics/config/{id}
+      operations:
+      - name: deleteflagimpactmetricconfig
+        method: DELETE
+        description: Delete Flag Level Impact Metric Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-lifecycle
+      path: /api/admin/projects/{projectId}/features/{featureName}/lifecycle
+      operations:
+      - name: getfeaturelifecycle
+        method: GET
+        description: Get Feature Lifecycle
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-lifecycle-complete
+      path: /api/admin/projects/{projectId}/features/{featureName}/lifecycle/complete
+      operations:
+      - name: complete
+        method: POST
+        description: Set Feature Completed
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-lifecycle-uncomplete
+      path: /api/admin/projects/{projectId}/features/{featureName}/lifecycle/uncomplete
+      operations:
+      - name: uncomplete
+        method: POST
+        description: Set Feature Uncompleted
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-link
+      path: /api/admin/projects/{projectId}/features/{featureName}/link
+      operations:
+      - name: createfeaturelink
+        method: POST
+        description: Create a Feature Link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-link-linkId
+      path: /api/admin/projects/{projectId}/features/{featureName}/link/{linkId}
+      operations:
+      - name: updatefeaturelink
+        method: PUT
+        description: Update a Feature Link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: linkId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletefeaturelink
+        method: DELETE
+        description: Delete a Feature Link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: linkId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-status
+      path: /api/admin/projects/{projectId}/status
+      operations:
+      - name: getprojectstatus
+        method: GET
+        description: Get Project Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-progres
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/progressions/{id}
+      operations:
+      - name: changemilestoneprogression
+        method: PUT
+        description: Create or Update a Milestone Progression
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletemilestoneprogression
+        method: DELETE
+        description: Delete a Milestone Progression
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-progres
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/progressions/{planId}/resume
+      operations:
+      - name: resumemilestoneprogressions
+        method: POST
+        description: Resume Paused Milestone Progressions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: planId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release-plans/{planId}/safeguards
+      operations:
+      - name: changesafeguard
+        method: PUT
+        description: Change a Safeguard
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: planId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-project-features-featureName-environments-environment-release
+      path: /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release-plans/{planId}/safeguards/{safeguardId}
+      operations:
+      - name: deletesafeguard
+        method: DELETE
+        description: Delete a Safeguard
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: planId
+          in: path
+          type: string
+          required: true
+        - name: safeguardId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-scim-settings
+      path: /api/admin/scim-settings
+      operations:
+      - name: getscimsettings
+        method: GET
+        description: Get SCIM Settings.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: setscimsettings
+        method: POST
+        description: Set SCIM Settings.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-scim-settings-generate-new-token
+      path: /api/admin/scim-settings/generate-new-token
+      operations:
+      - name: generatenewtoken
+        method: POST
+        description: Generates a New SCIM API Token.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-streaming-disconnect-all
+      path: /api/admin/streaming/disconnect-all
+      operations:
+      - name: disconnectall
+        method: POST
+        description: Disconnect All Clients.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-user-admin-id-permissions
+      path: /api/admin/user-admin/{id}/permissions
+      operations:
+      - name: getuserpermissions
+        method: GET
+        description: Returns the List of Permissions for the User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: a user id
+          required: true
+        - name: project
+          in: query
+          type: string
+        - name: environment
+          in: query
+          type: string
+    - name: api-client-delta
+      path: /api/client/delta
+      operations:
+      - name: getdelta
+        method: GET
+        description: Get Partial Updates (sdk)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-client-edge-licensing-heartbeat
+      path: /api/client/edge-licensing/heartbeat
+      operations:
+      - name: edgeinstanceheartbeat
+        method: POST
+        description: Heartbeat for Enterprise Edge Instances.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-client-streaming
+      path: /api/client/streaming
+      operations:
+      - name: connect
+        method: GET
+        description: Connect to the Streaming Api.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: feedback
+      path: /feedback
+      operations:
+      - name: providefeedback
+        method: POST
+        description: Submit User Feedback
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-unstable-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Unstable. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/cdn/tokens
+      name: api-admin-cdn-tokens
+      description: REST surface for api-admin-cdn-tokens.
+      operations:
+      - method: POST
+        name: createcdntoken
+        description: Create a Cdn Token.
+        call: admin-unstable.createcdntoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getcdntokens
+        description: Get a Cdn Tokens.
+        call: admin-unstable.getcdntokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/email-subscription/{subscription}
+      name: api-admin-email-subscription-subscription
+      description: REST surface for api-admin-email-subscription-subscription.
+      operations:
+      - method: PUT
+        name: subscribeemailsubscription
+        description: Subscribe to Email Subscription
+        call: admin-unstable.subscribeemailsubscription
+        with:
+          subscription: rest.subscription
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: unsubscribeemailsubscription
+        description: Unsubscribe From Email Subscription
+        call: admin-unstable.unsubscribeemailsubscription
+        with:
+          subscription: rest.subscription
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/feedback
+      name: api-admin-feedback
+      description: REST surface for api-admin-feedback.
+      operations:
+      - method: GET
+        name: getfeedback
+        description: Get All Feedback Events. Limited to 2000 Items.
+        call: admin-unstable.getfeedback
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/impact-metrics/config
+      name: api-admin-impact-metrics-config
+      description: REST surface for api-admin-impact-metrics-config.
+      operations:
+      - method: POST
+        name: saveinstanceimpactmetricsconfig
+        description: Save Instance Level Impact Metrics Configuration
+        call: admin-unstable.saveinstanceimpactmetricsconfig
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getinstanceimpactmetricsconfigs
+        description: Get Impact Metrics Configuration for the Instance
+        call: admin-unstable.getinstanceimpactmetricsconfigs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/impact-metrics/config/{id}
+      name: api-admin-impact-metrics-config-id
+      description: REST surface for api-admin-impact-metrics-config-id.
+      operations:
+      - method: DELETE
+        name: deleteinstanceimpactmetricconfig
+        description: Delete Instance Level Impact Metric Configuration
+        call: admin-unstable.deleteinstanceimpactmetricconfig
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/impact-metrics/plausible
+      name: api-admin-impact-metrics-plausible
+      description: REST surface for api-admin-impact-metrics-plausible.
+      operations:
+      - method: GET
+        name: getplausiblemetrics
+        description: Get Plausible Analytics Data
+        call: admin-unstable.getplausiblemetrics
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/insights
+      name: api-admin-insights
+      description: REST surface for api-admin-insights.
+      operations:
+      - method: GET
+        name: getinstanceinsights
+        description: Get Instance Information
+        call: admin-unstable.getinstanceinsights
+        with:
+          from: rest.from
+          to: rest.to
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/licensed-users
+      name: api-admin-licensed-users
+      description: REST surface for api-admin-licensed-users.
+      operations:
+      - method: GET
+        name: getalllicensedusers
+        description: Retrieves All Licensed Users Data.
+        call: admin-unstable.getalllicensedusers
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/lifecycle/count
+      name: api-admin-lifecycle-count
+      description: REST surface for api-admin-lifecycle-count.
+      operations:
+      - method: GET
+        name: getfeaturelifecyclestagecount
+        description: Get All Features Lifecycle Stage Count
+        call: admin-unstable.getfeaturelifecyclestagecount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/metrics/connection
+      name: api-admin-metrics-connection
+      description: REST surface for api-admin-metrics-connection.
+      operations:
+      - method: GET
+        name: getconnectionsforperiod
+        description: Get Aggregated Metered Connections for a Given Time Period.
+        call: admin-unstable.getconnectionsforperiod
+        with:
+          grouping: rest.grouping
+          from: rest.from
+          to: rest.to
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/metrics/request
+      name: api-admin-metrics-request
+      description: REST surface for api-admin-metrics-request.
+      operations:
+      - method: GET
+        name: getrequestsforperiod
+        description: Get Aggregated Metered Requests for a Given Time Period.
+        call: admin-unstable.getrequestsforperiod
+        with:
+          grouping: rest.grouping
+          from: rest.from
+          to: rest.to
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/personal-dashboard
+      name: api-admin-personal-dashboard
+      description: REST surface for api-admin-personal-dashboard.
+      operations:
+      - method: GET
+        name: getpersonaldashboard
+        description: Get Personal Dashboard
+        call: admin-unstable.getpersonaldashboard
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/personal-dashboard/{projectid}
+      name: api-admin-personal-dashboard-projectid
+      description: REST surface for api-admin-personal-dashboard-projectId.
+      operations:
+      - method: GET
+        name: getpersonaldashboardprojectdetails
+        description: Get Personal Project Details
+        call: admin-unstable.getpersonaldashboardprojectdetails
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/archive/{projectid}
+      name: api-admin-projects-archive-projectid
+      description: REST surface for api-admin-projects-archive-projectId.
+      operations:
+      - method: POST
+        name: archiveproject
+        description: Archive Project
+        call: admin-unstable.archiveproject
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/revive/{projectid}
+      name: api-admin-projects-revive-projectid
+      description: REST surface for api-admin-projects-revive-projectId.
+      operations:
+      - method: POST
+        name: reviveproject
+        description: Revive Project
+        call: admin-unstable.reviveproject
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/change-requests/actionable
+      name: api-admin-projects-projectid-change-requests-actionable
+      description: REST surface for api-admin-projects-projectId-change-requests-actionable.
+      operations:
+      - method: GET
+        name: getactionablechangerequests
+        description: Get the Number of Change Requests You Can Do Something With
+        call: admin-unstable.getactionablechangerequests
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/impact-metrics/config
+      name: api-admin-projects-projectid-features-featurename-impact-metrics-config
+      description: REST surface for api-admin-projects-projectId-features-featureName-impact-metrics-config.
+      operations:
+      - method: POST
+        name: savefeatureimpactmetricsconfig
+        description: Save Flag Level Impact Metrics Configuration
+        call: admin-unstable.savefeatureimpactmetricsconfig
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getflagimpactmetricsconfigsbyfeature
+        description: Get Impact Metrics Configurations for a Single Feature
+        call: admin-unstable.getflagimpactmetricsconfigsbyfeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/impact-metrics/config/{id}
+      name: api-admin-projects-projectid-features-featurename-impact-metrics-config-id
+      description: REST surface for api-admin-projects-projectId-features-featureName-impact-metrics-config-id.
+      operations:
+      - method: DELETE
+        name: deleteflagimpactmetricconfig
+        description: Delete Flag Level Impact Metric Configuration
+        call: admin-unstable.deleteflagimpactmetricconfig
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/lifecycle
+      name: api-admin-projects-projectid-features-featurename-lifecycle
+      description: REST surface for api-admin-projects-projectId-features-featureName-lifecycle.
+      operations:
+      - method: GET
+        name: getfeaturelifecycle
+        description: Get Feature Lifecycle
+        call: admin-unstable.getfeaturelifecycle
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/lifecycle/complete
+      name: api-admin-projects-projectid-features-featurename-lifecycle-complete
+      description: REST surface for api-admin-projects-projectId-features-featureName-lifecycle-complete.
+      operations:
+      - method: POST
+        name: complete
+        description: Set Feature Completed
+        call: admin-unstable.complete
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/lifecycle/uncomplete
+      name: api-admin-projects-projectid-features-featurename-lifecycle-uncomplete
+      description: REST surface for api-admin-projects-projectId-features-featureName-lifecycle-uncomplete.
+      operations:
+      - method: POST
+        name: uncomplete
+        description: Set Feature Uncompleted
+        call: admin-unstable.uncomplete
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/link
+      name: api-admin-projects-projectid-features-featurename-link
+      description: REST surface for api-admin-projects-projectId-features-featureName-link.
+      operations:
+      - method: POST
+        name: createfeaturelink
+        description: Create a Feature Link
+        call: admin-unstable.createfeaturelink
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/link/{linkid}
+      name: api-admin-projects-projectid-features-featurename-link-linkid
+      description: REST surface for api-admin-projects-projectId-features-featureName-link-linkId.
+      operations:
+      - method: PUT
+        name: updatefeaturelink
+        description: Update a Feature Link
+        call: admin-unstable.updatefeaturelink
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          linkId: rest.linkId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletefeaturelink
+        description: Delete a Feature Link
+        call: admin-unstable.deletefeaturelink
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          linkId: rest.linkId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/status
+      name: api-admin-projects-projectid-status
+      description: REST surface for api-admin-projects-projectId-status.
+      operations:
+      - method: GET
+        name: getprojectstatus
+        description: Get Project Status
+        call: admin-unstable.getprojectstatus
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/progressions/{id}
+      name: api-admin-projects-project-features-featurename-environments-environment-progres
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-progres.
+      operations:
+      - method: PUT
+        name: changemilestoneprogression
+        description: Create or Update a Milestone Progression
+        call: admin-unstable.changemilestoneprogression
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletemilestoneprogression
+        description: Delete a Milestone Progression
+        call: admin-unstable.deletemilestoneprogression
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/progressions/{planid}/resume
+      name: api-admin-projects-project-features-featurename-environments-environment-progres
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-progres.
+      operations:
+      - method: POST
+        name: resumemilestoneprogressions
+        description: Resume Paused Milestone Progressions
+        call: admin-unstable.resumemilestoneprogressions
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          planId: rest.planId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans/{planid}/safeguards
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: PUT
+        name: changesafeguard
+        description: Change a Safeguard
+        call: admin-unstable.changesafeguard
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          planId: rest.planId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{project}/features/{featurename}/environments/{environment}/release-plans/{planid}/safeguards/{safeguardid}
+      name: api-admin-projects-project-features-featurename-environments-environment-release
+      description: REST surface for api-admin-projects-project-features-featureName-environments-environment-release.
+      operations:
+      - method: DELETE
+        name: deletesafeguard
+        description: Delete a Safeguard
+        call: admin-unstable.deletesafeguard
+        with:
+          project: rest.project
+          featureName: rest.featureName
+          environment: rest.environment
+          planId: rest.planId
+          safeguardId: rest.safeguardId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/scim-settings
+      name: api-admin-scim-settings
+      description: REST surface for api-admin-scim-settings.
+      operations:
+      - method: GET
+        name: getscimsettings
+        description: Get SCIM Settings.
+        call: admin-unstable.getscimsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: setscimsettings
+        description: Set SCIM Settings.
+        call: admin-unstable.setscimsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/scim-settings/generate-new-token
+      name: api-admin-scim-settings-generate-new-token
+      description: REST surface for api-admin-scim-settings-generate-new-token.
+      operations:
+      - method: POST
+        name: generatenewtoken
+        description: Generates a New SCIM API Token.
+        call: admin-unstable.generatenewtoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/streaming/disconnect-all
+      name: api-admin-streaming-disconnect-all
+      description: REST surface for api-admin-streaming-disconnect-all.
+      operations:
+      - method: POST
+        name: disconnectall
+        description: Disconnect All Clients.
+        call: admin-unstable.disconnectall
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/user-admin/{id}/permissions
+      name: api-admin-user-admin-id-permissions
+      description: REST surface for api-admin-user-admin-id-permissions.
+      operations:
+      - method: GET
+        name: getuserpermissions
+        description: Returns the List of Permissions for the User
+        call: admin-unstable.getuserpermissions
+        with:
+          id: rest.id
+          project: rest.project
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/client/delta
+      name: api-client-delta
+      description: REST surface for api-client-delta.
+      operations:
+      - method: GET
+        name: getdelta
+        description: Get Partial Updates (sdk)
+        call: admin-unstable.getdelta
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/client/edge-licensing/heartbeat
+      name: api-client-edge-licensing-heartbeat
+      description: REST surface for api-client-edge-licensing-heartbeat.
+      operations:
+      - method: POST
+        name: edgeinstanceheartbeat
+        description: Heartbeat for Enterprise Edge Instances.
+        call: admin-unstable.edgeinstanceheartbeat
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/client/streaming
+      name: api-client-streaming
+      description: REST surface for api-client-streaming.
+      operations:
+      - method: GET
+        name: connect
+        description: Connect to the Streaming Api.
+        call: admin-unstable.connect
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/feedback
+      name: feedback
+      description: REST surface for feedback.
+      operations:
+      - method: POST
+        name: providefeedback
+        description: Submit User Feedback
+        call: admin-unstable.providefeedback
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-unstable-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Unstable. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: create-cdn-token
+      description: Create a Cdn Token.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.createcdntoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-cdn-tokens
+      description: Get a Cdn Tokens.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getcdntokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: subscribe-email-subscription
+      description: Subscribe to Email Subscription
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-unstable.subscribeemailsubscription
+      with:
+        subscription: tools.subscription
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unsubscribe-email-subscription
+      description: Unsubscribe From Email Subscription
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-unstable.unsubscribeemailsubscription
+      with:
+        subscription: tools.subscription
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-feedback-events-limited
+      description: Get All Feedback Events. Limited to 2000 Items.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getfeedback
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: save-instance-level-impact-metrics
+      description: Save Instance Level Impact Metrics Configuration
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.saveinstanceimpactmetricsconfig
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-impact-metrics-configuration-instance
+      description: Get Impact Metrics Configuration for the Instance
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getinstanceimpactmetricsconfigs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-instance-level-impact-metric
+      description: Delete Instance Level Impact Metric Configuration
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-unstable.deleteinstanceimpactmetricconfig
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-plausible-analytics-data
+      description: Get Plausible Analytics Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getplausiblemetrics
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-instance-information
+      description: Get Instance Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getinstanceinsights
+      with:
+        from: tools.from
+        to: tools.to
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieves-all-licensed-users-data
+      description: Retrieves All Licensed Users Data.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getalllicensedusers
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-features-lifecycle-stage
+      description: Get All Features Lifecycle Stage Count
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getfeaturelifecyclestagecount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-aggregated-metered-connections-given
+      description: Get Aggregated Metered Connections for a Given Time Period.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getconnectionsforperiod
+      with:
+        grouping: tools.grouping
+        from: tools.from
+        to: tools.to
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-aggregated-metered-requests-given
+      description: Get Aggregated Metered Requests for a Given Time Period.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getrequestsforperiod
+      with:
+        grouping: tools.grouping
+        from: tools.from
+        to: tools.to
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-personal-dashboard
+      description: Get Personal Dashboard
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getpersonaldashboard
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-personal-project-details
+      description: Get Personal Project Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getpersonaldashboardprojectdetails
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: archive-project
+      description: Archive Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.archiveproject
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: revive-project
+      description: Revive Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.reviveproject
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-number-change-requests-you
+      description: Get the Number of Change Requests You Can Do Something With
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getactionablechangerequests
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: save-flag-level-impact-metrics
+      description: Save Flag Level Impact Metrics Configuration
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.savefeatureimpactmetricsconfig
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-impact-metrics-configurations-single
+      description: Get Impact Metrics Configurations for a Single Feature
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getflagimpactmetricsconfigsbyfeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-flag-level-impact-metric
+      description: Delete Flag Level Impact Metric Configuration
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-unstable.deleteflagimpactmetricconfig
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-feature-lifecycle
+      description: Get Feature Lifecycle
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getfeaturelifecycle
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-feature-completed
+      description: Set Feature Completed
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.complete
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-feature-uncompleted
+      description: Set Feature Uncompleted
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.uncomplete
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-feature-link
+      description: Create a Feature Link
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.createfeaturelink
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-feature-link
+      description: Update a Feature Link
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-unstable.updatefeaturelink
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        linkId: tools.linkId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-feature-link
+      description: Delete a Feature Link
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-unstable.deletefeaturelink
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        linkId: tools.linkId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-project-status
+      description: Get Project Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getprojectstatus
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-update-milestone-progression
+      description: Create or Update a Milestone Progression
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-unstable.changemilestoneprogression
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-milestone-progression
+      description: Delete a Milestone Progression
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-unstable.deletemilestoneprogression
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resume-paused-milestone-progressions
+      description: Resume Paused Milestone Progressions
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.resumemilestoneprogressions
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        planId: tools.planId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: change-safeguard
+      description: Change a Safeguard
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-unstable.changesafeguard
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        planId: tools.planId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-safeguard
+      description: Delete a Safeguard
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-unstable.deletesafeguard
+      with:
+        project: tools.project
+        featureName: tools.featureName
+        environment: tools.environment
+        planId: tools.planId
+        safeguardId: tools.safeguardId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-scim-settings
+      description: Get SCIM Settings.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getscimsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-scim-settings
+      description: Set SCIM Settings.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.setscimsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: generates-new-scim-api-token
+      description: Generates a New SCIM API Token.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.generatenewtoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: disconnect-all-clients
+      description: Disconnect All Clients.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.disconnectall
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: returns-list-permissions-user
+      description: Returns the List of Permissions for the User
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getuserpermissions
+      with:
+        id: tools.id
+        project: tools.project
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-partial-updates-sdk
+      description: Get Partial Updates (sdk)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.getdelta
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: heartbeat-enterprise-edge-instances
+      description: Heartbeat for Enterprise Edge Instances.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.edgeinstanceheartbeat
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: connect-streaming-api
+      description: Connect to the Streaming Api.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-unstable.connect
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: submit-user-feedback
+      description: Submit User Feedback
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-unstable.providefeedback
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

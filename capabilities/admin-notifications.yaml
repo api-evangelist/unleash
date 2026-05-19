@@ -1,0 +1,112 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Notifications
+  description: 'Unleash Admin API — Notifications. 2 operations. Lead operation: Retrieves a List of Notifications. Self-contained
+    Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Notifications
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-notifications
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Notifications business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-notifications
+      path: /api/admin/notifications
+      operations:
+      - name: getnotifications
+        method: GET
+        description: Retrieves a List of Notifications
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-notifications-read
+      path: /api/admin/notifications/read
+      operations:
+      - name: marknotificationsasread
+        method: POST
+        description: Mark Notifications as Read
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-notifications-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Notifications. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/notifications
+      name: api-admin-notifications
+      description: REST surface for api-admin-notifications.
+      operations:
+      - method: GET
+        name: getnotifications
+        description: Retrieves a List of Notifications
+        call: admin-notifications.getnotifications
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/notifications/read
+      name: api-admin-notifications-read
+      description: REST surface for api-admin-notifications-read.
+      operations:
+      - method: POST
+        name: marknotificationsasread
+        description: Mark Notifications as Read
+        call: admin-notifications.marknotificationsasread
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-notifications-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Notifications. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: retrieves-list-notifications
+      description: Retrieves a List of Notifications
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-notifications.getnotifications
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: mark-notifications-read
+      description: Mark Notifications as Read
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-notifications.marknotificationsasread
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

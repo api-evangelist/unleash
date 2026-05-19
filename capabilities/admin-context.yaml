@@ -1,0 +1,746 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Context
+  description: 'Unleash Admin API — Context. 16 operations. Lead operation: Gets Configured Context Fields. Self-contained
+    Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Context
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-context
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Context business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-context
+      path: /api/admin/context
+      operations:
+      - name: getcontextfields
+        method: GET
+        description: Gets Configured Context Fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include
+          in: query
+          type: string
+          description: Whether the response should include project-specific or root context fields in addition to the fields
+            in the default response. When querying the root context AP
+      - name: createcontextfield
+        method: POST
+        description: Create a Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-context-validate
+      path: /api/admin/context/validate
+      operations:
+      - name: validatecontextfieldname
+        method: POST
+        description: Validate a Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-context-contextField
+      path: /api/admin/context/{contextField}
+      operations:
+      - name: getcontextfield
+        method: GET
+        description: Gets Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contextField
+          in: path
+          type: string
+          required: true
+      - name: updatecontextfield
+        method: PUT
+        description: Update an Existing Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contextField
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecontextfield
+        method: DELETE
+        description: Delete an Existing Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contextField
+          in: path
+          type: string
+          required: true
+    - name: api-admin-context-contextField-legal-values
+      path: /api/admin/context/{contextField}/legal-values
+      operations:
+      - name: updatecontextfieldlegalvalue
+        method: POST
+        description: Add or Update Legal Value for the Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contextField
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-context-contextField-legal-values-legalValue
+      path: /api/admin/context/{contextField}/legal-values/{legalValue}
+      operations:
+      - name: deletecontextfieldlegalvalue
+        method: DELETE
+        description: Delete Legal Value for the Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contextField
+          in: path
+          type: string
+          required: true
+        - name: legalValue
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-context
+      path: /api/admin/projects/{projectId}/context
+      operations:
+      - name: getcontextfieldsforproject
+        method: GET
+        description: Gets Configured Context Fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: include
+          in: query
+          type: string
+          description: Whether the response should include project-specific or root context fields in addition to the fields
+            in the default response. When querying the root context AP
+      - name: createcontextfieldforproject
+        method: POST
+        description: Create a Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-context-validate
+      path: /api/admin/projects/{projectId}/context/validate
+      operations:
+      - name: validatecontextfieldnameforproject
+        method: POST
+        description: Validate a Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-context-contextField
+      path: /api/admin/projects/{projectId}/context/{contextField}
+      operations:
+      - name: getcontextfieldforproject
+        method: GET
+        description: Gets Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: contextField
+          in: path
+          type: string
+          required: true
+      - name: updatecontextfieldforproject
+        method: PUT
+        description: Update an Existing Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: contextField
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecontextfieldforproject
+        method: DELETE
+        description: Delete an Existing Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: contextField
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-context-contextField-legal-values
+      path: /api/admin/projects/{projectId}/context/{contextField}/legal-values
+      operations:
+      - name: updatecontextfieldlegalvalueforproject
+        method: POST
+        description: Add or Update Legal Value for the Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: contextField
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-context-contextField-legal-values-legalValue
+      path: /api/admin/projects/{projectId}/context/{contextField}/legal-values/{legalValue}
+      operations:
+      - name: deletecontextfieldlegalvalueforproject
+        method: DELETE
+        description: Delete Legal Value for the Context Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: contextField
+          in: path
+          type: string
+          required: true
+        - name: legalValue
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-context-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Context. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/context
+      name: api-admin-context
+      description: REST surface for api-admin-context.
+      operations:
+      - method: GET
+        name: getcontextfields
+        description: Gets Configured Context Fields
+        call: admin-context.getcontextfields
+        with:
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcontextfield
+        description: Create a Context Field
+        call: admin-context.createcontextfield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/context/validate
+      name: api-admin-context-validate
+      description: REST surface for api-admin-context-validate.
+      operations:
+      - method: POST
+        name: validatecontextfieldname
+        description: Validate a Context Field
+        call: admin-context.validatecontextfieldname
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/context/{contextfield}
+      name: api-admin-context-contextfield
+      description: REST surface for api-admin-context-contextField.
+      operations:
+      - method: GET
+        name: getcontextfield
+        description: Gets Context Field
+        call: admin-context.getcontextfield
+        with:
+          contextField: rest.contextField
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecontextfield
+        description: Update an Existing Context Field
+        call: admin-context.updatecontextfield
+        with:
+          contextField: rest.contextField
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecontextfield
+        description: Delete an Existing Context Field
+        call: admin-context.deletecontextfield
+        with:
+          contextField: rest.contextField
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/context/{contextfield}/legal-values
+      name: api-admin-context-contextfield-legal-values
+      description: REST surface for api-admin-context-contextField-legal-values.
+      operations:
+      - method: POST
+        name: updatecontextfieldlegalvalue
+        description: Add or Update Legal Value for the Context Field
+        call: admin-context.updatecontextfieldlegalvalue
+        with:
+          contextField: rest.contextField
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/context/{contextfield}/legal-values/{legalvalue}
+      name: api-admin-context-contextfield-legal-values-legalvalue
+      description: REST surface for api-admin-context-contextField-legal-values-legalValue.
+      operations:
+      - method: DELETE
+        name: deletecontextfieldlegalvalue
+        description: Delete Legal Value for the Context Field
+        call: admin-context.deletecontextfieldlegalvalue
+        with:
+          contextField: rest.contextField
+          legalValue: rest.legalValue
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/context
+      name: api-admin-projects-projectid-context
+      description: REST surface for api-admin-projects-projectId-context.
+      operations:
+      - method: GET
+        name: getcontextfieldsforproject
+        description: Gets Configured Context Fields
+        call: admin-context.getcontextfieldsforproject
+        with:
+          projectId: rest.projectId
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcontextfieldforproject
+        description: Create a Context Field
+        call: admin-context.createcontextfieldforproject
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/context/validate
+      name: api-admin-projects-projectid-context-validate
+      description: REST surface for api-admin-projects-projectId-context-validate.
+      operations:
+      - method: POST
+        name: validatecontextfieldnameforproject
+        description: Validate a Context Field
+        call: admin-context.validatecontextfieldnameforproject
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/context/{contextfield}
+      name: api-admin-projects-projectid-context-contextfield
+      description: REST surface for api-admin-projects-projectId-context-contextField.
+      operations:
+      - method: GET
+        name: getcontextfieldforproject
+        description: Gets Context Field
+        call: admin-context.getcontextfieldforproject
+        with:
+          projectId: rest.projectId
+          contextField: rest.contextField
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecontextfieldforproject
+        description: Update an Existing Context Field
+        call: admin-context.updatecontextfieldforproject
+        with:
+          projectId: rest.projectId
+          contextField: rest.contextField
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecontextfieldforproject
+        description: Delete an Existing Context Field
+        call: admin-context.deletecontextfieldforproject
+        with:
+          projectId: rest.projectId
+          contextField: rest.contextField
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/context/{contextfield}/legal-values
+      name: api-admin-projects-projectid-context-contextfield-legal-values
+      description: REST surface for api-admin-projects-projectId-context-contextField-legal-values.
+      operations:
+      - method: POST
+        name: updatecontextfieldlegalvalueforproject
+        description: Add or Update Legal Value for the Context Field
+        call: admin-context.updatecontextfieldlegalvalueforproject
+        with:
+          projectId: rest.projectId
+          contextField: rest.contextField
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/context/{contextfield}/legal-values/{legalvalue}
+      name: api-admin-projects-projectid-context-contextfield-legal-values-legalvalue
+      description: REST surface for api-admin-projects-projectId-context-contextField-legal-values-legalValue.
+      operations:
+      - method: DELETE
+        name: deletecontextfieldlegalvalueforproject
+        description: Delete Legal Value for the Context Field
+        call: admin-context.deletecontextfieldlegalvalueforproject
+        with:
+          projectId: rest.projectId
+          contextField: rest.contextField
+          legalValue: rest.legalValue
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-context-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Context. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: gets-configured-context-fields
+      description: Gets Configured Context Fields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-context.getcontextfields
+      with:
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-context-field
+      description: Create a Context Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-context.createcontextfield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-context-field
+      description: Validate a Context Field
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-context.validatecontextfieldname
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gets-context-field
+      description: Gets Context Field
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-context.getcontextfield
+      with:
+        contextField: tools.contextField
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-existing-context-field
+      description: Update an Existing Context Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-context.updatecontextfield
+      with:
+        contextField: tools.contextField
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-existing-context-field
+      description: Delete an Existing Context Field
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-context.deletecontextfield
+      with:
+        contextField: tools.contextField
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-update-legal-value-context
+      description: Add or Update Legal Value for the Context Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-context.updatecontextfieldlegalvalue
+      with:
+        contextField: tools.contextField
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-legal-value-context-field
+      description: Delete Legal Value for the Context Field
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-context.deletecontextfieldlegalvalue
+      with:
+        contextField: tools.contextField
+        legalValue: tools.legalValue
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gets-configured-context-fields-2
+      description: Gets Configured Context Fields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-context.getcontextfieldsforproject
+      with:
+        projectId: tools.projectId
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-context-field-2
+      description: Create a Context Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-context.createcontextfieldforproject
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-context-field-2
+      description: Validate a Context Field
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-context.validatecontextfieldnameforproject
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gets-context-field-2
+      description: Gets Context Field
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-context.getcontextfieldforproject
+      with:
+        projectId: tools.projectId
+        contextField: tools.contextField
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-existing-context-field-2
+      description: Update an Existing Context Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-context.updatecontextfieldforproject
+      with:
+        projectId: tools.projectId
+        contextField: tools.contextField
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-existing-context-field-2
+      description: Delete an Existing Context Field
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-context.deletecontextfieldforproject
+      with:
+        projectId: tools.projectId
+        contextField: tools.contextField
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-update-legal-value-context-2
+      description: Add or Update Legal Value for the Context Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-context.updatecontextfieldlegalvalueforproject
+      with:
+        projectId: tools.projectId
+        contextField: tools.contextField
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-legal-value-context-field-2
+      description: Delete Legal Value for the Context Field
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-context.deletecontextfieldlegalvalueforproject
+      with:
+        projectId: tools.projectId
+        contextField: tools.contextField
+        legalValue: tools.legalValue
+      outputParameters:
+      - type: object
+        mapping: $.

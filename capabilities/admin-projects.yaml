@@ -1,0 +1,1218 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Projects
+  description: 'Unleash Admin API — Projects. 27 operations. Lead operation: Get a List of All Projects.. Self-contained Naftiko
+    capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Projects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-projects
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Projects business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-projects
+      path: /api/admin/projects
+      operations:
+      - name: getprojects
+        method: GET
+        description: Get a List of All Projects.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: archived
+          in: query
+          type: boolean
+      - name: createproject
+        method: POST
+        description: Create Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-roles-roleId-access
+      path: /api/admin/projects/roles/{roleId}/access
+      operations:
+      - name: getroleprojectaccess
+        method: GET
+        description: Get Project-role Mappings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: roleId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-validate
+      path: /api/admin/projects/validate
+      operations:
+      - name: validateproject
+        method: POST
+        description: Validate Project ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId
+      path: /api/admin/projects/{projectId}
+      operations:
+      - name: updateproject
+        method: PUT
+        description: Update Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproject
+        method: DELETE
+        description: Delete Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-access
+      path: /api/admin/projects/{projectId}/access
+      operations:
+      - name: getprojectaccess
+        method: GET
+        description: Get Users and Groups in Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+      - name: setprojectaccess
+        method: PUT
+        description: Set Users and Groups to Roles in the Current Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: addaccesstoproject
+        method: POST
+        description: Configure Project Access
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-api-tokens
+      path: /api/admin/projects/{projectId}/api-tokens
+      operations:
+      - name: getprojectapitokens
+        method: GET
+        description: Get API Tokens for Project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+      - name: createprojectapitoken
+        method: POST
+        description: Create a Project API Token.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-api-tokens-token
+      path: /api/admin/projects/{projectId}/api-tokens/{token}
+      operations:
+      - name: deleteprojectapitoken
+        method: DELETE
+        description: Delete a Project API Token.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: token
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-applications
+      path: /api/admin/projects/{projectId}/applications
+      operations:
+      - name: getprojectapplications
+        method: GET
+        description: Get a List of All Applications for a Project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: query
+          in: query
+          type: string
+          description: The search query for the application name, sdk, environment
+        - name: offset
+          in: query
+          type: string
+          description: The number of applications to skip when returning a page. By default it is set to 0.
+        - name: limit
+          in: query
+          type: string
+          description: The number of applications to return in a page. By default it is set to 50.
+        - name: sortBy
+          in: query
+          type: string
+          description: The field to sort the results by. By default it is set to "appName".
+        - name: sortOrder
+          in: query
+          type: string
+          description: The sort order for the sortBy. By default it is det to "asc".
+    - name: api-admin-projects-projectId-dora
+      path: /api/admin/projects/{projectId}/dora
+      operations:
+      - name: getprojectdora
+        method: GET
+        description: Get an Overview Project Dora Metrics.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-environments
+      path: /api/admin/projects/{projectId}/environments
+      operations:
+      - name: addenvironmenttoproject
+        method: POST
+        description: Add an Environment to a Project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-environments-environment
+      path: /api/admin/projects/{projectId}/environments/{environment}
+      operations:
+      - name: removeenvironmentfromproject
+        method: DELETE
+        description: Remove an Environment From a Project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-environments-environment-default-strategy
+      path: /api/admin/projects/{projectId}/environments/{environment}/default-strategy
+      operations:
+      - name: adddefaultstrategytoprojectenvironment
+        method: POST
+        description: Set Environment-default Strategy
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-flag-creators
+      path: /api/admin/projects/{projectId}/flag-creators
+      operations:
+      - name: getprojectflagcreators
+        method: GET
+        description: Get a List of All Flag Creators for a Project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-groups-groupId-roles
+      path: /api/admin/projects/{projectId}/groups/{groupId}/roles
+      operations:
+      - name: setrolesforgroup
+        method: PUT
+        description: Sets Roles for Group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: groupId
+          in: path
+          type: string
+          required: true
+      - name: removegroupaccess
+        method: DELETE
+        description: Remove Project Access for a Group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: groupId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-health-report
+      path: /api/admin/projects/{projectId}/health-report
+      operations:
+      - name: getprojecthealthreport
+        method: GET
+        description: Get a Health Report for a Project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-insights
+      path: /api/admin/projects/{projectId}/insights
+      operations:
+      - name: getprojectinsights
+        method: GET
+        description: Get an Overview of a Project Insights.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-overview
+      path: /api/admin/projects/{projectId}/overview
+      operations:
+      - name: getprojectoverview
+        method: GET
+        description: Get an Overview of a Project.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-sdks-outdated
+      path: /api/admin/projects/{projectId}/sdks/outdated
+      operations:
+      - name: getoutdatedprojectsdks
+        method: GET
+        description: Get Outdated Project Sdks
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-settings
+      path: /api/admin/projects/{projectId}/settings
+      operations:
+      - name: updateprojectenterprisesettings
+        method: PUT
+        description: Update Project Enterprise Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-users-userId-roles
+      path: /api/admin/projects/{projectId}/users/{userId}/roles
+      operations:
+      - name: setrolesforuser
+        method: PUT
+        description: Sets Roles for User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: userId
+          in: path
+          type: string
+          required: true
+      - name: removeuseraccess
+        method: DELETE
+        description: Remove Project Access for a User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: userId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-projects-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Projects. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/projects
+      name: api-admin-projects
+      description: REST surface for api-admin-projects.
+      operations:
+      - method: GET
+        name: getprojects
+        description: Get a List of All Projects.
+        call: admin-projects.getprojects
+        with:
+          archived: rest.archived
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproject
+        description: Create Project
+        call: admin-projects.createproject
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/roles/{roleid}/access
+      name: api-admin-projects-roles-roleid-access
+      description: REST surface for api-admin-projects-roles-roleId-access.
+      operations:
+      - method: GET
+        name: getroleprojectaccess
+        description: Get Project-role Mappings
+        call: admin-projects.getroleprojectaccess
+        with:
+          roleId: rest.roleId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/validate
+      name: api-admin-projects-validate
+      description: REST surface for api-admin-projects-validate.
+      operations:
+      - method: POST
+        name: validateproject
+        description: Validate Project ID
+        call: admin-projects.validateproject
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}
+      name: api-admin-projects-projectid
+      description: REST surface for api-admin-projects-projectId.
+      operations:
+      - method: PUT
+        name: updateproject
+        description: Update Project
+        call: admin-projects.updateproject
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproject
+        description: Delete Project
+        call: admin-projects.deleteproject
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/access
+      name: api-admin-projects-projectid-access
+      description: REST surface for api-admin-projects-projectId-access.
+      operations:
+      - method: GET
+        name: getprojectaccess
+        description: Get Users and Groups in Project
+        call: admin-projects.getprojectaccess
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: setprojectaccess
+        description: Set Users and Groups to Roles in the Current Project
+        call: admin-projects.setprojectaccess
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addaccesstoproject
+        description: Configure Project Access
+        call: admin-projects.addaccesstoproject
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/api-tokens
+      name: api-admin-projects-projectid-api-tokens
+      description: REST surface for api-admin-projects-projectId-api-tokens.
+      operations:
+      - method: GET
+        name: getprojectapitokens
+        description: Get API Tokens for Project.
+        call: admin-projects.getprojectapitokens
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createprojectapitoken
+        description: Create a Project API Token.
+        call: admin-projects.createprojectapitoken
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/api-tokens/{token}
+      name: api-admin-projects-projectid-api-tokens-token
+      description: REST surface for api-admin-projects-projectId-api-tokens-token.
+      operations:
+      - method: DELETE
+        name: deleteprojectapitoken
+        description: Delete a Project API Token.
+        call: admin-projects.deleteprojectapitoken
+        with:
+          projectId: rest.projectId
+          token: rest.token
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/applications
+      name: api-admin-projects-projectid-applications
+      description: REST surface for api-admin-projects-projectId-applications.
+      operations:
+      - method: GET
+        name: getprojectapplications
+        description: Get a List of All Applications for a Project.
+        call: admin-projects.getprojectapplications
+        with:
+          projectId: rest.projectId
+          query: rest.query
+          offset: rest.offset
+          limit: rest.limit
+          sortBy: rest.sortBy
+          sortOrder: rest.sortOrder
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/dora
+      name: api-admin-projects-projectid-dora
+      description: REST surface for api-admin-projects-projectId-dora.
+      operations:
+      - method: GET
+        name: getprojectdora
+        description: Get an Overview Project Dora Metrics.
+        call: admin-projects.getprojectdora
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/environments
+      name: api-admin-projects-projectid-environments
+      description: REST surface for api-admin-projects-projectId-environments.
+      operations:
+      - method: POST
+        name: addenvironmenttoproject
+        description: Add an Environment to a Project.
+        call: admin-projects.addenvironmenttoproject
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/environments/{environment}
+      name: api-admin-projects-projectid-environments-environment
+      description: REST surface for api-admin-projects-projectId-environments-environment.
+      operations:
+      - method: DELETE
+        name: removeenvironmentfromproject
+        description: Remove an Environment From a Project.
+        call: admin-projects.removeenvironmentfromproject
+        with:
+          projectId: rest.projectId
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/environments/{environment}/default-strategy
+      name: api-admin-projects-projectid-environments-environment-default-strategy
+      description: REST surface for api-admin-projects-projectId-environments-environment-default-strategy.
+      operations:
+      - method: POST
+        name: adddefaultstrategytoprojectenvironment
+        description: Set Environment-default Strategy
+        call: admin-projects.adddefaultstrategytoprojectenvironment
+        with:
+          projectId: rest.projectId
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/flag-creators
+      name: api-admin-projects-projectid-flag-creators
+      description: REST surface for api-admin-projects-projectId-flag-creators.
+      operations:
+      - method: GET
+        name: getprojectflagcreators
+        description: Get a List of All Flag Creators for a Project.
+        call: admin-projects.getprojectflagcreators
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/groups/{groupid}/roles
+      name: api-admin-projects-projectid-groups-groupid-roles
+      description: REST surface for api-admin-projects-projectId-groups-groupId-roles.
+      operations:
+      - method: PUT
+        name: setrolesforgroup
+        description: Sets Roles for Group
+        call: admin-projects.setrolesforgroup
+        with:
+          projectId: rest.projectId
+          groupId: rest.groupId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removegroupaccess
+        description: Remove Project Access for a Group
+        call: admin-projects.removegroupaccess
+        with:
+          projectId: rest.projectId
+          groupId: rest.groupId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/health-report
+      name: api-admin-projects-projectid-health-report
+      description: REST surface for api-admin-projects-projectId-health-report.
+      operations:
+      - method: GET
+        name: getprojecthealthreport
+        description: Get a Health Report for a Project.
+        call: admin-projects.getprojecthealthreport
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/insights
+      name: api-admin-projects-projectid-insights
+      description: REST surface for api-admin-projects-projectId-insights.
+      operations:
+      - method: GET
+        name: getprojectinsights
+        description: Get an Overview of a Project Insights.
+        call: admin-projects.getprojectinsights
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/overview
+      name: api-admin-projects-projectid-overview
+      description: REST surface for api-admin-projects-projectId-overview.
+      operations:
+      - method: GET
+        name: getprojectoverview
+        description: Get an Overview of a Project.
+        call: admin-projects.getprojectoverview
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/sdks/outdated
+      name: api-admin-projects-projectid-sdks-outdated
+      description: REST surface for api-admin-projects-projectId-sdks-outdated.
+      operations:
+      - method: GET
+        name: getoutdatedprojectsdks
+        description: Get Outdated Project Sdks
+        call: admin-projects.getoutdatedprojectsdks
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/settings
+      name: api-admin-projects-projectid-settings
+      description: REST surface for api-admin-projects-projectId-settings.
+      operations:
+      - method: PUT
+        name: updateprojectenterprisesettings
+        description: Update Project Enterprise Settings
+        call: admin-projects.updateprojectenterprisesettings
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/users/{userid}/roles
+      name: api-admin-projects-projectid-users-userid-roles
+      description: REST surface for api-admin-projects-projectId-users-userId-roles.
+      operations:
+      - method: PUT
+        name: setrolesforuser
+        description: Sets Roles for User
+        call: admin-projects.setrolesforuser
+        with:
+          projectId: rest.projectId
+          userId: rest.userId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removeuseraccess
+        description: Remove Project Access for a User
+        call: admin-projects.removeuseraccess
+        with:
+          projectId: rest.projectId
+          userId: rest.userId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-projects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Projects. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-list-all-projects
+      description: Get a List of All Projects.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojects
+      with:
+        archived: tools.archived
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-project
+      description: Create Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-projects.createproject
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-project-role-mappings
+      description: Get Project-role Mappings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getroleprojectaccess
+      with:
+        roleId: tools.roleId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-project-id
+      description: Validate Project ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-projects.validateproject
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-project
+      description: Update Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-projects.updateproject
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-project
+      description: Delete Project
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-projects.deleteproject
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-users-and-groups-project
+      description: Get Users and Groups in Project
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojectaccess
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-users-and-groups-roles
+      description: Set Users and Groups to Roles in the Current Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-projects.setprojectaccess
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: configure-project-access
+      description: Configure Project Access
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-projects.addaccesstoproject
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-api-tokens-project
+      description: Get API Tokens for Project.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojectapitokens
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-project-api-token
+      description: Create a Project API Token.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-projects.createprojectapitoken
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-project-api-token
+      description: Delete a Project API Token.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-projects.deleteprojectapitoken
+      with:
+        projectId: tools.projectId
+        token: tools.token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-list-all-applications-project
+      description: Get a List of All Applications for a Project.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojectapplications
+      with:
+        projectId: tools.projectId
+        query: tools.query
+        offset: tools.offset
+        limit: tools.limit
+        sortBy: tools.sortBy
+        sortOrder: tools.sortOrder
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-overview-project-dora-metrics
+      description: Get an Overview Project Dora Metrics.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojectdora
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-environment-project
+      description: Add an Environment to a Project.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-projects.addenvironmenttoproject
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-environment-project
+      description: Remove an Environment From a Project.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-projects.removeenvironmentfromproject
+      with:
+        projectId: tools.projectId
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-environment-default-strategy
+      description: Set Environment-default Strategy
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-projects.adddefaultstrategytoprojectenvironment
+      with:
+        projectId: tools.projectId
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-list-all-flag-creators
+      description: Get a List of All Flag Creators for a Project.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojectflagcreators
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: sets-roles-group
+      description: Sets Roles for Group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-projects.setrolesforgroup
+      with:
+        projectId: tools.projectId
+        groupId: tools.groupId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-project-access-group
+      description: Remove Project Access for a Group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-projects.removegroupaccess
+      with:
+        projectId: tools.projectId
+        groupId: tools.groupId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-health-report-project
+      description: Get a Health Report for a Project.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojecthealthreport
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-overview-project-insights
+      description: Get an Overview of a Project Insights.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojectinsights
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-overview-project
+      description: Get an Overview of a Project.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getprojectoverview
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-outdated-project-sdks
+      description: Get Outdated Project Sdks
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-projects.getoutdatedprojectsdks
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-project-enterprise-settings
+      description: Update Project Enterprise Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-projects.updateprojectenterprisesettings
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: sets-roles-user
+      description: Sets Roles for User
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-projects.setrolesforuser
+      with:
+        projectId: tools.projectId
+        userId: tools.userId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-project-access-user
+      description: Remove Project Access for a User
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-projects.removeuseraccess
+      with:
+        projectId: tools.projectId
+        userId: tools.userId
+      outputParameters:
+      - type: object
+        mapping: $.

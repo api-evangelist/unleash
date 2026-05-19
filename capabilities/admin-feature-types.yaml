@@ -1,0 +1,118 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Feature Types
+  description: 'Unleash Admin API — Feature Types. 2 operations. Lead operation: Get All Feature Types. Self-contained Naftiko
+    capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Feature Types
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-feature-types
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Feature Types business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-feature-types
+      path: /api/admin/feature-types
+      operations:
+      - name: getallfeaturetypes
+        method: GET
+        description: Get All Feature Types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-feature-types-id-lifetime
+      path: /api/admin/feature-types/{id}/lifetime
+      operations:
+      - name: updatefeaturetypelifetime
+        method: PUT
+        description: Update Feature Type Lifetime
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-feature-types-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Feature Types. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/feature-types
+      name: api-admin-feature-types
+      description: REST surface for api-admin-feature-types.
+      operations:
+      - method: GET
+        name: getallfeaturetypes
+        description: Get All Feature Types
+        call: admin-feature-types.getallfeaturetypes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/feature-types/{id}/lifetime
+      name: api-admin-feature-types-id-lifetime
+      description: REST surface for api-admin-feature-types-id-lifetime.
+      operations:
+      - method: PUT
+        name: updatefeaturetypelifetime
+        description: Update Feature Type Lifetime
+        call: admin-feature-types.updatefeaturetypelifetime
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-feature-types-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Feature Types. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-all-feature-types
+      description: Get All Feature Types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-feature-types.getallfeaturetypes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-feature-type-lifetime
+      description: Update Feature Type Lifetime
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-feature-types.updatefeaturetypelifetime
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

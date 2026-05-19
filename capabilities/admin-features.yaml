@@ -1,0 +1,1850 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Features
+  description: 'Unleash Admin API — Features. 37 operations. Lead operation: Validate Constraint. Self-contained Naftiko capability
+    covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Features
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-features
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Features business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-constraints-validate
+      path: /api/admin/constraints/validate
+      operations:
+      - name: validateconstraint
+        method: POST
+        description: Validate Constraint
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-features-validate
+      path: /api/admin/features/validate
+      operations:
+      - name: validatefeature
+        method: POST
+        description: Validate a Feature Flag Name.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-features-featureName-tags
+      path: /api/admin/features/{featureName}/tags
+      operations:
+      - name: listtags
+        method: GET
+        description: Get All Tags for a Feature.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: featureName
+          in: path
+          type: string
+          required: true
+      - name: addtag
+        method: POST
+        description: Adds a Tag to a Feature.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatetags
+        method: PUT
+        description: Updates Multiple Tags for a Feature.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-features-featureName-tags-type-value
+      path: /api/admin/features/{featureName}/tags/{type}/{value}
+      operations:
+      - name: removetag
+        method: DELETE
+        description: Removes a Tag From a Feature.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: type
+          in: path
+          type: string
+          required: true
+        - name: value
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-archive
+      path: /api/admin/projects/{projectId}/archive
+      operations:
+      - name: archivefeatures
+        method: POST
+        description: Archives a List of Features
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-archive-validate
+      path: /api/admin/projects/{projectId}/archive/validate
+      operations:
+      - name: validatearchivefeatures
+        method: POST
+        description: Validates Archive Features
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-bulk_features-environments-environment-off
+      path: /api/admin/projects/{projectId}/bulk_features/environments/{environment}/off
+      operations:
+      - name: bulktogglefeaturesenvironmentoff
+        method: POST
+        description: Bulk Disable a List of Features
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-bulk_features-environments-environment-on
+      path: /api/admin/projects/{projectId}/bulk_features/environments/{environment}/on
+      operations:
+      - name: bulktogglefeaturesenvironmenton
+        method: POST
+        description: Bulk Enable a List of Features
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-favorites
+      path: /api/admin/projects/{projectId}/favorites
+      operations:
+      - name: addfavoriteproject
+        method: POST
+        description: Add Project to Favorites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+      - name: removefavoriteproject
+        method: DELETE
+        description: Remove Project From Favorites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features
+      path: /api/admin/projects/{projectId}/features
+      operations:
+      - name: getfeatures
+        method: GET
+        description: Get All Features in a Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+      - name: createfeature
+        method: POST
+        description: Add a New Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName
+      path: /api/admin/projects/{projectId}/features/{featureName}
+      operations:
+      - name: getfeature
+        method: GET
+        description: Get a Feature
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+      - name: updatefeature
+        method: PUT
+        description: Update a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: patchfeature
+        method: PATCH
+        description: Modify a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: archivefeature
+        method: DELETE
+        description: Archive a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-changeProject
+      path: /api/admin/projects/{projectId}/features/{featureName}/changeProject
+      operations:
+      - name: changeproject
+        method: POST
+        description: Move Feature to Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-clone
+      path: /api/admin/projects/{projectId}/features/{featureName}/clone
+      operations:
+      - name: clonefeature
+        method: POST
+        description: Clone a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-environments-environment
+      path: /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}
+      operations:
+      - name: getfeatureenvironment
+        method: GET
+        description: Get a Feature Environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-environments-environment-off
+      path: /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/off
+      operations:
+      - name: togglefeatureenvironmentoff
+        method: POST
+        description: Disable a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-environments-environment-on
+      path: /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/on
+      operations:
+      - name: togglefeatureenvironmenton
+        method: POST
+        description: Enable a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-environments-environment-strat
+      path: /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies
+      operations:
+      - name: getfeaturestrategies
+        method: GET
+        description: Get Feature Flag Strategies
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+      - name: addfeaturestrategy
+        method: POST
+        description: Add a Strategy to a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-environments-environment-strat
+      path: /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/set-sort-order
+      operations:
+      - name: setstrategysortorder
+        method: POST
+        description: Set Strategy Sort Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-environments-environment-strat
+      path: /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId}
+      operations:
+      - name: getfeaturestrategy
+        method: GET
+        description: Get a Strategy Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: strategyId
+          in: path
+          type: string
+          required: true
+      - name: updatefeaturestrategy
+        method: PUT
+        description: Update a Strategy
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: strategyId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: patchfeaturestrategy
+        method: PATCH
+        description: Change Specific Properties of a Strategy
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: strategyId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletefeaturestrategy
+        method: DELETE
+        description: Delete a Strategy From a Feature Flag
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: strategyId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-environments-environment-varia
+      path: /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/variants
+      operations:
+      - name: getenvironmentfeaturevariants
+        method: GET
+        description: Get Variants for a Feature in an Environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+      - name: patchenvironmentsfeaturevariants
+        method: PATCH
+        description: Patch a Feature's Variants in an Environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: overwriteenvironmentfeaturevariants
+        method: PUT
+        description: Create (overwrite) Variants for a Feature in an Environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: environment
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-favorites
+      path: /api/admin/projects/{projectId}/features/{featureName}/favorites
+      operations:
+      - name: addfavoritefeature
+        method: POST
+        description: Add Feature to Favorites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+      - name: removefavoritefeature
+        method: DELETE
+        description: Remove Feature From Favorites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-featureName-variants-batch
+      path: /api/admin/projects/{projectId}/features/{featureName}/variants-batch
+      operations:
+      - name: overwritefeaturevariantsonenvironments
+        method: PUT
+        description: Create (overwrite) Variants for a Feature Flag in Multiple Environments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: featureName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-stale
+      path: /api/admin/projects/{projectId}/stale
+      operations:
+      - name: stalefeatures
+        method: POST
+        description: Mark Features as Stale / Not Stale
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-features-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Features. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/constraints/validate
+      name: api-admin-constraints-validate
+      description: REST surface for api-admin-constraints-validate.
+      operations:
+      - method: POST
+        name: validateconstraint
+        description: Validate Constraint
+        call: admin-features.validateconstraint
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/features/validate
+      name: api-admin-features-validate
+      description: REST surface for api-admin-features-validate.
+      operations:
+      - method: POST
+        name: validatefeature
+        description: Validate a Feature Flag Name.
+        call: admin-features.validatefeature
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/features/{featurename}/tags
+      name: api-admin-features-featurename-tags
+      description: REST surface for api-admin-features-featureName-tags.
+      operations:
+      - method: GET
+        name: listtags
+        description: Get All Tags for a Feature.
+        call: admin-features.listtags
+        with:
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addtag
+        description: Adds a Tag to a Feature.
+        call: admin-features.addtag
+        with:
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatetags
+        description: Updates Multiple Tags for a Feature.
+        call: admin-features.updatetags
+        with:
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/features/{featurename}/tags/{type}/{value}
+      name: api-admin-features-featurename-tags-type-value
+      description: REST surface for api-admin-features-featureName-tags-type-value.
+      operations:
+      - method: DELETE
+        name: removetag
+        description: Removes a Tag From a Feature.
+        call: admin-features.removetag
+        with:
+          featureName: rest.featureName
+          type: rest.type
+          value: rest.value
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/archive
+      name: api-admin-projects-projectid-archive
+      description: REST surface for api-admin-projects-projectId-archive.
+      operations:
+      - method: POST
+        name: archivefeatures
+        description: Archives a List of Features
+        call: admin-features.archivefeatures
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/archive/validate
+      name: api-admin-projects-projectid-archive-validate
+      description: REST surface for api-admin-projects-projectId-archive-validate.
+      operations:
+      - method: POST
+        name: validatearchivefeatures
+        description: Validates Archive Features
+        call: admin-features.validatearchivefeatures
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/bulk-features/environments/{environment}/off
+      name: api-admin-projects-projectid-bulk-features-environments-environment-off
+      description: REST surface for api-admin-projects-projectId-bulk_features-environments-environment-off.
+      operations:
+      - method: POST
+        name: bulktogglefeaturesenvironmentoff
+        description: Bulk Disable a List of Features
+        call: admin-features.bulktogglefeaturesenvironmentoff
+        with:
+          projectId: rest.projectId
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/bulk-features/environments/{environment}/on
+      name: api-admin-projects-projectid-bulk-features-environments-environment-on
+      description: REST surface for api-admin-projects-projectId-bulk_features-environments-environment-on.
+      operations:
+      - method: POST
+        name: bulktogglefeaturesenvironmenton
+        description: Bulk Enable a List of Features
+        call: admin-features.bulktogglefeaturesenvironmenton
+        with:
+          projectId: rest.projectId
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/favorites
+      name: api-admin-projects-projectid-favorites
+      description: REST surface for api-admin-projects-projectId-favorites.
+      operations:
+      - method: POST
+        name: addfavoriteproject
+        description: Add Project to Favorites
+        call: admin-features.addfavoriteproject
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removefavoriteproject
+        description: Remove Project From Favorites
+        call: admin-features.removefavoriteproject
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features
+      name: api-admin-projects-projectid-features
+      description: REST surface for api-admin-projects-projectId-features.
+      operations:
+      - method: GET
+        name: getfeatures
+        description: Get All Features in a Project
+        call: admin-features.getfeatures
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createfeature
+        description: Add a New Feature Flag
+        call: admin-features.createfeature
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}
+      name: api-admin-projects-projectid-features-featurename
+      description: REST surface for api-admin-projects-projectId-features-featureName.
+      operations:
+      - method: GET
+        name: getfeature
+        description: Get a Feature
+        call: admin-features.getfeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatefeature
+        description: Update a Feature Flag
+        call: admin-features.updatefeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchfeature
+        description: Modify a Feature Flag
+        call: admin-features.patchfeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: archivefeature
+        description: Archive a Feature Flag
+        call: admin-features.archivefeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/changeproject
+      name: api-admin-projects-projectid-features-featurename-changeproject
+      description: REST surface for api-admin-projects-projectId-features-featureName-changeProject.
+      operations:
+      - method: POST
+        name: changeproject
+        description: Move Feature to Project
+        call: admin-features.changeproject
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/clone
+      name: api-admin-projects-projectid-features-featurename-clone
+      description: REST surface for api-admin-projects-projectId-features-featureName-clone.
+      operations:
+      - method: POST
+        name: clonefeature
+        description: Clone a Feature Flag
+        call: admin-features.clonefeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/environments/{environment}
+      name: api-admin-projects-projectid-features-featurename-environments-environment
+      description: REST surface for api-admin-projects-projectId-features-featureName-environments-environment.
+      operations:
+      - method: GET
+        name: getfeatureenvironment
+        description: Get a Feature Environment
+        call: admin-features.getfeatureenvironment
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/environments/{environment}/off
+      name: api-admin-projects-projectid-features-featurename-environments-environment-off
+      description: REST surface for api-admin-projects-projectId-features-featureName-environments-environment-off.
+      operations:
+      - method: POST
+        name: togglefeatureenvironmentoff
+        description: Disable a Feature Flag
+        call: admin-features.togglefeatureenvironmentoff
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/environments/{environment}/on
+      name: api-admin-projects-projectid-features-featurename-environments-environment-on
+      description: REST surface for api-admin-projects-projectId-features-featureName-environments-environment-on.
+      operations:
+      - method: POST
+        name: togglefeatureenvironmenton
+        description: Enable a Feature Flag
+        call: admin-features.togglefeatureenvironmenton
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/environments/{environment}/strategies
+      name: api-admin-projects-projectid-features-featurename-environments-environment-strat
+      description: REST surface for api-admin-projects-projectId-features-featureName-environments-environment-strat.
+      operations:
+      - method: GET
+        name: getfeaturestrategies
+        description: Get Feature Flag Strategies
+        call: admin-features.getfeaturestrategies
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addfeaturestrategy
+        description: Add a Strategy to a Feature Flag
+        call: admin-features.addfeaturestrategy
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/environments/{environment}/strategies/set-sort-order
+      name: api-admin-projects-projectid-features-featurename-environments-environment-strat
+      description: REST surface for api-admin-projects-projectId-features-featureName-environments-environment-strat.
+      operations:
+      - method: POST
+        name: setstrategysortorder
+        description: Set Strategy Sort Order
+        call: admin-features.setstrategysortorder
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/environments/{environment}/strategies/{strategyid}
+      name: api-admin-projects-projectid-features-featurename-environments-environment-strat
+      description: REST surface for api-admin-projects-projectId-features-featureName-environments-environment-strat.
+      operations:
+      - method: GET
+        name: getfeaturestrategy
+        description: Get a Strategy Configuration
+        call: admin-features.getfeaturestrategy
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          strategyId: rest.strategyId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatefeaturestrategy
+        description: Update a Strategy
+        call: admin-features.updatefeaturestrategy
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          strategyId: rest.strategyId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchfeaturestrategy
+        description: Change Specific Properties of a Strategy
+        call: admin-features.patchfeaturestrategy
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          strategyId: rest.strategyId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletefeaturestrategy
+        description: Delete a Strategy From a Feature Flag
+        call: admin-features.deletefeaturestrategy
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          strategyId: rest.strategyId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/environments/{environment}/variants
+      name: api-admin-projects-projectid-features-featurename-environments-environment-varia
+      description: REST surface for api-admin-projects-projectId-features-featureName-environments-environment-varia.
+      operations:
+      - method: GET
+        name: getenvironmentfeaturevariants
+        description: Get Variants for a Feature in an Environment
+        call: admin-features.getenvironmentfeaturevariants
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchenvironmentsfeaturevariants
+        description: Patch a Feature's Variants in an Environment
+        call: admin-features.patchenvironmentsfeaturevariants
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: overwriteenvironmentfeaturevariants
+        description: Create (overwrite) Variants for a Feature in an Environment
+        call: admin-features.overwriteenvironmentfeaturevariants
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          environment: rest.environment
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/favorites
+      name: api-admin-projects-projectid-features-featurename-favorites
+      description: REST surface for api-admin-projects-projectId-features-featureName-favorites.
+      operations:
+      - method: POST
+        name: addfavoritefeature
+        description: Add Feature to Favorites
+        call: admin-features.addfavoritefeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removefavoritefeature
+        description: Remove Feature From Favorites
+        call: admin-features.removefavoritefeature
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{featurename}/variants-batch
+      name: api-admin-projects-projectid-features-featurename-variants-batch
+      description: REST surface for api-admin-projects-projectId-features-featureName-variants-batch.
+      operations:
+      - method: PUT
+        name: overwritefeaturevariantsonenvironments
+        description: Create (overwrite) Variants for a Feature Flag in Multiple Environments
+        call: admin-features.overwritefeaturevariantsonenvironments
+        with:
+          projectId: rest.projectId
+          featureName: rest.featureName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/stale
+      name: api-admin-projects-projectid-stale
+      description: REST surface for api-admin-projects-projectId-stale.
+      operations:
+      - method: POST
+        name: stalefeatures
+        description: Mark Features as Stale / Not Stale
+        call: admin-features.stalefeatures
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-features-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Features. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: validate-constraint
+      description: Validate Constraint
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-features.validateconstraint
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-feature-flag-name
+      description: Validate a Feature Flag Name.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-features.validatefeature
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-tags-feature
+      description: Get All Tags for a Feature.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-features.listtags
+      with:
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adds-tag-feature
+      description: Adds a Tag to a Feature.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.addtag
+      with:
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updates-multiple-tags-feature
+      description: Updates Multiple Tags for a Feature.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.updatetags
+      with:
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: removes-tag-feature
+      description: Removes a Tag From a Feature.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-features.removetag
+      with:
+        featureName: tools.featureName
+        type: tools.type
+        value: tools.value
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: archives-list-features
+      description: Archives a List of Features
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-features.archivefeatures
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validates-archive-features
+      description: Validates Archive Features
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-features.validatearchivefeatures
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bulk-disable-list-features
+      description: Bulk Disable a List of Features
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-features.bulktogglefeaturesenvironmentoff
+      with:
+        projectId: tools.projectId
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bulk-enable-list-features
+      description: Bulk Enable a List of Features
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-features.bulktogglefeaturesenvironmenton
+      with:
+        projectId: tools.projectId
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-project-favorites
+      description: Add Project to Favorites
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.addfavoriteproject
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-project-favorites
+      description: Remove Project From Favorites
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-features.removefavoriteproject
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-features-project
+      description: Get All Features in a Project
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-features.getfeatures
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-new-feature-flag
+      description: Add a New Feature Flag
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.createfeature
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-feature
+      description: Get a Feature
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-features.getfeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-feature-flag
+      description: Update a Feature Flag
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.updatefeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: modify-feature-flag
+      description: Modify a Feature Flag
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.patchfeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: archive-feature-flag
+      description: Archive a Feature Flag
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-features.archivefeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: move-feature-project
+      description: Move Feature to Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.changeproject
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: clone-feature-flag
+      description: Clone a Feature Flag
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.clonefeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-feature-environment
+      description: Get a Feature Environment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-features.getfeatureenvironment
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: disable-feature-flag
+      description: Disable a Feature Flag
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.togglefeatureenvironmentoff
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: enable-feature-flag
+      description: Enable a Feature Flag
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.togglefeatureenvironmenton
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-feature-flag-strategies
+      description: Get Feature Flag Strategies
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-features.getfeaturestrategies
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-strategy-feature-flag
+      description: Add a Strategy to a Feature Flag
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.addfeaturestrategy
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-strategy-sort-order
+      description: Set Strategy Sort Order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.setstrategysortorder
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-strategy-configuration
+      description: Get a Strategy Configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-features.getfeaturestrategy
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        strategyId: tools.strategyId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-strategy
+      description: Update a Strategy
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.updatefeaturestrategy
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        strategyId: tools.strategyId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: change-specific-properties-strategy
+      description: Change Specific Properties of a Strategy
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.patchfeaturestrategy
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        strategyId: tools.strategyId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-strategy-feature-flag
+      description: Delete a Strategy From a Feature Flag
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-features.deletefeaturestrategy
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        strategyId: tools.strategyId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-variants-feature-environment
+      description: Get Variants for a Feature in an Environment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-features.getenvironmentfeaturevariants
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: patch-feature-s-variants-environment
+      description: Patch a Feature's Variants in an Environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.patchenvironmentsfeaturevariants
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-overwrite-variants-feature-environment
+      description: Create (overwrite) Variants for a Feature in an Environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.overwriteenvironmentfeaturevariants
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        environment: tools.environment
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-feature-favorites
+      description: Add Feature to Favorites
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.addfavoritefeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-feature-favorites
+      description: Remove Feature From Favorites
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-features.removefavoritefeature
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-overwrite-variants-feature-flag
+      description: Create (overwrite) Variants for a Feature Flag in Multiple Environments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-features.overwritefeaturevariantsonenvironments
+      with:
+        projectId: tools.projectId
+        featureName: tools.featureName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: mark-features-stale-not-stale
+      description: Mark Features as Stale / Not Stale
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-features.stalefeatures
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

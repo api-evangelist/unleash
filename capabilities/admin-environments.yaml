@@ -1,0 +1,483 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Environments
+  description: 'Unleash Admin API — Environments. 11 operations. Lead operation: Creates a New Environment. Self-contained
+    Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Environments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-environments
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Environments business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-environments
+      path: /api/admin/environments
+      operations:
+      - name: createenvironment
+        method: POST
+        description: Creates a New Environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getallenvironments
+        method: GET
+        description: Get All Environments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-environments-project-projectId
+      path: /api/admin/environments/project/{projectId}
+      operations:
+      - name: getprojectenvironments
+        method: GET
+        description: Get the Environments Available to a Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-environments-sort-order
+      path: /api/admin/environments/sort-order
+      operations:
+      - name: updatesortorder
+        method: PUT
+        description: Update Environment Sort Orders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-environments-update-name
+      path: /api/admin/environments/update/{name}
+      operations:
+      - name: updateenvironment
+        method: PUT
+        description: Updates an Environment by Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-environments-validate
+      path: /api/admin/environments/validate
+      operations:
+      - name: validateenvironmentname
+        method: POST
+        description: Validates If an Environment Name Exists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-environments-name
+      path: /api/admin/environments/{name}
+      operations:
+      - name: removeenvironment
+        method: DELETE
+        description: Deletes an Environment by Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+      - name: getenvironment
+        method: GET
+        description: Get the Environment With `name`
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+    - name: api-admin-environments-name-clone
+      path: /api/admin/environments/{name}/clone
+      operations:
+      - name: cloneenvironment
+        method: POST
+        description: Clones an Environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-environments-name-off
+      path: /api/admin/environments/{name}/off
+      operations:
+      - name: toggleenvironmentoff
+        method: POST
+        description: Toggle the Environment With `name` Off
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+    - name: api-admin-environments-name-on
+      path: /api/admin/environments/{name}/on
+      operations:
+      - name: toggleenvironmenton
+        method: POST
+        description: Toggle the Environment With `name` on
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-environments-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Environments. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/environments
+      name: api-admin-environments
+      description: REST surface for api-admin-environments.
+      operations:
+      - method: POST
+        name: createenvironment
+        description: Creates a New Environment
+        call: admin-environments.createenvironment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getallenvironments
+        description: Get All Environments
+        call: admin-environments.getallenvironments
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/project/{projectid}
+      name: api-admin-environments-project-projectid
+      description: REST surface for api-admin-environments-project-projectId.
+      operations:
+      - method: GET
+        name: getprojectenvironments
+        description: Get the Environments Available to a Project
+        call: admin-environments.getprojectenvironments
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/sort-order
+      name: api-admin-environments-sort-order
+      description: REST surface for api-admin-environments-sort-order.
+      operations:
+      - method: PUT
+        name: updatesortorder
+        description: Update Environment Sort Orders
+        call: admin-environments.updatesortorder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/update/{name}
+      name: api-admin-environments-update-name
+      description: REST surface for api-admin-environments-update-name.
+      operations:
+      - method: PUT
+        name: updateenvironment
+        description: Updates an Environment by Name
+        call: admin-environments.updateenvironment
+        with:
+          name: rest.name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/validate
+      name: api-admin-environments-validate
+      description: REST surface for api-admin-environments-validate.
+      operations:
+      - method: POST
+        name: validateenvironmentname
+        description: Validates If an Environment Name Exists
+        call: admin-environments.validateenvironmentname
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/{name}
+      name: api-admin-environments-name
+      description: REST surface for api-admin-environments-name.
+      operations:
+      - method: DELETE
+        name: removeenvironment
+        description: Deletes an Environment by Name
+        call: admin-environments.removeenvironment
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getenvironment
+        description: Get the Environment With `name`
+        call: admin-environments.getenvironment
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/{name}/clone
+      name: api-admin-environments-name-clone
+      description: REST surface for api-admin-environments-name-clone.
+      operations:
+      - method: POST
+        name: cloneenvironment
+        description: Clones an Environment
+        call: admin-environments.cloneenvironment
+        with:
+          name: rest.name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/{name}/off
+      name: api-admin-environments-name-off
+      description: REST surface for api-admin-environments-name-off.
+      operations:
+      - method: POST
+        name: toggleenvironmentoff
+        description: Toggle the Environment With `name` Off
+        call: admin-environments.toggleenvironmentoff
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/environments/{name}/on
+      name: api-admin-environments-name-on
+      description: REST surface for api-admin-environments-name-on.
+      operations:
+      - method: POST
+        name: toggleenvironmenton
+        description: Toggle the Environment With `name` on
+        call: admin-environments.toggleenvironmenton
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-environments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Environments. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: creates-new-environment
+      description: Creates a New Environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-environments.createenvironment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-environments
+      description: Get All Environments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-environments.getallenvironments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-environments-available-project
+      description: Get the Environments Available to a Project
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-environments.getprojectenvironments
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-environment-sort-orders
+      description: Update Environment Sort Orders
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-environments.updatesortorder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updates-environment-name
+      description: Updates an Environment by Name
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-environments.updateenvironment
+      with:
+        name: tools.name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validates-if-environment-name-exists
+      description: Validates If an Environment Name Exists
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-environments.validateenvironmentname
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletes-environment-name
+      description: Deletes an Environment by Name
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-environments.removeenvironment
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-environment-name
+      description: Get the Environment With `name`
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-environments.getenvironment
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: clones-environment
+      description: Clones an Environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-environments.cloneenvironment
+      with:
+        name: tools.name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: toggle-environment-name-off
+      description: Toggle the Environment With `name` Off
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-environments.toggleenvironmentoff
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: toggle-environment-name
+      description: Toggle the Environment With `name` on
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-environments.toggleenvironmenton
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.

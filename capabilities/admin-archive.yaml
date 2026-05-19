@@ -1,0 +1,216 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Archive
+  description: 'Unleash Admin API — Archive. 4 operations. Lead operation: Revives a Feature. Self-contained Naftiko capability
+    covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Archive
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-archive
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Archive business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-archive-revive-featureName
+      path: /api/admin/archive/revive/{featureName}
+      operations:
+      - name: revivefeature
+        method: POST
+        description: Revives a Feature
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: featureName
+          in: path
+          type: string
+          required: true
+    - name: api-admin-archive-featureName
+      path: /api/admin/archive/{featureName}
+      operations:
+      - name: deletefeature
+        method: DELETE
+        description: Archives a Feature
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: featureName
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-delete
+      path: /api/admin/projects/{projectId}/delete
+      operations:
+      - name: deletefeatures
+        method: POST
+        description: Deletes a List of Features
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-projects-projectId-revive
+      path: /api/admin/projects/{projectId}/revive
+      operations:
+      - name: revivefeatures
+        method: POST
+        description: Revives a List of Features
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-archive-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Archive. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/archive/revive/{featurename}
+      name: api-admin-archive-revive-featurename
+      description: REST surface for api-admin-archive-revive-featureName.
+      operations:
+      - method: POST
+        name: revivefeature
+        description: Revives a Feature
+        call: admin-archive.revivefeature
+        with:
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/archive/{featurename}
+      name: api-admin-archive-featurename
+      description: REST surface for api-admin-archive-featureName.
+      operations:
+      - method: DELETE
+        name: deletefeature
+        description: Archives a Feature
+        call: admin-archive.deletefeature
+        with:
+          featureName: rest.featureName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/delete
+      name: api-admin-projects-projectid-delete
+      description: REST surface for api-admin-projects-projectId-delete.
+      operations:
+      - method: POST
+        name: deletefeatures
+        description: Deletes a List of Features
+        call: admin-archive.deletefeatures
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/revive
+      name: api-admin-projects-projectid-revive
+      description: REST surface for api-admin-projects-projectId-revive.
+      operations:
+      - method: POST
+        name: revivefeatures
+        description: Revives a List of Features
+        call: admin-archive.revivefeatures
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-archive-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Archive. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: revives-feature
+      description: Revives a Feature
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-archive.revivefeature
+      with:
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: archives-feature
+      description: Archives a Feature
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-archive.deletefeature
+      with:
+        featureName: tools.featureName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletes-list-features
+      description: Deletes a List of Features
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-archive.deletefeatures
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: revives-list-features
+      description: Revives a List of Features
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-archive.revivefeatures
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

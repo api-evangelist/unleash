@@ -1,0 +1,320 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Dependencies
+  description: 'Unleash Admin API — Dependencies. 6 operations. Lead operation: Check Dependencies Exist.. Self-contained
+    Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Dependencies
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-dependencies
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Dependencies business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-projects-projectId-dependencies
+      path: /api/admin/projects/{projectId}/dependencies
+      operations:
+      - name: checkdependenciesexist
+        method: GET
+        description: Check Dependencies Exist.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-child-dependencies
+      path: /api/admin/projects/{projectId}/features/{child}/dependencies
+      operations:
+      - name: addfeaturedependency
+        method: POST
+        description: Add a Feature Dependency.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: child
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletefeaturedependencies
+        method: DELETE
+        description: Deletes Feature Dependencies.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: child
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-child-dependencies-parent
+      path: /api/admin/projects/{projectId}/features/{child}/dependencies/{parent}
+      operations:
+      - name: deletefeaturedependency
+        method: DELETE
+        description: Deletes a Feature Dependency.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: child
+          in: path
+          type: string
+          required: true
+        - name: parent
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-child-parents
+      path: /api/admin/projects/{projectId}/features/{child}/parents
+      operations:
+      - name: listparentoptions
+        method: GET
+        description: List Parent Options.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: child
+          in: path
+          type: string
+          required: true
+    - name: api-admin-projects-projectId-features-parent-parent-variants
+      path: /api/admin/projects/{projectId}/features/{parent}/parent-variants
+      operations:
+      - name: listparentvariantoptions
+        method: GET
+        description: List Parent Feature Variants.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: parent
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-dependencies-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Dependencies. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/projects/{projectid}/dependencies
+      name: api-admin-projects-projectid-dependencies
+      description: REST surface for api-admin-projects-projectId-dependencies.
+      operations:
+      - method: GET
+        name: checkdependenciesexist
+        description: Check Dependencies Exist.
+        call: admin-dependencies.checkdependenciesexist
+        with:
+          projectId: rest.projectId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{child}/dependencies
+      name: api-admin-projects-projectid-features-child-dependencies
+      description: REST surface for api-admin-projects-projectId-features-child-dependencies.
+      operations:
+      - method: POST
+        name: addfeaturedependency
+        description: Add a Feature Dependency.
+        call: admin-dependencies.addfeaturedependency
+        with:
+          projectId: rest.projectId
+          child: rest.child
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletefeaturedependencies
+        description: Deletes Feature Dependencies.
+        call: admin-dependencies.deletefeaturedependencies
+        with:
+          projectId: rest.projectId
+          child: rest.child
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{child}/dependencies/{parent}
+      name: api-admin-projects-projectid-features-child-dependencies-parent
+      description: REST surface for api-admin-projects-projectId-features-child-dependencies-parent.
+      operations:
+      - method: DELETE
+        name: deletefeaturedependency
+        description: Deletes a Feature Dependency.
+        call: admin-dependencies.deletefeaturedependency
+        with:
+          projectId: rest.projectId
+          child: rest.child
+          parent: rest.parent
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{child}/parents
+      name: api-admin-projects-projectid-features-child-parents
+      description: REST surface for api-admin-projects-projectId-features-child-parents.
+      operations:
+      - method: GET
+        name: listparentoptions
+        description: List Parent Options.
+        call: admin-dependencies.listparentoptions
+        with:
+          projectId: rest.projectId
+          child: rest.child
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/projects/{projectid}/features/{parent}/parent-variants
+      name: api-admin-projects-projectid-features-parent-parent-variants
+      description: REST surface for api-admin-projects-projectId-features-parent-parent-variants.
+      operations:
+      - method: GET
+        name: listparentvariantoptions
+        description: List Parent Feature Variants.
+        call: admin-dependencies.listparentvariantoptions
+        with:
+          projectId: rest.projectId
+          parent: rest.parent
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-dependencies-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Dependencies. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: check-dependencies-exist
+      description: Check Dependencies Exist.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-dependencies.checkdependenciesexist
+      with:
+        projectId: tools.projectId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-feature-dependency
+      description: Add a Feature Dependency.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-dependencies.addfeaturedependency
+      with:
+        projectId: tools.projectId
+        child: tools.child
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletes-feature-dependencies
+      description: Deletes Feature Dependencies.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-dependencies.deletefeaturedependencies
+      with:
+        projectId: tools.projectId
+        child: tools.child
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletes-feature-dependency
+      description: Deletes a Feature Dependency.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-dependencies.deletefeaturedependency
+      with:
+        projectId: tools.projectId
+        child: tools.child
+        parent: tools.parent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-parent-options
+      description: List Parent Options.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-dependencies.listparentoptions
+      with:
+        projectId: tools.projectId
+        child: tools.child
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-parent-feature-variants
+      description: List Parent Feature Variants.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-dependencies.listparentvariantoptions
+      with:
+        projectId: tools.projectId
+        parent: tools.parent
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,326 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Admin UI
+  description: 'Unleash Admin API — Admin UI. 7 operations. Lead operation: Send Unleash Feedback. Self-contained Naftiko
+    capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Admin UI
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-admin-ui
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Admin UI business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-feedback
+      path: /api/admin/feedback
+      operations:
+      - name: createfeedback
+        method: POST
+        description: Send Unleash Feedback
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-feedback-id
+      path: /api/admin/feedback/{id}
+      operations:
+      - name: updatefeedback
+        method: PUT
+        description: Update Unleash Feedback
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-insights-lifecycle
+      path: /api/admin/insights/lifecycle
+      operations:
+      - name: getlifecycletrends
+        method: GET
+        description: Get Lifecycle Trends
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projects
+          in: query
+          type: string
+          description: Comma-separated list of project IDs to filter lifecycle trends
+    - name: api-admin-record-ui-error
+      path: /api/admin/record-ui-error
+      operations:
+      - name: uiobservability
+        method: POST
+        description: Accepts Errors From the UI Client
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-splash-id
+      path: /api/admin/splash/{id}
+      operations:
+      - name: updatesplashsettings
+        method: POST
+        description: Update Splash Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: api-admin-ui-config
+      path: /api/admin/ui-config
+      operations:
+      - name: getuiconfig
+        method: GET
+        description: Get UI Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-ui-config-cors
+      path: /api/admin/ui-config/cors
+      operations:
+      - name: setcors
+        method: POST
+        description: Sets Allowed Cors Origins
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-admin-ui-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Admin UI. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/feedback
+      name: api-admin-feedback
+      description: REST surface for api-admin-feedback.
+      operations:
+      - method: POST
+        name: createfeedback
+        description: Send Unleash Feedback
+        call: admin-admin-ui.createfeedback
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/feedback/{id}
+      name: api-admin-feedback-id
+      description: REST surface for api-admin-feedback-id.
+      operations:
+      - method: PUT
+        name: updatefeedback
+        description: Update Unleash Feedback
+        call: admin-admin-ui.updatefeedback
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/insights/lifecycle
+      name: api-admin-insights-lifecycle
+      description: REST surface for api-admin-insights-lifecycle.
+      operations:
+      - method: GET
+        name: getlifecycletrends
+        description: Get Lifecycle Trends
+        call: admin-admin-ui.getlifecycletrends
+        with:
+          projects: rest.projects
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/record-ui-error
+      name: api-admin-record-ui-error
+      description: REST surface for api-admin-record-ui-error.
+      operations:
+      - method: POST
+        name: uiobservability
+        description: Accepts Errors From the UI Client
+        call: admin-admin-ui.uiobservability
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/splash/{id}
+      name: api-admin-splash-id
+      description: REST surface for api-admin-splash-id.
+      operations:
+      - method: POST
+        name: updatesplashsettings
+        description: Update Splash Settings
+        call: admin-admin-ui.updatesplashsettings
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/ui-config
+      name: api-admin-ui-config
+      description: REST surface for api-admin-ui-config.
+      operations:
+      - method: GET
+        name: getuiconfig
+        description: Get UI Configuration
+        call: admin-admin-ui.getuiconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/ui-config/cors
+      name: api-admin-ui-config-cors
+      description: REST surface for api-admin-ui-config-cors.
+      operations:
+      - method: POST
+        name: setcors
+        description: Sets Allowed Cors Origins
+        call: admin-admin-ui.setcors
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-admin-ui-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Admin UI. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: send-unleash-feedback
+      description: Send Unleash Feedback
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-admin-ui.createfeedback
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-unleash-feedback
+      description: Update Unleash Feedback
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-admin-ui.updatefeedback
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-lifecycle-trends
+      description: Get Lifecycle Trends
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-admin-ui.getlifecycletrends
+      with:
+        projects: tools.projects
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: accepts-errors-ui-client
+      description: Accepts Errors From the UI Client
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-admin-ui.uiobservability
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-splash-settings
+      description: Update Splash Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-admin-ui.updatesplashsettings
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-ui-configuration
+      description: Get UI Configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-admin-ui.getuiconfig
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: sets-allowed-cors-origins
+      description: Sets Allowed Cors Origins
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-admin-ui.setcors
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

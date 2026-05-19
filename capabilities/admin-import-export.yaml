@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Import/Export
+  description: 'Unleash Admin API — Import/Export. 3 operations. Lead operation: Export Feature Flags From an Environment.
+    Self-contained Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Import/Export
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-import-export
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Import/Export business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-features-batch-export
+      path: /api/admin/features-batch/export
+      operations:
+      - name: exportfeatures
+        method: POST
+        description: Export Feature Flags From an Environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-features-batch-import
+      path: /api/admin/features-batch/import
+      operations:
+      - name: importtoggles
+        method: POST
+        description: Import Feature Flags
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-features-batch-validate
+      path: /api/admin/features-batch/validate
+      operations:
+      - name: validateimport
+        method: POST
+        description: Validate Feature Import Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-import-export-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Import/Export. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/features-batch/export
+      name: api-admin-features-batch-export
+      description: REST surface for api-admin-features-batch-export.
+      operations:
+      - method: POST
+        name: exportfeatures
+        description: Export Feature Flags From an Environment
+        call: admin-import-export.exportfeatures
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/features-batch/import
+      name: api-admin-features-batch-import
+      description: REST surface for api-admin-features-batch-import.
+      operations:
+      - method: POST
+        name: importtoggles
+        description: Import Feature Flags
+        call: admin-import-export.importtoggles
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/features-batch/validate
+      name: api-admin-features-batch-validate
+      description: REST surface for api-admin-features-batch-validate.
+      operations:
+      - method: POST
+        name: validateimport
+        description: Validate Feature Import Data
+        call: admin-import-export.validateimport
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-import-export-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Import/Export. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: export-feature-flags-environment
+      description: Export Feature Flags From an Environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-import-export.exportfeatures
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: import-feature-flags
+      description: Import Feature Flags
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-import-export.importtoggles
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-feature-import-data
+      description: Validate Feature Import Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-import-export.validateimport
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

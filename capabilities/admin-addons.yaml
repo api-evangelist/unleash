@@ -1,0 +1,274 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Addons
+  description: 'Unleash Admin API — Addons. 6 operations. Lead operation: Get All Addons and Providers. Self-contained Naftiko
+    capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Addons
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-addons
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Addons business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-addons
+      path: /api/admin/addons
+      operations:
+      - name: getaddons
+        method: GET
+        description: Get All Addons and Providers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createaddon
+        method: POST
+        description: Create a New Addon
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-addons-id
+      path: /api/admin/addons/{id}
+      operations:
+      - name: getaddon
+        method: GET
+        description: Get a Specific Addon
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      - name: updateaddon
+        method: PUT
+        description: Update an Addon
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteaddon
+        method: DELETE
+        description: Delete an Addon
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: api-admin-addons-id-events
+      path: /api/admin/addons/{id}/events
+      operations:
+      - name: getintegrationevents
+        method: GET
+        description: Get Integration Events for a Specific Integration Configuration.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: query
+          type: string
+          description: The number of results to return in a page. By default it is set to 50.
+        - name: offset
+          in: query
+          type: string
+          description: The number of results to skip when returning a page. By default it is set to 0.
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-addons-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Addons. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/addons
+      name: api-admin-addons
+      description: REST surface for api-admin-addons.
+      operations:
+      - method: GET
+        name: getaddons
+        description: Get All Addons and Providers
+        call: admin-addons.getaddons
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createaddon
+        description: Create a New Addon
+        call: admin-addons.createaddon
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/addons/{id}
+      name: api-admin-addons-id
+      description: REST surface for api-admin-addons-id.
+      operations:
+      - method: GET
+        name: getaddon
+        description: Get a Specific Addon
+        call: admin-addons.getaddon
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateaddon
+        description: Update an Addon
+        call: admin-addons.updateaddon
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteaddon
+        description: Delete an Addon
+        call: admin-addons.deleteaddon
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/addons/{id}/events
+      name: api-admin-addons-id-events
+      description: REST surface for api-admin-addons-id-events.
+      operations:
+      - method: GET
+        name: getintegrationevents
+        description: Get Integration Events for a Specific Integration Configuration.
+        call: admin-addons.getintegrationevents
+        with:
+          id: rest.id
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-addons-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Addons. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-all-addons-and-providers
+      description: Get All Addons and Providers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-addons.getaddons
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-addon
+      description: Create a New Addon
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-addons.createaddon
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-specific-addon
+      description: Get a Specific Addon
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-addons.getaddon
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-addon
+      description: Update an Addon
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-addons.updateaddon
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-addon
+      description: Delete an Addon
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-addons.deleteaddon
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-integration-events-specific-integration
+      description: Get Integration Events for a Specific Integration Configuration.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-addons.getintegrationevents
+      with:
+        id: tools.id
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.

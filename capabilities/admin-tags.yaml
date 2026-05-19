@@ -1,0 +1,506 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Tags
+  description: 'Unleash Admin API — Tags. 12 operations. Lead operation: Adds a Tag to the Specified Features. Self-contained
+    Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Tags
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-tags
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Tags business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-projects-projectId-tags
+      path: /api/admin/projects/{projectId}/tags
+      operations:
+      - name: addtagtofeatures
+        method: PUT
+        description: Adds a Tag to the Specified Features
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: projectId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-tag-types
+      path: /api/admin/tag-types
+      operations:
+      - name: gettagtypes
+        method: GET
+        description: Get All Tag Types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createtagtype
+        method: POST
+        description: Create a Tag Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-tag-types-validate
+      path: /api/admin/tag-types/validate
+      operations:
+      - name: validatetagtype
+        method: POST
+        description: Validate a Tag Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-tag-types-name
+      path: /api/admin/tag-types/{name}
+      operations:
+      - name: gettagtype
+        method: GET
+        description: Get a Tag Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+      - name: updatetagtype
+        method: PUT
+        description: Update a Tag Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletetagtype
+        method: DELETE
+        description: Delete a Tag Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+    - name: api-admin-tags
+      path: /api/admin/tags
+      operations:
+      - name: gettags
+        method: GET
+        description: List All Tags.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createtag
+        method: POST
+        description: Create a New Tag.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-tags-type
+      path: /api/admin/tags/{type}
+      operations:
+      - name: gettagsbytype
+        method: GET
+        description: List All Tags of a Given Type.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: path
+          type: string
+          required: true
+    - name: api-admin-tags-type-value
+      path: /api/admin/tags/{type}/{value}
+      operations:
+      - name: gettag
+        method: GET
+        description: Get a Tag by Type and Value.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: path
+          type: string
+          required: true
+        - name: value
+          in: path
+          type: string
+          required: true
+      - name: deletetag
+        method: DELETE
+        description: Delete a Tag.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: path
+          type: string
+          required: true
+        - name: value
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-tags-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Tags. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/admin/projects/{projectid}/tags
+      name: api-admin-projects-projectid-tags
+      description: REST surface for api-admin-projects-projectId-tags.
+      operations:
+      - method: PUT
+        name: addtagtofeatures
+        description: Adds a Tag to the Specified Features
+        call: admin-tags.addtagtofeatures
+        with:
+          projectId: rest.projectId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/tag-types
+      name: api-admin-tag-types
+      description: REST surface for api-admin-tag-types.
+      operations:
+      - method: GET
+        name: gettagtypes
+        description: Get All Tag Types
+        call: admin-tags.gettagtypes
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createtagtype
+        description: Create a Tag Type
+        call: admin-tags.createtagtype
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/tag-types/validate
+      name: api-admin-tag-types-validate
+      description: REST surface for api-admin-tag-types-validate.
+      operations:
+      - method: POST
+        name: validatetagtype
+        description: Validate a Tag Type
+        call: admin-tags.validatetagtype
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/tag-types/{name}
+      name: api-admin-tag-types-name
+      description: REST surface for api-admin-tag-types-name.
+      operations:
+      - method: GET
+        name: gettagtype
+        description: Get a Tag Type
+        call: admin-tags.gettagtype
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatetagtype
+        description: Update a Tag Type
+        call: admin-tags.updatetagtype
+        with:
+          name: rest.name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetagtype
+        description: Delete a Tag Type
+        call: admin-tags.deletetagtype
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/tags
+      name: api-admin-tags
+      description: REST surface for api-admin-tags.
+      operations:
+      - method: GET
+        name: gettags
+        description: List All Tags.
+        call: admin-tags.gettags
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createtag
+        description: Create a New Tag.
+        call: admin-tags.createtag
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/tags/{type}
+      name: api-admin-tags-type
+      description: REST surface for api-admin-tags-type.
+      operations:
+      - method: GET
+        name: gettagsbytype
+        description: List All Tags of a Given Type.
+        call: admin-tags.gettagsbytype
+        with:
+          type: rest.type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/tags/{type}/{value}
+      name: api-admin-tags-type-value
+      description: REST surface for api-admin-tags-type-value.
+      operations:
+      - method: GET
+        name: gettag
+        description: Get a Tag by Type and Value.
+        call: admin-tags.gettag
+        with:
+          type: rest.type
+          value: rest.value
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetag
+        description: Delete a Tag.
+        call: admin-tags.deletetag
+        with:
+          type: rest.type
+          value: rest.value
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-tags-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Tags. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: adds-tag-specified-features
+      description: Adds a Tag to the Specified Features
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-tags.addtagtofeatures
+      with:
+        projectId: tools.projectId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-tag-types
+      description: Get All Tag Types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-tags.gettagtypes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-tag-type
+      description: Create a Tag Type
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-tags.createtagtype
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-tag-type
+      description: Validate a Tag Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: admin-tags.validatetagtype
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-tag-type
+      description: Get a Tag Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-tags.gettagtype
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-tag-type
+      description: Update a Tag Type
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-tags.updatetagtype
+      with:
+        name: tools.name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-tag-type
+      description: Delete a Tag Type
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-tags.deletetagtype
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-tags
+      description: List All Tags.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-tags.gettags
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-tag
+      description: Create a New Tag.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-tags.createtag
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-tags-given-type
+      description: List All Tags of a Given Type.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-tags.gettagsbytype
+      with:
+        type: tools.type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-tag-type-and-value
+      description: Get a Tag by Type and Value.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-tags.gettag
+      with:
+        type: tools.type
+        value: tools.value
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-tag
+      description: Delete a Tag.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-tags.deletetag
+      with:
+        type: tools.type
+        value: tools.value
+      outputParameters:
+      - type: object
+        mapping: $.

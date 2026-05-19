@@ -1,0 +1,233 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Instance Admin
+  description: 'Unleash Admin API — Instance Admin. 6 operations. Lead operation: Instance Usage Statistics. Self-contained
+    Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Instance Admin
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-instance-admin
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Instance Admin business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-instance-admin-statistics
+      path: /api/admin/instance-admin/statistics
+      operations:
+      - name: getinstanceadminstats
+        method: GET
+        description: Instance Usage Statistics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-instance-admin-statistics-csv
+      path: /api/admin/instance-admin/statistics/csv
+      operations:
+      - name: getinstanceadminstatscsv
+        method: GET
+        description: Instance Usage Statistics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-license
+      path: /api/admin/license
+      operations:
+      - name: readlicense
+        method: GET
+        description: Reads the Unleash License.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatelicense
+        method: POST
+        description: Set a New Unleash License.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-license-check
+      path: /api/admin/license/check
+      operations:
+      - name: checklicense
+        method: GET
+        description: Validates the Unleash License.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-admin-logins
+      path: /api/admin/logins
+      operations:
+      - name: getloginhistory
+        method: GET
+        description: Get All Login Events.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-instance-admin-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Instance Admin. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/instance-admin/statistics
+      name: api-admin-instance-admin-statistics
+      description: REST surface for api-admin-instance-admin-statistics.
+      operations:
+      - method: GET
+        name: getinstanceadminstats
+        description: Instance Usage Statistics
+        call: admin-instance-admin.getinstanceadminstats
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/instance-admin/statistics/csv
+      name: api-admin-instance-admin-statistics-csv
+      description: REST surface for api-admin-instance-admin-statistics-csv.
+      operations:
+      - method: GET
+        name: getinstanceadminstatscsv
+        description: Instance Usage Statistics
+        call: admin-instance-admin.getinstanceadminstatscsv
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/license
+      name: api-admin-license
+      description: REST surface for api-admin-license.
+      operations:
+      - method: GET
+        name: readlicense
+        description: Reads the Unleash License.
+        call: admin-instance-admin.readlicense
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: updatelicense
+        description: Set a New Unleash License.
+        call: admin-instance-admin.updatelicense
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/license/check
+      name: api-admin-license-check
+      description: REST surface for api-admin-license-check.
+      operations:
+      - method: GET
+        name: checklicense
+        description: Validates the Unleash License.
+        call: admin-instance-admin.checklicense
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/logins
+      name: api-admin-logins
+      description: REST surface for api-admin-logins.
+      operations:
+      - method: GET
+        name: getloginhistory
+        description: Get All Login Events.
+        call: admin-instance-admin.getloginhistory
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-instance-admin-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Instance Admin. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: instance-usage-statistics
+      description: Instance Usage Statistics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-instance-admin.getinstanceadminstats
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: instance-usage-statistics-2
+      description: Instance Usage Statistics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-instance-admin.getinstanceadminstatscsv
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: reads-unleash-license
+      description: Reads the Unleash License.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-instance-admin.readlicense
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-new-unleash-license
+      description: Set a New Unleash License.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-instance-admin.updatelicense
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validates-unleash-license
+      description: Validates the Unleash License.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-instance-admin.checklicense
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-all-login-events
+      description: Get All Login Events.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-instance-admin.getloginhistory
+      outputParameters:
+      - type: object
+        mapping: $.

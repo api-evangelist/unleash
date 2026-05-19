@@ -1,0 +1,147 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unleash Admin API — Personal access tokens
+  description: 'Unleash Admin API — Personal access tokens. 3 operations. Lead operation: Get All Personal Access Tokens (pats)
+    for the Current User.. Self-contained Naftiko capability covering one Unleash business surface.'
+  tags:
+  - Unleash
+  - Personal access tokens
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNLEASH_API_KEY: UNLEASH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-personal-access-tokens
+    baseUri: https://app.unleash-instance.example.com
+    description: Unleash Admin API — Personal access tokens business capability. Self-contained, no shared references.
+    resources:
+    - name: api-admin-user-tokens
+      path: /api/admin/user/tokens
+      operations:
+      - name: getpats
+        method: GET
+        description: Get All Personal Access Tokens (pats) for the Current User.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createpat
+        method: POST
+        description: Create a New Personal Access Token (pat) for the Current User.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-admin-user-tokens-id
+      path: /api/admin/user/tokens/{id}
+      operations:
+      - name: deletepat
+        method: DELETE
+        description: Delete a Personal Access Token (pat) for the Current User.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: a personal access token id
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.UNLEASH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-personal-access-tokens-rest
+    port: 8080
+    description: REST adapter for Unleash Admin API — Personal access tokens. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/admin/user/tokens
+      name: api-admin-user-tokens
+      description: REST surface for api-admin-user-tokens.
+      operations:
+      - method: GET
+        name: getpats
+        description: Get All Personal Access Tokens (pats) for the Current User.
+        call: admin-personal-access-tokens.getpats
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpat
+        description: Create a New Personal Access Token (pat) for the Current User.
+        call: admin-personal-access-tokens.createpat
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/admin/user/tokens/{id}
+      name: api-admin-user-tokens-id
+      description: REST surface for api-admin-user-tokens-id.
+      operations:
+      - method: DELETE
+        name: deletepat
+        description: Delete a Personal Access Token (pat) for the Current User.
+        call: admin-personal-access-tokens.deletepat
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-personal-access-tokens-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unleash Admin API — Personal access tokens. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: get-all-personal-access-tokens
+      description: Get All Personal Access Tokens (pats) for the Current User.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-personal-access-tokens.getpats
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-personal-access-token
+      description: Create a New Personal Access Token (pat) for the Current User.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-personal-access-tokens.createpat
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-personal-access-token-pat
+      description: Delete a Personal Access Token (pat) for the Current User.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: admin-personal-access-tokens.deletepat
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
