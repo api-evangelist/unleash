@@ -167,6 +167,8 @@ common:
     url: https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/json-schema/unleash-feature-flag-schema.json
   - type: Integrations
     url: https://www.getunleash.io/partners
+  - type: LLMsTxt
+    url: https://docs.getunleash.io/llms.txt
 integrations:
   - name: Unleash
   - name: Github
