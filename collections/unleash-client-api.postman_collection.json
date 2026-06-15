@@ -1,0 +1,682 @@
+{
+  "item": [
+    {
+      "id": "cf100eb6-45d4-4b88-bc8d-9ed3fdc336d1",
+      "name": "Client",
+      "description": {
+        "content": "Endpoints for [Unleash backend clients](https://docs.getunleash.io/sdks).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "23b639a0-a8af-451a-94c7-27e383d20145",
+          "name": "Get a Single Feature Flag",
+          "request": {
+            "name": "Get a Single Feature Flag",
+            "description": {
+              "content": "Gets all the client data for a single flag. Contains the exact same information about a flag as the `/api/client/features` endpoint does, but only contains data about the specified flag. All SDKs should use `/api/client/features`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "client",
+                "features",
+                ":featureName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "featureName",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ad9c4dbd-5f38-4128-9c45-b6649904229d",
+              "name": "clientFeatureSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "features",
+                    ":featureName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "featureName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"new.payment.flow.stripe\",\n  \"enabled\": true,\n  \"type\": \"release\",\n  \"description\": \"No variants here\",\n  \"stale\": false,\n  \"impressionData\": false,\n  \"project\": \"new.payment.flow\",\n  \"strategies\": [\n    {\n      \"name\": \"flexibleRollout\",\n      \"id\": \"6b5157cb-343a-41e7-bfa3-7b4ec3044840\",\n      \"title\": \"Gradual Rollout 25-Prod\",\n      \"disabled\": false,\n      \"featureName\": \"myAwesomeFeature\",\n      \"sortOrder\": 9999,\n      \"segments\": [\n        1,\n        2\n      ],\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 92,\n          \"weightType\": \"fix\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          }\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 735,\n          \"weightType\": \"fix\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          }\n        }\n      ],\n      \"parameters\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"name\": \"flexibleRollout\",\n      \"id\": \"6b5157cb-343a-41e7-bfa3-7b4ec3044840\",\n      \"title\": \"Gradual Rollout 25-Prod\",\n      \"disabled\": false,\n      \"featureName\": \"myAwesomeFeature\",\n      \"sortOrder\": 9999,\n      \"segments\": [\n        1,\n        2\n      ],\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 742,\n          \"weightType\": \"fix\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          }\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 104,\n          \"weightType\": \"fix\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          }\n        }\n      ],\n      \"parameters\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    }\n  ],\n  \"variants\": [\n    {\n      \"name\": \"blue_group\",\n      \"weight\": 178.70274397856224,\n      \"weightType\": \"variable\",\n      \"stickiness\": \"custom.context.field\",\n      \"payload\": {\n        \"type\": \"json\",\n        \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n      },\n      \"overrides\": [\n        {\n          \"contextName\": \"userId\",\n          \"values\": [\n            \"red\",\n            \"blue\"\n          ]\n        },\n        {\n          \"contextName\": \"userId\",\n          \"values\": [\n            \"red\",\n            \"blue\"\n          ]\n        }\n      ]\n    },\n    {\n      \"name\": \"blue_group\",\n      \"weight\": 61.33726841985687,\n      \"weightType\": \"variable\",\n      \"stickiness\": \"custom.context.field\",\n      \"payload\": {\n        \"type\": \"json\",\n        \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n      },\n      \"overrides\": [\n        {\n          \"contextName\": \"userId\",\n          \"values\": [\n            \"red\",\n            \"blue\"\n          ]\n        },\n        {\n          \"contextName\": \"userId\",\n          \"values\": [\n            \"red\",\n            \"blue\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"dependencies\": [\n    {\n      \"feature\": \"parent_feature\",\n      \"enabled\": false,\n      \"variants\": [\n        \"variantA\",\n        \"variantB\"\n      ]\n    },\n    {\n      \"feature\": \"parent_feature\",\n      \"enabled\": false,\n      \"variants\": [\n        \"variantA\",\n        \"variantB\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "48e03ff4-1d65-4ec6-a5ff-b772caf54868",
+          "name": "Get All Flags (sdk)",
+          "request": {
+            "name": "Get All Flags (sdk)",
+            "description": {
+              "content": "Returns the SDK configuration for all feature flags that are available to the provided API key. Used by SDKs to configure local evaluation",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "client",
+                "features"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b452b6d-475a-49ec-856b-d26c4fcfa363",
+              "name": "clientFeaturesSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "features"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 2,\n  \"features\": [\n    {\n      \"name\": \"new.payment.flow.stripe\",\n      \"enabled\": true,\n      \"type\": \"release\",\n      \"description\": \"No variants here\",\n      \"stale\": false,\n      \"impressionData\": false,\n      \"project\": \"new.payment.flow\",\n      \"strategies\": [\n        {\n          \"name\": \"flexibleRollout\",\n          \"id\": \"6b5157cb-343a-41e7-bfa3-7b4ec3044840\",\n          \"title\": \"Gradual Rollout 25-Prod\",\n          \"disabled\": false,\n          \"featureName\": \"myAwesomeFeature\",\n          \"sortOrder\": 9999,\n          \"segments\": [\n            1,\n            2\n          ],\n          \"constraints\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"parameters\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"name\": \"flexibleRollout\",\n          \"id\": \"6b5157cb-343a-41e7-bfa3-7b4ec3044840\",\n          \"title\": \"Gradual Rollout 25-Prod\",\n          \"disabled\": false,\n          \"featureName\": \"myAwesomeFeature\",\n          \"sortOrder\": 9999,\n          \"segments\": [\n            1,\n            2\n          ],\n          \"constraints\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"parameters\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ],\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 58.580287755530705,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 522.6699654741172,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"feature\": \"parent_feature\",\n          \"enabled\": false,\n          \"variants\": [\n            \"variantA\",\n            \"variantB\"\n          ]\n        },\n        {\n          \"feature\": \"parent_feature\",\n          \"enabled\": false,\n          \"variants\": [\n            \"variantA\",\n            \"variantB\"\n          ]\n        }\n      ]\n    },\n    {\n      \"name\": \"new.payment.flow.stripe\",\n      \"enabled\": true,\n      \"type\": \"release\",\n      \"description\": \"No variants here\",\n      \"stale\": false,\n      \"impressionData\": false,\n      \"project\": \"new.payment.flow\",\n      \"strategies\": [\n        {\n          \"name\": \"flexibleRollout\",\n          \"id\": \"6b5157cb-343a-41e7-bfa3-7b4ec3044840\",\n          \"title\": \"Gradual Rollout 25-Prod\",\n          \"disabled\": false,\n          \"featureName\": \"myAwesomeFeature\",\n          \"sortOrder\": 9999,\n          \"segments\": [\n            1,\n            2\n          ],\n          \"constraints\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"parameters\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"name\": \"flexibleRollout\",\n          \"id\": \"6b5157cb-343a-41e7-bfa3-7b4ec3044840\",\n          \"title\": \"Gradual Rollout 25-Prod\",\n          \"disabled\": false,\n          \"featureName\": \"myAwesomeFeature\",\n          \"sortOrder\": 9999,\n          \"segments\": [\n            1,\n            2\n          ],\n          \"constraints\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"operator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"caseInsensitive\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"inverted\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"parameters\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ],\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 191.12164011494093,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 549.353413989937,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"dependencies\": [\n        {\n          \"feature\": \"parent_feature\",\n          \"enabled\": false,\n          \"variants\": [\n            \"variantA\",\n            \"variantB\"\n          ]\n        },\n        {\n          \"feature\": \"parent_feature\",\n          \"enabled\": false,\n          \"variants\": [\n            \"variantA\",\n            \"variantB\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"segments\": [\n    {\n      \"id\": 1500.0057554281586,\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"name\": \"segment A\"\n    },\n    {\n      \"id\": 5468.477359877818,\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"name\": \"segment A\"\n    }\n  ],\n  \"query\": {\n    \"tag\": [\n      [\n        \"simple:payment\",\n        \"simple:stripejourney\"\n      ]\n    ],\n    \"project\": [\n      \"new.payment.flow\"\n    ],\n    \"namePrefix\": \"payment\",\n    \"environment\": \"string\",\n    \"inlineSegmentConstraints\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d70814e3-86e3-445b-89d7-d5de55d995b5",
+          "name": "Register Client Usage Metrics",
+          "request": {
+            "name": "Register Client Usage Metrics",
+            "description": {
+              "content": "Registers usage metrics. Stores information about how many times each flag was evaluated to enabled and disabled within a time frame. If provided, this operation will also store data on how many times each feature flag's variants were displayed to the end user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "client",
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appName\": \"<string>\",\n  \"bucket\": {\n    \"start\": \"<dateTime>\",\n    \"stop\": \"<dateTime>\",\n    \"toggles\": {\n      \"key_0\": {\n        \"yes\": \"<number>\",\n        \"no\": \"<integer>\",\n        \"variants\": {\n          \"key_0\": \"<integer>\"\n        }\n      }\n    }\n  },\n  \"instanceId\": \"<string>\",\n  \"environment\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"platformVersion\": \"<string>\",\n  \"yggdrasilVersion\": \"<string>\",\n  \"specVersion\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1803be12-2357-414c-ae5d-9ef0688f37cb",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4af82485-eabe-46d5-b884-dead36127241",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fd01fb2a-f8dd-45e5-9f33-2f19d6d35081",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed59f75d-23f6-4609-a6c0-a1a7bdfa9b40",
+          "name": "Send Custom Metrics",
+          "request": {
+            "name": "Send Custom Metrics",
+            "description": {
+              "content": "This operation accepts custom metrics from clients. These metrics will be exposed via Prometheus in Unleash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "client",
+                "metrics",
+                "custom"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metrics\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<number>\",\n      \"labels\": {\n        \"key_0\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<number>\",\n      \"labels\": {\n        \"key_0\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9a5d3dbb-cc66-4a5a-b16b-a67983da7d4c",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics",
+                    "custom"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    {\n      \"name\": \"http_responses_total\",\n      \"value\": 1,\n      \"labels\": {\n        \"status\": \"200\",\n        \"method\": \"GET\"\n      }\n    },\n    {\n      \"name\": \"http_responses_total\",\n      \"value\": 1,\n      \"labels\": {\n        \"status\": \"200\",\n        \"method\": \"GET\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "05a3d49c-a5aa-4214-b8ae-da482cd58fd4",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics",
+                    "custom"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    {\n      \"name\": \"http_responses_total\",\n      \"value\": 1,\n      \"labels\": {\n        \"status\": \"200\",\n        \"method\": \"GET\"\n      }\n    },\n    {\n      \"name\": \"http_responses_total\",\n      \"value\": 1,\n      \"labels\": {\n        \"status\": \"200\",\n        \"method\": \"GET\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a82b69a3-400a-41f4-9f68-068041e87b16",
+          "name": "Register a Client SDK",
+          "request": {
+            "name": "Register a Client SDK",
+            "description": {
+              "content": "Register a client SDK with Unleash. SDKs call this endpoint on startup to tell Unleash about their existence. Used to track custom strategies in use as well as SDK versions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "client",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appName\": \"<string>\",\n  \"interval\": \"<number>\",\n  \"started\": \"<dateTime>\",\n  \"strategies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instanceId\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"environment\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"platformVersion\": \"<string>\",\n  \"yggdrasilVersion\": \"<string>\",\n  \"specVersion\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0198f2a4-0071-4f75-8b96-688b43bbaf57",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"example-app\",\n  \"interval\": 10,\n  \"started\": \"<dateTime>\",\n  \"strategies\": [\n    \"default\",\n    \"gradualRollout\",\n    \"remoteAddress\"\n  ],\n  \"instanceId\": \"b77f3d13-5f48-4a7b-a3f4-a449b97ce43a\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"environment\": \"development\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "35234b9e-13bb-4483-abc8-492815f84047",
+    "name": "Unleash Client API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}
