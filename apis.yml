@@ -92,7 +92,7 @@ common:
     url: https://www.getunleash.io/blog
   - type: ChangeLog
     url: https://github.com/Unleash/unleash/releases
-  - type: SDK
+  - type: SDKs
     url: https://docs.getunleash.io/reference/sdks
   - type: Vocabulary
     url: https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/vocabulary/unleash-vocabulary.yml
@@ -103,7 +103,7 @@ common:
       https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/json-schema/unleash-feature-flag-schema.json
   - type: Integrations
     url: https://www.getunleash.io/partners
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://docs.getunleash.io/llms.txt
 integrations:
   - name: Unleash
