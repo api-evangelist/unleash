@@ -1,0 +1,27 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/unleash-admin-api-openapi.yml, openapi/unleash-client-api-openapi.yml, openapi/unleash-frontend-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: API key needed to access this API
+  sources:
+  - openapi/unleash-admin-api-openapi.yml
+  - openapi/unleash-client-api-openapi.yml
+  - openapi/unleash-frontend-api-openapi.yml
+- name: bearerToken
+  type: http
+  scheme: bearer
+  description: API key needed to access this API, in Bearer token format
+  sources:
+  - openapi/unleash-admin-api-openapi.yml
+  - openapi/unleash-client-api-openapi.yml
+  - openapi/unleash-frontend-api-openapi.yml

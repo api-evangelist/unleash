@@ -78,6 +78,10 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/openapi/unleash-frontend-api-openapi.yml
 common:
+  - type: DomainSecurity
+    url: security/unleash-domain-security.yml
+  - type: Authentication
+    url: authentication/unleash-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/getunleash
   - type: Website
