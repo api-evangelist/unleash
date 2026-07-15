@@ -78,6 +78,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/openapi/unleash-frontend-api-openapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/unleash-agentic-access.yml
   - type: DomainSecurity
     url: security/unleash-domain-security.yml
   - type: Authentication
