@@ -1,0 +1,3144 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Change Requests API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Change Requests
+  description: API for managing [change requests](https://docs.getunleash.io/concepts/change-requests).
+paths:
+  /api/admin/projects/{projectId}/change-requests/config:
+    get:
+      summary: Retrieves Change Request Configuration for a Project
+      description: '**Enterprise feature**
+
+
+        Given a projectId, this endpoint will retrieve change request configuration for the project'
+      tags:
+      - Change Requests
+      operationId: getProjectChangeRequestConfig
+      responses:
+        '200':
+          description: changeRequestConfigSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestConfigSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/environments/{environment}/change-requests/config:
+    put:
+      summary: Updates Change Request Configuration for an Environment in the Project
+      description: '**Enterprise feature**
+
+
+        This endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.'
+      tags:
+      - Change Requests
+      operationId: updateProjectChangeRequestConfig
+      requestBody:
+        description: updateChangeRequestEnvironmentConfigSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateChangeRequestEnvironmentConfigSchema'
+      responses:
+        '200':
+          description: This response has no body.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/scheduled:
+    get:
+      summary: Get Scheduled Change Requests Matching a Query.
+      description: '**Enterprise feature**
+
+
+        This endpoint retrieves basic information about all scheduled change requests that match the search criteria provided in the query parameters. The endpoint will return any change request that matches one or more of the provided parameters. If you use no query parameters, you''ll get an empty list.
+
+
+        For instance, to find all the scheduled change requests that either touch feature `MyFeature` or strategy `0D198067-7D55-460C-9EC7-DB86E3AE261A`, you would use the query string `feature=MyFeature&strategyId=0D198067-7D55-460C-9EC7-DB86E3AE261A`.'
+      tags:
+      - Change Requests
+      operationId: getScheduledChangeRequests
+      responses:
+        '200':
+          description: changeRequestScheduledResultSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestScheduledResultSchema'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/environments/{environment}/change-requests:
+    post:
+      summary: Create/add Change to a Change Request
+      description: '**Enterprise feature**
+
+
+        Given a change request exists, this endpoint will attempt to add a change to
+
+
+        an existing change request for the user. If a change request does not exist,
+
+
+        it will attempt to create one.'
+      tags:
+      - Change Requests
+      operationId: changeRequest
+      requestBody:
+        description: changeRequestOneOrManyCreateSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeRequestOneOrManyCreateSchema'
+      responses:
+        '200':
+          description: changeRequestSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/count:
+    get:
+      summary: Retrieves Number of Project Change Requests in Each State
+      description: '**Enterprise feature**
+
+
+        This endpoint will retrieve the number of project change requests that are: approved, applied, rejected, scheduled or awaiting review'
+      tags:
+      - Change Requests
+      operationId: getChangeRequestsCount
+      responses:
+        '200':
+          description: changeRequestsCountSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsCountSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/open:
+    get:
+      summary: Retrieves Pending Change Requests in Configured Environments
+      description: '**Enterprise feature**
+
+
+        This endpoint will retrieve the pending change requests in the configured environments for the project, for the current user performing the request.'
+      tags:
+      - Change Requests
+      operationId: getOpenChangeRequestsForUser
+      deprecated: true
+      responses:
+        '200':
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/pending:
+    get:
+      summary: Retrieves Pending Change Requests in Configured Environments
+      description: '**Enterprise feature**
+
+
+        This endpoint will retrieve the pending change requests in the configured environments for the project, for the current user performing the request.'
+      tags:
+      - Change Requests
+      operationId: getPendingChangeRequestsForUser
+      responses:
+        '200':
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests:
+    get:
+      summary: Retrieves All Change Requests for a Project
+      description: '**Enterprise feature**
+
+
+        This endpoint will retrieve all change requests regardless of status for a given project. There''s an upper limit of last 300 change requests ordered by creation date.'
+      tags:
+      - Change Requests
+      operationId: getChangeRequestsForProject
+      responses:
+        '200':
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/pending/{featureName}:
+    get:
+      summary: Retrieves All Pending Change Requests Referencing a Feature in the Project
+      description: '**Enterprise feature**
+
+
+        This endpoint will retrieve all pending change requests (change requests with a status of Draft | In review | Approved) referencing the given feature flag name.'
+      tags:
+      - Change Requests
+      operationId: getPendingChangeRequestsForFeature
+      responses:
+        '200':
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/{id}:
+    get:
+      summary: Retrieves One Change Request by ID
+      description: '**Enterprise feature**
+
+
+        This endpoint will retrieve one change request if it matches the provided id.'
+      tags:
+      - Change Requests
+      operationId: getChangeRequest
+      responses:
+        '200':
+          description: changeRequestSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSchema'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      summary: Deletes a Change Request by ID
+      description: '**Enterprise feature**
+
+
+        This endpoint will delete one change request if it matches the provided id.'
+      tags:
+      - Change Requests
+      operationId: deleteChangeRequest
+      responses:
+        '200':
+          description: This response has no body.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/{changeRequestId}/changes/{changeId}:
+    delete:
+      summary: Discards a Change From a Change Request by Change ID
+      description: '**Enterprise feature**
+
+
+        This endpoint will discard one change from a change request if it matches the provided id.'
+      tags:
+      - Change Requests
+      operationId: deleteChange
+      responses:
+        '200':
+          description: This response has no body.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeRequestId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeId
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      summary: Edits a Single Change in a Change Request
+      description: '**Enterprise feature**
+
+
+        This endpoint will edit one change from a change request if it matches the provided id. The edit removes previous change and inserts a new one. You
+
+
+        should not rely on the changeId for subsequent edits and always check the most recent changeId.'
+      tags:
+      - Change Requests
+      operationId: editChange
+      requestBody:
+        description: changeRequestCreateSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeRequestCreateSchema'
+      responses:
+        '200':
+          description: changeRequestSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSchema'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeRequestId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/{id}/state:
+    put:
+      summary: This Endpoint Will Update the State of a Change Request
+      description: '**Enterprise feature**
+
+
+        This endpoint will update the state of a change request if the business rules allow it. The state can be one of the following: Draft, In review, Approved, Cancelled, Applied. In order to be approved, the change request must have at least one change and the number of approvals must be greater than or equal to the number of approvals required for the environment.
+
+
+        Once a change request has been approved, it can be applied. Once a change request has been applied, it cannot be changed. Once a change request has been cancelled, it cannot be changed. Any change to a change request in the state of Approved will result in the state being set to In Review and the number of approvals will be reset.'
+      tags:
+      - Change Requests
+      operationId: updateChangeRequestState
+      responses:
+        '200':
+          description: changeRequestSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/{id}/title:
+    put:
+      summary: This Endpoint Will Update the Custom Title of a Change Request
+      description: '**Enterprise feature**
+
+
+        Change requests get a default title e.g. Change Request #1. This endpoint allows to make the title
+
+
+        more meaningful and describe the intent behind the Change Request'
+      tags:
+      - Change Requests
+      operationId: updateChangeRequestTitle
+      responses:
+        '204':
+          description: This response has no body.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/{id}/approvers:
+    put:
+      summary: This Endpoint Will Update the Reviewers of a Change Request
+      description: '**Enterprise feature**
+
+
+        Change requests can have requests for review from users. This endpoint allows to add or remove reviewers from a change request. The maximum number of reviewers is 10.'
+      tags:
+      - Change Requests
+      operationId: addChangeRequestReviewers
+      responses:
+        '204':
+          description: This response has no body.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: This Endpoint Fetches the Requested Approvers of a Change Request
+      description: '**Enterprise feature**
+
+
+        Change requests can have requests for review from users. This endpoint fetches the list of requested reviewers for a change request.'
+      tags:
+      - Change Requests
+      operationId: getChangeRequestApprovers
+      responses:
+        '200':
+          description: changeRequestAvailableReviewersSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestAvailableReviewersSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/{id}/comments:
+    post:
+      summary: This Endpoint Will Add a Comment to a Change Request
+      description: '**Enterprise feature**
+
+
+        This endpoint will add a comment to a change request for the user making the request.'
+      tags:
+      - Change Requests
+      operationId: addChangeRequestComment
+      requestBody:
+        description: changeRequestAddCommentSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeRequestAddCommentSchema'
+      responses:
+        '204':
+          description: This response has no body.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/change-requests/available-reviewers/{environment}:
+    get:
+      summary: This Endpoint Will Return Users Available to Review/approve This Change Request
+      description: '**Enterprise feature**
+
+
+        This endpoint will list users available to approve a change request in this project.'
+      tags:
+      - Change Requests
+      operationId: getAvailableChangeRequestReviewers
+      responses:
+        '200':
+          description: changeRequestAvailableReviewersSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestAvailableReviewersSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/search/change-requests:
+    get:
+      tags:
+      - Change Requests
+      summary: Search Change Requests
+      description: '**Enterprise feature**
+
+
+        Search and filter change requests by creator and approver.'
+      operationId: searchChangeRequests
+      parameters:
+      - name: createdBy
+        schema:
+          type: string
+          example: IS:123
+        description: Filter by change request creator user ID
+        in: query
+      - name: requestedApproverId
+        schema:
+          type: string
+          example: IS:456
+        description: Filter by requested approver user ID
+        in: query
+      - name: state
+        schema:
+          type: string
+          enum:
+          - IS:open
+          - IS:closed
+          example: IS:open
+        description: Filter by open / closed change requests. Change requests that are in 'draft', 'in review', 'approved', or 'scheduled' states are considered open. Change requests that are in 'cancelled', 'applied', or 'rejected' states are considered closed.
+        in: query
+      - name: offset
+        schema:
+          type: integer
+          minimum: 0
+          example: 50
+          default: 0
+        description: The number of change requests to skip when returning a page. By default it is set to 0.
+        in: query
+      - name: limit
+        schema:
+          type: integer
+          minimum: 1
+          example: 75
+          default: 50
+          maximum: 1000
+        description: The number of change requests to return in a page. By default it is set to 50. The maximum is 1000.
+        in: query
+      responses:
+        '200':
+          description: changeRequestSearchResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSearchResponseSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+components:
+  schemas:
+    updateFeatureStrategySchema:
+      type: object
+      description: Update a strategy configuration in a feature
+      properties:
+        name:
+          type: string
+          description: The name of the strategy type
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list in feature environment configuration
+        constraints:
+          type: array
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+        title:
+          type: string
+          nullable: true
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type: boolean
+          description: A toggle to disable the strategy. defaults to true. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+    changeRequestConfigSchema:
+      type: array
+      description: A list of environment-specific [change request](https://docs.getunleash.io/concepts/change-requests) configurations.
+      items:
+        $ref: '#/components/schemas/changeRequestEnvironmentConfigSchema'
+    changeRequestsSchema:
+      type: array
+      description: A list of change requests
+      items:
+        type: object
+        description: A simplified change request overview
+        oneOf:
+        - required:
+          - id
+          - environment
+          - state
+          - project
+          - features
+          - segments
+          - createdAt
+          - createdBy
+          additionalProperties: false
+          properties:
+            id:
+              type: number
+              example: 3
+              description: This change requests's ID.
+            title:
+              type: string
+              example: Increasing gradual rollout
+              description: A title describing the change request's content.
+            environment:
+              type: string
+              example: development
+              description: The environment in which the changes should be applied.
+            minApprovals:
+              type: number
+              example: 2
+              description: The minimum number of approvals required before this change request can be applied.
+              deprecated: true
+            project:
+              type: string
+              example: unleash-project
+              description: The project this change request belongs to.
+            features:
+              type: array
+              description: The list of features and their changes that relate to this change request.
+              items:
+                $ref: '#/components/schemas/changeRequestFeatureSchema'
+            segments:
+              type: array
+              description: The list of segments and their changes that relate to this change request.
+              items:
+                $ref: '#/components/schemas/changeRequestSegmentChangeSchema'
+            approvals:
+              type: array
+              description: A list of approvals that this change request has received.
+              items:
+                $ref: '#/components/schemas/changeRequestApprovalSchema'
+              deprecated: true
+            rejections:
+              type: array
+              description: 'A list of rejections that this change request has received. '
+              items:
+                $ref: '#/components/schemas/changeRequestApprovalSchema'
+              deprecated: true
+            comments:
+              type: array
+              description: All comments that have been made on this change request.
+              items:
+                $ref: '#/components/schemas/changeRequestCommentSchema'
+              deprecated: true
+            createdBy:
+              description: The user who created this change request.
+              type: object
+              properties:
+                username:
+                  type: string
+                  nullable: true
+                  example: Hunter
+                imageUrl:
+                  type: string
+                  format: uri
+                  nullable: true
+                  description: The URL of the user's profile image.
+            createdAt:
+              description: When this change request was created.
+              type: string
+              format: date-time
+              example: '2023-07-31T13:33:02Z'
+            state:
+              type: string
+              enum:
+              - Draft
+              - In review
+              - Approved
+              - Applied
+              - Cancelled
+              - Rejected
+              description: The current state of the change request.
+        - required:
+          - id
+          - environment
+          - state
+          - project
+          - features
+          - segments
+          - createdAt
+          - createdBy
+          - schedule
+          additionalProperties: false
+          properties:
+            id:
+              type: number
+              example: 3
+              description: This change requests's ID.
+            title:
+              type: string
+              example: Increasing gradual rollout
+              description: A title describing the change request's content.
+            environment:
+              type: string
+              example: development
+              description: The environment in which the changes should be applied.
+            minApprovals:
+              type: number
+              example: 2
+              description: The minimum number of approvals required before this change request can be applied.
+              deprecated: true
+            project:
+              type: string
+              example: unleash-project
+              description: The project this change request belongs to.
+            features:
+              type: array
+              description: The list of features and their changes that relate to this change request.
+              items:
+                $ref: '#/components/schemas/changeRequestFeatureSchema'
+            segments:
+              type: array
+              description: The list of segments and their changes that relate to this change request.
+              items:
+                $ref: '#/components/schemas/changeRequestSegmentChangeSchema'
+            approvals:
+              type: array
+              description: A list of approvals that this change request has received.
+              items:
+                $ref: '#/components/schemas/changeRequestApprovalSchema'
+              deprecated: true
+            rejections:
+              type: array
+              description: 'A list of rejections that this change request has received. '
+              items:
+                $ref: '#/components/schemas/changeRequestApprovalSchema'
+              deprecated: true
+            comments:
+              type: array
+              description: All comments that have been made on this change request.
+              items:
+                $ref: '#/components/schemas/changeRequestCommentSchema'
+              deprecated: true
+            createdBy:
+              description: The user who created this change request.
+              type: object
+              properties:
+                username:
+                  type: string
+                  nullable: true
+                  example: Hunter
+                imageUrl:
+                  type: string
+                  format: uri
+                  nullable: true
+                  description: The URL of the user's profile image.
+            createdAt:
+              description: When this change request was created.
+              type: string
+              format: date-time
+              example: '2023-07-31T13:33:02Z'
+            state:
+              type: string
+              enum:
+              - Scheduled
+              description: The current state of the change request.
+            schedule:
+              $ref: '#/components/schemas/changeRequestScheduleSchema'
+    upsertSegmentSchema:
+      type: object
+      description: Data used to create or update a segment
+      required:
+      - name
+      - constraints
+      properties:
+        name:
+          description: The name of the segment
+          example: beta-users
+          type: string
+        description:
+          type: string
+          nullable: true
+          description: A description of what the segment is for
+          example: Users willing to help us test and build new features.
+        project:
+          type: string
+          nullable: true
+          description: The project the segment belongs to if any.
+          example: red-vista
+        constraints:
+          type: array
+          description: The list of constraints that make up this segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+    changeRequestCreateSchema:
+      type: object
+      description: Data used to create a [change request](https://docs.getunleash.io/concepts/change-requests) for a single feature or segment change.
+      oneOf:
+      - type: object
+        required:
+        - payload
+        - action
+        properties:
+          action:
+            type: string
+            enum:
+            - updateSegment
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            $ref: '#/components/schemas/upsertSegmentSchema'
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The ID of the segment to update.
+                example: 1
+      - type: object
+        required:
+        - payload
+        - action
+        properties:
+          action:
+            type: string
+            enum:
+            - deleteSegment
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            type: object
+            description: Required data to delete a segment.
+            properties:
+              id:
+                type: integer
+                description: The ID of the segment to delete.
+                example: 1
+      - type: object
+        description: Update the enabled state for a feature.
+        required:
+        - feature
+        - payload
+        - action
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - updateEnabled
+            description: The name of this action.
+          payload:
+            required:
+            - enabled
+            type: object
+            properties:
+              enabled:
+                type: boolean
+                example: true
+                description: The new state of the feature.
+              shouldActivateDisabledStrategies:
+                type: boolean
+                example: true
+                description: Only relevant when ALL the strategies are disabled. If `true`, all the disabled strategies will be enabled. If `false`, the default strategy will be added
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Add a strategy to the feature
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - addStrategy
+            description: The name of this action.
+          payload:
+            required:
+            - constraints
+            - parameters
+            - name
+            $ref: '#/components/schemas/createFeatureStrategySchema'
+            type: object
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Update a strategy belonging to this feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - updateStrategy
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            $ref: '#/components/schemas/updateFeatureStrategySchema'
+            type: object
+            properties:
+              id:
+                type: string
+                example: 0103487d-8788-4cda-af59-0a68642dbc5a
+                description: The ID of the strategy to update.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Delete a strategy from this feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteStrategy
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            type: object
+            properties:
+              id:
+                type: string
+                example: 0103487d-8788-4cda-af59-0a68642dbc5a
+                description: The ID of the strategy to update.
+      - type: object
+        required:
+        - feature
+        - action
+        description: Archive a feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - archiveFeature
+            description: The name of this action.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Update variants for this feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - patchVariant
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - variants
+            properties:
+              variants:
+                type: array
+                items:
+                  $ref: '#/components/schemas/variantSchema'
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Reorder strategies for this feature
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - reorderStrategy
+            description: The name of this action.
+          payload:
+            $ref: '#/components/schemas/setStrategySortOrderSchema'
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Add a parent feature dependency.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - addDependency
+            description: The name of this action.
+          payload:
+            $ref: '#/components/schemas/createDependentFeatureSchema'
+            type: object
+      - type: object
+        required:
+        - feature
+        - action
+        description: Remove a parent feature dependency or all dependencies if no payload.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteDependency
+            description: The name of this action.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Add a release plan to this feature environment.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - addReleasePlan
+            description: The name of this action.
+          payload:
+            $ref: '#/components/schemas/releasePlanTemplateIdSchema'
+            type: object
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Start milestone of feature environment release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - startMilestone
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - milestoneId
+            - planId
+            description: The ID of the release plan and which of its milestones to start.
+            properties:
+              milestoneId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the milestone to start. This ID is an ulid
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the release plan. This ID is an ulid
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Remove a release plan from feature environment.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteReleasePlan
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            description: The Id of the release plan to remove.
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The Id of the release plan. This id is an ulid
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Create or update milestone progression from one milestone to another.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - changeMilestoneProgression
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - sourceMilestone
+            - targetMilestone
+            - transitionCondition
+            properties:
+              sourceMilestone:
+                type: string
+                example: 01K7NXD655W7R89659K58RE07A
+                description: The ID of the source milestone
+              targetMilestone:
+                type: string
+                example: 11K7NXD655W7R89659K58RE07B
+                description: The ID of the target milestone
+              transitionCondition:
+                $ref: '#/components/schemas/transitionConditionSchema'
+                description: The condition configuration for the transition
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Delete milestone progression.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteMilestoneProgression
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - sourceMilestone
+            properties:
+              sourceMilestone:
+                type: string
+                example: 01K7NXD655W7R89659K58RE07A
+                description: The ID of the source milestone with progression to delete.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Resume paused milestone progressions for a release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - resumeMilestoneProgression
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The release plan's unique identifier (ULID format)
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Create or update a safeguard for a release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - changeSafeguard
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            - safeguard
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the release plan. This ID is an ulid
+              safeguard:
+                $ref: '#/components/schemas/createSafeguardSchema'
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Delete a safeguard from a release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteSafeguard
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            - safeguardId
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the release plan. This ID is an ulid
+              safeguardId:
+                type: string
+                example: 01K7NXD655W7R89659K58RE07A
+                description: The ID of the safeguard to delete.
+    scheduledChangeRequestViewModelSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - environment
+      description: A change request view model, used in the UI to identify change requests in conflict
+      properties:
+        id:
+          type: number
+          description: The change request id
+          example: 1
+        environment:
+          type: string
+          description: The environment of the change request
+          example: production
+        title:
+          type: string
+          description: The change request title
+          example: My awesome change
+    changeRequestScheduleSchema:
+      description: A schedule for a change request's application. The schedule can either be pending, failed, or suspended. The schedule will always contain the state of the schedule and the last scheduled time, but other data varies between the different states.
+      type: object
+      oneOf:
+      - required:
+        - scheduledAt
+        - status
+        additionalProperties: false
+        description: A pending schedule for a change request.
+        properties:
+          scheduledAt:
+            description: When this change request will be applied.
+            type: string
+            format: date-time
+            example: '2023-07-31T13:33:02Z'
+          status:
+            description: The status of the schedule.
+            type: string
+            enum:
+            - pending
+            example: pending
+      - required:
+        - scheduledAt
+        - status
+        - reason
+        additionalProperties: false
+        description: A failed schedule for a change request.
+        properties:
+          scheduledAt:
+            description: When Unleash last attempted to apply this change request.
+            type: string
+            format: date-time
+            example: '2023-07-31T13:33:02Z'
+          status:
+            description: The status of the schedule.
+            type: string
+            enum:
+            - failed
+            example: failed
+          reason:
+            description: The reason the scheduled failed to apply.
+            type: string
+            example: conflicts
+          failureReason:
+            deprecated: true
+            description: The reason the scheduled failed to apply. Deprecated in favor of the `reason` property.
+            type: string
+            nullable: true
+            example: conflicts
+      - required:
+        - scheduledAt
+        - status
+        - reason
+        additionalProperties: false
+        description: A suspended schedule for a change request.
+        properties:
+          scheduledAt:
+            description: When Unleash would have attempted to apply this change request if the schedule was not suspended.
+            type: string
+            format: date-time
+            example: '2023-07-31T13:33:02Z'
+          status:
+            description: The status of the schedule.
+            type: string
+            enum:
+            - suspended
+            example: suspended
+          reason:
+            description: Why the schedule was suspended.
+            type: string
+            example: 'The user who scheduled this change request (user id: 123) has been deleted from this Unleash instance.'
+    changeRequestsCountSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - total
+      - applied
+      - rejected
+      - reviewRequired
+      - approved
+      - scheduled
+      description: Count of change requests in different stages of the [process](https://docs.getunleash.io/concepts/change-requests#change-request-flow).
+      properties:
+        total:
+          type: number
+          description: The number of total change requests in this project
+          example: 10
+        applied:
+          type: number
+          description: The number of applied change requests
+          example: 5
+        rejected:
+          type: number
+          description: The number of rejected change requests
+          example: 2
+        reviewRequired:
+          type: number
+          description: The number of change requests awaiting the review
+          example: 2
+        approved:
+          type: number
+          description: The number of approved change requests
+          example: 1
+        scheduled:
+          type: number
+          description: The number of scheduled change requests
+          example: 1
+    changeRequestCommentSchema:
+      additionalProperties: false
+      type: object
+      description: A comment belonging to a [change request](https://docs.getunleash.io/concepts/change-requests).
+      required:
+      - text
+      - createdBy
+      - createdAt
+      properties:
+        id:
+          type: number
+          example: 33
+          description: The comment's ID. Unique per change request.
+        text:
+          type: string
+          example: This is a comment
+          description: The content of the comment.
+        createdBy:
+          type: object
+          description: Information about the user who posted the comment
+          properties:
+            username:
+              type: string
+              nullable: true
+              example: unleash-user
+              description: The user's username.
+            imageUrl:
+              type: string
+              nullable: true
+              format: uri
+              description: The URL where the user's image can be found.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2022-12-12T12:13:24.218Z'
+          description: When the comment was made.
+    changeRequestEnvironmentConfigSchema:
+      additionalProperties: false
+      description: The [change request](https://docs.getunleash.io/concepts/change-requests) configuration for a specific environment.
+      type: object
+      required:
+      - environment
+      - type
+      - changeRequestEnabled
+      - requiredApprovals
+      properties:
+        environment:
+          type: string
+          example: my-dev-environment
+          description: The environment that this configuration applies to.
+        type:
+          type: string
+          example: development
+          description: The [type of the environment](https://docs.getunleash.io/concepts/environments#environment-types) listed in `environment`.
+        changeRequestEnabled:
+          type: boolean
+          description: '`true` if this environment has change requests enabled, otherwise `false`.'
+          example: true
+        requiredApprovals:
+          type: number
+          nullable: true
+          example: 2
+          description: The number of approvals that are required for a change request to be fully approved and ready to be applied in this environment.
+    changeRequestSearchItemSchema:
+      type: object
+      description: A single change request item in search results.
+      oneOf:
+      - required:
+        - id
+        - environment
+        - project
+        - createdBy
+        - createdAt
+        - features
+        - segments
+        - state
+        additionalProperties: false
+        properties:
+          id:
+            type: number
+            description: Unique identifier for the change request.
+            example: 1368
+          title:
+            type: string
+            description: Title of the change request. Only present if a custom title is set for this change request.
+            example: Increase rollout to 65%
+          environment:
+            type: string
+            description: Environment where the change request applies.
+            example: production
+          project:
+            type: string
+            description: Project ID where the change request belongs.
+            example: dx
+          createdBy:
+            type: object
+            description: User who created the change request.
+            required:
+            - id
+            additionalProperties: false
+            properties:
+              id:
+                type: number
+                description: Unique identifier of the user.
+                example: 42
+              username:
+                type: string
+                description: Username of the user.
+                example: Tymek Czech
+              imageUrl:
+                type: string
+                format: uri
+                description: Avatar image URL for the user.
+                example: https://gravatar.com/avatar/8f5a1ce5f210eb56f8d9a2ba1a5940c224c916d5e91159d4036fb46cc6d059dd?s=42&d=retro&r=g
+          createdAt:
+            type: string
+            format: date-time
+            description: Date and time when the change request was created.
+            example: '2025-04-30T13:04:48.482Z'
+          features:
+            type: array
+            description: List of feature names affected by this change request.
+            items:
+              type: string
+            example:
+            - feature-a
+            - feature-b
+          segments:
+            type: array
+            description: List of segment names affected by this change request.
+            items:
+              type: string
+            example:
+            - segment-a
+            - segment-b
+          state:
+            type: string
+            description: The current state of the change request.
+            enum:
+            - Draft
+            - Approved
+            - In review
+            - Applied
+            - Rejected
+            - Cancelled
+            example: Applied
+      - required:
+        - id
+        - environment
+        - project
+        - createdBy
+        - createdAt
+        - features
+        - segments
+        - state
+        - schedule
+        additionalProperties: false
+        properties:
+          id:
+            type: number
+            description: Unique identifier for the change request.
+            example: 1368
+          title:
+            type: string
+            description: Title of the change request. Only present if a custom title is set for this change request.
+            example: Increase rollout to 65%
+          environment:
+            type: string
+            description: Environment where the change request applies.
+            example: production
+          project:
+            type: string
+            description: Project ID where the change request belongs.
+            example: dx
+          createdBy:
+            type: object
+            description: User who created the change request.
+            required:
+            - id
+            additionalProperties: false
+            properties:
+              id:
+                type: number
+                description: Unique identifier of the user.
+                example: 42
+              username:
+                type: string
+                description: Username of the user.
+                example: Tymek Czech
+              imageUrl:
+                type: string
+                format: uri
+                description: Avatar image URL for the user.
+                example: https://gravatar.com/avatar/8f5a1ce5f210eb56f8d9a2ba1a5940c224c916d5e91159d4036fb46cc6d059dd?s=42&d=retro&r=g
+          createdAt:
+            type: string
+            format: date-time
+            description: Date and time when the change request was created.
+            example: '2025-04-30T13:04:48.482Z'
+          features:
+            type: array
+            description: List of feature names affected by this change request.
+            items:
+              type: string
+            example:
+            - feature-a
+            - feature-b
+          segments:
+            type: array
+            description: List of segment names affected by this change request.
+            items:
+              type: string
+            example:
+            - segment-a
+            - segment-b
+          state:
+            type: string
+            description: The current state of the change request.
+            enum:
+            - Scheduled
+            example: Scheduled
+          schedule:
+            $ref: '#/components/schemas/changeRequestScheduleSchema'
+    updateChangeRequestEnvironmentConfigSchema:
+      type: object
+      description: Data used to update change request in an environment
+      required:
+      - changeRequestsEnabled
+      properties:
+        changeRequestsEnabled:
+          type: boolean
+          description: '`true` if change requests should be enabled, otherwise `false`.'
+        requiredApprovals:
+          type: integer
+          description: The number of approvals required before a change request can be applied in this environment.
+          minimum: 0
+          example: 3
+    variantSchema:
+      type: object
+      additionalProperties: false
+      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
+      required:
+      - name
+      - weight
+      properties:
+        name:
+          type: string
+          description: The variants name. Is unique for this feature flag
+          example: blue_group
+        weight:
+          type: number
+          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
+          type: string
+          example: variable
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+        overrides:
+          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
+          type: array
+          items:
+            $ref: '#/components/schemas/overrideSchema'
+    changeRequestSegmentChangeSchema:
+      type: object
+      additionalProperties: false
+      description: A change request segment change, containing info about the type of segment change and the specific changes.
+      required:
+      - id
+      - action
+      - payload
+      - name
+      properties:
+        id:
+          type: number
+          example: 33
+          description: The ID of this change.
+        action:
+          type: string
+          example: updateStrategy
+          description: The kind of action that the change contains information about.
+        conflict:
+          type: string
+          example: Strategy has been deleted
+          description: A description of the conflict caused by this change. Only present if there are any conflicts.
+        payload:
+          description: The data required to perform this action.
+          oneOf:
+          - type: string
+          - type: boolean
+          - type: object
+          - type: number
+          - $ref: '#/components/schemas/setStrategySortOrderSchema'
+        createdBy:
+          type: object
+          description: The user who created this change.
+          properties:
+            username:
+              type: string
+              nullable: true
+              description: The user's username.
+            imageUrl:
+              type: string
+              nullable: true
+              format: uri
+              description: The URL where the user's image can be found.
+        createdAt:
+          description: When this change was suggested
+          type: string
+          format: date-time
+          example: '2023-07-31T13:22:03+02:00'
+        scheduleConflicts:
+          description: Information about scheduled change requests that would casue conflicts with this change if applied.
+          type: object
+          required:
+          - changeRequests
+          properties:
+            changeRequests:
+              type: array
+              description: The list of scheduled change requests that would cause conflict with this change.
+              items:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: number
+                    description: The ID of the change request.
+                  title:
+                    type: string
+                    description: The title of the change request, if any. Only present if there is a title.
+        name:
+          type: string
+          example: beta-users
+          description: The current name of the segment
+    overrideSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - contextName
+      - values
+      description: An override for deciding which variant should be assigned to a user based on the context name
+      properties:
+        contextName:
+          description: The name of the context field used to determine overrides
+          type: string
+          example: userId
+        values:
+          description: Which values that should be overriden
+          type: array
+          items:
+            type: string
+          example:
+          - red
+          - blue
+    changeRequestChangeSchema:
+      type: object
+      additionalProperties: false
+      description: A change request change, containing info about the type of change and the specific changes.
+      required:
+      - id
+      - action
+      properties:
+        id:
+          type: number
+          example: 33
+          description: The ID of this change.
+        action:
+          type: string
+          example: updateStrategy
+          description: The kind of action that the change contains information about.
+        conflict:
+          type: string
+          example: Strategy has been deleted
+          description: A description of the conflict caused by this change. Only present if there are any conflicts.
+        payload:
+          description: The data required to perform this action.
+          oneOf:
+          - type: string
+          - type: boolean
+          - type: object
+          - type: number
+          - $ref: '#/components/schemas/setStrategySortOrderSchema'
+        createdBy:
+          type: object
+          description: The user who created this change.
+          properties:
+            username:
+              type: string
+              nullable: true
+              description: The user's username.
+            imageUrl:
+              type: string
+              nullable: true
+              format: uri
+              description: The URL where the user's image can be found.
+        createdAt:
+          description: When this change was suggested
+          type: string
+          format: date-time
+          example: '2023-07-31T13:22:03+02:00'
+        scheduleConflicts:
+          description: Information about scheduled change requests that would casue conflicts with this change if applied.
+          type: object
+          required:
+          - changeRequests
+          properties:
+            changeRequests:
+              type: array
+              description: The list of scheduled change requests that would cause conflict with this change.
+              items:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: number
+                    description: The ID of the change request.
+                  title:
+                    type: string
+                    description: The title of the change request, if any. Only present if there is a title.
+    changeRequestDefaultChangeSchema:
+      type: object
+      description: 'A description of a default change that will be applied with the change request to prevent invalid states.
+
+
+        Default changes are changes that are applied in addition to explicit user-specified changes when a change request is applied. Any default changes are applied in the background and are not a real part of the change request.'
+      additionalProperties: false
+      required:
+      - action
+      - payload
+      properties:
+        action:
+          type: string
+          example: addStrategy
+          description: The kind of action this is.
+        payload:
+          type: object
+          description: The necessary data to perform this change.
+          x-enforcer-exception-skip-codes: WSCH006
+          example:
+            name: flexibleRollout
+            title: ''
+            disabled: false
+            segments: []
+            parameters:
+              groupId: my-feature
+              rollout: '100'
+              stickiness: default
+            constraints:
+            - values:
+              - ux
+              inverted: false
+              operator: STR_CONTAINS
+              contextName: userId
+              caseInsensitive: false
+    createDependentFeatureSchema:
+      type: object
+      description: Feature dependency on a parent feature in write model
+      required:
+      - feature
+      properties:
+        feature:
+          type: string
+          description: The name of the feature we depend on.
+          example: parent_feature
+        enabled:
+          type: boolean
+          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
+          example: false
+        variants:
+          type: array
+          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
+          items:
+            type: string
+          example:
+          - variantA
+          - variantB
+    releasePlanTemplateIdSchema:
+      additionalProperties: false
+      description: Schema for creating a release plan for a feature flag environment by copying and applying the configuration from a release plan template.
+      type: object
+      required:
+      - templateId
+      properties:
+        templateId:
+          type: string
+          description: The release plan template's ID. Release template IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+          nullable: false
+    changeRequestScheduledResultSchema:
+      description: A list of scheduled change request view models
+      type: array
+      items:
+        $ref: '#/components/schemas/scheduledChangeRequestViewModelSchema'
+    changeRequestOneOrManyCreateSchema:
+      description: Either a single change or a list of changes to create a change request from.
+      oneOf:
+      - type: object
+        required:
+        - payload
+        - action
+        properties:
+          action:
+            type: string
+            enum:
+            - updateSegment
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            $ref: '#/components/schemas/upsertSegmentSchema'
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The ID of the segment to update.
+                example: 1
+      - type: object
+        required:
+        - payload
+        - action
+        properties:
+          action:
+            type: string
+            enum:
+            - deleteSegment
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            type: object
+            description: Required data to delete a segment.
+            properties:
+              id:
+                type: integer
+                description: The ID of the segment to delete.
+                example: 1
+      - type: object
+        description: Update the enabled state for a feature.
+        required:
+        - feature
+        - payload
+        - action
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - updateEnabled
+            description: The name of this action.
+          payload:
+            required:
+            - enabled
+            type: object
+            properties:
+              enabled:
+                type: boolean
+                example: true
+                description: The new state of the feature.
+              shouldActivateDisabledStrategies:
+                type: boolean
+                example: true
+                description: Only relevant when ALL the strategies are disabled. If `true`, all the disabled strategies will be enabled. If `false`, the default strategy will be added
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Add a strategy to the feature
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - addStrategy
+            description: The name of this action.
+          payload:
+            required:
+            - constraints
+            - parameters
+            - name
+            $ref: '#/components/schemas/createFeatureStrategySchema'
+            type: object
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Update a strategy belonging to this feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - updateStrategy
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            $ref: '#/components/schemas/updateFeatureStrategySchema'
+            type: object
+            properties:
+              id:
+                type: string
+                example: 0103487d-8788-4cda-af59-0a68642dbc5a
+                description: The ID of the strategy to update.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Delete a strategy from this feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteStrategy
+            description: The name of this action.
+          payload:
+            required:
+            - id
+            type: object
+            properties:
+              id:
+                type: string
+                example: 0103487d-8788-4cda-af59-0a68642dbc5a
+                description: The ID of the strategy to update.
+      - type: object
+        required:
+        - feature
+        - action
+        description: Archive a feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - archiveFeature
+            description: The name of this action.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Update variants for this feature.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - patchVariant
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - variants
+            properties:
+              variants:
+                type: array
+                items:
+                  $ref: '#/components/schemas/variantSchema'
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Reorder strategies for this feature
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - reorderStrategy
+            description: The name of this action.
+          payload:
+            $ref: '#/components/schemas/setStrategySortOrderSchema'
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Add a parent feature dependency.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - addDependency
+            description: The name of this action.
+          payload:
+            $ref: '#/components/schemas/createDependentFeatureSchema'
+            type: object
+      - type: object
+        required:
+        - feature
+        - action
+        description: Remove a parent feature dependency or all dependencies if no payload.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteDependency
+            description: The name of this action.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Add a release plan to this feature environment.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - addReleasePlan
+            description: The name of this action.
+          payload:
+            $ref: '#/components/schemas/releasePlanTemplateIdSchema'
+            type: object
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Start milestone of feature environment release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - startMilestone
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - milestoneId
+            - planId
+            description: The ID of the release plan and which of its milestones to start.
+            properties:
+              milestoneId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the milestone to start. This ID is an ulid
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the release plan. This ID is an ulid
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Remove a release plan from feature environment.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteReleasePlan
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            description: The Id of the release plan to remove.
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The Id of the release plan. This id is an ulid
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Create or update milestone progression from one milestone to another.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - changeMilestoneProgression
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - sourceMilestone
+            - targetMilestone
+            - transitionCondition
+            properties:
+              sourceMilestone:
+                type: string
+                example: 01K7NXD655W7R89659K58RE07A
+                description: The ID of the source milestone
+              targetMilestone:
+                type: string
+                example: 11K7NXD655W7R89659K58RE07B
+                description: The ID of the target milestone
+              transitionCondition:
+                $ref: '#/components/schemas/transitionConditionSchema'
+                description: The condition configuration for the transition
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Delete milestone progression.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteMilestoneProgression
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - sourceMilestone
+            properties:
+              sourceMilestone:
+                type: string
+                example: 01K7NXD655W7R89659K58RE07A
+                description: The ID of the source milestone with progression to delete.
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Resume paused milestone progressions for a release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - resumeMilestoneProgression
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The release plan's unique identifier (ULID format)
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Create or update a safeguard for a release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - changeSafeguard
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            - safeguard
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the release plan. This ID is an ulid
+              safeguard:
+                $ref: '#/components/schemas/createSafeguardSchema'
+      - type: object
+        required:
+        - feature
+        - payload
+        - action
+        description: Delete a safeguard from a release plan.
+        properties:
+          feature:
+            type: string
+            example: my-best-feature
+            description: The name of the feature that this change applies to.
+          action:
+            type: string
+            enum:
+            - deleteSafeguard
+            description: The name of this action.
+          payload:
+            type: object
+            required:
+            - planId
+            - safeguardId
+            properties:
+              planId:
+                type: string
+                example: 01JB9GGTGQYEQ9D40R17T3YVW3
+                description: The ID of the release plan. This ID is an ulid
+              safeguardId:
+                type: string
+                example: 01K7NXD655W7R89659K58RE07A
+                description: The ID of the safeguard to delete.
+      - type: array
+        items:
+          $ref: '#/components/schemas/changeRequestCreateSchema'
+    changeRequestSearchResponseSchema:
+      type: object
+      description: Response containing a list of change requests and total count.
+      required:
+      - changeRequests
+      - total
+      additionalProperties: false
+      properties:
+        changeRequests:
+          type: array
+          description: List of change requests matching the search criteria.
+          items:
+            $ref: '#/components/schemas/changeRequestSearchItemSchema'
+        total:
+          type: number
+          description: Total number of change requests matching the search criteria.
+          example: 42
+    setStrategySortOrderSchema:
+      type: array
+      description: An array of strategies with their new sort order
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - sortOrder
+        description: A strategy with its new sort order
+        properties:
+          id:
+            type: string
+            example: 9c40958a-daac-400e-98fb-3bb438567008
+            description: The ID of the strategy
+          sortOrder:
+            type: number
+            example: 1
+            description: The new sort order of the strategy
+    createFeatureStrategySchema:
+      type: object
+      required:
+      - name
+      description: Create a strategy configuration in a feature
+      properties:
+        name:
+          type: string
+          description: The name of the strategy type
+          example: flexibleRollout
+        title:
+          type: string
+          nullable: true
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type: boolean
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          example:
+          - values:
+            - '1'
+            - '2'
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/createStrategyVariantSchema'
+        parameters:
+          description: An object containing the parameters for the strategy
+          example:
+            groupId: some_new
+            rollout: '25'
+            stickiness: sessionId
+          $ref: '#/components/schemas/parametersSchema'
+        segments:
+          type: array
+          description: Ids of segments to use for this strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+    transitionConditionSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - intervalMinutes
+      description: A transition condition for milestone progression
+      properties:
+        intervalMinutes:
+          type: integer
+          minimum: 1
+          description: The interval in minutes before transitioning
+          example: 30
+    changeRequestAvailableReviewersSchema:
+      additionalProperties: false
+      type: object
+      description: A list of users available to review a change request.
+      required:
+      - reviewers
+      properties:
+        reviewers:
+          type: array
+          description: a list of reviewers
+          items:
+            $ref: '#/components/schemas/changeRequestReviewerSchema'
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    changeRequestApprovalSchema:
+      additionalProperties: false
+      type: object
+      description: Information about a [change request](https://docs.getunleash.io/concepts/change-requests) approval.
+      required:
+      - createdBy
+      - createdAt
+      properties:
+        createdBy:
+          type: object
+          description: Information about the user who gave this approval.
+          properties:
+            id:
+              type: number
+              example: 33
+              description: The ID of the user who gave this approval.
+            username:
+              type: string
+              example: unleash-user
+              description: The approving user's username.
+            imageUrl:
+              type: string
+              format: uri
+              description: The URL where the user's image can be found.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2022-12-12T12:13:24.218Z'
+          description: When the approval was given.
+    changeRequestSchema:
+      type: object
+      description: A [change request](https://docs.getunleash.io/concepts/change-requests)
+      oneOf:
+      - required:
+        - id
+        - environment
+        - state
+        - minApprovals
+        - project
+        - features
+        - segments
+        - createdAt
+        - createdBy
+        - stateTimestamps
+        additionalProperties: false
+        properties:
+          id:
+            type: number
+            example: 3
+            description: This change requests's ID.
+          title:
+            type: string
+            example: Increasing gradual rollout
+            description: A title describing the change request's content.
+          environment:
+            type: string
+            example: development
+            description: The environment in which the changes should be applied.
+          minApprovals:
+            type: number
+            example: 2
+            description: The minimum number of approvals required before this change request can be applied.
+          project:
+            type: string
+            example: unleash-project
+            description: The project this change request belongs to.
+          features:
+            type: array
+            description: The list of features and their changes that relate to this change request.
+            items:
+              $ref: '#/components/schemas/changeRequestFeatureSchema'
+          segments:
+            type: array
+            description: The list of segments and their changes that relate to this change request.
+            items:
+              $ref: '#/components/schemas/changeRequestSegmentChangeSchema'
+          approvals:
+            type: array
+            description: A list of approvals that this change request has received.
+            items:
+              $ref: '#/components/schemas/changeRequestApprovalSchema'
+          rejections:
+            type: array
+            description: 'A list of rejections that this change request has received. '
+            items:
+              $ref: '#/components/schemas/changeRequestApprovalSchema'
+          comments:
+            type: array
+            description: All comments that have been made on this change request.
+            items:
+              $ref: '#/components/schemas/changeRequestCommentSchema'
+          createdBy:
+            description: The user who created this change request.
+            type: object
+            properties:
+              username:
+                type: string
+                nullable: true
+                example: Hunter
+              imageUrl:
+                type: string
+                format: uri
+                nullable: true
+                description: The URL of the user's profile image.
+          createdAt:
+            description: When this change request was created.
+            type: string
+            format: date-time
+            example: '2023-07-31T13:33:02Z'
+          stateTimestamps:
+            type: object
+            description: A mapping of each state this change request has entered to the most recent time when it entered that state. If a change request has entered the same state multiple times, only the most recent timestamp will be included.
+            additionalProperties:
+              type: string
+              format: date-time
+              example: '2023-08-01T10:15:30Z'
+            example:
+              Draft: '2023-07-31T13:33:02Z'
+              In review: '2023-08-01T10:15:30Z'
+              Approved: '2023-08-02T09:01:00Z'
+          state:
+            type: string
+            enum:
+            - Draft
+            - In review
+            - Approved
+            - Applied
+            - Cancelled
+            - Rejected
+            description: The current state of the change request.
+      - required:
+        - id
+        - environment
+        - state
+        - minApprovals
+        - project
+        - features
+        - segments
+        - createdAt
+        - createdBy
+        - stateTimestamps
+        - schedule
+        additionalProperties: false
+        properties:
+          id:
+            type: number
+            example: 3
+            description: This change requests's ID.
+          title:
+            type: string
+            example: Increasing gradual rollout
+            description: A title describing the change request's content.
+          environment:
+            type: string
+            example: development
+            description: The environment in which the changes should be applied.
+          minApprovals:
+            type: number
+            example: 2
+            description: The minimum number of approvals required before this change request can be applied.
+          project:
+            type: string
+            example: unleash-project
+            description: The project this change request belongs to.
+          features:
+            type: array
+            description: The list of features and their changes that relate to this change request.
+            items:
+              $ref: '#/components/schemas/changeRequestFeatureSchema'
+          segments:
+            type: array
+            description: The list of segments and their changes that relate to this change request.
+            items:
+              $ref: '#/components/schemas/changeRequestSegmentChangeSchema'
+          approvals:
+            type: array
+            description: A list of approvals that this change request has received.
+            items:
+              $ref: '#/components/schemas/changeRequestApprovalSchema'
+          rejections:
+            type: array
+            description: 'A list of rejections that this change request has received. '
+            items:
+              $ref: '#/components/schemas/changeRequestApprovalSchema'
+          comments:
+            type: array
+            description: All comments that have been made on this change request.
+            items:
+              $ref: '#/components/schemas/changeRequestCommentSchema'
+          createdBy:
+            description: The user who created this change request.
+            type: object
+            properties:
+              username:
+                type: string
+                nullable: true
+                example: Hunter
+              imageUrl:
+                type: string
+                format: uri
+                nullable: true
+                description: The URL of the user's profile image.
+          createdAt:
+            description: When this change request was created.
+            type: string
+            format: date-time
+            example: '2023-07-31T13:33:02Z'
+          stateTimestamps:
+            type: object
+            description: A mapping of each state this change request has entered to the most recent time when it entered that state. If a change request has entered the same state multiple times, only the most recent timestamp will be included.
+            additionalProperties:
+              type: string
+              format: date-time
+              example: '2023-08-01T10:15:30Z'
+            example:
+              Draft: '2023-07-31T13:33:02Z'
+              In review: '2023-08-01T10:15:30Z'
+              Approved: '2023-08-02T09:01:00Z'
+          state:
+            type: string
+            enum:
+            - Scheduled
+            description: The current state of the change request.
+          schedule:
+            $ref: '#/components/schemas/changeRequestScheduleSchema'
+    safeguardTriggerConditionSchema:
+      type: object
+      required:
+      - operator
+      - threshold
+      additionalProperties: false
+      description: The condition that triggers the safeguard.
+      properties:
+        operator:
+          type: string
+          enum:
+          - '>'
+          - <
+          description: The comparison operator for the threshold check.
+          example: '>'
+        threshold:
+          type: number
+          description: The threshold value to compare against.
+          example: 100
+    changeRequestFeatureSchema:
+      additionalProperties: false
+      description: A feature and all its suggested changes.
+      type: object
+      required:
+      - name
+      - changes
+      properties:
+        name:
+          type: string
+          example: my-feature
+          description: The name of the feature
+        conflict:
+          type: string
+          example: Feature has been archived
+          description: A string describing the conflicts related to this change. Only present if there are any concflicts on the feature level.
+        changes:
+          type: array
+          description: List of changes inside change request. This list may be empty when listing all change requests for a project.
+          items:
+            $ref: '#/components/schemas/changeRequestChangeSchema'
+        defaultChange:
+          $ref: '#/components/schemas/changeRequestDefaultChangeSchema'
+    createSafeguardSchema:
+      type: object
+      required:
+      - impactMetric
+      - triggerCondition
+      description: Request body to create a safeguard with metric-based alert condition.
+      additionalProperties: false
+      properties:
+        impactMetric:
+          type: object
+          required:
+          - metricName
+          - timeRange
+          - aggregationMode
+          - labelSelectors
+          properties:
+            metricName:
+              type: string
+              description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+              example: unleash_counter_feature_toggle_usage_total
+            timeRange:
+              type: string
+              enum:
+              - hour
+              - day
+              - week
+              - month
+              description: The time range for the metric data.
+              example: day
+            aggregationMode:
+              type: string
+              description: The aggregation mode for the metric data.
+              enum:
+              - rps
+              - count
+              - avg
+              - sum
+              - p95
+              - p99
+              - p50
+              example: rps
+            labelSelectors:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              description: The selected labels and their values for filtering the metric data.
+              example:
+                environment:
+                - development
+                project:
+                - default
+          description: Metric configuration that should be evaluated for the safeguard.
+        triggerCondition:
+          $ref: '#/components/schemas/safeguardTriggerConditionSchema'
+          description: The condition that triggers the safeguard.
+    changeRequestReviewerSchema:
+      additionalProperties: false
+      type: object
+      description: Information about a user available to review a change request
+      required:
+      - id
+      - email
+      properties:
+        id:
+          type: number
+          description: Id of the user available to review
+          example: 23
+        email:
+          type: string
+          example: email@example.com
+          description: The email of the approving user
+        username:
+          type: string
+          example: unleash-user
+          nullable: true
+          description: The username of the approving user
+        name:
+          type: string
+          example: Reviewer Approver
+          nullable: true
+          description: The name of the approving user
+        imageUrl:
+          type: string
+          nullable: true
+          format: uri
+          description: The URL where the user's image can be found.
+    changeRequestAddCommentSchema:
+      additionalProperties: false
+      type: object
+      description: Data used to add a comment to a [change request](https://docs.getunleash.io/concepts/change-requests).
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          example: This is a comment
+          description: The content of the comment.
+    createStrategyVariantSchema:
+      type: object
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

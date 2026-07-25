@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Notifications API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Notifications
+  description: API for managing [notifications](https://docs.getunleash.io/concepts/notifications).
+paths:
+  /api/admin/notifications:
+    get:
+      summary: Retrieves a List of Notifications
+      description: '**Enterprise feature**
+
+
+        A user may get relevant notifications from the projects they are a member of'
+      tags:
+      - Notifications
+      operationId: getNotifications
+      responses:
+        '200':
+          description: notificationsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notificationsSchema'
+  /api/admin/notifications/read:
+    post:
+      summary: Mark Notifications as Read
+      description: '**Enterprise feature**
+
+
+        Allow to select which notifications were read and saving a read date'
+      tags:
+      - Notifications
+      operationId: markNotificationsAsRead
+      requestBody:
+        description: markNotificationsAsReadSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/markNotificationsAsReadSchema'
+      responses:
+        '200':
+          description: This response has no body.
+components:
+  schemas:
+    markNotificationsAsReadSchema:
+      type: object
+      description: Data used to mark notifications as being read
+      required:
+      - notifications
+      properties:
+        notifications:
+          type: array
+          description: A list of IDs belonging to the notifications you want to mark as read.
+          items:
+            type: integer
+            description: A notification ID
+            minimum: 0
+            example: 5
+    notificationsSchema:
+      type: array
+      description: A list of [notifications](https://docs.getunleash.io/concepts/notifications)
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - message
+        - link
+        - notificationType
+        - createdBy
+        - createdAt
+        - readAt
+        properties:
+          id:
+            type: number
+            example: 1
+            description: The id of this notification
+          message:
+            type: string
+            example: Your change request got approved
+            description: The actual notification message
+          link:
+            type: string
+            example: /myunleash/projects/myproject/change-requests/46
+            description: The link to change request or feature flag the notification refers to
+          notificationType:
+            enum:
+            - change-request
+            - toggle
+            description: The type of the notification used e.g. for the graphical hints
+          createdBy:
+            type: object
+            additionalProperties: false
+            properties:
+              username:
+                type: string
+                example: Jane Smith
+                description: The name of the user who triggered the notification
+                nullable: true
+              imageUrl:
+                type: string
+                example: https://gravatar.com/avatar/758f27d1f066779a62a65665242b8780107df403509a62a9e8a5924df5469f68?s=42&d=retro&r=g
+                description: The avatar url of the user who triggered the notification
+                nullable: true
+          createdAt:
+            type: string
+            format: date-time
+            example: '2022-12-02T13:17:12.445Z'
+            description: The date and time when the notification was created
+          readAt:
+            type: string
+            format: date-time
+            nullable: true
+            example: '2022-12-02T13:17:12.445Z'
+            description: The date and time when the notification was read or marked as read, otherwise `null`
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

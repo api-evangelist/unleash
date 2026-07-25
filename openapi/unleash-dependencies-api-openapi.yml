@@ -1,0 +1,529 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Dependencies API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Dependencies
+  description: Manage feature dependencies.
+paths:
+  /api/admin/projects/{projectId}/features/{child}/dependencies:
+    post:
+      tags:
+      - Dependencies
+      summary: Add a Feature Dependency.
+      description: Add a dependency to a parent feature. Each environment will resolve corresponding dependency independently.
+      operationId: addFeatureDependency
+      requestBody:
+        description: createDependentFeatureSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createDependentFeatureSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: child
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Dependencies
+      summary: Deletes Feature Dependencies.
+      description: Remove dependencies to all parent features.
+      operationId: deleteFeatureDependencies
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: child
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{child}/dependencies/{parent}:
+    delete:
+      tags:
+      - Dependencies
+      summary: Deletes a Feature Dependency.
+      description: Remove a dependency to a parent feature.
+      operationId: deleteFeatureDependency
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: child
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: parent
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{child}/parents:
+    get:
+      tags:
+      - Dependencies
+      summary: List Parent Options.
+      description: List available parents who have no transitive dependencies.
+      operationId: listParentOptions
+      responses:
+        '200':
+          description: parentFeatureOptionsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parentFeatureOptionsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: child
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{parent}/parent-variants:
+    get:
+      tags:
+      - Dependencies
+      summary: List Parent Feature Variants.
+      description: List available parent variants across all strategy variants and feature environment variants.
+      operationId: listParentVariantOptions
+      responses:
+        '200':
+          description: parentVariantOptionsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parentVariantOptionsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: parent
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/dependencies:
+    get:
+      tags:
+      - Dependencies
+      summary: Check Dependencies Exist.
+      description: Check if any dependencies exist in this Unleash instance
+      operationId: checkDependenciesExist
+      responses:
+        '200':
+          description: dependenciesExistSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dependenciesExistSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    parentVariantOptionsSchema:
+      type: array
+      description: A list of parent variant names available for a given parent feature. This list includes strategy variants and feature environment variants.
+      items:
+        type: string
+    parentFeatureOptionsSchema:
+      type: array
+      description: A list of parent feature names available for a given child feature. Features that have their own parents are excluded.
+      items:
+        type: string
+    dependenciesExistSchema:
+      type: boolean
+      description: '`true` when any dependencies exist, `false` when no dependencies exist.'
+    createDependentFeatureSchema:
+      type: object
+      description: Feature dependency on a parent feature in write model
+      required:
+      - feature
+      properties:
+        feature:
+          type: string
+          description: The name of the feature we depend on.
+          example: parent_feature
+        enabled:
+          type: boolean
+          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
+          example: false
+        variants:
+          type: array
+          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
+          items:
+            type: string
+          example:
+          - variantA
+          - variantB
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

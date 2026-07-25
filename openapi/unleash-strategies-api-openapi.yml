@@ -1,0 +1,967 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Strategies API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Strategies
+  description: Create, update, delete, manage [custom strategies](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies).
+paths:
+  /api/admin/strategies:
+    get:
+      summary: Get All Strategies
+      description: Retrieves all strategy types ([predefined](https://docs.getunleash.io/concepts/activation-strategies "predefined strategies") and [custom strategies](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies)) that are defined on this Unleash instance.
+      tags:
+      - Strategies
+      operationId: getAllStrategies
+      responses:
+        '200':
+          description: strategiesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/strategiesSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Strategies
+      operationId: createStrategy
+      summary: Create a Strategy
+      description: Creates a custom strategy type based on the supplied data.
+      requestBody:
+        description: createStrategySchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createStrategySchema'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/strategySchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/strategies/{name}:
+    get:
+      summary: Get a Strategy Definition
+      description: Retrieves the definition of the strategy specified in the URL
+      tags:
+      - Strategies
+      operationId: getStrategy
+      responses:
+        '200':
+          description: strategySchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/strategySchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      summary: Delete a Strategy
+      description: Deletes the specified strategy definition
+      tags:
+      - Strategies
+      operationId: removeStrategy
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+      - Strategies
+      summary: Update a Strategy Type
+      description: Updates the specified strategy type. Any properties not specified in the request body are left untouched.
+      operationId: updateStrategy
+      requestBody:
+        description: updateStrategySchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateStrategySchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/strategies/{strategyName}/deprecate:
+    post:
+      tags:
+      - Strategies
+      summary: Deprecate a Strategy
+      description: Marks the specified strategy as deprecated.
+      operationId: deprecateStrategy
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: strategyName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/strategies/{strategyName}/reactivate:
+    post:
+      tags:
+      - Strategies
+      operationId: reactivateStrategy
+      summary: Reactivate a Strategy
+      description: Marks the specified strategy as not deprecated. If the strategy wasn't already deprecated, nothing changes.
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: strategyName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/context/{contextField}/strategies:
+    get:
+      tags:
+      - Strategies
+      operationId: getStrategiesByContextField
+      summary: Get Strategies That Use a Context Field
+      description: Retrieves a list of all strategies that use the specified context field. If the context field doesn't exist, returns an empty list of strategies
+      responses:
+        '200':
+          description: contextFieldStrategiesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contextFieldStrategiesSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      parameters:
+      - name: contextField
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/context/{contextField}/strategies:
+    get:
+      tags:
+      - Strategies
+      operationId: getStrategiesByContextFieldForProject
+      summary: Get Strategies That Use a Context Field
+      description: 'This is a beta endpoint and it may change or be removed in the future.
+
+
+        Retrieves a list of all strategies that use the specified context field. If the context field doesn''t exist, returns an empty list of strategies'
+      responses:
+        '200':
+          description: contextFieldStrategiesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contextFieldStrategiesSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contextField
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/segments/strategies:
+    post:
+      summary: Update Strategy Segments
+      description: Sets the segments of the strategy specified to be exactly the ones passed in the payload. Any segments that were used by the strategy before will be removed if they are not in the provided list of segments.
+      tags:
+      - Strategies
+      operationId: updateFeatureStrategySegments
+      requestBody:
+        description: updateFeatureStrategySegmentsSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateFeatureStrategySegmentsSchema'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateFeatureStrategySegmentsSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+components:
+  schemas:
+    contextFieldStrategiesSchema:
+      type: object
+      description: A wrapper object containing all strategies that use a specific context field
+      required:
+      - strategies
+      properties:
+        strategies:
+          type: array
+          description: List of strategies using the context field
+          items:
+            type: object
+            required:
+            - id
+            - featureName
+            - projectId
+            - environment
+            - strategyName
+            properties:
+              id:
+                type: string
+                example: 433ae8d9-dd69-4ad0-bc46-414aedbe9c55
+                description: The ID of the strategy.
+              featureName:
+                type: string
+                example: best-feature
+                description: The name of the feature that contains this strategy.
+              projectId:
+                type: string
+                description: The ID of the project that contains this feature.
+              environment:
+                type: string
+                description: The ID of the environment where this strategy is in.
+              strategyName:
+                type: string
+                description: The name of the strategy.
+    updateStrategySchema:
+      type: object
+      description: The data required to update a strategy type.
+      required:
+      - parameters
+      properties:
+        description:
+          type: string
+          description: A description of the strategy type.
+          example: Enable the feature for users who have not logged in before.
+        parameters:
+          type: array
+          description: The parameter list lets you pass arguments to your custom activation strategy. These will be made available to your custom strategy implementation.
+          items:
+            type: object
+            required:
+            - name
+            - type
+            properties:
+              name:
+                type: string
+                description: The name of the parameter
+                example: Rollout percentage
+              type:
+                type: string
+                description: The [type of the parameter](https://docs.getunleash.io/concepts/activation-strategies#parameters)
+                enum:
+                - string
+                - percentage
+                - list
+                - number
+                - boolean
+                example: percentage
+              description:
+                type: string
+                description: A description of this strategy parameter. Use this to indicate to the users what the parameter does.
+                example: How many percent of users should see this feature?
+              required:
+                type: boolean
+                description: Whether this parameter must be configured when using the strategy. Defaults to `false`
+                example: false
+    updateFeatureStrategySegmentsSchema:
+      type: object
+      required:
+      - projectId
+      - strategyId
+      - environmentId
+      - segmentIds
+      description: Data required to update segments for a strategy.
+      properties:
+        projectId:
+          type: string
+          description: The ID of the project that the strategy belongs to.
+          example: red-vista
+        strategyId:
+          type: string
+          description: The ID of the strategy to update segments for.
+          example: 15d1e20b-6310-4e17-a0c2-9fb84de3053a
+        environmentId:
+          type: string
+          description: The ID of the strategy environment.
+          example: development
+        segmentIds:
+          type: array
+          description: The new list of segments (IDs) to use for this strategy. Any segments not in this list will be removed from the strategy.
+          example:
+          - 1
+          - 5
+          - 6
+          items:
+            type: integer
+            minimum: 0
+    createStrategySchema:
+      type: object
+      description: The data required to create a strategy type. Refer to the docs on [custom strategy types](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies) for more information.
+      required:
+      - name
+      - parameters
+      properties:
+        name:
+          type: string
+          description: The name of the strategy type. Must be unique.
+          example: my-custom-strategy
+        title:
+          type: string
+          description: The title of the strategy
+          example: My awesome strategy
+        description:
+          type: string
+          description: A description of the strategy type.
+          example: Enable the feature for users who have not logged in before.
+        editable:
+          type: boolean
+          description: Whether the strategy type is editable or not. Defaults to `true`.
+          example: false
+        deprecated:
+          type: boolean
+          description: Whether the strategy type is deprecated or not. Defaults to `false`.
+          example: true
+        parameters:
+          type: array
+          description: The parameter list lets you pass arguments to your custom activation strategy. These will be made available to your custom strategy implementation.
+          items:
+            type: object
+            required:
+            - name
+            - type
+            properties:
+              name:
+                type: string
+                description: The name of the parameter
+                example: Rollout percentage
+              type:
+                type: string
+                description: The [type of the parameter](https://docs.getunleash.io/concepts/activation-strategies#parameters)
+                enum:
+                - string
+                - percentage
+                - list
+                - number
+                - boolean
+                example: percentage
+              description:
+                type: string
+                description: A description of this strategy parameter. Use this to indicate to the users what the parameter does.
+                example: How many percent of users should see this feature?
+              required:
+                type: boolean
+                description: Whether this parameter must be configured when using the strategy. Defaults to `false`
+                example: false
+    strategiesSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - strategies
+      description: List of strategies
+      properties:
+        version:
+          type: integer
+          enum:
+          - 1
+          example: 1
+          description: Version of the strategies schema
+        strategies:
+          type: array
+          items:
+            $ref: '#/components/schemas/strategySchema'
+          description: List of strategies
+    strategySchema:
+      description: The [activation strategy](https://docs.getunleash.io/concepts/activation-strategies) schema
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - displayName
+      - description
+      - editable
+      - deprecated
+      - parameters
+      properties:
+        title:
+          type: string
+          nullable: true
+          description: An optional title for the strategy
+          example: GradualRollout - Prod25
+        name:
+          type: string
+          description: The name (type) of the strategy
+          example: flexibleRollout
+        displayName:
+          type: string
+          description: A human friendly name for the strategy
+          example: Gradual Rollout
+          nullable: true
+        description:
+          type: string
+          nullable: true
+          description: A short description of the strategy
+          example: Gradual rollout to logged in users
+        editable:
+          type: boolean
+          description: Whether the strategy can be edited or not. Strategies bundled with Unleash cannot be edited.
+          example: true
+        deprecated:
+          type: boolean
+          description: ''
+          example: true
+        parameters:
+          type: array
+          description: A list of relevant parameters for each strategy
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              name:
+                type: string
+                example: percentage
+              type:
+                type: string
+                example: percentage
+              description:
+                type: string
+                example: Gradual rollout to logged in users
+              required:
+                type: boolean
+                example: true
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

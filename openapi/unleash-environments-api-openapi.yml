@@ -1,0 +1,1169 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Environments API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Environments
+  description: Create, update, delete, enable or disable [environments](https://docs.getunleash.io/concepts/environments) for this Unleash instance.
+paths:
+  /api/admin/environments:
+    post:
+      summary: Creates a New Environment
+      description: '**Enterprise feature**
+
+
+        Uses the details provided in the payload to create a new environment'
+      tags:
+      - Environments
+      operationId: createEnvironment
+      requestBody:
+        description: createEnvironmentSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createEnvironmentSchema'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+    get:
+      tags:
+      - Environments
+      summary: Get All Environments
+      description: Retrieves all environments that exist in this Unleash instance.
+      operationId: getAllEnvironments
+      responses:
+        '200':
+          description: environmentsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+  /api/admin/environments/validate:
+    post:
+      summary: Validates If an Environment Name Exists
+      description: '**Enterprise feature**
+
+
+        Uses the name provided in the body of the request to validate if the given name exists or not'
+      tags:
+      - Environments
+      operationId: validateEnvironmentName
+      requestBody:
+        description: nameSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nameSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+  /api/admin/environments/update/{name}:
+    put:
+      summary: Updates an Environment by Name
+      description: '**Enterprise feature**
+
+
+        Given an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API'
+      tags:
+      - Environments
+      operationId: updateEnvironment
+      requestBody:
+        description: updateEnvironmentSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateEnvironmentSchema'
+      responses:
+        '200':
+          description: environmentSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/environments/{name}:
+    delete:
+      summary: Deletes an Environment by Name
+      description: '**Enterprise feature**
+
+
+        Given an existing environment by name, this endpoint will attempt to delete it'
+      tags:
+      - Environments
+      operationId: removeEnvironment
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+      - Environments
+      operationId: getEnvironment
+      summary: Get the Environment With `name`
+      description: Retrieves the environment with `name` if it exists in this Unleash instance
+      responses:
+        '200':
+          description: environmentSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/environments/{name}/clone:
+    post:
+      summary: Clones an Environment
+      description: '**Enterprise feature**
+
+
+        Given an existing environment name and a set of options, this will create a copy of that environment'
+      tags:
+      - Environments
+      operationId: cloneEnvironment
+      requestBody:
+        description: cloneEnvironmentSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cloneEnvironmentSchema'
+      responses:
+        '200':
+          description: environmentSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/environments/project/{projectId}:
+    get:
+      tags:
+      - Environments
+      operationId: getProjectEnvironments
+      summary: Get the Environments Available to a Project
+      description: Gets the environments that are available for this project. An environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/concepts/environments#enable-an-environment)
+      responses:
+        '200':
+          description: environmentsProjectSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentsProjectSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/environments/sort-order:
+    put:
+      tags:
+      - Environments
+      summary: Update Environment Sort Orders
+      description: Updates sort orders for the named environments. Environments not specified are unaffected.
+      operationId: updateSortOrder
+      requestBody:
+        description: sortOrderSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sortOrderSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/admin/environments/{name}/on:
+    post:
+      tags:
+      - Environments
+      summary: Toggle the Environment With `name` on
+      description: Makes it possible to enable this environment for a project. An environment must first be globally enabled using this endpoint before it can be enabled for a project
+      operationId: toggleEnvironmentOn
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/environments/{name}/off:
+    post:
+      tags:
+      - Environments
+      summary: Toggle the Environment With `name` Off
+      description: Removes this environment from the list of available environments for projects to use
+      operationId: toggleEnvironmentOff
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+    sortOrderSchema:
+      type: object
+      description: A map of object IDs and their corresponding sort orders.
+      additionalProperties:
+        type: integer
+        description: Sort order for the object whose ID is the key used for this property.
+        example: 6
+    environmentSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - type
+      - enabled
+      - protected
+      - sortOrder
+      description: A definition of the project environment
+      properties:
+        name:
+          type: string
+          example: my-dev-env
+          description: The name of the environment
+        type:
+          type: string
+          example: development
+          description: The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types).
+        enabled:
+          type: boolean
+          example: true
+          description: '`true` if the environment is enabled for the project, otherwise `false`.'
+        protected:
+          type: boolean
+          example: true
+          description: '`true` if the environment is protected, otherwise `false`. A *protected* environment can not be deleted.'
+        sortOrder:
+          type: integer
+          example: 3
+          description: Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear. Needs to be an integer
+        projectCount:
+          type: integer
+          nullable: true
+          minimum: 0
+          example: 10
+          description: The number of projects with this environment
+        apiTokenCount:
+          type: integer
+          nullable: true
+          minimum: 0
+          example: 6
+          description: The number of API tokens for the project environment
+        enabledToggleCount:
+          type: integer
+          nullable: true
+          minimum: 0
+          example: 10
+          description: The number of enabled toggles for the project environment
+        requiredApprovals:
+          type: integer
+          nullable: true
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
+    updateEnvironmentSchema:
+      type: object
+      description: Data used to update an [environment](https://docs.getunleash.io/concepts/environments).
+      properties:
+        type:
+          type: string
+          description: Updates the type of environment (i.e. development or production).
+        sortOrder:
+          type: integer
+          description: Changes the sort order of this environment.
+        requiredApprovals:
+          type: integer
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+          nullable: true
+    strategyVariantSchema:
+      type: object
+      additionalProperties: false
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type: string
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+          nullable: true
+        disabled:
+          type: boolean
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    environmentsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - environments
+      description: A versioned list of environments
+      properties:
+        version:
+          type: integer
+          example: 1
+          description: Version of the environments schema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentSchema'
+          description: List of environments
+    cloneEnvironmentSchema:
+      type: object
+      required:
+      - name
+      - type
+      description: Data used to clone an environment.
+      properties:
+        name:
+          type: string
+          example: development
+          description: The name of the new cloned environment, this cannot be changed later
+        type:
+          type: string
+          example: development
+          description: Updates the type of environment (i.e. development or production).
+        projects:
+          type: array
+          description: A list of projects that should be included in the cloned environment.
+          items:
+            type: string
+        clonePermissions:
+          type: boolean
+          description: Copies the RBAC permissions from the source environment if true. Defaults to true
+    environmentProjectSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - type
+      - enabled
+      - protected
+      - sortOrder
+      description: Describes a project's configuration in a given environment.
+      properties:
+        name:
+          type: string
+          example: development
+          description: The name of the environment
+        type:
+          type: string
+          example: production
+          description: The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types).
+        enabled:
+          type: boolean
+          example: true
+          description: '`true` if the environment is enabled for the project, otherwise `false`'
+        protected:
+          type: boolean
+          example: false
+          description: '`true` if the environment is protected, otherwise `false`. A *protected* environment can not be deleted.'
+        sortOrder:
+          type: integer
+          example: 1
+          description: Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear
+        projectApiTokenCount:
+          type: integer
+          minimum: 0
+          example: 5
+          description: The number of client and front-end API tokens that have access to this project
+        projectEnabledToggleCount:
+          type: integer
+          minimum: 0
+          example: 7
+          description: The number of features enabled in this environment for this project
+        defaultStrategy:
+          description: The strategy configuration to add when enabling a feature environment by default
+          $ref: '#/components/schemas/featureStrategySchema'
+        visible:
+          type: boolean
+          example: true
+          description: Indicates whether the environment can be enabled for feature flags in the project
+        requiredApprovals:
+          type: integer
+          nullable: true
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+    createEnvironmentSchema:
+      type: object
+      required:
+      - name
+      - type
+      description: Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)
+      properties:
+        name:
+          type: string
+          description: The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)
+          pattern: ^[a-zA-Z0-9~_.-]+$
+        type:
+          type: string
+          minLength: 1
+          description: 'The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
+
+            - `development`
+
+            - `test`
+
+            - `preproduction`
+
+            - `production`
+
+
+            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.'
+        enabled:
+          type: boolean
+          description: Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.
+        sortOrder:
+          type: integer
+          description: Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.
+        requiredApprovals:
+          type: integer
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+          nullable: true
+    environmentsProjectSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - environments
+      description: Environments defined for a given project
+      properties:
+        version:
+          type: integer
+          example: 1
+          description: Version of the environments schema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentProjectSchema'
+          description: List of environments
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

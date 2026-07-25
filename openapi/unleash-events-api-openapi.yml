@@ -1,0 +1,669 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Events API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Events
+  description: Read events from this Unleash instance.
+paths:
+  /api/admin/events:
+    get:
+      deprecated: true
+      operationId: getEvents
+      tags:
+      - Events
+      responses:
+        '200':
+          description: eventsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      parameters:
+      - name: project
+        description: The name of the project whose events you want to retrieve
+        schema:
+          type: string
+        in: query
+      description: 'Returns **the last 100** events from the Unleash instance when called without a query parameter. When called with a `project` parameter, returns **all events** for the specified project.
+
+
+        If the provided project does not exist, the list of events will be empty.'
+      summary: Get the Most Recent Events From the Unleash Instance or All Events Related to a Project.
+  /api/admin/events/{featureName}:
+    get:
+      deprecated: true
+      operationId: getEventsForToggle
+      tags:
+      - Events
+      responses:
+        '200':
+          description: featureEventsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/featureEventsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      description: Returns all events related to the specified feature flag. If the feature flag does not exist, the list of events will be empty.
+      summary: Get All Events Related to a Specific Feature Flag.
+      parameters:
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/event-creators:
+    get:
+      tags:
+      - Events
+      operationId: getEventCreators
+      summary: Get a List of All Users That Have Created Events
+      description: Returns a list of all users that have created events in the system.
+      responses:
+        '200':
+          description: eventCreatorsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventCreatorsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/admin/search/events:
+    get:
+      operationId: searchEvents
+      tags:
+      - Events
+      summary: Search for Events
+      description: Allows searching for events that match the query parameter criteria.
+      parameters:
+      - name: query
+        schema:
+          type: string
+          example: admin@example.com
+        description: Find events by a free-text search query. The query will be matched against the event data payload (if any).
+        in: query
+      - name: id
+        schema:
+          type: string
+          example: IS:123
+          pattern: ^(IS|IS_ANY_OF):(.*?)(,([0-9]+))*$
+        description: 'Filter by event ID using supported operators: IS, IS_ANY_OF.'
+        in: query
+      - name: groupId
+        schema:
+          type: string
+          example: IS:123
+          pattern: ^(IS|IS_ANY_OF):(.*?)(,([0-9]+))*$
+        description: 'Filter by group ID using supported operators: IS, IS_ANY_OF.'
+        in: query
+      - name: feature
+        schema:
+          type: string
+          example: IS:myfeature
+          pattern: ^(IS|IS_ANY_OF):(.*?)(,([a-zA-Z0-9_]+))*$
+        description: 'Filter by feature name using supported operators: IS, IS_ANY_OF'
+        in: query
+      - name: project
+        schema:
+          type: string
+          example: IS:default
+          pattern: ^(IS|IS_ANY_OF):(.*?)(,([a-zA-Z0-9_]+))*$
+        description: 'Filter by projects ID using supported operators: IS, IS_ANY_OF.'
+        in: query
+      - name: type
+        schema:
+          type: string
+          example: IS:change-added
+          pattern: ^(IS|IS_ANY_OF):(.*?)(,([a-zA-Z0-9_]+))*$
+        description: 'Filter by event type using supported operators: IS, IS_ANY_OF.'
+        in: query
+      - name: createdBy
+        schema:
+          type: string
+          example: IS:2
+          pattern: ^(IS|IS_ANY_OF):(.*?)(,([a-zA-Z0-9_]+))*$
+        description: 'Filter by the ID of the event creator, using supported operators: IS, IS_ANY_OF.'
+        in: query
+      - name: from
+        schema:
+          type: string
+          example: IS:2024-01-01
+          pattern: ^(IS):\d{4}-\d{2}-\d{2}$
+        description: The starting date of the creation date range in IS:yyyy-MM-dd format
+        in: query
+      - name: to
+        schema:
+          type: string
+          example: IS:2024-01-31
+          pattern: ^(IS):\d{4}-\d{2}-\d{2}$
+        description: The ending date of the creation date range in IS:yyyy-MM-dd format
+        in: query
+      - name: offset
+        schema:
+          type: string
+          example: '50'
+          default: '0'
+        description: The number of features to skip when returning a page. By default it is set to 0.
+        in: query
+      - name: limit
+        schema:
+          type: string
+          example: '50'
+          default: '50'
+        description: The number of feature environments to return in a page. By default it is set to 50. The maximum is 1000.
+        in: query
+      - name: environment
+        schema:
+          type: string
+          example: IS:production
+          pattern: ^(IS|IS_ANY_OF):(.*?)(,([a-zA-Z0-9_]+))*$
+        description: 'Filter by environment name using supported operators: IS, IS_ANY_OF.'
+        in: query
+      responses:
+        '200':
+          description: eventSearchResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventSearchResponseSchema'
+components:
+  schemas:
+    eventSearchResponseSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - events
+      - total
+      description: A list of events that have been registered by the system
+      properties:
+        events:
+          description: The list of events
+          type: array
+          items:
+            $ref: '#/components/schemas/eventSchema'
+        total:
+          type: integer
+          description: The total count of events
+          minimum: 0
+          example: 842
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type: string
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          nullable: true
+    featureEventsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - events
+      description: One or more events happening to a specific feature flag
+      properties:
+        version:
+          type: integer
+          description: An API versioning number
+          minimum: 1
+          enum:
+          - 1
+          example: 1
+        toggleName:
+          description: The name of the feature flag these events relate to
+          type: string
+          example: my.first.feature.flag
+        events:
+          description: The list of events
+          type: array
+          items:
+            $ref: '#/components/schemas/eventSchema'
+        totalEvents:
+          description: How many events are there for this feature flag
+          type: integer
+          minimum: 0
+          example: 13
+    eventSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - createdAt
+      - type
+      - createdBy
+      description: An event describing something happening in the system
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          description: The ID of the event. An increasing natural number.
+        createdAt:
+          type: string
+          format: date-time
+          description: The time the event happened as a RFC 3339-conformant timestamp.
+          example: '2023-07-05T12:56:00.000Z'
+        type:
+          type: string
+          description: What [type](https://docs.getunleash.io/concepts/events#event-types) of event this is
+          enum:
+          - application-created
+          - feature-created
+          - feature-deleted
+          - feature-updated
+          - feature-metadata-updated
+          - feature-variants-updated
+          - feature-environment-variants-updated
+          - feature-project-change
+          - feature-archived
+          - feature-revived
+          - feature-import
+          - feature-tagged
+          - feature-tag-import
+          - feature-strategy-update
+          - feature-strategy-add
+          - feature-strategy-remove
+          - feature-type-updated
+          - feature-completed
+          - feature-uncompleted
+          - feature-link-added
+          - feature-link-removed
+          - feature-link-updated
+          - strategy-order-changed
+          - drop-feature-tags
+          - feature-untagged
+          - feature-stale-on
+          - feature-stale-off
+          - drop-features
+          - feature-environment-enabled
+          - feature-environment-disabled
+          - strategy-created
+          - strategy-deleted
+          - strategy-deprecated
+          - strategy-reactivated
+          - strategy-updated
+          - strategy-import
+          - drop-strategies
+          - context-field-created
+          - context-field-updated
+          - context-field-deleted
+          - project-access-added
+          - project-access-user-roles-updated
+          - project-access-group-roles-updated
+          - project-access-user-roles-deleted
+          - project-access-group-roles-deleted
+          - project-access-updated
+          - project-created
+          - project-updated
+          - project-deleted
+          - project-archived
+          - project-revived
+          - project-import
+          - project-user-added
+          - project-user-removed
+          - project-user-role-changed
+          - project-group-added
+          - role-created
+          - role-updated
+          - role-deleted
+          - drop-projects
+          - tag-created
+          - tag-deleted
+          - tag-import
+          - drop-tags
+          - tag-type-created
+          - tag-type-deleted
+          - tag-type-updated
+          - tag-type-import
+          - drop-tag-types
+          - addon-config-created
+          - addon-config-updated
+          - addon-config-deleted
+          - db-pool-update
+          - user-created
+          - user-updated
+          - user-deleted
+          - drop-environments
+          - environment-import
+          - environment-created
+          - environment-updated
+          - environment-deleted
+          - segment-created
+          - segment-updated
+          - segment-deleted
+          - group-created
+          - group-updated
+          - group-deleted
+          - group-user-added
+          - group-user-removed
+          - setting-created
+          - setting-updated
+          - setting-deleted
+          - client-metrics
+          - client-register
+          - pat-created
+          - pat-deleted
+          - public-signup-token-created
+          - public-signup-token-user-added
+          - public-signup-token-updated
+          - change-request-created
+          - change-request-discarded
+          - change-added
+          - change-discarded
+          - change-edited
+          - change-request-rejected
+          - change-request-approved
+          - change-request-approval-added
+          - change-request-cancelled
+          - change-request-sent-to-review
+          - change-request-schedule-suspended
+          - change-request-applied
+          - change-request-scheduled
+          - change-request-scheduled-application-success
+          - change-request-scheduled-application-failure
+          - change-request-configuration-updated
+          - api-token-created
+          - api-token-updated
+          - api-token-deleted
+          - feature-favorited
+          - feature-unfavorited
+          - project-favorited
+          - project-unfavorited
+          - features-exported
+          - features-imported
+          - service-account-created
+          - service-account-deleted
+          - service-account-updated
+          - feature-potentially-stale-on
+          - feature-dependency-added
+          - feature-dependency-removed
+          - feature-dependencies-removed
+          - banner-created
+          - banner-updated
+          - banner-deleted
+          - safeguard-changed
+          - safeguard-deleted
+          - release-plan-progressions-resumed
+          - release-plan-progressions-paused
+          - project-environment-added
+          - project-environment-removed
+          - default-strategy-updated
+          - segment-import
+          - signal-endpoint-created
+          - signal-endpoint-updated
+          - signal-endpoint-deleted
+          - signal-endpoint-token-created
+          - signal-endpoint-token-updated
+          - signal-endpoint-token-deleted
+          - actions-created
+          - actions-updated
+          - actions-deleted
+          - release-plan-template-created
+          - release-plan-template-updated
+          - release-plan-template-deleted
+          - release-plan-template-archived
+          - release-plan-added
+          - release-plan-removed
+          - release-plan-milestone-started
+          - milestone-progression-created
+          - milestone-progression-updated
+          - milestone-progression-deleted
+          - milestone-progression-changed
+          - user-preference-updated
+          - scim-users-deleted
+          - scim-groups-deleted
+          - cdn-token-created
+          - change-request-requested-approvers-updated
+          - impact-metric-created
+          - impact-metric-updated
+          - impact-metric-deleted
+          example: feature-created
+        createdBy:
+          type: string
+          description: Which user created this event
+          example: johndoe
+        createdByUserId:
+          type: number
+          description: The is of the user that created this event
+          example: 1337
+          nullable: true
+        environment:
+          type: string
+          description: The feature flag environment the event relates to, if applicable.
+          nullable: true
+          example: development
+        project:
+          type: string
+          nullable: true
+          description: The project the event relates to, if applicable.
+          example: default
+        featureName:
+          type: string
+          nullable: true
+          description: The name of the feature flag the event relates to, if applicable.
+          example: my.first.feature
+        data:
+          type: object
+          nullable: true
+          x-enforcer-exception-skip-codes: WSCH006
+          description: Extra associated data related to the event, such as feature flag state, segment configuration, etc., if applicable.
+          example:
+            name: new-feature
+            description: Flag description
+            type: release
+            project: my-project
+            stale: false
+            variants: []
+            createdAt: '2022-05-31T13:32:20.547Z'
+            lastSeenAt: null
+            impressionData: true
+        preData:
+          type: object
+          nullable: true
+          x-enforcer-exception-skip-codes: WSCH006
+          description: Data relating to the previous state of the event's subject.
+          example:
+            name: new-feature
+            description: Flag description
+            type: release
+            project: my-project
+            stale: false
+            variants: []
+            createdAt: '2022-05-31T13:32:20.547Z'
+            lastSeenAt: null
+            impressionData: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/tagSchema'
+          nullable: true
+          description: Any tags related to the event, if applicable.
+        label:
+          type: string
+          nullable: true
+          description: The concise, human-readable name of the event.
+        summary:
+          type: string
+          nullable: true
+          description: A markdown-formatted summary of the event.
+        ip:
+          type: string
+          nullable: true
+          description: The IP address of the user that created the event. Only available in Enterprise.
+          example: 192.168.1.1
+        groupType:
+          type: string
+          description: The type of transaction group this event belongs to, if applicable.
+          example: change-request
+        groupId:
+          type: string
+          description: The unique identifier for the transaction group this event belongs to, if applicable.
+          example: 01HQVX5K8P9EXAMPLE123456
+    eventCreatorsSchema:
+      type: array
+      description: A list of event creators
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - name
+        properties:
+          id:
+            type: integer
+            example: 50
+            description: The user id.
+          name:
+            description: Name of the user. If the user has no set name, the API falls back to using the user's username (if they have one) or email (if neither name or username is set).
+            type: string
+            example: User
+    eventsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - events
+      description: A list of events that has happened in the system
+      properties:
+        version:
+          type: integer
+          minimum: 1
+          enum:
+          - 1
+          description: The api version of this response. A natural increasing number. Only increases if format changes
+          example: 1
+        events:
+          description: The list of events
+          type: array
+          items:
+            $ref: '#/components/schemas/eventSchema'
+        totalEvents:
+          type: integer
+          description: The total count of events
+          minimum: 0
+          example: 842
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

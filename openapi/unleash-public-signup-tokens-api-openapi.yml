@@ -1,0 +1,619 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Public signup tokens API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Public signup tokens
+  description: Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/concepts/public-signup-tokens).
+paths:
+  /invite/{token}/validate:
+    get:
+      tags:
+      - Public signup tokens
+      operationId: validatePublicSignupToken
+      summary: Validate Signup Token
+      description: Check whether the provided public sign-up token exists, has not expired and is enabled
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+  /invite/{token}/signup:
+    post:
+      tags:
+      - Public signup tokens
+      operationId: addPublicSignupTokenUser
+      summary: Add a User Via a Signup Token
+      description: Create a user with the viewer root role and link them to the provided signup token
+      requestBody:
+        description: createInvitedUserSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createInvitedUserSchema'
+      responses:
+        '200':
+          description: userSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/invite-link/tokens:
+    get:
+      tags:
+      - Public signup tokens
+      summary: Get Public Signup Tokens
+      description: Retrieves all existing public signup tokens.
+      operationId: getAllPublicSignupTokens
+      responses:
+        '200':
+          description: publicSignupTokensSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicSignupTokensSchema'
+    post:
+      tags:
+      - Public signup tokens
+      operationId: createPublicSignupToken
+      summary: Create a Public Signup Token
+      description: Lets administrators create a invite link to share with colleagues.  People that join using the public invite are assigned the `Viewer` role
+      requestBody:
+        description: publicSignupTokenCreateSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/publicSignupTokenCreateSchema'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicSignupTokenSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+  /api/admin/invite-link/tokens/{token}:
+    get:
+      tags:
+      - Public signup tokens
+      summary: Retrieve a Token
+      description: Get information about a specific token. The `:token` part of the URL should be the token's secret.
+      operationId: getPublicSignupToken
+      responses:
+        '200':
+          description: publicSignupTokenSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicSignupTokenSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+      - Public signup tokens
+      operationId: updatePublicSignupToken
+      summary: Update a Public Signup Token
+      description: Update information about a specific token. The `:token` part of the URL should be the token's secret.
+      requestBody:
+        description: publicSignupTokenUpdateSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/publicSignupTokenUpdateSchema'
+      responses:
+        '200':
+          description: publicSignupTokenSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicSignupTokenSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    publicSignupTokensSchema:
+      type: object
+      description: A wrapper object containing all the public signup tokens
+      additionalProperties: false
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: array
+          description: An array of all the public signup tokens
+          example:
+          - secret: a3c84b25409ea8ca1782ef17f94a42fc
+            url: https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
+            name: Invite public viewers
+            enabled: false
+            expiresAt: '2023-04-12T11:13:31.960Z'
+            createdAt: '2023-04-12T11:13:31.960Z'
+            createdBy: someone
+            users: null
+            role:
+              id: 3
+              type: root
+              name: Viewer
+          items:
+            $ref: '#/components/schemas/publicSignupTokenSchema'
+    publicSignupTokenCreateSchema:
+      type: object
+      description: Used for creating a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
+      additionalProperties: false
+      required:
+      - name
+      - expiresAt
+      properties:
+        name:
+          description: The token's name.
+          type: string
+        expiresAt:
+          type: string
+          description: The token's expiration date.
+          format: date-time
+    createInvitedUserSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - email
+      - name
+      - password
+      description: Data used to create a user that has been invited to Unleash.
+      properties:
+        username:
+          type: string
+          description: The user's username. Must be unique if provided.
+          example: Hunter
+        email:
+          type: string
+          description: The invited user's email address
+          example: hunter@example.com
+        name:
+          type: string
+          description: The user's name
+          example: Hunter Burgan
+        password:
+          type: string
+          description: The user's password
+          example: hunter2
+    publicSignupTokenUpdateSchema:
+      description: Used by Unleash for updating a token's expiration date or, when deleting the invite link, it's status
+      type: object
+      additionalProperties: false
+      properties:
+        expiresAt:
+          type: string
+          description: The token's expiration date.
+          format: date-time
+          example: '2023-04-11T15:46:56Z'
+        enabled:
+          description: Whether the token is active or not.
+          type: boolean
+          example: true
+    userSchema:
+      type: object
+      additionalProperties: false
+      description: An Unleash user
+      required:
+      - id
+      properties:
+        id:
+          description: The user id
+          type: integer
+          example: 123
+        name:
+          description: Name of the user
+          type: string
+          example: User
+          nullable: true
+        email:
+          description: Email of the user
+          type: string
+          example: user@example.com
+        username:
+          description: A unique username for the user
+          type: string
+          example: hunter
+          nullable: true
+        imageUrl:
+          description: URL used for the user profile image
+          type: string
+          example: https://example.com/242x200.png
+        inviteLink:
+          description: If the user is actively inviting other users, this is the link that can be shared with other users
+          type: string
+          example: http://localhost:4242/invite-link/some-secret
+        loginAttempts:
+          description: How many unsuccessful attempts at logging in has the user made
+          type: integer
+          minimum: 0
+          example: 3
+        emailSent:
+          description: Is the welcome email sent to the user or not
+          type: boolean
+          example: false
+        rootRole:
+          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
+          type: integer
+          example: 1
+          minimum: 0
+        seenAt:
+          description: The last time this user logged in
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-06-30T11:42:00.345Z'
+        createdAt:
+          description: The user was created at this time
+          type: string
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
+        accountType:
+          description: A user is either an actual User or a Service Account
+          type: string
+          enum:
+          - User
+          - Service Account
+          example: User
+        permissions:
+          description: Deprecated
+          type: array
+          items:
+            type: string
+        scimId:
+          description: The SCIM ID of the user, only present if managed by SCIM
+          type: string
+          nullable: true
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
+        seatType:
+          description: The seat type of this user
+          type: string
+          nullable: true
+          example: Regular
+        activeSessions:
+          description: Count of active browser sessions for this user
+          type: integer
+          nullable: true
+          example: 2
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after last login
+          type: number
+          example: 1
+    roleSchema:
+      type: object
+      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - name
+      properties:
+        id:
+          type: integer
+          description: The role id
+          example: 9
+          minimum: 0
+        type:
+          description: A role can either be a global root role (applies to all projects) or a project role
+          type: string
+          example: root
+        name:
+          description: The name of the role
+          type: string
+          example: Editor
+        description:
+          description: A more detailed description of the role and what use it's intended for
+          type: string
+          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+        project:
+          description: What project the role belongs to
+          type: string
+          nullable: true
+          example: default
+    publicSignupTokenSchema:
+      description: Used for transporting a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
+      type: object
+      additionalProperties: false
+      required:
+      - secret
+      - url
+      - name
+      - expiresAt
+      - createdAt
+      - createdBy
+      - enabled
+      - role
+      properties:
+        secret:
+          description: The actual value of the token. This is the part that is used by Unleash to create an invite link
+          type: string
+          example: a3c84b25409ea8ca1782ef17f94a42fc
+        url:
+          description: The public signup link for the token. Users who follow this link will be taken to a signup page where they can create an Unleash user.
+          type: string
+          nullable: true
+          example: https://sandbox.getunleash.io/enterprise/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
+        name:
+          description: The token's name. Only for displaying in the UI
+          type: string
+          example: Invite public viewers
+        enabled:
+          description: Whether the token is active. This property will always be `false` for a token that has expired.
+          type: boolean
+          example: true
+        expiresAt:
+          type: string
+          description: The time when the token will expire.
+          format: date-time
+          example: '2023-04-12T11:13:31.960Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: When the token was created.
+          example: '2023-04-12T11:13:31.960Z'
+        createdBy:
+          description: The creator's email or username
+          example: someone@example.com
+          type: string
+          nullable: true
+        users:
+          type: array
+          description: Array of users that have signed up using the token.
+          items:
+            $ref: '#/components/schemas/userSchema'
+          nullable: true
+        role:
+          description: Users who sign up using this token will be given this role.
+          $ref: '#/components/schemas/roleSchema'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

@@ -1,0 +1,1153 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Tags API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Tags
+  description: Create, update, and delete [tags and tag types](https://docs.getunleash.io/concepts/feature-flags#tags).
+paths:
+  /api/admin/tags:
+    get:
+      tags:
+      - Tags
+      operationId: getTags
+      summary: List All Tags.
+      description: List all tags available in Unleash.
+      responses:
+        '200':
+          description: tagsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tagsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Tags
+      operationId: createTag
+      summary: Create a New Tag.
+      description: Create a new tag with the specified data.
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tagWithVersionSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      requestBody:
+        description: createTagSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createTagSchema'
+  /api/admin/tags/{type}:
+    get:
+      tags:
+      - Tags
+      operationId: getTagsByType
+      summary: List All Tags of a Given Type.
+      description: List all tags of a given type. If the tag type does not exist it returns an empty list.
+      responses:
+        '200':
+          description: tagsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tagsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/tags/{type}/{value}:
+    get:
+      tags:
+      - Tags
+      operationId: getTag
+      summary: Get a Tag by Type and Value.
+      description: Get a tag by type and value. Can be used to check whether a given tag already exists in Unleash or not.
+      responses:
+        '200':
+          description: tagWithVersionSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tagWithVersionSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Tags
+      operationId: deleteTag
+      summary: Delete a Tag.
+      description: Delete a tag by type and value. When a tag is deleted all references to the tag are removed.
+      responses:
+        '200':
+          description: This response has no body.
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/tag-types:
+    get:
+      tags:
+      - Tags
+      operationId: getTagTypes
+      summary: Get All Tag Types
+      description: Get a list of all available tag types.
+      responses:
+        '200':
+          description: tagTypesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tagTypesSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Tags
+      operationId: createTagType
+      summary: Create a Tag Type
+      description: Create a new tag type.
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tagTypeSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      requestBody:
+        description: tagTypeSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tagTypeSchema'
+  /api/admin/tag-types/validate:
+    post:
+      tags:
+      - Tags
+      operationId: validateTagType
+      summary: Validate a Tag Type
+      description: Validates whether if the body of the request is a valid tag and whether the a tag type with that name already exists or not. If a tag type with the same name exists, this operation will return a 409 status code.
+      responses:
+        '200':
+          description: validateTagTypeSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validateTagTypeSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      requestBody:
+        description: tagTypeSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tagTypeSchema'
+  /api/admin/tag-types/{name}:
+    get:
+      tags:
+      - Tags
+      operationId: getTagType
+      summary: Get a Tag Type
+      description: Get a tag type by name.
+      responses:
+        '200':
+          description: tagTypeSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tagTypeSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+      - Tags
+      operationId: updateTagType
+      summary: Update a Tag Type
+      description: Update the configuration for the specified tag type.
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      requestBody:
+        description: updateTagTypeSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateTagTypeSchema'
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Tags
+      operationId: deleteTagType
+      summary: Delete a Tag Type
+      description: Deletes a tag type. If any features have tags of this type, those tags will be deleted.
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/tags:
+    put:
+      tags:
+      - Tags
+      operationId: addTagToFeatures
+      summary: Adds a Tag to the Specified Features
+      description: Add a tag to a list of features. Create tags if needed.
+      requestBody:
+        description: tagsBulkAddSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tagsBulkAddSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type: string
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          nullable: true
+    tagTypesSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - tagTypes
+      description: A list of tag types with a version number representing the schema used to model the tag types.
+      properties:
+        version:
+          type: integer
+          description: The version of the schema used to model the tag types.
+          example: 1
+        tagTypes:
+          type: array
+          description: The list of tag types.
+          items:
+            $ref: '#/components/schemas/tagTypeSchema'
+    validateTagTypeSchema:
+      type: object
+      required:
+      - valid
+      - tagType
+      description: The result of validating a tag type.
+      properties:
+        valid:
+          type: boolean
+          description: Whether or not the tag type is valid.
+          example: true
+        tagType:
+          $ref: '#/components/schemas/tagTypeSchema'
+    updateTagTypeSchema:
+      type: object
+      description: The request body for updating a tag type.
+      properties:
+        description:
+          type: string
+          description: The description of the tag type.
+          example: A tag type for describing the color of a tag.
+        icon:
+          type: string
+          description: The icon of the tag type.
+          example: not-really-used
+        color:
+          type: string
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    tagsBulkAddSchema:
+      description: Represents tag changes to be applied to a list of features.
+      type: object
+      additionalProperties: false
+      required:
+      - features
+      - tags
+      properties:
+        features:
+          description: The list of features that will be affected by the tag changes.
+          type: array
+          items:
+            type: string
+            minLength: 1
+        tags:
+          description: The tag changes to be applied to the features.
+          $ref: '#/components/schemas/updateTagsSchema'
+    createTagSchema:
+      type: object
+      description: Data used to create a new [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          pattern: ^\s*\S.{0,48}\S\s*$
+          description: The value of the tag. The value must be between 2 and 50 characters long. Leading and trailing whitespace is ignored and will be trimmed before saving the tag value.
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type: string
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          nullable: true
+    updateTagsSchema:
+      type: object
+      description: Represents a set of changes to a feature's tags, such as adding or removing tags.
+      additionalProperties: false
+      required:
+      - addedTags
+      - removedTags
+      properties:
+        addedTags:
+          type: array
+          description: Tags to add to the feature.
+          items:
+            $ref: '#/components/schemas/tagSchema'
+        removedTags:
+          type: array
+          description: Tags to remove from the feature.
+          items:
+            $ref: '#/components/schemas/tagSchema'
+      example:
+        addedTags:
+        - value: tag-to-add
+          type: simple
+        removedTags:
+        - value: tag-to-remove
+          type: simple
+    tagTypeSchema:
+      type: object
+      additionalProperties: false
+      description: A tag type.
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the tag type.
+          example: color
+        description:
+          type: string
+          description: The description of the tag type.
+          example: A tag type for describing the color of a tag.
+        icon:
+          type: string
+          nullable: true
+          description: The icon of the tag type.
+          example: not-really-used
+        color:
+          type: string
+          nullable: true
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    tagsSchema:
+      description: A list of tags with a version number
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - tags
+      properties:
+        version:
+          type: integer
+          description: The version of the schema used to model the tags.
+        tags:
+          type: array
+          description: A list of tags.
+          items:
+            $ref: '#/components/schemas/tagSchema'
+    tagWithVersionSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - tag
+      description: A tag with a version number representing the schema used to model the tag.
+      properties:
+        version:
+          type: integer
+          description: The version of the schema used to model the tag.
+          example: 1
+        tag:
+          $ref: '#/components/schemas/tagSchema'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

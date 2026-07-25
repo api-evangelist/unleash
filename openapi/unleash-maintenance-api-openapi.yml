@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Maintenance API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Maintenance
+  description: Enable/disable the maintenance mode of Unleash.
+paths:
+  /api/admin/maintenance:
+    post:
+      summary: Enabled/disabled Maintenance Mode
+      description: Lets administrators put Unleash into a mostly read-only mode. While Unleash is in maintenance mode, users can not change any configuration settings
+      tags:
+      - Maintenance
+      operationId: toggleMaintenance
+      responses:
+        '204':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      requestBody:
+        description: toggleMaintenanceSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/toggleMaintenanceSchema'
+    get:
+      summary: Get Maintenance Mode Status
+      description: Tells you whether maintenance mode is enabled or disabled
+      tags:
+      - Maintenance
+      operationId: getMaintenance
+      responses:
+        '200':
+          description: maintenanceSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/maintenanceSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+components:
+  schemas:
+    maintenanceSchema:
+      type: object
+      additionalProperties: false
+      description: The current state of Unleash's maintenance mode feature.
+      required:
+      - enabled
+      properties:
+        enabled:
+          description: Whether maintenance mode is enabled or not.
+          type: boolean
+          example: true
+    toggleMaintenanceSchema:
+      type: object
+      description: Data used when to activate or deactivate maintenance mode for Unleash.
+      required:
+      - enabled
+      properties:
+        enabled:
+          description: '`true` if you want to activate maintenance mode, `false` if you want to deactivate it.'
+          type: boolean
+          example: true
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

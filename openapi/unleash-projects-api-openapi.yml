@@ -1,0 +1,4697 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Projects API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Projects
+  description: Create, update, and delete [Unleash projects](https://docs.getunleash.io/concepts/projects).
+paths:
+  /api/admin/projects:
+    get:
+      tags:
+      - Projects
+      operationId: getProjects
+      summary: Get a List of All Projects.
+      description: This endpoint returns an list of all the projects in the Unleash instance.
+      parameters:
+      - name: archived
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: projectsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Projects
+      operationId: createProject
+      summary: Create Project
+      description: '**Enterprise feature**
+
+
+        Create a new [Unleash project](https://docs.getunleash.io/concepts/projects).'
+      requestBody:
+        description: createProjectSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createProjectSchema'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectCreatedSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/projects/validate:
+    post:
+      tags:
+      - Projects
+      operationId: validateProject
+      summary: Validate Project ID
+      description: '**Enterprise feature**
+
+
+        Validate a project ID against Unleash''s rules'
+      requestBody:
+        description: validateProjectSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validateProjectSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/projects/{projectId}:
+    put:
+      tags:
+      - Projects
+      operationId: updateProject
+      summary: Update Project
+      description: '**Enterprise feature**
+
+
+        Update a project with new configuration. Any fields not provided are ignored.'
+      requestBody:
+        description: updateProjectSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateProjectSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Projects
+      summary: Delete Project
+      description: '**Enterprise feature**
+
+
+        Permanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone.'
+      operationId: deleteProject
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/settings:
+    put:
+      tags:
+      - Projects
+      operationId: updateProjectEnterpriseSettings
+      summary: Update Project Enterprise Settings
+      description: '**Enterprise feature**
+
+
+        Update project enterprise settings with new values. Any fields not provided are ignored.'
+      requestBody:
+        description: updateProjectEnterpriseSettingsSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateProjectEnterpriseSettingsSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/access:
+    get:
+      tags:
+      - Projects
+      summary: Get Users and Groups in Project
+      description: '**Enterprise feature**
+
+
+        Get all groups, users and their roles, and available roles for the given project.'
+      operationId: getProjectAccess
+      responses:
+        '200':
+          description: projectAccessSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectAccessSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+      - Projects
+      summary: Set Users and Groups to Roles in the Current Project
+      description: '**Enterprise feature**
+
+
+        Sets all groups, users and their roles for the given project, overriding any existing configuration.'
+      operationId: setProjectAccess
+      requestBody:
+        description: projectAccessConfigurationSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectAccessConfigurationSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+      - Projects
+      summary: Configure Project Access
+      description: '**Enterprise feature**
+
+
+        Configure project access for groups and single users. The provided users and groups will be given the roles specified in the payload.'
+      operationId: addAccessToProject
+      requestBody:
+        description: projectAddAccessSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectAddAccessSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/roles/{roleId}/access:
+    get:
+      tags:
+      - Projects
+      summary: Get Project-role Mappings
+      description: '**Enterprise feature**
+
+
+        For the provided role, retrieves a list of projects that use this role. For each project it also contains information about how the role used in that project, such as how many users, groups, or service accounts that use the role.'
+      operationId: getRoleProjectAccess
+      responses:
+        '200':
+          description: projectRoleUsageSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectRoleUsageSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: roleId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/users/{userId}/roles:
+    put:
+      tags:
+      - Projects
+      summary: Sets Roles for User
+      description: '**Enterprise feature**
+
+
+        Sets the roles a user has in the project.'
+      operationId: setRolesForUser
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Projects
+      summary: Remove Project Access for a User
+      description: '**Enterprise feature**
+
+
+        Removes project access for a user by removing all of its roles for the project.'
+      operationId: removeUserAccess
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/groups/{groupId}/roles:
+    put:
+      tags:
+      - Projects
+      summary: Sets Roles for Group
+      description: '**Enterprise feature**
+
+
+        Sets the roles a group has in the project.'
+      operationId: setRolesForGroup
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Projects
+      summary: Remove Project Access for a Group
+      description: '**Enterprise feature**
+
+
+        Removes project access for a group by removing all of its roles for the project.'
+      operationId: removeGroupAccess
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/overview:
+    get:
+      tags:
+      - Projects
+      operationId: getProjectOverview
+      summary: Get an Overview of a Project.
+      description: This endpoint returns an overview of the specified projects stats, project health, number of members, which environments are configured, and the features types in the project.
+      responses:
+        '200':
+          description: projectOverviewSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectOverviewSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/dora:
+    get:
+      deprecated: true
+      tags:
+      - Projects
+      operationId: getProjectDora
+      summary: Get an Overview Project Dora Metrics.
+      description: This endpoint returns an overview of the specified dora metrics
+      responses:
+        '200':
+          description: projectDoraMetricsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectDoraMetricsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/applications:
+    get:
+      tags:
+      - Projects
+      operationId: getProjectApplications
+      summary: Get a List of All Applications for a Project.
+      description: This endpoint returns an list of all the applications for a project.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: query
+        schema:
+          type: string
+          example: first_app
+        description: The search query for the application name, sdk, environment
+        in: query
+      - name: offset
+        schema:
+          type: string
+          example: '50'
+        description: The number of applications to skip when returning a page. By default it is set to 0.
+        in: query
+      - name: limit
+        schema:
+          type: string
+          example: '50'
+        description: The number of applications to return in a page. By default it is set to 50.
+        in: query
+      - name: sortBy
+        schema:
+          type: string
+          example: type
+        description: The field to sort the results by. By default it is set to "appName".
+        in: query
+      - name: sortOrder
+        schema:
+          type: string
+          example: desc
+        description: The sort order for the sortBy. By default it is det to "asc".
+        in: query
+      responses:
+        '200':
+          description: projectApplicationsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectApplicationsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/admin/projects/{projectId}/flag-creators:
+    get:
+      tags:
+      - Projects
+      operationId: getProjectFlagCreators
+      summary: Get a List of All Flag Creators for a Project.
+      description: This endpoint returns every user who created a flag in the project.
+      responses:
+        '200':
+          description: projectFlagCreatorsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectFlagCreatorsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/sdks/outdated:
+    get:
+      tags:
+      - Projects
+      operationId: getOutdatedProjectSdks
+      summary: Get Outdated Project Sdks
+      description: Returns a list of the outdated SDKS with the applications using them.
+      responses:
+        '200':
+          description: outdatedSdksSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/outdatedSdksSchema'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/environments:
+    post:
+      tags:
+      - Projects
+      operationId: addEnvironmentToProject
+      summary: Add an Environment to a Project.
+      description: This endpoint adds the provided environment to the specified project, with optional support for enabling and disabling change requests for the environment and project.
+      requestBody:
+        description: projectEnvironmentSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectEnvironmentSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/environments/{environment}:
+    delete:
+      tags:
+      - Projects
+      operationId: removeEnvironmentFromProject
+      summary: Remove an Environment From a Project.
+      description: This endpoint removes the specified environment from the project.
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/environments/{environment}/default-strategy:
+    post:
+      tags:
+      - Projects
+      operationId: addDefaultStrategyToProjectEnvironment
+      summary: Set Environment-default Strategy
+      description: 'Sets a default strategy for this environment. Unleash will use this strategy by default when enabling a feature flag. Use the wild card "*" for `:environment` to add to all environments. '
+      requestBody:
+        description: createFeatureStrategySchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createFeatureStrategySchema'
+      responses:
+        '200':
+          description: createFeatureStrategySchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createFeatureStrategySchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/health-report:
+    get:
+      tags:
+      - Projects
+      deprecated: true
+      operationId: getProjectHealthReport
+      summary: Get a Health Report for a Project.
+      description: This endpoint returns a health report for the specified project. This data is used for [the technical debt insights](https://docs.getunleash.io/concepts/technical-debt)
+      responses:
+        '200':
+          description: healthReportSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/healthReportSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/api-tokens:
+    get:
+      tags:
+      - Projects
+      operationId: getProjectApiTokens
+      summary: Get API Tokens for Project.
+      description: Returns the project-specific [API tokens](https://docs.getunleash.io/concepts/api-tokens) that have been created for this project.
+      responses:
+        '200':
+          description: apiTokensSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiTokensSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+      - Projects
+      operationId: createProjectApiToken
+      requestBody:
+        description: createProjectApiTokenSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createProjectApiTokenSchema'
+      summary: Create a Project API Token.
+      description: Endpoint that allows creation of [project API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#api-token-visibility) for the specified project.
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiTokenSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/api-tokens/{token}:
+    delete:
+      tags:
+      - Projects
+      operationId: deleteProjectApiToken
+      summary: Delete a Project API Token.
+      description: This operation deletes the API token specified in the request URL. If the token doesn't exist, returns an OK response (status code 200).
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/insights:
+    get:
+      deprecated: true
+      tags:
+      - Projects
+      operationId: getProjectInsights
+      summary: Get an Overview of a Project Insights.
+      description: This endpoint returns insights into the specified projects stats, health, lead time for changes, feature types used, members and change requests.
+      responses:
+        '200':
+          description: projectInsightsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectInsightsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    projectAddAccessSchema:
+      type: object
+      required:
+      - roles
+      - groups
+      - users
+      description: An object containing a collection of roles, a collection of groups and a collection of users.
+      properties:
+        roles:
+          description: A list of role IDs
+          type: array
+          items:
+            type: integer
+            minimum: 0
+            example: 5
+            description: A role ID
+        groups:
+          description: A list of group IDs
+          type: array
+          items:
+            type: integer
+            minimum: 0
+            example: 5
+            description: A group ID
+        users:
+          description: A list of user IDs
+          type: array
+          items:
+            type: integer
+            minimum: 0
+            example: 5
+            description: A user ID
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+    featureSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: A feature flag definition
+      properties:
+        name:
+          type: string
+          example: disable-comments
+          description: Unique feature name
+        type:
+          type: string
+          example: kill-switch
+          description: Type of the flag e.g. experiment, kill-switch, release, operational, permission
+        description:
+          type: string
+          nullable: true
+          example: Controls disabling of the comments section in case of an incident
+          description: Detailed description of the feature
+        archived:
+          type: boolean
+          example: true
+          description: '`true` if the feature is archived'
+        project:
+          type: string
+          example: dx-squad
+          description: Name of the project the feature belongs to
+        enabled:
+          type: boolean
+          example: true
+          description: '`true` if the feature is enabled, otherwise `false`.'
+        stale:
+          type: boolean
+          example: false
+          description: '`true` if the feature is stale based on the age and feature type, otherwise `false`.'
+        favorite:
+          type: boolean
+          example: true
+          description: '`true` if the feature was favorited, otherwise `false`.'
+        impressionData:
+          type: boolean
+          example: false
+          description: '`true` if the impression data collection is enabled for the feature, otherwise `false`.'
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-01-28T15:21:39.975Z'
+          description: The date the feature was created
+        createdBy:
+          type: object
+          description: User who created the feature flag
+          additionalProperties: false
+          required:
+          - id
+          - name
+          - imageUrl
+          properties:
+            id:
+              description: The user id
+              type: integer
+              example: 123
+            name:
+              description: Name of the user
+              type: string
+              example: User
+            imageUrl:
+              description: URL used for the user profile image
+              type: string
+              example: https://example.com/242x200.png
+        archivedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-01-29T15:21:39.975Z'
+          description: The date the feature was archived
+        lastSeenAt:
+          type: string
+          format: date-time
+          nullable: true
+          deprecated: true
+          example: '2023-01-28T16:21:39.975Z'
+          description: The date when metrics where last collected for the feature. This field was deprecated in v5, use the one in featureEnvironmentSchema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/featureEnvironmentSchema'
+          description: The list of environments where the feature can be used
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/variantSchema'
+          description: The list of feature variants
+          deprecated: true
+        strategies:
+          type: array
+          items:
+            type: object
+          description: This was deprecated in v5 and will be removed in a future major version
+          deprecated: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/tagSchema'
+          nullable: true
+          description: The list of feature tags
+        children:
+          type: array
+          description: The list of child feature names. This is an experimental field and may change.
+          items:
+            type: string
+            example: some-feature
+        lifecycle:
+          type: object
+          description: Current lifecycle stage of the feature
+          additionalProperties: false
+          required:
+          - stage
+          - enteredStageAt
+          properties:
+            stage:
+              description: The name of the current lifecycle stage
+              type: string
+              enum:
+              - initial
+              - pre-live
+              - live
+              - completed
+              - archived
+              example: initial
+            status:
+              type: string
+              nullable: true
+              example: kept
+              description: The name of the detailed status of a given stage. E.g. completed stage can be kept or discarded.
+            enteredStageAt:
+              description: When the feature entered this stage
+              type: string
+              format: date-time
+              example: '2023-01-28T15:21:39.975Z'
+        dependencies:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - feature
+            properties:
+              feature:
+                description: The name of the parent feature
+                type: string
+                example: some-feature
+              enabled:
+                description: Whether the parent feature is enabled or not
+                type: boolean
+                example: true
+              variants:
+                description: The list of variants the parent feature should resolve to. Only valid when feature is enabled.
+                type: array
+                items:
+                  example: some-feature-blue-variant
+                  type: string
+          description: The list of parent dependencies. This is an experimental field and may change.
+        collaborators:
+          type: object
+          required:
+          - users
+          description: Information related to users who have made changes to this feature flage.
+          properties:
+            users:
+              description: Users who have made any changes to this feature flags. The list is sorted in reverse chronological order (most recent changes first)
+              type: array
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - imageUrl
+                description: A simple representation of a user.
+                properties:
+                  id:
+                    description: The user's id
+                    type: integer
+                    example: 123
+                  name:
+                    description: The user's name, username, or email (prioritized in that order). If none of those are present, this property will be set to the string `unknown`
+                    type: string
+                    example: User
+                  imageUrl:
+                    description: The URL to the user's profile image
+                    type: string
+                    example: https://example.com/242x200.png
+        links:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - id
+            - url
+            properties:
+              id:
+                type: string
+                example: 01JTJNCJ5XVP2KPJFA03YRBZCA
+                description: The id of the link
+              url:
+                type: string
+                example: https://github.com/search?q=cleanupReminder&type=code
+                description: The URL the feature is linked to
+              title:
+                type: string
+                example: Github cleanup
+                description: The description of the link
+                nullable: true
+              feature:
+                type: string
+                example: disable-comments
+                description: The name of the feature this link belongs to
+          description: The list of links. This is an experimental field and may change.
+    projectEnvironmentSchema:
+      type: object
+      additionalProperties: false
+      description: Add an environment to a project, optionally also sets if change requests are enabled for this environment on the project
+      required:
+      - environment
+      properties:
+        environment:
+          type: string
+          description: The environment to add to the project
+          example: development
+        changeRequestsEnabled:
+          type: boolean
+          description: Whether change requests should be enabled or for this environment on the project or not
+          example: true
+        defaultStrategy:
+          $ref: '#/components/schemas/createFeatureStrategySchema'
+          description: A default strategy to create for this environment on the project.
+    projectAccessConfigurationSchema:
+      type: object
+      required:
+      - roles
+      description: An object describing roles for a project and what users and groups are part of that role.
+      additionalProperties: false
+      properties:
+        roles:
+          type: array
+          description: A list of roles that are available within this project.
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The id of the role.
+                example: 1
+                minimum: 1
+              groups:
+                description: A list of group ids that will be assigned this role
+                type: array
+                items:
+                  type: integer
+                example:
+                - 1
+                - 2
+                - 3
+              users:
+                type: array
+                description: A list of user ids that will be assigned this role
+                items:
+                  type: integer
+                example:
+                - 1
+                - 2
+                - 3
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type: string
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+          nullable: true
+        disabled:
+          type: boolean
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    projectApplicationSdkSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - versions
+      description: A project application instance SDK.
+      properties:
+        name:
+          type: string
+          description: Name of the SDK package that the application is using.
+          example: unleash-client-node
+        versions:
+          description: The versions of the SDK that the application is using.
+          type: array
+          items:
+            type: string
+          example:
+          - 4.1.1
+    projectsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - projects
+      description: An overview of all the projects in the Unleash instance
+      properties:
+        version:
+          type: integer
+          description: The schema version used to represent the project data.
+          example: 1
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectSchema'
+          description: A list of projects in the Unleash instance
+    outdatedSdksSchema:
+      type: object
+      description: Data about outdated SDKs that should be upgraded.
+      additionalProperties: false
+      required:
+      - sdks
+      properties:
+        sdks:
+          type: array
+          description: A list of SDKs
+          items:
+            type: object
+            required:
+            - sdkVersion
+            - applications
+            additionalProperties: false
+            properties:
+              sdkVersion:
+                type: string
+                description: An outdated SDK version identifier. Usually formatted as "unleash-client-<language>:<version>"
+                example: unleash-client-java:7.0.0
+              applications:
+                type: array
+                items:
+                  description: Name of the application
+                  type: string
+                  example: accounting
+                description: A list of applications using the SDK version
+    projectInsightsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - stats
+      - leadTime
+      - featureTypeCounts
+      - health
+      - technicalDebt
+      - members
+      description: A high-level overview of a project insights. It contains information such as project statistics, overall health, types of flags, members overview, change requests overview.
+      properties:
+        stats:
+          $ref: '#/components/schemas/projectStatsSchema'
+          description: Project statistics
+        health:
+          type: object
+          deprecated: true
+          required:
+          - rating
+          - activeCount
+          - potentiallyStaleCount
+          - staleCount
+          properties:
+            rating:
+              type: integer
+              description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt#project-status) on a scale from 0 to 100
+              example: 95
+            activeCount:
+              type: number
+              description: The number of active feature flags.
+              example: 12
+            potentiallyStaleCount:
+              type: number
+              description: The number of potentially stale feature flags.
+              example: 5
+            staleCount:
+              type: number
+              description: The number of stale feature flags.
+              example: 10
+          description: Use `technicalDebt` instead. Summary of the project health
+        technicalDebt:
+          type: object
+          required:
+          - rating
+          - activeCount
+          - potentiallyStaleCount
+          - staleCount
+          properties:
+            rating:
+              type: integer
+              description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt#project-status) on a scale from 0 to 100
+              example: 25
+              minimum: 0
+              maximum: 100
+            activeCount:
+              type: number
+              description: The number of active feature flags.
+              example: 12
+            potentiallyStaleCount:
+              type: number
+              description: The number of potentially stale feature flags.
+              example: 5
+            staleCount:
+              type: number
+              description: The number of stale feature flags.
+              example: 10
+          description: Summary of the projects technical debt
+        leadTime:
+          type: object
+          $ref: '#/components/schemas/projectDoraMetricsSchema'
+          description: Lead time (DORA) metrics
+        featureTypeCounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/featureTypeCountSchema'
+          description: The number of features of each type
+        members:
+          type: object
+          required:
+          - currentMembers
+          - change
+          properties:
+            currentMembers:
+              type: number
+              description: The number of total project members
+              example: 10
+            change:
+              type: number
+              description: The change in the number of project members compared to the previous month
+              example: 10
+          description: Active/inactive users summary
+    projectSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      description: A definition of the project used for projects listing purposes
+      properties:
+        id:
+          type: string
+          example: dx-squad
+          description: The id of this project
+        name:
+          type: string
+          example: DX-Squad
+          description: The name of this project
+        description:
+          deprecated: true
+          type: string
+          nullable: true
+          example: DX squad feature release
+          description: Additional information about the project
+        health:
+          type: number
+          example: 50
+          description: Use `technicalDebt` instead.
+          deprecated: true
+        technicalDebt:
+          type: number
+          example: 25
+          minimum: 0
+          maximum: 100
+          description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt#project-status) on a scale from 0 to 100
+        featureCount:
+          type: number
+          example: 10
+          description: The number of features this project has
+        staleFeatureCount:
+          deprecated: true
+          type: number
+          example: 10
+          description: The number of stale features this project has
+        potentiallyStaleFeatureCount:
+          deprecated: true
+          type: number
+          example: 10
+          description: The number of potentially stale features this project has
+        memberCount:
+          type: number
+          example: 4
+          description: The number of members this project has
+        createdAt:
+          type: string
+          description: When this project was created.
+          example: '2023-07-27T12:12:28Z'
+          format: date-time
+        updatedAt:
+          deprecated: true
+          type: string
+          format: date-time
+          nullable: true
+          description: When this project was last updated.
+          example: '2023-07-28T12:12:28Z'
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: When this project was last updated.
+          example: '2023-07-28T12:12:28Z'
+        archivedAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: When this project was archived.
+          example: '2023-07-28T12:12:28Z'
+        favorite:
+          type: boolean
+          example: true
+          description: '`true` if the project was favorited, otherwise `false`.'
+        mode:
+          type: string
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          description: The project's [collaboration mode](https://docs.getunleash.io/concepts/project-collaboration-mode). Determines whether non-project members can submit change requests or not.
+        defaultStickiness:
+          deprecated: true
+          type: string
+          example: userId
+          description: A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
+        avgTimeToProduction:
+          deprecated: true
+          type: number
+          example: 10
+          description: The average time from when a feature was created to when it was enabled in the "production" environment during the current window
+        lastReportedFlagUsage:
+          type: string
+          format: date-time
+          nullable: true
+          description: Across all flags in your project this is the last time usage metrics where reported from connected applications.
+          example: '2023-07-28T12:12:28Z'
+        owners:
+          description: The users and/or groups that have the "owner" role in this project. If no such users or groups exist, the list will contain the "system" owner instead.
+          oneOf:
+          - type: array
+            minItems: 1
+            items:
+              anyOf:
+              - type: object
+                required:
+                - ownerType
+                - name
+                properties:
+                  ownerType:
+                    type: string
+                    enum:
+                    - user
+                  name:
+                    type: string
+                    example: User Name
+                  imageUrl:
+                    type: string
+                    nullable: true
+                    example: https://example.com/image.jpg
+                  email:
+                    type: string
+                    nullable: true
+                    example: user@example.com
+              - type: object
+                required:
+                - ownerType
+                - name
+                properties:
+                  ownerType:
+                    type: string
+                    enum:
+                    - group
+                  name:
+                    type: string
+                    example: Group Name
+          - type: array
+            minItems: 1
+            maxItems: 1
+            items:
+              type: object
+              required:
+              - ownerType
+              properties:
+                ownerType:
+                  type: string
+                  enum:
+                  - system
+    projectRoleSchema:
+      type: object
+      description: An overview of how many users and groups are mapped to the specified project with the specified role.
+      required:
+      - project
+      additionalProperties: false
+      properties:
+        project:
+          type: string
+          example: project-a
+          description: The id of the project user and group count are counted for.
+        role:
+          type: integer
+          example: 3
+          description: Id of the role the user and group count are counted for.
+        userCount:
+          type: integer
+          example: 1
+          description: Number of users mapped to this project.
+          minimum: 0
+        serviceAccountCount:
+          type: integer
+          example: 1
+          description: Number of service accounts mapped to this project.
+          minimum: 0
+        groupCount:
+          type: integer
+          example: 1
+          description: Number of groups mapped to this project.
+          minimum: 0
+    userSchema:
+      type: object
+      additionalProperties: false
+      description: An Unleash user
+      required:
+      - id
+      properties:
+        id:
+          description: The user id
+          type: integer
+          example: 123
+        name:
+          description: Name of the user
+          type: string
+          example: User
+          nullable: true
+        email:
+          description: Email of the user
+          type: string
+          example: user@example.com
+        username:
+          description: A unique username for the user
+          type: string
+          example: hunter
+          nullable: true
+        imageUrl:
+          description: URL used for the user profile image
+          type: string
+          example: https://example.com/242x200.png
+        inviteLink:
+          description: If the user is actively inviting other users, this is the link that can be shared with other users
+          type: string
+          example: http://localhost:4242/invite-link/some-secret
+        loginAttempts:
+          description: How many unsuccessful attempts at logging in has the user made
+          type: integer
+          minimum: 0
+          example: 3
+        emailSent:
+          description: Is the welcome email sent to the user or not
+          type: boolean
+          example: false
+        rootRole:
+          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
+          type: integer
+          example: 1
+          minimum: 0
+        seenAt:
+          description: The last time this user logged in
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-06-30T11:42:00.345Z'
+        createdAt:
+          description: The user was created at this time
+          type: string
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
+        accountType:
+          description: A user is either an actual User or a Service Account
+          type: string
+          enum:
+          - User
+          - Service Account
+          example: User
+        permissions:
+          description: Deprecated
+          type: array
+          items:
+            type: string
+        scimId:
+          description: The SCIM ID of the user, only present if managed by SCIM
+          type: string
+          nullable: true
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
+        seatType:
+          description: The seat type of this user
+          type: string
+          nullable: true
+          example: Regular
+        activeSessions:
+          description: Count of active browser sessions for this user
+          type: integer
+          nullable: true
+          example: 2
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after last login
+          type: number
+          example: 1
+    variantSchema:
+      type: object
+      additionalProperties: false
+      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
+      required:
+      - name
+      - weight
+      properties:
+        name:
+          type: string
+          description: The variants name. Is unique for this feature flag
+          example: blue_group
+        weight:
+          type: number
+          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
+          type: string
+          example: variable
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+        overrides:
+          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
+          type: array
+          items:
+            $ref: '#/components/schemas/overrideSchema'
+    projectFlagCreatorsSchema:
+      type: array
+      description: A list of project flag creators
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - name
+        properties:
+          id:
+            type: integer
+            example: 50
+            description: The user id.
+          name:
+            description: Name of the user. If the user has no set name, the API falls back to using the user's username (if they have one) or email (if neither name or username is set).
+            type: string
+            example: User
+    releasePlanMilestoneStrategySchema:
+      additionalProperties: false
+      description: Schema representing the creation of a release plan milestone strategy.
+      type: object
+      required:
+      - id
+      - milestoneId
+      - sortOrder
+      - strategyName
+      properties:
+        id:
+          type: string
+          description: The milestone strategy's ID. Milestone strategy IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW3
+          nullable: false
+        milestoneId:
+          type: string
+          description: The ID of the milestone that this strategy belongs to.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW1
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        title:
+          type: string
+          nullable: true
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        strategyName:
+          type: string
+          description: The name of the strategy type
+          example: flexibleRollout
+        parameters:
+          description: An object containing the parameters for the strategy
+          example:
+            groupId: some_new
+            rollout: '25'
+            stickiness: sessionId
+          $ref: '#/components/schemas/parametersSchema'
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          example:
+          - values:
+            - '1'
+            - '2'
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/createStrategyVariantSchema'
+        segments:
+          type: array
+          description: Ids of segments to use for this strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+    overrideSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - contextName
+      - values
+      description: An override for deciding which variant should be assigned to a user based on the context name
+      properties:
+        contextName:
+          description: The name of the context field used to determine overrides
+          type: string
+          example: userId
+        values:
+          description: Which values that should be overriden
+          type: array
+          items:
+            type: string
+          example:
+          - red
+          - blue
+    groupWithProjectRoleSchema:
+      type: object
+      description: Data about a group including their project role
+      additionalProperties: false
+      required:
+      - id
+      properties:
+        name:
+          type: string
+          description: The name of the group
+          example: DX team
+        id:
+          type: integer
+          minimum: 0
+          description: The group's ID in the Unleash system
+          example: 1
+        addedAt:
+          type: string
+          description: When this group was added to the project
+          format: date-time
+          example: '2023-08-01T14:35:16Z'
+        roleId:
+          description: The ID of the role this group has in the given project
+          type: integer
+          minimum: 0
+          example: 5
+        roles:
+          type: array
+          description: A list of roles this user has in the given project
+          items:
+            type: integer
+            minimum: 0
+            example: 5
+        description:
+          description: A custom description of the group
+          type: string
+          nullable: true
+          example: Current members of the DX squad
+        mappingsSSO:
+          description: A list of SSO groups that should map to this Unleash group
+          type: array
+          items:
+            type: string
+          example:
+          - SSOGroup1
+          - SSOGroup2
+        rootRole:
+          type: number
+          nullable: true
+          description: A role id that is used as the root role for all users in this group. This can be either the id of the Viewer, Editor or Admin role.
+          example: 1
+        createdBy:
+          description: A user who created this group
+          type: string
+          nullable: true
+          example: admin
+        createdAt:
+          description: When was this group created
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-06-30T11:41:00.123Z'
+        users:
+          type: array
+          description: A list of users belonging to this group
+          items:
+            $ref: '#/components/schemas/groupUserModelSchema'
+        scimId:
+          description: The SCIM ID of the group, only present if managed by SCIM
+          type: string
+          nullable: true
+          example: 01HTMEXAMPLESCIMID7SWWGHN7
+    groupUserModelSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - user
+      description: Details for a single user belonging to a group
+      properties:
+        joinedAt:
+          description: The date when the user joined the group
+          type: string
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
+        createdBy:
+          description: The username of the user who added this user to this group
+          type: string
+          nullable: true
+          example: admin
+        user:
+          $ref: '#/components/schemas/userSchema'
+    projectApplicationsSchema:
+      type: object
+      description: A list of project applications
+      required:
+      - total
+      - applications
+      properties:
+        total:
+          type: integer
+          example: 50
+          description: The total number of project applications.
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectApplicationSchema'
+          description: All applications defined for a specific project.
+    createProjectApiTokenSchema:
+      type: object
+      required:
+      - tokenName
+      - type
+      description: The schema for creating a project API token. This schema is used to create a new project API token.
+      properties:
+        type:
+          type: string
+          pattern: ^([Cc][Ll][Ii][Ee][Nn][Tt]|[Bb][Aa][Cc][Kk][Ee][Nn][Dd]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$
+          description: A client or frontend token. Must be one of the strings "client" (deprecated), "backend" (preferred over "client") or "frontend" (not case sensitive).
+          example: frontend
+        environment:
+          type: string
+          description: The environment that the token should be valid for. Defaults to "default".
+          example: development
+          default: default
+        expiresAt:
+          type: string
+          description: The date and time when the token should expire. The date should be in ISO 8601 format.
+          example: '2023-10-01T00:00:00Z'
+          format: date-time
+        tokenName:
+          type: string
+          description: A unique name for this particular token
+          example: some-user
+    projectAccessSchema:
+      type: object
+      required:
+      - roles
+      - users
+      - groups
+      description: An object describing access permissions for a given project.
+      additionalProperties: false
+      properties:
+        groups:
+          description: A list of groups that have access to this project
+          type: array
+          items:
+            $ref: '#/components/schemas/groupWithProjectRoleSchema'
+        users:
+          type: array
+          description: A list of users and their roles within this project
+          items:
+            $ref: '#/components/schemas/userWithProjectRoleSchema'
+        roles:
+          type: array
+          description: A list of roles that are available within this project.
+          items:
+            $ref: '#/components/schemas/roleSchema'
+    createProjectSchema:
+      type: object
+      required:
+      - name
+      description: Data used to create a new [project](https://docs.getunleash.io/concepts/projects).
+      properties:
+        id:
+          deprecated: true
+          description: The project's identifier. If this property is not present or is an empty string, Unleash will generate the project id automatically. This property is deprecated.
+          type: string
+          pattern: '[A-Za-z0-9_~.-]*'
+          example: pet-shop
+        name:
+          description: The project's name. The name must contain at least one non-whitespace character.
+          type: string
+          pattern: ^(?!\s*$).+
+          example: Pet shop
+        description:
+          description: The project's description.
+          type: string
+          nullable: true
+          example: This project contains features related to the new pet shop.
+        mode:
+          type: string
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          default: open
+          description: A mode of the project affecting what actions are possible in this project
+        defaultStickiness:
+          type: string
+          example: userId
+          default: default
+          description: A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
+        environments:
+          type: array
+          items:
+            type: string
+            example: production
+          description: A list of environments that should be enabled for this project. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project. An empty list will result in no environment enabled for the project.
+          example:
+          - production
+          - development
+        changeRequestEnvironments:
+          type: array
+          description: A list of environments that should have change requests enabled. If the list includes environments not in the `environments` list, they will still have change requests enabled.
+          items:
+            type: object
+            required:
+            - name
+            properties:
+              name:
+                type: string
+                example: production
+                description: The name of the environment to configure change requests for.
+              requiredApprovals:
+                type: integer
+                example: 3
+                default: 1
+                description: The number of approvals required for a change request to be fully approved and ready to applied in this environment. If no value is provided, it will be set to the default number, which is 1. Values will be clamped to between 1 and 10 inclusive.
+    releasePlanMilestoneSchema:
+      additionalProperties: false
+      description: Schema representing the creation of a release plan milestone.
+      type: object
+      required:
+      - id
+      - name
+      - sortOrder
+      - releasePlanDefinitionId
+      properties:
+        id:
+          type: string
+          description: The milestone's ID. Milestone IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW1
+          nullable: false
+        name:
+          type: string
+          description: The name of the milestone.
+          example: My milestone
+        sortOrder:
+          type: integer
+          description: The order of the milestone in the release plan.
+          example: 1
+        releasePlanDefinitionId:
+          type: string
+          description: The ID of the release plan/template that this milestone belongs to.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+        startedAt:
+          type: string
+          format: date-time
+          description: The date and time when the milestone was started.
+          example: '2024-01-01T00:00:00.000Z'
+          nullable: true
+        transitionCondition:
+          type: object
+          additionalProperties: false
+          required:
+          - intervalMinutes
+          properties:
+            intervalMinutes:
+              type: integer
+              minimum: 1
+              description: The interval in minutes before transitioning
+              example: 30
+          description: The condition configuration for the transition
+          nullable: true
+        progressionExecutedAt:
+          type: string
+          format: date-time
+          description: The date and time when the milestone progression was executed.
+          example: '2024-01-01T00:00:00.000Z'
+          nullable: true
+        pausedAt:
+          type: string
+          format: date-time
+          description: The date and time when the milestone was paused.
+          example: '2024-01-01T00:00:00.000Z'
+          nullable: true
+        strategies:
+          type: array
+          description: A list of strategies that are attached to this milestone.
+          items:
+            $ref: '#/components/schemas/releasePlanMilestoneStrategySchema'
+    releasePlanSchema:
+      additionalProperties: false
+      description: Schema representing the creation of a release plan.
+      type: object
+      required:
+      - id
+      - discriminator
+      - name
+      - featureName
+      - environment
+      - createdByUserId
+      - createdAt
+      - milestones
+      - releasePlanTemplateId
+      properties:
+        id:
+          type: string
+          description: The release plan/template's ID. Release template IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+          nullable: false
+        discriminator:
+          type: string
+          description: A field to distinguish between release plans and release templates.
+          example: plan
+          nullable: false
+          enum:
+          - plan
+        name:
+          type: string
+          description: The name of the release template.
+          example: My release plan
+        description:
+          type: string
+          description: A description of the release template.
+          example: This is my release plan
+          nullable: true
+        featureName:
+          type: string
+          description: The name of the feature that uses this release plan.
+          example: my-feature
+        environment:
+          type: string
+          description: The environment that this release plan is for.
+          example: production
+        createdByUserId:
+          type: number
+          description: 'Release template: The ID of the user who created this template.'
+          example: 53
+          nullable: false
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time that the release template was created.
+          example: '2022-01-01T00:00:00Z'
+          nullable: false
+        activeMilestoneId:
+          type: string
+          description: The ID of the currently active milestone in this release plan.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW1
+          nullable: true
+        milestones:
+          type: array
+          description: A list of the milestones in this release template.
+          items:
+            $ref: '#/components/schemas/releasePlanMilestoneSchema'
+        releasePlanTemplateId:
+          type: string
+          description: The ID of the release plan template that this release plan is based on.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+          nullable: false
+        safeguards:
+          type: array
+          description: An array of safeguards configured for this release plan.
+          items:
+            $ref: '#/components/schemas/safeguardSchema'
+    projectCreatedSchema:
+      type: object
+      required:
+      - id
+      - name
+      description: Details about the newly created project.
+      additionalProperties: false
+      properties:
+        id:
+          description: The project's identifier.
+          type: string
+          pattern: '[A-Za-z0-9_~.-]+'
+          example: pet-shop
+        name:
+          description: The project's name.
+          type: string
+          minLength: 1
+          example: Pet shop
+        description:
+          description: The project's description.
+          type: string
+          nullable: true
+          example: This project contains features related to the new pet shop.
+        featureLimit:
+          type: integer
+          nullable: true
+          example: 100
+          description: A limit on the number of features allowed in the project. `null` if no limit.
+        mode:
+          type: string
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          description: A mode of the project affecting what actions are possible in this project
+        defaultStickiness:
+          type: string
+          example: userId
+          description: A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
+        environments:
+          type: array
+          items:
+            type: string
+          description: The environments enabled for the project.
+          example:
+          - production
+          - staging
+        changeRequestEnvironments:
+          type: array
+          description: The list of environments that have change requests enabled.
+          items:
+            type: object
+            required:
+            - name
+            - requiredApprovals
+            properties:
+              name:
+                type: string
+                example: production
+                description: The name of the environment this change request configuration applies to.
+              requiredApprovals:
+                type: integer
+                example: 3
+                minimum: 1
+                default: 1
+                description: The number of approvals required for a change request to be fully approved and ready to applied in this environment. If no value is provided, it will be set to the default number, which is 1. The value must be greater than or equal to 1.
+    projectApplicationSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - environments
+      - instances
+      - sdks
+      description: A project application instance.
+      properties:
+        name:
+          type: string
+          description: Name of the application that is using the SDK. This is the same as the appName in the SDK configuration.
+        environments:
+          description: The environments that the application is using. This is the same as the environment in the SDK configuration.
+          type: array
+          items:
+            type: string
+          example:
+          - development
+          - production
+        instances:
+          description: The instances of the application that are using the SDK.
+          type: array
+          items:
+            type: string
+          example:
+          - prod-b4ca
+          - prod-ac8a
+        sdks:
+          type: array
+          description: The SDKs that the application is using.
+          items:
+            $ref: '#/components/schemas/projectApplicationSdkSchema'
+    healthReportSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - name
+      - defaultStickiness
+      - mode
+      - members
+      - health
+      - technicalDebt
+      - environments
+      - features
+      - potentiallyStaleCount
+      - activeCount
+      - staleCount
+      description: A report of the current health of the requested project, with datapoints like counters of currently active, stale, and potentially stale feature flags.
+      properties:
+        version:
+          type: integer
+          description: The project overview version.
+          example: 1
+        name:
+          type: string
+          description: The project's name
+          example: enterprisegrowth
+        description:
+          type: string
+          nullable: true
+          description: The project's description
+          example: The project for all things enterprisegrowth
+        defaultStickiness:
+          type: string
+          example: userId
+          description: A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
+        mode:
+          type: string
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          description: The project's [collaboration mode](https://docs.getunleash.io/concepts/project-collaboration-mode). Determines whether non-project members can submit change requests or not.
+        featureLimit:
+          type: number
+          nullable: true
+          example: 100
+          description: A limit on the number of features allowed in the project. Null if no limit.
+        members:
+          type: integer
+          description: The number of users/members in the project.
+          example: 5
+          minimum: 0
+        health:
+          type: integer
+          description: Use `technicalDebt` instead.
+          example: 95
+          deprecated: true
+        technicalDebt:
+          type: number
+          example: 25
+          minimum: 0
+          maximum: 100
+          description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt#project-status) on a scale from 0 to 100
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectEnvironmentSchema'
+          description: An array containing the names of all the environments configured for the project.
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/featureSchema'
+          description: An array containing an overview of all the features of the project and their individual status
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the project was last updated.
+          example: '2023-04-19T08:15:14.000Z'
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the project was last updated.
+          example: '2023-04-19T08:15:14.000Z'
+        favorite:
+          type: boolean
+          description: Indicates if the project has been marked as a favorite by the current user requesting the project health overview.
+          example: true
+        stats:
+          $ref: '#/components/schemas/projectStatsSchema'
+          description: Project statistics
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
+        potentiallyStaleCount:
+          type: number
+          description: The number of potentially stale feature flags.
+          example: 5
+        activeCount:
+          type: number
+          description: The number of active feature flags.
+          example: 2
+        staleCount:
+          type: number
+          description: The number of stale feature flags.
+          example: 10
+    projectStatsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - avgTimeToProdCurrentWindow
+      - createdCurrentWindow
+      - createdPastWindow
+      - archivedCurrentWindow
+      - archivedPastWindow
+      - projectActivityCurrentWindow
+      - projectActivityPastWindow
+      - projectMembersAddedCurrentWindow
+      description: 'Statistics for a project, including the average time to production, number of features created, the project activity and more.
+
+
+        Stats are divided into current and previous **windows**.
+
+        - The **current window** is the past 30 days.
+
+        - The **previous window** is the 30 days **before** the current window (from 60 to 30 days ago)'
+      properties:
+        avgTimeToProdCurrentWindow:
+          type: number
+          example: 10
+          description: The average time from when a feature was created to when it was enabled in the "production" environment during the current window
+        createdCurrentWindow:
+          type: number
+          example: 15
+          description: The number of feature flags created during the current window
+        createdPastWindow:
+          type: number
+          example: 15
+          description: The number of feature flags created during the previous window
+        archivedCurrentWindow:
+          type: number
+          example: 5
+          description: The number of feature flags that were archived during the current window
+        archivedPastWindow:
+          type: number
+          example: 5
+          description: The number of feature flags that were archived during the previous window
+        projectActivityCurrentWindow:
+          type: number
+          example: 100
+          description: The number of project events that occurred during the current window
+        projectActivityPastWindow:
+          type: number
+          example: 100
+          description: The number of project events that occurred during the previous window
+        projectMembersAddedCurrentWindow:
+          type: number
+          example: 1
+          description: The number of members that were added to the project during the current window
+    safeguardSchema:
+      type: object
+      required:
+      - id
+      - action
+      - triggerCondition
+      - impactMetric
+      description: A safeguard configuration for a release plan.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: The unique ULID identifier for this safeguard
+          example: 01JB9GGTGQYEQ9D40R17T3YVW1
+        action:
+          type: object
+          required:
+          - type
+          - id
+          additionalProperties: false
+          description: The action to take when the safeguard is triggered.
+          properties:
+            type:
+              type: string
+              description: The type of action to perform.
+              example: pauseReleasePlanProgressions
+            id:
+              type: string
+              description: The ID of the release plan this safeguard applies to.
+              example: 01JB9GGTGQYEQ9D40R17T3YVW2
+        triggerCondition:
+          $ref: '#/components/schemas/safeguardTriggerConditionSchema'
+          description: The condition that triggers the safeguard.
+        impactMetric:
+          type: object
+          required:
+          - id
+          - metricName
+          - timeRange
+          - aggregationMode
+          - labelSelectors
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+              description: The unique identifier for this impact metric
+              example: 01JB9GGTGQYEQ9D40R17T3YVW1
+            metricName:
+              type: string
+              description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+              example: unleash_counter_feature_toggle_usage_total
+            timeRange:
+              type: string
+              enum:
+              - hour
+              - day
+              - week
+              - month
+              description: The time range for the metric data.
+              example: day
+            aggregationMode:
+              type: string
+              description: The aggregation mode for the metric data.
+              enum:
+              - rps
+              - count
+              - avg
+              - sum
+              - p95
+              - p99
+              - p50
+              example: rps
+            labelSelectors:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              description: The selected labels and their values for filtering the metric data.
+              example:
+                environment:
+                - development
+                project:
+                - default
+          description: The metric configuration used to evaluate the safeguard condition.
+    createFeatureNamingPatternSchema:
+      type: object
+      description: Create a feature naming pattern
+      required:
+      - pattern
+      properties:
+        pattern:
+          type: string
+          nullable: true
+          description: A JavaScript regular expression pattern, without the start and end delimiters. Optional flags are not allowed.
+          example: ^[A-Za-z]+\.[A-Za-z]+\.[A-Za-z0-9-]+$
+        example:
+          type: string
+          nullable: true
+          description: An example of a feature name that matches the pattern. Must itself match the pattern supplied.
+          example: dx.feature.1-135
+        description:
+          type: string
+          nullable: true
+          description: A description of the pattern in a human-readable format. Will be shown to users when they create a new feature flag.
+          example: '<project>.<featureName>.<ticket>
+
+
+            The flag name should contain the project name, the feature name, and the ticket number, each separated by a dot.'
+    updateProjectSchema:
+      type: object
+      description: Data used to update a [project](https://docs.getunleash.io/concepts/projects)
+      required:
+      - name
+      properties:
+        name:
+          description: The new name of the project. The name must contain at least one non-whitespace character.
+          type: string
+          pattern: ^(?!\s*$).+
+          example: my-renamed-project
+        description:
+          type: string
+          description: A new description for the project
+          example: Anything related to the new UI
+        mode:
+          type: string
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          description: A mode of the project affecting what actions are possible in this project
+        defaultStickiness:
+          type: string
+          example: userId
+          description: A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
+    projectLinkTemplateSchema:
+      type: object
+      description: A template for a link that can be automatically added to new feature flags.
+      required:
+      - urlTemplate
+      properties:
+        title:
+          type: string
+          description: The title of the link.
+          example: Code search
+          nullable: true
+        urlTemplate:
+          type: string
+          description: The URL to use as a template. Can contain {{project}} or {{feature}} as placeholders.
+          example: https://github.com/search?type=code&q=repo%3AUnleash%2F{{project}}+{{feature}}
+      additionalProperties: false
+    featureEnvironmentSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - enabled
+      description: A detailed description of the feature environment
+      properties:
+        name:
+          type: string
+          example: my-dev-env
+          description: The name of the environment
+        featureName:
+          type: string
+          example: disable-comments
+          description: The name of the feature
+        environment:
+          type: string
+          example: development
+          description: The name of the environment
+        type:
+          type: string
+          example: development
+          description: The type of the environment
+        enabled:
+          type: boolean
+          example: true
+          description: '`true` if the feature is enabled for the environment, otherwise `false`.'
+        sortOrder:
+          type: number
+          example: 3
+          description: The sort order of the feature environment in the feature environments list
+        variantCount:
+          type: number
+          description: The number of defined variants
+        strategies:
+          type: array
+          items:
+            $ref: '#/components/schemas/featureStrategySchema'
+          description: A list of activation strategies for the feature environment
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/variantSchema'
+          description: A list of variants for the feature environment
+        changeRequestIds:
+          type: array
+          items:
+            type: number
+          description: Experimental. A list of change request identifiers for actionable change requests that are not Cancelled, Rejected or Approved.
+        milestoneName:
+          type: string
+          example: Phase One
+          description: 'Experimental: The name of the currently active release plan milestone'
+        milestoneOrder:
+          type: number
+          example: 0
+          description: 'Experimental: The zero-indexed order of currently active milestone in the list of all release plan milestones'
+        totalMilestones:
+          type: number
+          example: 0
+          description: 'Experimental: The total number of milestones in the feature environment release plan'
+        lastSeenAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-01-28T16:21:39.975Z'
+          description: The date when metrics where last collected for the feature environment
+        hasStrategies:
+          type: boolean
+          description: Whether the feature has any strategies defined.
+        hasEnabledStrategies:
+          type: boolean
+          description: Whether the feature has any enabled strategies defined.
+        releasePlans:
+          type: array
+          description: Release plans for this feature environment (only available when milestoneProgression feature flag is enabled)
+          items:
+            $ref: '#/components/schemas/releasePlanSchema'
+        'yes':
+          type: integer
+          description: How many times the feature evaluated to true (enabled)
+          example: 974
+          minimum: 0
+        'no':
+          type: integer
+          description: How many times the feature evaluated to false (disabled)
+          example: 50
+          minimum: 0
+    createFeatureStrategySchema:
+      type: object
+      required:
+      - name
+      description: Create a strategy configuration in a feature
+      properties:
+        name:
+          type: string
+          description: The name of the strategy type
+          example: flexibleRollout
+        title:
+          type: string
+          nullable: true
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type: boolean
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          example:
+          - values:
+            - '1'
+            - '2'
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/createStrategyVariantSchema'
+        parameters:
+          description: An object containing the parameters for the strategy
+          example:
+            groupId: some_new
+            rollout: '25'
+            stickiness: sessionId
+          $ref: '#/components/schemas/parametersSchema'
+        segments:
+          type: array
+          description: Ids of segments to use for this strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+    projectRoleUsageSchema:
+      type: object
+      description: A collection of projects with counts of users and groups mapped to them with specified roles.
+      additionalProperties: false
+      properties:
+        projects:
+          type: array
+          description: A collection of projects with counts of users and groups mapped to them with specified roles.
+          items:
+            $ref: '#/components/schemas/projectRoleSchema'
+    updateProjectEnterpriseSettingsSchema:
+      type: object
+      description: Data used to update a [project](https://docs.getunleash.io/concepts/projects) settings
+      properties:
+        mode:
+          type: string
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          description: A mode of the project affecting what actions are possible in this project
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
+        linkTemplates:
+          type: array
+          description: A list of link templates that can be automatically added to new feature flags.
+          items:
+            $ref: '#/components/schemas/projectLinkTemplateSchema'
+    roleSchema:
+      type: object
+      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - name
+      properties:
+        id:
+          type: integer
+          description: The role id
+          example: 9
+          minimum: 0
+        type:
+          description: A role can either be a global root role (applies to all projects) or a project role
+          type: string
+          example: root
+        name:
+          description: The name of the role
+          type: string
+          example: Editor
+        description:
+          description: A more detailed description of the role and what use it's intended for
+          type: string
+          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+        project:
+          description: What project the role belongs to
+          type: string
+          nullable: true
+          example: default
+    doraFeaturesSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - timeToProduction
+      description: The representation of a dora time to production feature metric
+      properties:
+        name:
+          type: string
+          description: The name of a feature flag
+        timeToProduction:
+          type: number
+          description: The average number of days it takes a feature flag to get into production
+    userWithProjectRoleSchema:
+      type: object
+      description: Data about a user including their project role
+      required:
+      - id
+      properties:
+        isAPI:
+          type: boolean
+          description: Whether this user is authenticated through Unleash tokens or logged in with a session
+          deprecated: true
+          example: false
+        name:
+          type: string
+          description: The name of the user
+          example: Hunter Burgan
+        email:
+          type: string
+          nullable: true
+          description: The user's email address
+          example: hunter@hunter.com
+        id:
+          type: integer
+          minimum: 0
+          description: The user's ID in the Unleash system
+          example: 1
+        imageUrl:
+          type: string
+          nullable: true
+          format: uri
+          description: A URL pointing to the user's image.
+        addedAt:
+          type: string
+          description: When this user was added to the project
+          format: date-time
+          example: '2023-08-01T14:35:16Z'
+        roleId:
+          description: The ID of the role this user has in the given project
+          type: integer
+          minimum: 0
+          example: 5
+        roles:
+          type: array
+          description: A list of roles this user has in the given project
+          items:
+            type: integer
+            minimum: 0
+            example: 5
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type: string
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          nullable: true
+    featureTypeCountSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - count
+      description: A count of feature flags of a specific type
+      properties:
+        type:
+          type: string
+          example: kill-switch
+          description: Type of the flag e.g. experiment, kill-switch, release, operational, permission
+        count:
+          type: number
+          example: 1
+          description: Number of feature flags of this type
+    apiTokenSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - secret
+      - tokenName
+      - type
+      - projects
+      - createdAt
+      description: An overview of an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
+      properties:
+        secret:
+          type: string
+          description: The token used for authentication.
+          example: project:environment.xyzrandomstring
+        tokenName:
+          type: string
+          description: A unique name for this particular token
+          example: some-user
+        type:
+          type: string
+          enum:
+          - client
+          - admin
+          - frontend
+          - backend
+          description: The type of API token
+          example: client
+        environment:
+          type: string
+          description: The environment the token has access to.
+          example: development
+          default: development
+        project:
+          type: string
+          description: The project this token belongs to.
+          example: developerexperience
+        projects:
+          type: array
+          description: The list of projects this token has access to. If the token has access to specific projects they will be listed here. If the token has access to all projects it will be represented as `[*]`
+          items:
+            type: string
+          example:
+          - developerexperience
+          - enterprisegrowth
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: The token's expiration date. NULL if the token doesn't have an expiration set.
+          example: '2023-04-19T08:15:14.000Z'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2023-04-19T08:15:14.000Z'
+          description: When the token was created.
+        seenAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-04-19T08:15:14.000Z'
+          description: When the token was last seen/used to authenticate with. NULL if the token has not yet been used for authentication.
+        alias:
+          type: string
+          nullable: true
+          description: Alias is no longer in active use and will often be NULL. It's kept around as a way of allowing old proxy tokens created with the old metadata format to keep working.
+          example: randomid-or-some-alias
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    safeguardTriggerConditionSchema:
+      type: object
+      required:
+      - operator
+      - threshold
+      additionalProperties: false
+      description: The condition that triggers the safeguard.
+      properties:
+        operator:
+          type: string
+          enum:
+          - '>'
+          - <
+          description: The comparison operator for the threshold check.
+          example: '>'
+        threshold:
+          type: number
+          description: The threshold value to compare against.
+          example: 100
+    strategyVariantSchema:
+      type: object
+      additionalProperties: false
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+    projectDoraMetricsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - features
+      description: A projects dora metrics
+      properties:
+        projectAverage:
+          type: number
+          description: The average time it takes a feature flag to be enabled in production. The measurement unit is days.
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/doraFeaturesSchema'
+          description: An array of objects containing feature flag name and timeToProduction values. The measurement unit of timeToProduction is days.
+    projectOverviewSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - name
+      - onboardingStatus
+      description: A high-level overview of a project. It contains information such as project statistics, the name of the project, what members and what features it contains, etc.
+      properties:
+        stats:
+          $ref: '#/components/schemas/projectStatsSchema'
+          description: Project statistics
+        version:
+          type: integer
+          example: 1
+          description: The schema version used to describe the project overview
+        name:
+          type: string
+          example: dx-squad
+          description: The name of this project
+        description:
+          type: string
+          nullable: true
+          example: DX squad feature release
+          description: Additional information about the project
+        defaultStickiness:
+          type: string
+          example: userId
+          description: A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
+        mode:
+          type: string
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          description: The project's [collaboration mode](https://docs.getunleash.io/concepts/project-collaboration-mode). Determines whether non-project members can submit change requests or not.
+        featureLimit:
+          type: number
+          nullable: true
+          example: 100
+          description: A limit on the number of features allowed in the project. Null if no limit.
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
+        linkTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectLinkTemplateSchema'
+          description: A list of templates for links that will be automatically added to new feature flags.
+        members:
+          type: number
+          example: 4
+          description: The number of members this project has
+        health:
+          type: number
+          example: 50
+          deprecated: true
+          description: Use `technicalDebt` instead.
+        technicalDebt:
+          type: number
+          example: 25
+          minimum: 0
+          maximum: 100
+          description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt#project-status) on a scale from 0 to 100
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectEnvironmentSchema'
+          example:
+          - environment: development
+          - environment: production
+            defaultStrategy:
+              name: flexibleRollout
+              constraints: []
+              parameters:
+                rollout: '50'
+                stickiness: customAppName
+                groupId: stickyFlag
+          description: The environments that are enabled for this project
+        featureTypeCounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/featureTypeCountSchema'
+          description: The number of features of each type that are in this project
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-02-10T08:36:35.262Z'
+          description: When the project was last updated.
+        archivedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-02-10T08:36:35.262Z'
+          description: When the project was archived.
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-02-10T08:36:35.262Z'
+          description: When the project was created.
+        favorite:
+          type: boolean
+          example: true
+          description: '`true` if the project was favorited, otherwise `false`.'
+        onboardingStatus:
+          type: object
+          oneOf:
+          - type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - onboarding-started
+                - onboarded
+                example: onboarding-started
+            required:
+            - status
+            additionalProperties: false
+          - type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - first-flag-created
+                example: first-flag-created
+              feature:
+                type: string
+                description: The name of the feature flag
+                example: my-feature-flag
+            required:
+            - status
+            - feature
+            additionalProperties: false
+          description: The current onboarding status of the project.
+    apiTokensSchema:
+      type: object
+      description: An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)
+      additionalProperties: false
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: array
+          description: A list of Unleash API tokens.
+          items:
+            $ref: '#/components/schemas/apiTokenSchema'
+    validateProjectSchema:
+      type: object
+      description: Data used to validate a project ID
+      required:
+      - id
+      properties:
+        id:
+          description: The project ID to validate
+          type: string
+          example: new-project-id
+    createStrategyVariantSchema:
+      type: object
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

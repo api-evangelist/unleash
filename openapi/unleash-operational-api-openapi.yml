@@ -1,0 +1,304 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Operational API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Operational
+  description: Endpoints related to the operational status of this Unleash instance.
+paths:
+  /api/admin/invoices:
+    get:
+      tags:
+      - Operational
+      operationId: getInvoices
+      responses:
+        '200':
+          description: invoicesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invoicesSchema'
+      description: '**Enterprise feature**
+
+
+        undefined'
+  /api/admin/invoices/list:
+    get:
+      tags:
+      - Operational
+      operationId: getDetailedInvoices
+      responses:
+        '200':
+          description: '#/components/schemas/detailedInvoicesSchema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/detailedInvoicesSchema'
+      description: '**Enterprise feature**
+
+
+        undefined'
+  /ready:
+    get:
+      tags:
+      - Operational
+      operationId: getReady
+      summary: Get Instance Readiness Status
+      description: This operation returns information about whether this Unleash instance is ready to serve requests or not. Typically used by your deployment orchestrator (e.g. Kubernetes, Docker Swarm, Mesos, et al.).
+      responses:
+        '200':
+          description: readyCheckSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/readyCheckSchema'
+        '503':
+          description: This response has no body.
+  /health:
+    get:
+      tags:
+      - Operational
+      operationId: getHealth
+      summary: Get Instance Operational Status
+      description: This operation returns information about whether this Unleash instance is healthy and ready to serve requests or not. Typically used by your deployment orchestrator (e.g. Kubernetes, Docker Swarm, Mesos, et al.).
+      responses:
+        '200':
+          description: healthCheckSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/healthCheckSchema'
+        '500':
+          description: healthCheckSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/healthCheckSchema'
+components:
+  schemas:
+    healthCheckSchema:
+      type: object
+      description: Used by service orchestrators to decide whether this Unleash instance should be marked as healthy or unhealthy
+      additionalProperties: false
+      required:
+      - health
+      properties:
+        health:
+          description: The state this Unleash instance is in. GOOD if the server is up and running. It never returns BAD, if the server is unhealthy you will get an unsuccessful http response.
+          type: string
+          enum:
+          - GOOD
+          - BAD
+          example: GOOD
+    invoicesSchema:
+      type: array
+      description: A list of invoices
+      items:
+        type: object
+        description: Data describing an invoice
+        required:
+        - amountFormatted
+        - paid
+        - status
+        - invoiceURL
+        - invoicePDF
+        additionalProperties: false
+        properties:
+          amountFormatted:
+            type: string
+            description: A formatted representation of the amount due.
+            example: € 123.00
+          paid:
+            type: boolean
+            description: '`true` if the invoice has been paid, `false` if it has not.'
+            example: true
+          status:
+            type: string
+            description: The current status of the invoice
+            example: pending
+          dueDate:
+            type: string
+            description: When the invoice is due
+            example: '2018-11-13'
+          invoiceURL:
+            type: string
+            format: uri
+            description: A URL pointing to where the invoice can be found.
+            example: https://invoice.url
+          invoicePDF:
+            type: string
+            format: uri
+            description: A link to a PDF-version of the invoice.
+            example: https://invoice.url/pdf
+    readyCheckSchema:
+      type: object
+      description: Used by service orchestrators to decide whether this Unleash instance should be considered ready to serve requests.
+      additionalProperties: false
+      required:
+      - health
+      properties:
+        health:
+          description: The readiness state this Unleash instance is in. GOOD if the server is up and running. If the server is unhealthy you will get an unsuccessful http response.
+          type: string
+          enum:
+          - GOOD
+          example: GOOD
+    detailedInvoicesSchema:
+      type: object
+      description: Detailed invoices response with nested line items
+      required:
+      - invoices
+      additionalProperties: false
+      properties:
+        planPrice:
+          type: number
+          description: The plan price
+          example: 50
+        planCurrency:
+          type: string
+          description: The currency code for the plan price
+          example: usd
+        invoices:
+          description: List of invoices with their line items
+          type: array
+          items:
+            type: object
+            required:
+            - invoiceDate
+            - status
+            - totalAmount
+            - subtotal
+            - currency
+            - taxAmount
+            - taxPercentage
+            - mainLines
+            - usageLines
+            - monthText
+            additionalProperties: false
+            properties:
+              invoiceDate:
+                type: string
+                format: date-time
+                description: When the invoice was created
+                example: '2025-11-01T00:00:00.000Z'
+              dueDate:
+                type: string
+                format: date-time
+                description: When the invoice is due
+                example: '2025-11-13T00:00:00.000Z'
+              status:
+                type: string
+                description: The current status of the invoice
+                example: upcoming
+              totalAmount:
+                type: number
+                description: Total amount for the invoice
+                example: 80
+              subtotal:
+                type: number
+                description: Subtotal amount for the invoice
+                example: 70
+              currency:
+                type: string
+                description: The currency code for the invoice
+                example: usd
+              taxAmount:
+                type: number
+                description: Tax amount for the invoice
+                example: 10
+              taxPercentage:
+                type: number
+                description: Tax percentage for the invoice
+                example: 10
+              invoiceURL:
+                type: string
+                format: uri
+                description: A URL pointing to where the invoice can be found.
+                example: https://invoice.stripe.com/i/acct_.../test_...?
+              invoicePDF:
+                type: string
+                format: uri
+                description: A link to a PDF-version of the invoice.
+                example: https://pay.stripe.com/invoice/acct_.../test_.../pdf?s=ap
+              monthText:
+                type: string
+                description: Human-readable month label for the invoice period
+                example: November 2025
+              mainLines:
+                description: Primary line items (packages, seats, etc.)
+                type: array
+                items:
+                  $ref: '#/components/schemas/detailedInvoicesLineSchema'
+              usageLines:
+                description: Usage line items (traffic, consumption usage, overages)
+                type: array
+                items:
+                  $ref: '#/components/schemas/detailedInvoicesLineSchema'
+    detailedInvoicesLineSchema:
+      type: object
+      required:
+      - description
+      - quantity
+      - currency
+      - lookupKey
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+          description: Description of the line item
+          example: 1 x Unleash PAYG Seat (at $75.00 / month)
+        quantity:
+          type: number
+          description: Quantity of the item
+          example: 1
+        totalAmount:
+          type: number
+          description: Total amount for this line item in minor currency units
+          example: 7500
+        currency:
+          type: string
+          description: Currency code
+          example: usd
+        lookupKey:
+          type: string
+          description: Lookup key identifying the product/pricing
+          example: auth_app_payg_seat
+        startDate:
+          type: string
+          format: date-time
+          description: Optional start date for the metered period
+          example: '2025-11-01T00:00:00.000Z'
+        endDate:
+          type: string
+          format: date-time
+          description: Optional end date for the metered period
+          example: '2025-11-30T23:59:59.999Z'
+        limit:
+          type: number
+          description: Optional limit associated with the line item
+          example: 5
+        consumption:
+          type: number
+          description: Optional consumption associated with the line item
+          example: 0
+        unitPrice:
+          type: number
+          description: Unit price for the line item
+          example: 0.05
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

@@ -1,0 +1,751 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Segments API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Segments
+  description: Create, update, delete, and manage [segments](https://docs.getunleash.io/concepts/segments).
+paths:
+  /api/admin/segments/validate:
+    post:
+      summary: Validates If a Segment Name Exists
+      description: Uses the name provided in the body of the request to validate if the given name exists or not
+      tags:
+      - Segments
+      operationId: validateSegment
+      requestBody:
+        description: nameSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nameSchema'
+      responses:
+        '204':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/segments/strategies/{strategyId}:
+    get:
+      tags:
+      - Segments
+      operationId: getSegmentsByStrategyId
+      summary: Get Strategy Segments
+      description: Retrieve all segments that are referenced by the specified strategy. Returns an empty list of segments if the strategy ID doesn't exist.
+      responses:
+        '200':
+          description: segmentsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/segmentsSchema'
+      parameters:
+      - name: strategyId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/segments/{id}/strategies:
+    get:
+      tags:
+      - Segments
+      operationId: getStrategiesBySegmentId
+      summary: Get Strategies That Reference Segment
+      description: Retrieve all strategies that reference the specified segment.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: a segment id
+      responses:
+        '200':
+          description: segmentStrategiesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/segmentStrategiesSchema'
+  /api/admin/segments/{id}:
+    delete:
+      summary: Deletes a Segment by ID
+      description: Deletes a segment by its id, if not found returns a 409 error
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: a segment id
+      tags:
+      - Segments
+      operationId: removeSegment
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+    put:
+      summary: Update Segment by ID
+      description: Updates the content of the segment with the provided payload. Requires `name` and `constraints` to be present. If `project` is not present, it will be set to `null`. Any other fields not specified will be left untouched.
+      tags:
+      - Segments
+      operationId: updateSegment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: a segment id
+      requestBody:
+        description: upsertSegmentSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/upsertSegmentSchema'
+      responses:
+        '204':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+    get:
+      summary: Get a Segment
+      description: Retrieves a segment based on its ID.
+      tags:
+      - Segments
+      operationId: getSegment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: a segment id
+      responses:
+        '200':
+          description: adminSegmentSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminSegmentSchema'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/admin/segments:
+    post:
+      summary: Create a New Segment
+      description: Creates a new segment using the payload provided
+      tags:
+      - Segments
+      operationId: createSegment
+      requestBody:
+        description: upsertSegmentSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/upsertSegmentSchema'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminSegmentSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+    get:
+      summary: Get All Segments
+      description: Retrieves all segments that exist in this Unleash instance.
+      tags:
+      - Segments
+      operationId: getSegments
+      responses:
+        '200':
+          description: segmentsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/segmentsSchema'
+components:
+  schemas:
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+    upsertSegmentSchema:
+      type: object
+      description: Data used to create or update a segment
+      required:
+      - name
+      - constraints
+      properties:
+        name:
+          description: The name of the segment
+          example: beta-users
+          type: string
+        description:
+          type: string
+          nullable: true
+          description: A description of what the segment is for
+          example: Users willing to help us test and build new features.
+        project:
+          type: string
+          nullable: true
+          description: The project the segment belongs to if any.
+          example: red-vista
+        constraints:
+          type: array
+          description: The list of constraints that make up this segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
+    segmentsSchema:
+      description: Data containing a list of [segments](https://docs.getunleash.io/concepts/segments)
+      type: object
+      properties:
+        segments:
+          type: array
+          description: A list of segments
+          items:
+            $ref: '#/components/schemas/adminSegmentSchema'
+    segmentStrategiesSchema:
+      type: object
+      required:
+      - strategies
+      description: A collection of strategies belonging to a specified segment.
+      additionalProperties: false
+      properties:
+        strategies:
+          description: The list of strategies
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - featureName
+            - projectId
+            - environment
+            - strategyName
+            properties:
+              id:
+                type: string
+                description: The ID of the strategy
+                example: e465c813-cffb-4232-b184-82b1d6fe9d3d
+              featureName:
+                type: string
+                description: The name of the feature flag that this strategy belongs to.
+                example: new-signup-flow
+              projectId:
+                type: string
+                description: The ID of the project that the strategy belongs to.
+                example: red-vista
+              environment:
+                type: string
+                description: The ID of the environment that the strategy belongs to.
+                example: development
+              strategyName:
+                type: string
+                description: The name of the strategy's type.
+                example: flexibleRollout
+        changeRequestStrategies:
+          description: A list of strategies that use this segment in active change requests.
+          type: array
+          items:
+            type: object
+            required:
+            - featureName
+            - projectId
+            - environment
+            - strategyName
+            properties:
+              id:
+                type: string
+                description: The ID of the strategy. Not present on new strategies that haven't been added to the feature flag yet.
+                example: e465c813-cffb-4232-b184-82b1d6fe9d3d
+              featureName:
+                type: string
+                description: The name of the feature flag that this strategy belongs to.
+                example: new-signup-flow
+              projectId:
+                type: string
+                description: The ID of the project that the strategy belongs to.
+                example: red-vista
+              environment:
+                type: string
+                description: The ID of the environment that the strategy belongs to.
+                example: development
+              strategyName:
+                type: string
+                description: The name of the strategy's type.
+                example: flexibleRollout
+    adminSegmentSchema:
+      type: object
+      required:
+      - id
+      - name
+      - constraints
+      - createdAt
+      description: A description of a [segment](https://docs.getunleash.io/concepts/segments)
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          description: The ID of this segment
+          example: 2
+          minimum: 0
+        name:
+          type: string
+          description: The name of this segment
+          example: ios-users
+        description:
+          type: string
+          nullable: true
+          description: The description for this segment
+          example: IOS users segment
+        constraints:
+          type: array
+          description: The list of constraints that are used in this segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        usedInFeatures:
+          type: integer
+          minimum: 0
+          description: The number of feature flags that use this segment. The number also includes the any flags with pending change requests that would add this segment.
+          example: 3
+          nullable: true
+        usedInProjects:
+          type: integer
+          minimum: 0
+          description: The number of projects that use this segment. The number includes any projects with pending change requests that would add this segment.
+          example: 2
+          nullable: true
+        project:
+          type: string
+          nullable: true
+          example: red-vista
+          description: The project the segment belongs to. Only present if the segment is a project-specific segment.
+        createdBy:
+          description: The creator's email or username
+          example: someone@example.com
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: When the segment was created
+          example: '2023-04-12T11:13:31.960Z'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

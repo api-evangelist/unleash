@@ -1,0 +1,552 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Frontend API API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Frontend API
+  description: The [Frontend API](https://docs.getunleash.io/concepts/front-end-api) is used for connecting client-side (frontend) applications to Unleash.
+paths:
+  /api/frontend:
+    get:
+      tags:
+      - Frontend API
+      operationId: getFrontendFeatures
+      responses:
+        '200':
+          description: frontendApiFeaturesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/frontendApiFeaturesSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      summary: Retrieve Enabled Feature Flags for the Provided Context.
+      description: This endpoint returns the list of feature flags that the frontend API evaluates to enabled for the given context. Context values are provided as query parameters. If the Frontend API is disabled 404 is returned.
+    post:
+      tags:
+      - Frontend API
+      operationId: getFrontendApiFeaturesWithPost
+      requestBody:
+        description: frontendApiFeaturesPostSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/frontendApiFeaturesPostSchema'
+      responses:
+        '200':
+          description: frontendApiFeaturesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/frontendApiFeaturesSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      summary: Retrieve Enabled Feature Flags for the Provided Context, Using Post.
+      description: This endpoint returns the list of feature flags that the frontend API evaluates to enabled for the given context, using POST. Context values are provided as a `context` property in the request body. If the Frontend API is disabled 404 is returned.
+  /api/frontend/client/metrics:
+    post:
+      tags:
+      - Frontend API
+      summary: Register Client Usage Metrics
+      description: Registers usage metrics. Stores information about how many times each flag was evaluated to enabled and disabled within a time frame. If provided, this operation will also store data on how many times each feature flag's variants were displayed to the end user. If the Frontend API is disabled 404 is returned.
+      operationId: registerFrontendMetrics
+      requestBody:
+        description: clientMetricsSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clientMetricsSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '204':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/frontend/client/register:
+    post:
+      tags:
+      - Frontend API
+      summary: Register a Client SDK
+      description: This is for future use. Currently Frontend client registration is not supported. Returning 200 for clients that expect this status code. If the Frontend API is disabled 404 is returned.
+      operationId: registerFrontendClient
+      requestBody:
+        description: frontendApiClientSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/frontendApiClientSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+components:
+  schemas:
+    frontendApiFeatureSchema:
+      type: object
+      required:
+      - name
+      - enabled
+      - impressionData
+      additionalProperties: false
+      description: Frontend API feature
+      properties:
+        name:
+          type: string
+          example: disable-comments
+          description: Unique feature name.
+        enabled:
+          type: boolean
+          example: true
+          description: Always set to `true`.
+        impressionData:
+          type: boolean
+          example: false
+          description: '`true` if the impression data collection is enabled for the feature, otherwise `false`.'
+        variant:
+          type: object
+          required:
+          - name
+          - enabled
+          additionalProperties: false
+          description: Variant details
+          properties:
+            name:
+              type: string
+              description: The variants name. Is unique for this feature flag
+              example: blue_group
+            enabled:
+              type: boolean
+              example: true
+              description: Whether the variant is enabled or not.
+            payload:
+              type: object
+              additionalProperties: false
+              required:
+              - type
+              - value
+              description: Extra data configured for this variant
+              example:
+                type: json
+                value: '{"color": "red"}'
+              properties:
+                type:
+                  type: string
+                  description: The format of the payload.
+                  enum:
+                  - json
+                  - csv
+                  - string
+                  - number
+                value:
+                  type: string
+                  description: The payload value stringified.
+            feature_enabled:
+              type: boolean
+              description: Whether the feature is enabled or not.
+              example: true
+            featureEnabled:
+              deprecated: true
+              type: boolean
+              description: Use `feature_enabled` instead.
+              example: true
+    frontendApiFeaturesPostSchema:
+      description: The Unleash frontend API POST request body.
+      type: object
+      additionalProperties: true
+      properties:
+        context:
+          description: The Unleash context.
+          type: object
+          additionalProperties: true
+          properties:
+            appName:
+              type: string
+              minLength: 1
+              example: My cool application.
+              description: The name of the application.
+            currentTime:
+              type: string
+              format: date-time
+              example: '2022-07-05T12:56:41+02:00'
+              description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+            environment:
+              type: string
+              deprecated: true
+              description: The environment the app is running in.
+            properties:
+              type: object
+              additionalProperties:
+                type: string
+              description: Additional Unleash context properties
+              example:
+                customContextField: this is one!
+                otherCustomField: '3'
+            remoteAddress:
+              type: string
+              example: 192.168.1.1
+              description: The app's IP address
+            sessionId:
+              type: string
+              example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+              description: An identifier for the current session
+            userId:
+              type: string
+              example: username@provider.com
+              description: An identifier for the current user
+    frontendApiFeaturesSchema:
+      type: object
+      required:
+      - toggles
+      additionalProperties: false
+      description: Frontend SDK features list
+      properties:
+        toggles:
+          description: The actual features returned to the Frontend SDK
+          type: array
+          items:
+            $ref: '#/components/schemas/frontendApiFeatureSchema'
+    clientMetricsSchema:
+      type: object
+      required:
+      - appName
+      - bucket
+      description: Client usage metrics, accumulated in buckets of hour by hour by default
+      properties:
+        appName:
+          description: The name of the application that is evaluating toggles
+          type: string
+          example: insurance-selector
+        instanceId:
+          description: A [(somewhat) unique identifier](https://docs.getunleash.io/sdks/node#advanced-usage) for the application
+          type: string
+          example: application-name-dacb1234
+        environment:
+          description: Which environment the application is running in. This property was deprecated in v5. This can be determined by the API key calling this endpoint.
+          type: string
+          example: development
+          deprecated: true
+        sdkVersion:
+          type: string
+          description: An SDK version identifier. Usually formatted as "unleash-client-<language>:<version>"
+          example: unleash-client-java:7.0.0
+        platformName:
+          description: The platform the application is running on. For languages that compile to binaries, this can be omitted
+          type: string
+          example: .NET Core
+        platformVersion:
+          description: The version of the platform the application is running on. Languages that compile to binaries, this is expected to be the compiler version used to assemble the binary.
+          type: string
+          example: '3.1'
+        yggdrasilVersion:
+          description: The semantic version of the Yggdrasil engine used by the client. If the client is using a native engine this can be omitted.
+          type: string
+          example: 1.0.0
+        specVersion:
+          description: The version of the Unleash client specification the client supports
+          type: string
+          example: 3.0.0
+        bucket:
+          type: object
+          required:
+          - start
+          - stop
+          - toggles
+          description: Holds all metrics gathered over a window of time. Typically 1 hour wide
+          properties:
+            start:
+              $ref: '#/components/schemas/dateSchema'
+              description: The start of the time window these metrics are valid for. The window is usually 1 hour wide
+              example: '1926-05-08T12:00:00.000Z'
+            stop:
+              $ref: '#/components/schemas/dateSchema'
+              description: The end of the time window these metrics are valid for. The window is 1 hour wide
+              example: '1926-05-08T13:00:00.000Z'
+            toggles:
+              type: object
+              description: an object containing feature names with yes/no plus variant usage
+              example:
+                myCoolToggle:
+                  'yes': 25
+                  'no': 42
+                  variants:
+                    blue: 6
+                    green: 15
+                    red: 46
+                myOtherToggle:
+                  'yes': 0
+                  'no': 100
+              additionalProperties:
+                type: object
+                properties:
+                  'yes':
+                    description: How many times the toggle evaluated to true
+                    type: number
+                    example: 974
+                    minimum: 0
+                  'no':
+                    description: How many times the toggle evaluated to false
+                    type: integer
+                    example: 50
+                    minimum: 0
+                  variants:
+                    description: 'An object describing how many times each variant was returned. Variant names are used as properties, and the number of times they were exposed is the corresponding value (i.e. `{ [variantName]: number }`).'
+                    type: object
+                    nullable: true
+                    additionalProperties:
+                      type: integer
+                      minimum: 0
+                    example:
+                      variantA: 15
+                      variantB: 25
+                      variantC: 5
+    frontendApiClientSchema:
+      type: object
+      required:
+      - appName
+      - interval
+      - started
+      - strategies
+      description: Frontend SDK client registration information
+      properties:
+        appName:
+          type: string
+          description: Name of the application using Unleash
+        instanceId:
+          type: string
+          description: Instance id for this application (typically hostname, podId or similar)
+        sdkVersion:
+          type: string
+          description: Optional field that describes the sdk version (name:version)
+        environment:
+          type: string
+          deprecated: true
+          description: deprecated
+          example: development
+        interval:
+          type: number
+          description: At which interval, in milliseconds, will this client be expected to send metrics
+        started:
+          oneOf:
+          - type: string
+            format: date-time
+          - type: number
+          description: When this client started. Should be reported as ISO8601 time.
+        strategies:
+          type: array
+          items:
+            type: string
+          description: List of strategies implemented by this application
+    dateSchema:
+      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
+      oneOf:
+      - type: string
+        format: date-time
+        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
+        example: '2023-07-27T11:23:44Z'
+      - type: integer
+        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
+        example: 1690449593
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

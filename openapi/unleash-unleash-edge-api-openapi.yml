@@ -1,0 +1,825 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Unleash Edge API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Unleash Edge
+  description: Endpoints related to [Unleash Edge](https://docs.getunleash.io/unleash-edge).
+paths:
+  /api/client/metrics/edge:
+    post:
+      summary: Register Edge Observability Metrics.
+      description: '**Enterprise feature**
+
+
+        Registers Edge observability metrics from downstream Edge instances to aggregate a comprehensive status view of connected Edges.'
+      tags:
+      - Unleash Edge
+      operationId: registerEdgeObservabilityMetrics
+      requestBody:
+        description: edgeInstanceDataSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/edgeInstanceDataSchema'
+      responses:
+        '202':
+          description: This response has no body.
+  /api/client/metrics/bulk:
+    post:
+      tags:
+      - Unleash Edge
+      summary: Send Metrics in Bulk
+      description: This operation accepts batched metrics from any client. Metrics will be inserted into Unleash's metrics storage
+      operationId: clientBulkMetrics
+      requestBody:
+        description: bulkMetricsSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bulkMetricsSchema'
+      responses:
+        '202':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '413':
+          description: The request body is larger than what we accept. By default we only accept bodies of 100kB or less
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTooLarge
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You provided more data than we can handle. Unleash accepts at most X MB.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /edge/validate:
+    post:
+      tags:
+      - Unleash Edge
+      security:
+      - {}
+      summary: Check Which Tokens Are Valid
+      description: This operation accepts a list of tokens to validate. Unleash will validate each token you provide. For each valid token you provide, Unleash will return the token along with its type and which projects it has access to.
+      operationId: getValidTokens
+      requestBody:
+        description: tokenStringListSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tokenStringListSchema'
+      responses:
+        '200':
+          description: validatedEdgeTokensSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/validatedEdgeTokensSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '413':
+          description: The request body is larger than what we accept. By default we only accept bodies of 100kB or less
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTooLarge
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You provided more data than we can handle. Unleash accepts at most X MB.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+components:
+  schemas:
+    edgeLatencyMetricsSchema:
+      description: Representing latency for an Edge operation.
+      type: object
+      additionalProperties: false
+      required:
+      - avg
+      - count
+      - p99
+      properties:
+        avg:
+          type: number
+          description: Average time per request in milliseconds.
+          minimum: 0
+        count:
+          type: number
+          description: Total number of requests made.
+          minimum: 0
+        p99:
+          type: number
+          description: 99% of requests finished within this amount of milliseconds.
+          minimum: 0
+          example: 34.5
+    bulkMetricsSchema:
+      type: object
+      required:
+      - applications
+      - metrics
+      description: A batch of metrics accumulated by Edge (or other compatible applications). Includes both application registrations as well usage metrics from clients
+      properties:
+        applications:
+          description: A list of applications registered by an Unleash SDK
+          type: array
+          items:
+            $ref: '#/components/schemas/bulkRegistrationSchema'
+        metrics:
+          description: a list of client usage metrics registered by downstream providers. (Typically Unleash Edge)
+          type: array
+          items:
+            $ref: '#/components/schemas/clientMetricsEnvSchema'
+        impactMetrics:
+          description: a list of custom impact metrics registered by downstream providers. (Typically Unleash Edge)
+          type: array
+          items:
+            $ref: '#/components/schemas/impactMetricsSchema'
+    impactMetricsSchema:
+      type: object
+      description: Used for reporting impact metrics from SDKs
+      oneOf:
+      - required:
+        - name
+        - help
+        - type
+        - samples
+        properties:
+          name:
+            type: string
+            description: Name of the impact metric
+            example: my-counter
+          help:
+            description: Human-readable description of what the metric measures
+            type: string
+            example: Counts the number of operations
+          type:
+            description: Type of the metric
+            type: string
+            enum:
+            - counter
+            - gauge
+            example: counter
+          samples:
+            description: Samples of the numeric metric
+            type: array
+            items:
+              type: object
+              required:
+              - value
+              description: A sample of a numeric metric with a value and optional labels
+              properties:
+                value:
+                  type: number
+                  description: The value of the metric sample
+                  example: 10
+                labels:
+                  description: Optional labels for the metric sample
+                  type: object
+                  additionalProperties:
+                    oneOf:
+                    - type: string
+                    - type: number
+                  example:
+                    application: my-app
+                    environment: production
+      - required:
+        - name
+        - help
+        - type
+        - samples
+        properties:
+          name:
+            type: string
+            description: Name of the impact metric
+            example: my-histogram
+          help:
+            description: Human-readable description of what the metric measures
+            type: string
+            example: Measures request duration
+          type:
+            description: Type of the metric
+            type: string
+            enum:
+            - histogram
+            example: histogram
+          samples:
+            description: Samples of the histogram metric
+            type: array
+            items:
+              type: object
+              required:
+              - count
+              - sum
+              - buckets
+              description: A sample of a histogram metric with count, sum, buckets and optional labels
+              properties:
+                count:
+                  type: number
+                  description: Total count of observations
+                  example: 100
+                sum:
+                  type: number
+                  description: Sum of all observed values
+                  example: 1500
+                buckets:
+                  type: array
+                  description: Histogram buckets
+                  items:
+                    type: object
+                    required:
+                    - le
+                    - count
+                    properties:
+                      le:
+                        oneOf:
+                        - type: number
+                        - type: string
+                          enum:
+                          - +Inf
+                        description: Upper bound of the bucket
+                        example: 0.5
+                      count:
+                        type: number
+                        description: Count of observations in this bucket
+                        example: 30
+                labels:
+                  description: Optional labels for the metric sample
+                  type: object
+                  additionalProperties:
+                    oneOf:
+                    - type: string
+                    - type: number
+                  example:
+                    application: my-app
+                    environment: production
+    edgeTokenSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - token
+      - projects
+      - type
+      description: A representation of a client token, limiting access to [CLIENT](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#backend-tokens) (used by serverside SDKs) or [FRONTEND](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#frontend-tokens) (used by proxy SDKs)
+      properties:
+        projects:
+          description: The list of projects this token has access to. If the token has access to specific projects they will be listed here. If the token has access to all projects it will be represented as [`*`]
+          type: array
+          items:
+            type: string
+          example:
+          - developerexperience
+          - enterprisegrowth
+        type:
+          description: The [API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)'s **type**. Unleash supports three different types of API tokens ([ADMIN](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#admin-tokens), [CLIENT](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#backend-tokens), [FRONTEND](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#frontend-tokens)). They all have varying access, so when validating a token it's important to know what kind you're dealing with
+          type: string
+          enum:
+          - client
+          - admin
+          - frontend
+          - backend
+          example: client
+        token:
+          description: The actual token value. [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys) are comprised of three parts. <project(s)>:<environment>.randomcharacters
+          type: string
+          example: '*:development.5c806b5320c88cf27e81f3e9b97dab298a77d5879316e3c2d806206b'
+    dateSchema:
+      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
+      oneOf:
+      - type: string
+        format: date-time
+        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
+        example: '2023-07-27T11:23:44Z'
+      - type: integer
+        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
+        example: 1690449593
+    consumptionDataPointSchema:
+      type: object
+      required:
+      - interval
+      - requests
+      properties:
+        interval:
+          type: array
+          items:
+            type: integer
+          minItems: 2
+          maxItems: 2
+          description: Time interval in milliseconds [start, end].
+          example:
+          - 0
+          - 15000
+        requests:
+          type: number
+          description: Number of requests in this interval
+    clientMetricsEnvSchema:
+      type: object
+      required:
+      - featureName
+      - appName
+      - environment
+      description: Used for reporting feature evaluation results from SDKs
+      properties:
+        featureName:
+          type: string
+          description: Name of the feature checked by the SDK
+          example: my.special.feature
+        appName:
+          description: The name of the application the SDK is being used in
+          type: string
+          example: accounting
+        environment:
+          description: Which environment the SDK is being used in
+          type: string
+          example: development
+        timestamp:
+          description: The start of the time window these metrics are valid for. The window is 1 hour wide
+          example: '1926-05-08T12:00:00.000Z'
+          $ref: '#/components/schemas/dateSchema'
+        'yes':
+          description: How many times the toggle evaluated to true
+          type: integer
+          example: 974
+          minimum: 0
+        'no':
+          description: How many times the toggle evaluated to false
+          type: integer
+          example: 50
+          minimum: 0
+        variants:
+          description: How many times each variant was returned
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+          example:
+            variantA: 15
+            variantB: 25
+            variantC: 5
+    edgeInstanceDataSchema:
+      description: Represents Edge instance observability data.
+      type: object
+      required:
+      - identifier
+      - appName
+      - edgeVersion
+      - started
+      - traffic
+      - latencyUpstream
+      - connectedStreamingClients
+      - connectedEdges
+      properties:
+        identifier:
+          type: string
+          description: The ID of the Edge process, typically a ULID. Newly generated for each restart of the instance.
+          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
+        appName:
+          type: string
+          description: The name of the application, configured by the user, typically persistent across restarts of Edge.
+          example: unleash-edge-us-east-1
+        region:
+          type: string
+          nullable: true
+          description: Which region the Edge instance is running in. Set to AWS_REGION by default (if present).
+          example: us-east-1
+        edgeVersion:
+          type: string
+          description: Which version (semver) of Edge is the Edge instance running.
+          example: 19.6.3
+        processMetrics:
+          type: object
+          $ref: '#/components/schemas/edgeProcessMetricsSchema'
+          nullable: true
+        started:
+          type: string
+          format: date-time
+          description: RFC3339 timestamp for when the Edge instance was started.
+        traffic:
+          type: object
+          $ref: '#/components/schemas/edgeInstanceTrafficSchema'
+        latencyUpstream:
+          type: object
+          $ref: '#/components/schemas/edgeUpstreamLatencySchema'
+        connectedStreamingClients:
+          type: number
+          minimum: 0
+          description: How many streaming clients are connected to the Edge instance.
+        connectedEdges:
+          type: array
+          description: A list of Edge instances connected to the Edge instance.
+          items:
+            $ref: '#/components/schemas/edgeInstanceDataSchema'
+        requestsSinceLastReport:
+          type: object
+          description: Requests made to edge's endpoints since last report. Meant to be used for billing purposes.
+          $ref: '#/components/schemas/edgeRequestStatsSchema'
+        connectionConsumptionSinceLastReport:
+          type: object
+          description: Connection consumption data since last report, including features and metrics consumption. Used for long-lived backend SDKs with backend controlled number of instances.
+          $ref: '#/components/schemas/connectionConsumptionSchema'
+        requestConsumptionSinceLastReport:
+          type: array
+          description: Request consumption data since last report, grouped by metered group. Used for frontend SDKs with unpredictable and potentially large number of user devices running those SDKs.
+          $ref: '#/components/schemas/requestConsumptionSchema'
+        hosting:
+          type: string
+          enum:
+          - hosted
+          - self-hosted
+          - enterprise-self-hosted
+          description: A marker that tells Unleash whether this Edge instance is self-hosted, enterprise self-hosted, or hosted by Unleash.
+        apiKeyRevisionIds:
+          type: array
+          description: List of API keys (represented by their environment and projects) and revision ids to make it easier to track sync state of edge
+          items:
+            $ref: '#/components/schemas/edgeApiKeyRevisionIdSchema'
+          nullable: true
+    bulkRegistrationSchema:
+      type: object
+      required:
+      - appName
+      - instanceId
+      - environment
+      description: An application registration. Defines the format POSTed by our backend SDKs when they're starting up
+      properties:
+        connectVia:
+          type: array
+          description: "A list of applications this app registration has been registered through. If connected directly to Unleash, this is an empty list. \n This can be used in later visualizations to tell how many levels of proxy or Edge instances our SDKs have connected through"
+          items:
+            type: object
+            required:
+            - appName
+            - instanceId
+            properties:
+              appName:
+                type: string
+              instanceId:
+                type: string
+          example:
+          - appName: unleash-edge
+            instanceId: edge-pod-bghzv5
+        appName:
+          description: The name of the application that is evaluating toggles
+          type: string
+          example: Ingress load balancer
+        environment:
+          description: Which environment the application is running in
+          type: string
+          example: development
+        instanceId:
+          description: A [(somewhat) unique identifier](https://docs.getunleash.io/sdks/node#advanced-usage) for the application
+          type: string
+          example: application-name-dacb1234
+        interval:
+          description: How often (in seconds) the application refreshes its features
+          type: number
+          example: 10
+        started:
+          description: The application started at
+          example: '1952-03-11T12:00:00.000Z'
+          $ref: '#/components/schemas/dateSchema'
+        strategies:
+          description: Enabled [strategies](https://docs.getunleash.io/concepts/activation-strategies) in the application
+          type: array
+          example:
+          - standard
+          - gradualRollout
+          items:
+            type: string
+        projects:
+          description: The list of projects used in the application
+          type: array
+          example:
+          - projectA
+          - projectB
+          items:
+            type: string
+        sdkVersion:
+          description: The version the sdk is running. Typically <client>:<version>
+          example: unleash-client-java:8.0.0
+          type: string
+        sdkType:
+          description: The sdk type
+          example: backend
+          type: string
+          enum:
+          - frontend
+          - backend
+          - null
+          nullable: true
+    edgeApiKeyRevisionIdSchema:
+      description: Represents Edge sync state of api keys
+      type: object
+      required:
+      - environment
+      - projects
+      - revisionId
+      properties:
+        environment:
+          description: The Unleash Environment this apiKey is synced for
+          type: string
+        projects:
+          type: array
+          description: The list of projects this key is valid for or * if valid for all projects
+          items:
+            type: string
+        revisionId:
+          description: The revision id of Edge's last successful sync of this key
+          type: number
+          minimum: 0
+        lastUpdated:
+          description: The timestamp of the last successful sync of this key
+          type: string
+          format: date-time
+    meteredGroupConsumptionSchema:
+      type: object
+      required:
+      - meteredGroup
+      - dataPoints
+      properties:
+        meteredGroup:
+          type: string
+          description: Name of the metered group
+          example: default
+        dataPoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/consumptionDataPointSchema'
+          description: Array of consumption data points
+    edgeUpstreamLatencySchema:
+      description: Latencies for upstream actions from Edge (downloading/syncing new features, uploading metrics, uploading instance data)
+      type: object
+      additionalProperties: false
+      required:
+      - features
+      - metrics
+      - edge
+      properties:
+        features:
+          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+        metrics:
+          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+        edge:
+          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+    tokenStringListSchema:
+      type: object
+      description: A list of unleash tokens to validate against known tokens
+      required:
+      - tokens
+      properties:
+        tokens:
+          description: Tokens that we want to get access information about
+          type: array
+          items:
+            type: string
+          example:
+          - aproject:development.randomstring
+          - '[]:production.randomstring'
+    edgeEndpointTrafficSchema:
+      type: object
+      description: Represents traffic data for a single endpoint in Edge
+      additionalProperties: false
+      properties:
+        requests200:
+          description: Number of 20x requests
+          type: number
+          minimum: 0
+        requests304:
+          description: Number of 30x requests
+          type: number
+          minimum: 0
+    edgeProcessMetricsSchema:
+      description: Represents Edge instance resource usage data.
+      type: object
+      required:
+      - cpuUsage
+      - memoryUsage
+      properties:
+        cpuUsage:
+          type: number
+          description: CPU usage, in seconds, since start of process.
+          minimum: 0
+          example: 54.54
+        memoryUsage:
+          type: number
+          description: Current process_resident_memory (in bytes) usage.
+          minimum: 0
+          example: 34000432
+    validatedEdgeTokensSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - tokens
+      description: A object containing a list of valid Unleash tokens.
+      properties:
+        tokens:
+          description: The list of Unleash token objects. Each object contains the token itself and some additional metadata.
+          type: array
+          items:
+            $ref: '#/components/schemas/edgeTokenSchema'
+    edgeInstanceTrafficSchema:
+      description: Represents requests to the Edge instance (/api/client/features, /api/frontend, etc.)
+      type: object
+      additionalProperties: false
+      required:
+      - get
+      - post
+      - accessDenied
+      - cachedResponses
+      properties:
+        get:
+          type: object
+          description: A map containing GET requests.
+          additionalProperties:
+            type: object
+            nullable: true
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+        post:
+          type: object
+          description: A map containing POST requests.
+          additionalProperties:
+            type: object
+            nullable: true
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+        accessDenied:
+          type: object
+          description: A map containing requests that were denied.
+          additionalProperties:
+            type: object
+            nullable: true
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+        cachedResponses:
+          type: object
+          description: A map containing requests that had cached responses.
+          additionalProperties:
+            type: object
+            nullable: true
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+    requestConsumptionSchema:
+      type: array
+      items:
+        type: object
+        required:
+        - meteredGroup
+        - requests
+        properties:
+          meteredGroup:
+            type: string
+            description: Name of the metered group
+            example: default
+          requests:
+            type: number
+            description: Total number of requests for this metered group
+            example: 10000
+    connectionConsumptionSchema:
+      type: object
+      required:
+      - features
+      - metrics
+      properties:
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/meteredGroupConsumptionSchema'
+          description: Feature consumption data points
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/meteredGroupConsumptionSchema'
+          description: Metrics consumption data points
+    edgeRequestStatsSchema:
+      description: Represents Edge traffic data.
+      type: object
+      properties:
+        /api/client/features:
+          description: 20x and 30x requests to the client features endpoint
+          type: object
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/frontend:
+          description: Traffic to the frontend endpoint
+          type: object
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/proxy:
+          description: Traffic to the proxy endpoint (proxy endpoint is deprecated, use /api/frontend instead)
+          type: object
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/client/metrics:
+          description: Traffic to Edge Metrics (from SDKs)
+          type: object
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/client/metrics/bulk:
+          description: Traffic to Edge Metrics (from other Edge instances)
+          type: object
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/client/metrics/edge:
+          description: Traffic to Edge Metrics (from other Edge instances)
+          type: object
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

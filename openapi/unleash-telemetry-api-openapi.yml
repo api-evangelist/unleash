@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Telemetry API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Telemetry
+  description: API for information about telemetry collection
+paths:
+  /api/admin/telemetry/settings:
+    get:
+      tags:
+      - Telemetry
+      summary: Get Telemetry Settings
+      description: Provides the configured settings for [telemetry information collection](https://docs.getunleash.io/topics/data-collection)
+      operationId: getTelemetrySettings
+      responses:
+        '200':
+          description: telemetrySettingsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/telemetrySettingsSchema'
+components:
+  schemas:
+    telemetrySettingsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - versionInfoCollectionEnabled
+      - featureInfoCollectionEnabled
+      description: Contains information about which settings are configured for version info collection and feature usage collection.
+      properties:
+        versionInfoCollectionEnabled:
+          type: boolean
+          description: Whether collection of version info is enabled/active.
+          example: true
+        featureInfoCollectionEnabled:
+          type: boolean
+          description: Whether collection of feature usage metrics is enabled/active.
+          example: true
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

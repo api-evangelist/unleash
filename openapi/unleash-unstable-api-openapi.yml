@@ -1,0 +1,5008 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Unstable API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Unstable
+  description: Experimental endpoints that may change or disappear at any time.
+paths:
+  /api/admin/projects/archive/{projectId}:
+    post:
+      tags:
+      - Unstable
+      summary: Archive Project
+      description: '**Enterprise feature**
+
+
+        Archive the provided project. All feature flags in the project must be archived before you can archive the project.'
+      operationId: archiveProject
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/revive/{projectId}:
+    post:
+      tags:
+      - Unstable
+      summary: Revive Project
+      description: '**Enterprise feature**
+
+
+        Revive the specified project from the archive.'
+      operationId: reviveProject
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/metrics/connection:
+    get:
+      tags:
+      - Unstable
+      operationId: getConnectionsForPeriod
+      summary: Get Aggregated Metered Connections for a Given Time Period.
+      description: '**Enterprise feature**
+
+
+        Gets metered connections count for the selected period, either aggregated by day or by month.'
+      parameters:
+      - name: grouping
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          example: daily
+        description: Whether to aggregate the data by month or by day
+      - name: from
+        schema:
+          type: string
+          format: date
+          example: '2024-01-01'
+        description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+        in: query
+        required: true
+      - name: to
+        schema:
+          type: string
+          example: '2024-01-31'
+          format: date
+        description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+        in: query
+        required: true
+      responses:
+        '200':
+          description: meteredConnectionsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meteredConnectionsSchema'
+  /api/admin/metrics/request:
+    get:
+      tags:
+      - Unstable
+      operationId: getRequestsForPeriod
+      summary: Get Aggregated Metered Requests for a Given Time Period.
+      description: '**Enterprise feature**
+
+
+        Gets metered requests count for the selected period, either aggregated by day or by month.'
+      parameters:
+      - name: grouping
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          example: daily
+        description: Whether to aggregate the data by month or by day
+      - name: from
+        schema:
+          type: string
+          format: date
+          example: '2024-01-01'
+        description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+        in: query
+        required: true
+      - name: to
+        schema:
+          type: string
+          example: '2024-01-31'
+          format: date
+        description: The starting date of the traffic data usage search in IS:yyyy-MM-dd format
+        in: query
+        required: true
+      responses:
+        '200':
+          description: meteredRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meteredRequestsSchema'
+  /api/admin/insights:
+    get:
+      tags:
+      - Unstable
+      operationId: getInstanceInsights
+      responses:
+        '200':
+          description: instanceInsightsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceInsightsSchema'
+      parameters:
+      - name: from
+        schema:
+          type: string
+          example: '2024-01-01'
+        description: The beginning of the date range in yyyy-MM-dd format
+        in: query
+      - name: to
+        schema:
+          type: string
+          example: '2024-01-31'
+        description: The end of the date range in yyyy-MM-dd format
+        in: query
+      summary: Get Instance Information
+      description: '**Enterprise feature**
+
+
+        Gets high level information about the usage of this Unleash instance, including user, project, and flag information.'
+  /api/admin/email-subscription/{subscription}:
+    put:
+      tags:
+      - Unstable
+      operationId: subscribeEmailSubscription
+      responses:
+        '202':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      summary: Subscribe to Email Subscription
+      description: '**Enterprise feature**
+
+
+        Subscribe to email subscription e.g. monthly productivity report. By default everyone is subscribed. This API is mostly used by hosted Unleash.'
+      parameters:
+      - name: subscription
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Unstable
+      operationId: unsubscribeEmailSubscription
+      responses:
+        '202':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      summary: Unsubscribe From Email Subscription
+      description: '**Enterprise feature**
+
+
+        Unsubscribe from email subscription e.g. monthly productivity report. This API is mostly used by hosted Unleash.'
+      parameters:
+      - name: subscription
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/licensed-users:
+    get:
+      tags:
+      - Unstable
+      operationId: getAllLicensedUsers
+      summary: Retrieves All Licensed Users Data.
+      description: '**Enterprise feature**
+
+
+        Fetches an array of licensed users with date and count.'
+      responses:
+        '200':
+          description: licensedUsersSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/licensedUsersSchema'
+  /api/client/edge-licensing/heartbeat:
+    post:
+      summary: Heartbeat for Enterprise Edge Instances.
+      description: '**Enterprise feature**
+
+
+        Reports that an Enterprise Edge instance is alive and in use. This is related to billing and usage tracking.'
+      tags:
+      - Unstable
+      operationId: edgeInstanceHeartbeat
+      responses:
+        '202':
+          description: '#/components/schemas/edgeLicenseStateSchema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/edgeLicenseStateSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+  /api/admin/projects/{projectId}/change-requests/actionable:
+    get:
+      summary: Get the Number of Change Requests You Can Do Something With
+      description: '**Enterprise feature**
+
+
+        Returns the number of change requests in this project that your user can move into the next stage by approving or applying them.'
+      tags:
+      - Unstable
+      operationId: getActionableChangeRequests
+      responses:
+        '200':
+          description: actionableChangeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/actionableChangeRequestsSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/feedback:
+    get:
+      tags:
+      - Unstable
+      operationId: getFeedback
+      responses:
+        '200':
+          description: feedbackListSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/feedbackListSchema'
+      description: '**Enterprise feature**
+
+
+        Get all feedback events.'
+      summary: Get All Feedback Events. Limited to 2000 Items.
+  /feedback:
+    post:
+      summary: Submit User Feedback
+      description: '**Enterprise feature**
+
+
+        Allows users to submit feedback.'
+      tags:
+      - Unstable
+      operationId: provideFeedback
+      requestBody:
+        description: provideFeedbackSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/provideFeedbackSchema'
+      responses:
+        '200':
+          description: feedbackSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/feedbackSchema'
+  /api/admin/cdn/tokens:
+    post:
+      summary: Create a Cdn Token.
+      description: '**Enterprise feature**
+
+
+        Creates a new CDN token for the specified Edge instance.'
+      tags:
+      - Unstable
+      operationId: createCDNToken
+      requestBody:
+        description: '#/components/schemas/cdnApiTokenSchema'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cdnApiTokenSchema'
+      responses:
+        '202':
+          description: This response has no body.
+    get:
+      summary: Get a Cdn Tokens.
+      description: '**Enterprise feature**
+
+
+        Retrieves all CDN tokens for the specified Edge instance.'
+      tags:
+      - Unstable
+      operationId: getCDNTokens
+      responses:
+        '200':
+          description: cdnApiTokensSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cdnApiTokensSchema'
+  /api/admin/scim-settings:
+    get:
+      tags:
+      - Unstable
+      operationId: getScimSettings
+      summary: Get SCIM Settings.
+      description: '**Enterprise feature**
+
+
+        Returns the current settings for SCIM provisioning.'
+      responses:
+        '200':
+          description: '#/components/schemas/scimSettingsSchema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scimSettingsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Unstable
+      operationId: setScimSettings
+      summary: Set SCIM Settings.
+      description: '**Enterprise feature**
+
+
+        Sets new settings for SCIM provisioning.'
+      requestBody:
+        description: '#/components/schemas/setScimSettingsSchema'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/setScimSettingsSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/scim-settings/generate-new-token:
+    post:
+      tags:
+      - Unstable
+      operationId: generateNewToken
+      summary: Generates a New SCIM API Token.
+      description: '**Enterprise feature**
+
+
+        Generates a new SCIM API token. Previously generated tokens will be invalidated.'
+      responses:
+        '200':
+          description: '#/components/schemas/scimTokenSchema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scimTokenSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/client/streaming:
+    get:
+      tags:
+      - Unstable
+      operationId: connect
+      summary: Connect to the Streaming Api.
+      description: '**Enterprise feature**
+
+
+        Connects to the client features SSE streaming API.'
+      responses:
+        '200':
+          description: Connected to the streaming API.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+  /api/client/delta:
+    get:
+      summary: Get Partial Updates (sdk)
+      description: '**Enterprise feature**
+
+
+        Initially returns the full set of feature flags available to the provided API key. When called again with the returned etag, only returns the flags that have changed'
+      operationId: getDelta
+      tags:
+      - Unstable
+      responses:
+        '200':
+          description: clientFeaturesDeltaSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clientFeaturesDeltaSchema'
+  /api/admin/streaming/disconnect-all:
+    post:
+      tags:
+      - Unstable
+      operationId: disconnectAll
+      summary: Disconnect All Clients.
+      description: '**Enterprise feature**
+
+
+        Disconnects all streaming clients.'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+  /api/admin/impact-metrics/plausible:
+    get:
+      summary: Get Plausible Analytics Data
+      description: '**Enterprise feature**
+
+
+        Fetches analytics data from Plausible API for favorite events over the last 7 days.'
+      tags:
+      - Unstable
+      operationId: getPlausibleMetrics
+      responses:
+        '200':
+          description: plausibleMetricsResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/plausibleMetricsResponseSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/admin/projects/{projectId}/features/{featureName}/impact-metrics/config:
+    post:
+      summary: Save Flag Level Impact Metrics Configuration
+      description: '**Enterprise feature**
+
+
+        Saves a configuration for an impact metric chart associated with a feature flag.'
+      tags:
+      - Unstable
+      operationId: saveFeatureImpactMetricsConfig
+      requestBody:
+        description: createImpactMetricsConfigSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createImpactMetricsConfigSchema'
+      responses:
+        '200':
+          description: impactMetricsConfigSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/impactMetricsConfigSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get Impact Metrics Configurations for a Single Feature
+      description: '**Enterprise feature**
+
+
+        Gets all impact metrics configurations associated with a specific feature flag.'
+      tags:
+      - Unstable
+      operationId: getFlagImpactMetricsConfigsByFeature
+      responses:
+        '200':
+          description: impactMetricsConfigListSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/impactMetricsConfigListSchema'
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/impact-metrics/config:
+    post:
+      summary: Save Instance Level Impact Metrics Configuration
+      description: '**Enterprise feature**
+
+
+        Saves a configuration for an instance level impact metric chart without a feature flag'
+      tags:
+      - Unstable
+      operationId: saveInstanceImpactMetricsConfig
+      requestBody:
+        description: createImpactMetricsConfigSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createImpactMetricsConfigSchema'
+      responses:
+        '200':
+          description: impactMetricsConfigSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/impactMetricsConfigSchema'
+    get:
+      summary: Get Impact Metrics Configuration for the Instance
+      description: '**Enterprise feature**
+
+
+        Gets all impact metrics configurations now associated with any feature flag.'
+      tags:
+      - Unstable
+      operationId: getInstanceImpactMetricsConfigs
+      responses:
+        '200':
+          description: impactMetricsConfigListSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/impactMetricsConfigListSchema'
+  /api/admin/projects/{projectId}/features/{featureName}/impact-metrics/config/{id}:
+    delete:
+      summary: Delete Flag Level Impact Metric Configuration
+      description: '**Enterprise feature**
+
+
+        Deletes an impact metric configuration by its ID.'
+      tags:
+      - Unstable
+      operationId: deleteFlagImpactMetricConfig
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/impact-metrics/config/{id}:
+    delete:
+      summary: Delete Instance Level Impact Metric Configuration
+      description: '**Enterprise feature**
+
+
+        Deletes an impact metric configuration by its ID.'
+      tags:
+      - Unstable
+      operationId: deleteInstanceImpactMetricConfig
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{project}/features/{featureName}/environments/{environment}/progressions/{id}:
+    put:
+      tags:
+      - Unstable
+      operationId: changeMilestoneProgression
+      requestBody:
+        description: '#/components/schemas/changeMilestoneProgressionSchema'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeMilestoneProgressionSchema'
+      summary: Create or Update a Milestone Progression
+      description: '**Enterprise feature**
+
+
+        This is a beta endpoint and it may change or be removed in the future.
+
+
+        Creates or updates a milestone progression by source milestone ID. If a progression with the given source milestone exists, it will be updated; otherwise, a new one will be created.'
+      responses:
+        '200':
+          description: '#/components/schemas/milestoneProgressionSchema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/milestoneProgressionSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Unstable
+      operationId: deleteMilestoneProgression
+      summary: Delete a Milestone Progression
+      description: '**Enterprise feature**
+
+
+        This is a beta endpoint and it may change or be removed in the future.
+
+
+        Deletes an existing milestone progression by source milestone ID.'
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{project}/features/{featureName}/environments/{environment}/progressions/{planId}/resume:
+    post:
+      tags:
+      - Unstable
+      operationId: resumeMilestoneProgressions
+      summary: Resume Paused Milestone Progressions
+      description: '**Enterprise feature**
+
+
+        This is a beta endpoint and it may change or be removed in the future.
+
+
+        Resumes all paused milestone progressions for a release plan'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: planId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release-plans/{planId}/safeguards:
+    put:
+      tags:
+      - Unstable
+      operationId: changeSafeguard
+      summary: Change a Safeguard
+      description: '**Enterprise feature**
+
+
+        This is a beta endpoint and it may change or be removed in the future.
+
+
+        Creates or updates a safeguard for a specific feature, environment, and release plan.'
+      requestBody:
+        description: createSafeguardSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createSafeguardSchema'
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: planId
+        in: path
+        required: true
+        schema:
+          type: string
+  ? /api/admin/projects/{project}/features/{featureName}/environments/{environment}/release-plans/{planId}/safeguards/{safeguardId}
+  : delete:
+      tags:
+      - Unstable
+      operationId: deleteSafeguard
+      summary: Delete a Safeguard
+      description: '**Enterprise feature**
+
+
+        This is a beta endpoint and it may change or be removed in the future.
+
+
+        Deletes a safeguard by its ID for a specific feature, environment, and release plan.'
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: planId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: safeguardId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/user-admin/{id}/permissions:
+    get:
+      tags:
+      - Unstable
+      operationId: getUserPermissions
+      summary: Returns the List of Permissions for the User
+      description: Gets a list of permissions for a user, additional project and environment can be specified.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: a user id
+      - name: project
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: environment
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '#/components/schemas/userAccessOverviewSchema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userAccessOverviewSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/projects/{projectId}/status:
+    get:
+      tags:
+      - Unstable
+      operationId: getProjectStatus
+      summary: Get Project Status
+      description: This endpoint returns information on the status the project, including activities, health, resources, and aggregated flag lifecycle data.
+      responses:
+        '200':
+          description: projectStatusSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectStatusSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{featureName}/lifecycle:
+    get:
+      tags:
+      - Unstable
+      summary: Get Feature Lifecycle
+      description: Information about the lifecycle stages of the feature.
+      operationId: getFeatureLifecycle
+      responses:
+        '200':
+          description: featureLifecycleSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/featureLifecycleSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{featureName}/lifecycle/complete:
+    post:
+      tags:
+      - Unstable
+      summary: Set Feature Completed
+      description: This will set the feature as completed.
+      operationId: complete
+      requestBody:
+        description: featureLifecycleCompletedSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/featureLifecycleCompletedSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{featureName}/lifecycle/uncomplete:
+    post:
+      tags:
+      - Unstable
+      summary: Set Feature Uncompleted
+      description: This will set the feature as uncompleted.
+      operationId: uncomplete
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{featureName}/link:
+    post:
+      tags:
+      - Unstable
+      operationId: createFeatureLink
+      summary: Create a Feature Link
+      description: Create a new link for a feature.
+      responses:
+        '204':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      requestBody:
+        description: featureLinkSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/featureLinkSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/projects/{projectId}/features/{featureName}/link/{linkId}:
+    put:
+      tags:
+      - Unstable
+      operationId: updateFeatureLink
+      summary: Update a Feature Link
+      description: Update an existing feature link.
+      responses:
+        '204':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      requestBody:
+        description: featureLinkSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/featureLinkSchema'
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: linkId
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Unstable
+      operationId: deleteFeatureLink
+      summary: Delete a Feature Link
+      description: Delete a feature link by id.
+      responses:
+        '204':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: linkId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/lifecycle/count:
+    get:
+      tags:
+      - Unstable
+      summary: Get All Features Lifecycle Stage Count
+      description: Information about the number of features in each lifecycle stage.
+      operationId: getFeatureLifecycleStageCount
+      responses:
+        '200':
+          description: featureLifecycleCountSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/featureLifecycleCountSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/admin/personal-dashboard:
+    get:
+      tags:
+      - Unstable
+      summary: Get Personal Dashboard
+      description: Return all projects and flags that are relevant to the user.
+      operationId: getPersonalDashboard
+      responses:
+        '200':
+          description: personalDashboardSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/personalDashboardSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+  /api/admin/personal-dashboard/{projectId}:
+    get:
+      tags:
+      - Unstable
+      summary: Get Personal Project Details
+      description: Return personal dashboard project events, owners, user roles and onboarding status
+      operationId: getPersonalDashboardProjectDetails
+      responses:
+        '200':
+          description: personalDashboardProjectDetailsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/personalDashboardProjectDetailsSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    milestoneProgressionSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceMilestone
+      - targetMilestone
+      - transitionCondition
+      description: A milestone progression configuration
+      properties:
+        sourceMilestone:
+          type: string
+          description: The ID of the source milestone
+          example: milestone-1
+        targetMilestone:
+          type: string
+          description: The ID of the target milestone
+          example: milestone-2
+        transitionCondition:
+          $ref: '#/components/schemas/transitionConditionSchema'
+          description: The condition that triggers the transition
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+    featureLinkSchema:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          example: https://github.com/search?q=cleanupReminder&type=code
+          description: The URL the feature is linked to
+        title:
+          type: string
+          example: Github cleanup
+          description: The description of the link
+          nullable: true
+      description: The link to any URL related to the feature
+    personalDashboardSchema:
+      type: object
+      description: Project and flags relevant to the user
+      additionalProperties: false
+      required:
+      - projects
+      - flags
+      - admins
+      - projectOwners
+      properties:
+        admins:
+          type: array
+          description: Users with the admin role in Unleash.
+          items:
+            type: object
+            required:
+            - id
+            properties:
+              id:
+                type: integer
+                description: The user ID.
+                example: 1
+              name:
+                type: string
+                description: The user's name.
+                example: Ash Ketchum
+              username:
+                type: string
+                description: The user's username.
+                example: pokémaster13
+              imageUrl:
+                type: string
+                example: https://example.com/peek-at-you.jpg
+              email:
+                type: string
+                example: user@example.com
+        projectOwners:
+          type: array
+          description: Users with the project owner role in Unleash. Only contains owners of projects that are visible to the user.
+          items:
+            type: object
+            required:
+            - ownerType
+            - name
+            properties:
+              ownerType:
+                type: string
+                enum:
+                - user
+                description: The type of the owner; will always be `user`.
+              name:
+                type: string
+                example: User Name
+                description: The name displayed for the user. Can be the user's name, username, or email, depending on what they have provided.
+              imageUrl:
+                type: string
+                nullable: true
+                description: The URL of the user's profile image.
+                example: https://example.com/image.jpg
+              email:
+                type: string
+                nullable: true
+                description: The user's email address.
+                example: user@example.com
+        projects:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - id
+            - name
+            - health
+            - technicalDebt
+            - memberCount
+            - featureCount
+            properties:
+              id:
+                type: string
+                example: my-project-id
+                description: The id of the project
+              name:
+                type: string
+                example: My Project
+                description: The name of the project
+              health:
+                type: integer
+                example: 50
+                minimum: 0
+                deprecated: true
+                description: Use `technicalDebt` instead.
+              technicalDebt:
+                type: integer
+                example: 25
+                minimum: 0
+                maximum: 100
+                description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt#project-status) on a scale from 0 to 100
+              memberCount:
+                type: integer
+                example: 4
+                minimum: 0
+                description: The number of members this project has
+              featureCount:
+                type: integer
+                example: 10
+                minimum: 0
+                description: The number of features this project has
+          description: A list of projects that a user participates in with any role e.g. member or owner or any custom role
+        flags:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - name
+            - project
+            - type
+            properties:
+              name:
+                type: string
+                example: my-flag
+                description: The name of the flag
+              project:
+                type: string
+                example: my-project-id
+                description: The id of the feature project
+              type:
+                type: string
+                example: release
+                description: The type of the feature flag
+          description: A list of flags a user created or favorited
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type: string
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+          nullable: true
+        disabled:
+          type: boolean
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    projectActivitySchema:
+      type: array
+      description: An array of project activity information. Each item contains a date and the total number of activities for that date.
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - date
+        - count
+        properties:
+          date:
+            type: string
+            example: '2022-12-14'
+            description: Activity date
+          count:
+            type: integer
+            minimum: 0
+            description: Activity count
+    licensedUsersSchema:
+      description: A response model representing user license data.
+      type: object
+      additionalProperties: false
+      required:
+      - licensedUsers
+      - seatCount
+      properties:
+        seatCount:
+          type: integer
+          minimum: 0
+          example: 25
+          description: The total number of licensed seats currently available for this Unleash instance.
+        licensedUsers:
+          type: object
+          required:
+          - history
+          - current
+          description: An object containing historical and current licensed user data.
+          properties:
+            history:
+              type: array
+              description: A monthly history of licensed user counts.
+              items:
+                $ref: '#/components/schemas/licensedUserSchema'
+            current:
+              description: The current number of licenses in use.
+              type: integer
+              minimum: 0
+              example: 25
+    scimTokenSchema:
+      type: object
+      required:
+      - token
+      description: An object describing a SCIM provisioning API token.
+      additionalProperties: false
+      properties:
+        token:
+          type: string
+          description: The token used for SCIM API authentication. Can be revoked at a later stage by generating a new one.
+          example: xyzrandomstring
+    featureLifecycleCompletedSchema:
+      description: A feature that has been marked as completed
+      additionalProperties: false
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - kept
+          - discarded
+          example: kept
+          description: The status of the feature after it has been marked as completed
+        statusValue:
+          type: string
+          example: variant1
+          description: The metadata value passed in together with status
+    changeMilestoneProgressionSchema:
+      type: object
+      additionalProperties: true
+      required:
+      - targetMilestone
+      - transitionCondition
+      description: Request body to create or update a milestone progression
+      properties:
+        targetMilestone:
+          type: string
+          description: The ID of the target milestone
+          example: 11K7NXD655W7R89659K58RE07B
+        transitionCondition:
+          $ref: '#/components/schemas/transitionConditionSchema'
+          description: The condition configuration for the transition
+    userSchema:
+      type: object
+      additionalProperties: false
+      description: An Unleash user
+      required:
+      - id
+      properties:
+        id:
+          description: The user id
+          type: integer
+          example: 123
+        name:
+          description: Name of the user
+          type: string
+          example: User
+          nullable: true
+        email:
+          description: Email of the user
+          type: string
+          example: user@example.com
+        username:
+          description: A unique username for the user
+          type: string
+          example: hunter
+          nullable: true
+        imageUrl:
+          description: URL used for the user profile image
+          type: string
+          example: https://example.com/242x200.png
+        inviteLink:
+          description: If the user is actively inviting other users, this is the link that can be shared with other users
+          type: string
+          example: http://localhost:4242/invite-link/some-secret
+        loginAttempts:
+          description: How many unsuccessful attempts at logging in has the user made
+          type: integer
+          minimum: 0
+          example: 3
+        emailSent:
+          description: Is the welcome email sent to the user or not
+          type: boolean
+          example: false
+        rootRole:
+          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
+          type: integer
+          example: 1
+          minimum: 0
+        seenAt:
+          description: The last time this user logged in
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-06-30T11:42:00.345Z'
+        createdAt:
+          description: The user was created at this time
+          type: string
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
+        accountType:
+          description: A user is either an actual User or a Service Account
+          type: string
+          enum:
+          - User
+          - Service Account
+          example: User
+        permissions:
+          description: Deprecated
+          type: array
+          items:
+            type: string
+        scimId:
+          description: The SCIM ID of the user, only present if managed by SCIM
+          type: string
+          nullable: true
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
+        seatType:
+          description: The seat type of this user
+          type: string
+          nullable: true
+          example: Regular
+        activeSessions:
+          description: Count of active browser sessions for this user
+          type: integer
+          nullable: true
+          example: 2
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after last login
+          type: number
+          example: 1
+    meteredConnectionsSchema:
+      type: object
+      description: Contains the recorded metered groups connections segmented by day/month
+      required:
+      - dateRange
+      - apiData
+      - grouping
+      additionalProperties: false
+      properties:
+        grouping:
+          type: string
+          enum:
+          - monthly
+          - daily
+          description: Whether the data is aggregated by month or by day.
+          example: monthly
+        dateRange:
+          type: object
+          required:
+          - from
+          - to
+          additionalProperties: false
+          description: The date range there is data for. The range is inclusive and goes from the start of the `from` date to the end of the `to` date
+          properties:
+            from:
+              type: string
+              format: date
+              example: '2023-04-01'
+              description: The start of the dateRange
+            to:
+              type: string
+              format: date
+              example: '2023-04-30'
+              description: The end of the dateRange
+        apiData:
+          type: array
+          description: Contains the recorded daily/monthly connections for each metered group
+          items:
+            type: object
+            required:
+            - meteredGroup
+            - dataPoints
+            additionalProperties: false
+            properties:
+              meteredGroup:
+                type: string
+                example: default
+                description: The metered group representing charging unit in the organization using Unleash
+              dataPoints:
+                type: array
+                description: The recorded data points for the metered group
+                items:
+                  type: object
+                  required:
+                  - period
+                  - connections
+                  additionalProperties: false
+                  properties:
+                    period:
+                      type: string
+                      pattern: ^\d{4}-\d{2}(-\d{2})?$
+                      example: '2023-04-01'
+                      description: The date of the data point. Formatted as a full date (e.g. 2023-04-01) if the data is aggregated by day or as a month (e.g. 2023-04) if the data is aggregated by month.
+                    connections:
+                      type: number
+                      minimum: 0
+                      example: 10.5
+                      description: Number of connections. 1 connection = 7200 backend SDK requests per day
+    variantSchema:
+      type: object
+      additionalProperties: false
+      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
+      required:
+      - name
+      - weight
+      properties:
+        name:
+          type: string
+          description: The variants name. Is unique for this feature flag
+          example: blue_group
+        weight:
+          type: number
+          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
+          type: string
+          example: variable
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+        overrides:
+          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
+          type: array
+          items:
+            $ref: '#/components/schemas/overrideSchema'
+    featureLifecycleCountSchema:
+      type: object
+      description: A number features in each of the lifecycle stages
+      required:
+      - initial
+      - preLive
+      - live
+      - completed
+      - archived
+      additionalProperties: false
+      properties:
+        initial:
+          type: number
+          example: 1
+          description: Number of features in the initial stage
+        preLive:
+          type: number
+          example: 1
+          description: Number of features in the pre-live stage
+        live:
+          type: number
+          example: 1
+          description: Number of features in the live stage
+        completed:
+          type: number
+          example: 1
+          description: Number of features in the completed stage
+        archived:
+          type: number
+          example: 1
+          description: Number of features in the archived stage
+    overrideSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - contextName
+      - values
+      description: An override for deciding which variant should be assigned to a user based on the context name
+      properties:
+        contextName:
+          description: The name of the context field used to determine overrides
+          type: string
+          example: userId
+        values:
+          description: Which values that should be overriden
+          type: array
+          items:
+            type: string
+          example:
+          - red
+          - blue
+    clientSegmentSchema:
+      type: object
+      description: Represents a client API segment of users defined by a set of constraints.
+      additionalProperties: false
+      required:
+      - id
+      - constraints
+      properties:
+        id:
+          type: number
+          description: The segment's id.
+        name:
+          type: string
+          description: The name of the segment.
+          example: segment A
+        constraints:
+          type: array
+          description: List of constraints that determine which users are part of the segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+    projectStatusSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - activityCountByDate
+      - resources
+      - health
+      - technicalDebt
+      - lifecycleSummary
+      - staleFlags
+      description: Schema representing the overall status of a project, including an array of activity records. Each record in the activity array contains a date and a count, providing a snapshot of the project’s activity level over time.
+      properties:
+        activityCountByDate:
+          $ref: '#/components/schemas/projectActivitySchema'
+          description: Array of activity records with date and count, representing the project’s daily activity statistics.
+        health:
+          type: object
+          additionalProperties: false
+          required:
+          - current
+          description: Information about the project's health rating
+          properties:
+            current:
+              type: integer
+              minimum: 0
+              description: The project's current health score, based on the ratio of healthy flags to stale and potentially stale flags.
+              example: 100
+        technicalDebt:
+          type: object
+          additionalProperties: false
+          required:
+          - current
+          description: Information about the project's health rating
+          properties:
+            current:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: The project's current health score, based on the ratio of healthy flags to stale and potentially stale flags.
+              example: 100
+        resources:
+          type: object
+          additionalProperties: false
+          required:
+          - apiTokens
+          - members
+          - segments
+          description: Key resources within the project
+          properties:
+            apiTokens:
+              type: integer
+              minimum: 0
+              description: The number of API tokens created specifically for this project.
+            members:
+              type: integer
+              minimum: 0
+              description: The number of users who have been granted roles in this project. Does not include users who have access via groups.
+            segments:
+              type: integer
+              minimum: 0
+              description: The number of segments that are scoped to this project.
+        staleFlags:
+          type: object
+          additionalProperties: false
+          description: Information on stale and potentially stale flags in this project.
+          required:
+          - total
+          properties:
+            total:
+              type: integer
+              minimum: 0
+              description: The total number of flags in this project that are stale or potentially stale.
+        lifecycleSummary:
+          type: object
+          additionalProperties: false
+          description: Feature flag lifecycle statistics for this project.
+          required:
+          - initial
+          - preLive
+          - live
+          - completed
+          - archived
+          properties:
+            initial:
+              type: object
+              additionalProperties: false
+              description: Statistics on feature flags in a given stage in this project.
+              required:
+              - averageDays
+              - currentFlags
+              properties:
+                averageDays:
+                  type: number
+                  nullable: true
+                  description: The average number of days a feature flag remains in a stage in this project. Will be null if Unleash doesn't have any data for this stage yet.
+                  example: 5
+                currentFlags:
+                  type: integer
+                  description: The number of feature flags currently in a stage in this project.
+                  example: 10
+            preLive:
+              type: object
+              additionalProperties: false
+              description: Statistics on feature flags in a given stage in this project.
+              required:
+              - averageDays
+              - currentFlags
+              properties:
+                averageDays:
+                  type: number
+                  nullable: true
+                  description: The average number of days a feature flag remains in a stage in this project. Will be null if Unleash doesn't have any data for this stage yet.
+                  example: 5
+                currentFlags:
+                  type: integer
+                  description: The number of feature flags currently in a stage in this project.
+                  example: 10
+            live:
+              type: object
+              additionalProperties: false
+              description: Statistics on feature flags in a given stage in this project.
+              required:
+              - averageDays
+              - currentFlags
+              properties:
+                averageDays:
+                  type: number
+                  nullable: true
+                  description: The average number of days a feature flag remains in a stage in this project. Will be null if Unleash doesn't have any data for this stage yet.
+                  example: 5
+                currentFlags:
+                  type: integer
+                  description: The number of feature flags currently in a stage in this project.
+                  example: 10
+            completed:
+              type: object
+              additionalProperties: false
+              description: Statistics on feature flags in a given stage in this project.
+              required:
+              - averageDays
+              - currentFlags
+              properties:
+                averageDays:
+                  type: number
+                  nullable: true
+                  description: The average number of days a feature flag remains in a stage in this project. Will be null if Unleash doesn't have any data for this stage yet.
+                  example: 5
+                currentFlags:
+                  type: integer
+                  description: The number of feature flags currently in a stage in this project.
+                  example: 10
+            archived:
+              type: object
+              additionalProperties: false
+              required:
+              - currentFlags
+              - last30Days
+              description: Information on archived flags in this project.
+              properties:
+                currentFlags:
+                  type: integer
+                  description: The number of archived feature flags in this project. If a flag is deleted permanently, it will no longer be counted as part of this statistic.
+                  example: 10
+                last30Days:
+                  type: integer
+                  description: The number of flags in this project that have been changed over the last 30 days.
+                  example: 5
+    feedbackListSchema:
+      type: array
+      description: A list of feedback items.
+      items:
+        $ref: '#/components/schemas/feedbackSchema'
+    featureLifecycleSchema:
+      type: array
+      description: A list of lifecycle stages for a given feature
+      items:
+        additionalProperties: false
+        type: object
+        required:
+        - stage
+        - enteredStageAt
+        properties:
+          stage:
+            type: string
+            enum:
+            - initial
+            - pre-live
+            - live
+            - completed
+            - archived
+            example: initial
+            description: The name of the lifecycle stage that got recorded for a given feature
+          status:
+            type: string
+            example: kept
+            description: The name of the detailed status of a given stage. E.g. completed stage can be kept or discarded.
+          enteredStageAt:
+            type: string
+            format: date-time
+            example: '2023-01-28T16:21:39.975Z'
+            description: The date when the feature entered a given stage
+        description: The lifecycle stage of the feature
+    createImpactMetricsConfigSchema:
+      type: object
+      required:
+      - metricName
+      - timeRange
+      - yAxisMin
+      - aggregationMode
+      - labelSelectors
+      description: Describes the configuration for a single impact metric chart.
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+          description: The unique ULID identifier for this impact metric configuration. Generated automatically if not provided.
+          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
+        metricName:
+          type: string
+          description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+          example: unleash_counter_feature_toggle_usage_total
+        timeRange:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          description: The time range for the metric data.
+          example: day
+        yAxisMin:
+          type: string
+          enum:
+          - auto
+          - zero
+          description: Whether the chart should begin at zero on the y-axis.
+          example: auto
+        aggregationMode:
+          type: string
+          description: The aggregation mode for the metric data.
+          enum:
+          - rps
+          - count
+          - avg
+          - sum
+          - p95
+          - p99
+          - p50
+          example: rps
+        labelSelectors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: The selected labels and their values for filtering the metric data.
+          example:
+            environment:
+            - development
+            project:
+            - default
+        title:
+          type: string
+          description: Optional title for the impact metric chart.
+          example: Feature Toggle Usage
+          nullable: false
+    instanceInsightsSchema:
+      additionalProperties: false
+      description: A summary of this Unleash instance's usage statistics, including user and flag counts, and trends over time.
+      type: object
+      required:
+      - userTrends
+      - flagTrends
+      - projectFlagTrends
+      - metricsSummaryTrends
+      - environmentTypeTrends
+      - lifecycleTrends
+      - creationArchiveTrends
+      properties:
+        userTrends:
+          type: array
+          description: How number of users changed over time
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - date
+            - total
+            - active
+            - inactive
+            properties:
+              date:
+                type: string
+                format: date-time
+                example: '2024-01-12T23:59:59.999Z'
+                description: A UTC date when the stats were captured. Time is the very end of a given day.
+              total:
+                type: number
+                example: 100
+                description: The number of actual Unleash users on a particular day
+              active:
+                type: number
+                example: 98
+                description: The number of active Unleash users on a particular day
+              inactive:
+                type: number
+                example: 2
+                description: The number of inactive Unleash users on a particular day
+        flagTrends:
+          type: array
+          description: How number of flags changed over time
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - date
+            - total
+            - active
+            - stale
+            - potentiallyStale
+            properties:
+              date:
+                type: string
+                format: date-time
+                example: '2024-01-12T23:59:59.999Z'
+                description: A UTC date when the stats were captured. Time is the very end of a given day.
+              total:
+                type: number
+                example: 100
+                description: The number of all flags on a particular day
+              active:
+                type: number
+                example: 98
+                description: The number of active flags on a particular day
+              stale:
+                type: number
+                example: 0
+                description: The number of user marked stale flags on a particular day
+              potentiallyStale:
+                type: number
+                example: 2
+                description: The number of time calculated potentially stale flags on a particular day
+        projectFlagTrends:
+          type: array
+          description: How number of flags per project changed over time
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - project
+            - date
+            - total
+            - active
+            - stale
+            - potentiallyStale
+            - week
+            - health
+            properties:
+              week:
+                type: string
+                example: 2024-40
+                description: Year and week in a given year for which the stats were calculated
+              project:
+                type: string
+                example: default
+                description: Project id of the project the flag trends belong to
+              health:
+                type: number
+                example: 50
+                deprecated: true
+                description: Use `technicalDebt` instead.
+              technicalDebt:
+                type: number
+                example: 20
+                minimum: 0
+                maximum: 100
+                description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt) on a scale from 0 to 100
+              timeToProduction:
+                type: number
+                example: 10
+                description: The average time from when a feature was created to when it was enabled in the "production" environment during the current window
+              date:
+                type: string
+                format: date-time
+                example: '2024-01-12T23:59:59.999Z'
+                description: A UTC date when the stats were captured. Time is the very end of a given day.
+              total:
+                type: number
+                example: 100
+                description: The number of all flags on a particular day
+              active:
+                type: number
+                example: 98
+                description: The number of active flags on a particular day
+              stale:
+                type: number
+                example: 0
+                description: The number of user marked stale flags on a particular day
+              potentiallyStale:
+                type: number
+                example: 2
+                description: The number of time calculated potentially stale flags on a particular day
+              users:
+                type: number
+                example: 30
+                description: The number of users who have access to the project
+        metricsSummaryTrends:
+          type: array
+          description: How metrics data per project changed over time
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - week
+            - date
+            - project
+            - totalRequests
+            - totalYes
+            - totalNo
+            - totalApps
+            - totalFlags
+            - totalEnvironments
+            properties:
+              week:
+                type: string
+                example: 2024-01
+                description: Year and week in a given year for which the metrics summary was calculated
+              date:
+                type: string
+                format: date-time
+                example: '2024-01-12T23:59:59.999Z'
+                description: A UTC date when metrics summary was captured. Time is the very end of a given day.
+              project:
+                type: string
+                example: default
+                description: Project id of the project the impressions summary belong to
+              totalRequests:
+                type: number
+                example: 50
+                description: 'Total number of times all project flags were requested '
+              totalYes:
+                type: number
+                example: 50
+                description: Total number of times all project flags were exposed across all environments
+              totalNo:
+                type: number
+                example: 50
+                description: Total number of times all project flags were not exposed across all environments
+              totalApps:
+                type: number
+                example: 50
+                description: Total number of applications the impression data belong to
+              totalFlags:
+                type: number
+                example: 50
+                description: Total number of flags the impression data belong to
+              totalEnvironments:
+                type: number
+                example: 50
+                description: Total number of environments the impression data belong to
+        environmentTypeTrends:
+          type: array
+          description: How updates per environment type changed over time
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - date
+            - week
+            - environmentType
+            - totalUpdates
+            properties:
+              date:
+                type: string
+                format: date-time
+                example: '2024-01-12T23:59:59.999Z'
+                description: A UTC date when the stats were captured. Time is the very end of a given day.
+              week:
+                type: string
+                example: 2024-01
+                description: Year and week in a given year for which the stats were calculated
+              environmentType:
+                type: string
+                example: production
+                description: Environment type the data belongs too
+              totalUpdates:
+                type: number
+                example: 50
+                description: 'Total number of times configuration has been updated in the environment type '
+        lifecycleTrends:
+          type: array
+          description: Weekly count of new flags entering production
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - week
+            - date
+            - newProductionFlags
+            - project
+            properties:
+              week:
+                type: string
+                example: 2024-15
+                description: Year and week in a given year for which the stats were calculated
+              date:
+                type: string
+                format: date-time
+                example: '2024-04-12T23:59:59.999Z'
+                description: A UTC date when the stats were captured. Time is the very end of a given week.
+              newProductionFlags:
+                type: number
+                example: 5
+                description: Number of flags that entered production during this week
+              project:
+                type: string
+                example: default
+                description: Project id that the flags belong to
+        creationArchiveTrends:
+          type: array
+          description: Weekly count of created vs archived flags by project and flag type
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - week
+            - date
+            - project
+            - createdFlags
+            - archivedFlags
+            properties:
+              week:
+                type: string
+                example: 2024-15
+                description: Year and week in a given year for which the stats were calculated
+              date:
+                type: string
+                format: date-time
+                example: '2024-04-12T23:59:59.999Z'
+                description: A UTC date when the stats were captured. Time is the very end of a given week.
+              project:
+                type: string
+                example: default
+                description: Project id that the flags belong to
+              createdFlags:
+                type: object
+                description: Count of newly created flags by flag type
+                additionalProperties:
+                  type: number
+                  minimum: 0
+                example:
+                  experiment: 5
+                  release: 2
+                  operational: 1
+              archivedFlags:
+                type: number
+                example: 3
+                minimum: 0
+                description: Total count of archived flags during this week
+    actionableChangeRequestsSchema:
+      type: object
+      description: Data related to actionable change requests in a project.
+      required:
+      - total
+      properties:
+        total:
+          type: integer
+          minimum: 0
+          description: The number of actionable change requests in the project.
+    cdnApiTokensSchema:
+      description: List of CDN tokens.
+      type: object
+      properties:
+        tokens:
+          type: array
+          description: List of tokens for CDN
+          items:
+            $ref: '#/components/schemas/cdnApiTokenSchema'
+    dependentFeatureSchema:
+      type: object
+      description: Feature dependency on a parent feature in read model
+      required:
+      - feature
+      additionalProperties: false
+      properties:
+        feature:
+          type: string
+          description: The name of the feature we depend on.
+          example: parent_feature
+        enabled:
+          type: boolean
+          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
+          example: false
+        variants:
+          type: array
+          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
+          items:
+            type: string
+          example:
+          - variantA
+          - variantB
+    provideFeedbackSchema:
+      additionalProperties: false
+      description: Schema representing the creation of feedback information.
+      type: object
+      required:
+      - category
+      properties:
+        category:
+          type: string
+          example: UI/UX
+          description: The category of the feedback.
+        userType:
+          type: string
+          nullable: true
+          example: developer
+          description: The type of user providing the feedback.
+        difficultyScore:
+          type: number
+          nullable: true
+          example: 5
+          description: A score indicating the difficulty experienced by the user.
+        positive:
+          type: string
+          nullable: true
+          example: Easy to navigate.
+          description: This field is for users to mention what they liked.
+        areasForImprovement:
+          nullable: true
+          type: string
+          example: Slow response time.
+          description: Details aspects of the service or product that could benefit from enhancements or modifications. Aids in pinpointing areas needing attention for improvement.
+    scimSettingsSchema:
+      type: object
+      required:
+      - enabled
+      - hasToken
+      description: An object describing settings for SCIM provisioning.
+      additionalProperties: false
+      properties:
+        enabled:
+          type: boolean
+          description: Whether SCIM provisioning is currently enabled.
+          example: true
+        hasToken:
+          type: boolean
+          description: Whether a SCIM provisioning API token is currently set.
+          example: true
+    clientFeaturesDeltaSchema:
+      type: object
+      required:
+      - events
+      description: Schema for delta updates of feature configurations.
+      properties:
+        events:
+          description: A list of delta events.
+          type: array
+          items:
+            type: object
+            anyOf:
+            - type: object
+              required:
+              - eventId
+              - type
+              - feature
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - feature-updated
+                feature:
+                  $ref: '#/components/schemas/clientFeatureSchema'
+            - type: object
+              required:
+              - eventId
+              - type
+              - featureName
+              - project
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - feature-removed
+                featureName:
+                  type: string
+                project:
+                  type: string
+            - type: object
+              required:
+              - eventId
+              - type
+              - segment
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - segment-updated
+                segment:
+                  $ref: '#/components/schemas/clientSegmentSchema'
+            - type: object
+              required:
+              - eventId
+              - type
+              - segmentId
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - segment-removed
+                segmentId:
+                  type: number
+            - type: object
+              required:
+              - type
+              - features
+              - segments
+              - eventId
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - hydration
+                features:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/clientFeatureSchema'
+                segments:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/clientSegmentSchema'
+    edgeLicenseStateSchema:
+      description: A model representing the Edge license state response.
+      type: object
+      additionalProperties: false
+      required:
+      - edgeLicenseState
+      properties:
+        edgeLicenseState:
+          description: State of the current Enterprise Edge license
+          type: string
+          enum:
+          - Valid
+          - Invalid
+          - Expired
+    licensedUserSchema:
+      description: A schema representing a single licensed user data point.
+      type: object
+      additionalProperties: false
+      required:
+      - date
+      - count
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: The date associated with the licensed users count.
+          example: '2024-10-01T00:00:00.000Z'
+        count:
+          type: integer
+          description: The count of licensed users on the given date.
+          minimum: 0
+          example: 100
+    impactMetricsConfigSchema:
+      type: object
+      required:
+      - metricName
+      - timeRange
+      - yAxisMin
+      - aggregationMode
+      - labelSelectors
+      - type
+      - displayName
+      - id
+      description: Describes the configuration for a single impact metric chart.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: The unique ULID identifier for this impact metric configuration. Generated automatically if not provided.
+          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
+        metricName:
+          type: string
+          description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+          example: unleash_counter_feature_toggle_usage_total
+        timeRange:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          description: The time range for the metric data.
+          example: day
+        aggregationMode:
+          type: string
+          description: The aggregation mode for the metric data.
+          enum:
+          - rps
+          - count
+          - avg
+          - sum
+          - p95
+          - p99
+          - p50
+          example: rps
+        labelSelectors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: The selected labels and their values for filtering the metric data.
+          example:
+            environment:
+            - development
+            project:
+            - default
+        type:
+          type: string
+          description: The type of metric
+          enum:
+          - counter
+          - gauge
+          - histogram
+          - unknown
+          example: counter
+        displayName:
+          type: string
+          description: The human readable display name of the impact metric
+          example: feature_toggle_usage_total
+        yAxisMin:
+          type: string
+          enum:
+          - auto
+          - zero
+          description: Whether the chart should begin at zero on the y-axis.
+          example: auto
+        step:
+          type: string
+          enum:
+          - 1m
+          - 15m
+          - 3h
+          - 1d
+          description: The step interval for querying metrics data. This is automatically calculated from the timeRange and stored when the metric is created or updated.
+          example: 15m
+          nullable: true
+        title:
+          type: string
+          description: Optional title for the impact metric chart.
+          example: Feature Toggle Usage
+          nullable: false
+        mode:
+          type: string
+          enum:
+          - read
+          - write
+          description: 'The access mode for this impact metric configuration: "read" when referenced by a safeguard, "write" otherwise.'
+          example: write
+    transitionConditionSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - intervalMinutes
+      description: A transition condition for milestone progression
+      properties:
+        intervalMinutes:
+          type: integer
+          minimum: 1
+          description: The interval in minutes before transitioning
+          example: 30
+    meteredRequestsSchema:
+      type: object
+      description: Contains the recorded metered groups requests segmented by day/month
+      required:
+      - dateRange
+      - apiData
+      - grouping
+      additionalProperties: false
+      properties:
+        grouping:
+          type: string
+          enum:
+          - monthly
+          - daily
+          description: Whether the data is aggregated by month or by day.
+          example: monthly
+        dateRange:
+          type: object
+          required:
+          - from
+          - to
+          additionalProperties: false
+          description: The date range there is data for. The range is inclusive and goes from the start of the `from` date to the end of the `to` date
+          properties:
+            from:
+              type: string
+              format: date
+              example: '2023-04-01'
+              description: The start of the dateRange
+            to:
+              type: string
+              format: date
+              example: '2023-04-30'
+              description: The end of the dateRange
+        apiData:
+          type: array
+          description: Contains the recorded daily/monthly requests for each metered group
+          items:
+            type: object
+            required:
+            - meteredGroup
+            - dataPoints
+            additionalProperties: false
+            properties:
+              meteredGroup:
+                type: string
+                example: default
+                description: The metered group representing charging unit in the organization using Unleash
+              dataPoints:
+                type: array
+                description: The recorded data points for the metered group
+                items:
+                  type: object
+                  required:
+                  - period
+                  - requests
+                  additionalProperties: false
+                  properties:
+                    period:
+                      type: string
+                      pattern: ^\d{4}-\d{2}(-\d{2})?$
+                      example: '2023-04-01'
+                      description: The date of the data point. Formatted as a full date (e.g. 2023-04-01) if the data is aggregated by day or as a month (e.g. 2023-04) if the data is aggregated by month.
+                    requests:
+                      type: number
+                      minimum: 0
+                      example: 1200
+                      description: Number of requests
+    personalDashboardProjectDetailsSchema:
+      type: object
+      description: Project details in personal dashboard
+      additionalProperties: false
+      required:
+      - owners
+      - roles
+      - latestEvents
+      - onboardingStatus
+      - insights
+      properties:
+        insights:
+          type: object
+          description: Insights for the project, including flag data and project health information.
+          additionalProperties: false
+          required:
+          - avgHealthCurrentWindow
+          - avgHealthPastWindow
+          - totalFlags
+          - activeFlags
+          - staleFlags
+          - potentiallyStaleFlags
+          - health
+          - technicalDebt
+          properties:
+            avgHealthCurrentWindow:
+              type: integer
+              minimum: 0
+              description: The project's average health score over the last 4 weeks
+              example: 80
+              nullable: true
+            avgHealthPastWindow:
+              type: integer
+              minimum: 0
+              description: The project's average health score over the previous 4-week window
+              example: 70
+              nullable: true
+            totalFlags:
+              type: integer
+              minimum: 0
+              example: 100
+              description: The current number of non-archived flags
+            activeFlags:
+              type: integer
+              minimum: 0
+              example: 98
+              description: The number of active flags that are not stale or potentially stale
+            staleFlags:
+              type: integer
+              minimum: 0
+              example: 0
+              description: The current number of flags that have been manually marked as stale
+            potentiallyStaleFlags:
+              type: integer
+              minimum: 0
+              example: 2
+              description: The number of potentially stale flags as calculated by Unleash
+            health:
+              type: integer
+              minimum: 0
+              description: Use `technicalDebt` instead.
+              example: 80
+              deprecated: true
+            technicalDebt:
+              type: integer
+              example: 25
+              minimum: 0
+              maximum: 100
+              description: An indicator of the [project's technical debt](https://docs.getunleash.io/concepts/technical-debt#project-status) on a scale from 0 to 100
+        onboardingStatus:
+          type: object
+          oneOf:
+          - type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - onboarding-started
+                - onboarded
+                example: onboarding-started
+            required:
+            - status
+            additionalProperties: false
+          - type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - first-flag-created
+                example: first-flag-created
+              feature:
+                type: string
+                description: The name of the feature flag
+                example: my-feature-flag
+            required:
+            - status
+            - feature
+            additionalProperties: false
+          description: The current onboarding status of the project.
+        latestEvents:
+          type: array
+          description: The latest events for the project.
+          items:
+            type: object
+            description: An event summary
+            additionalProperties: false
+            required:
+            - summary
+            - createdBy
+            - createdByImageUrl
+            - id
+            - createdAt
+            properties:
+              id:
+                type: integer
+                minimum: 1
+                description: The ID of the event.
+              summary:
+                type: string
+                nullable: true
+                description: '**[Experimental]** A markdown-formatted summary of the event.'
+              createdBy:
+                type: string
+                description: Which user created this event
+                example: johndoe
+              createdByImageUrl:
+                type: string
+                description: URL used for the user profile image of the event author
+                example: https://example.com/242x200.png
+              createdAt:
+                type: string
+                format: date-time
+                description: When the event was recorded
+                example: '2021-09-01T12:00:00Z'
+        owners:
+          description: The users and/or groups that have the "owner" role in this project. If no such users or groups exist, the list will contain the "system" owner instead.
+          oneOf:
+          - type: array
+            minItems: 1
+            items:
+              anyOf:
+              - type: object
+                required:
+                - ownerType
+                - name
+                properties:
+                  ownerType:
+                    type: string
+                    enum:
+                    - user
+                  name:
+                    type: string
+                    example: User Name
+                  imageUrl:
+                    type: string
+                    nullable: true
+                    example: https://example.com/image.jpg
+                  email:
+                    type: string
+                    nullable: true
+                    example: user@example.com
+              - type: object
+                required:
+                - ownerType
+                - name
+                properties:
+                  ownerType:
+                    type: string
+                    enum:
+                    - group
+                  name:
+                    type: string
+                    example: Group Name
+          - type: array
+            minItems: 1
+            maxItems: 1
+            items:
+              type: object
+              required:
+              - ownerType
+              properties:
+                ownerType:
+                  type: string
+                  enum:
+                  - system
+        roles:
+          type: array
+          description: The list of roles that the user has in this project.
+          items:
+            type: object
+            description: An Unleash role.
+            additionalProperties: false
+            required:
+            - name
+            - id
+            - type
+            properties:
+              name:
+                type: string
+                example: Owner
+                description: The name of the role
+              id:
+                type: integer
+                example: 4
+                description: The id of the role
+              type:
+                type: string
+                enum:
+                - custom
+                - project
+                example: project
+                description: The type of the role
+    roleSchema:
+      type: object
+      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - name
+      properties:
+        id:
+          type: integer
+          description: The role id
+          example: 9
+          minimum: 0
+        type:
+          description: A role can either be a global root role (applies to all projects) or a project role
+          type: string
+          example: root
+        name:
+          description: The name of the role
+          type: string
+          example: Editor
+        description:
+          description: A more detailed description of the role and what use it's intended for
+          type: string
+          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+        project:
+          description: What project the role belongs to
+          type: string
+          nullable: true
+          example: default
+    userAccessOverviewSchema:
+      type: object
+      required:
+      - overview
+      - user
+      - rootRole
+      - projectRoles
+      additionalProperties: false
+      description: Describes the access overview (list of permissions and metadata) for a user.
+      properties:
+        overview:
+          type: object
+          required:
+          - root
+          - project
+          - environment
+          additionalProperties: false
+          description: The access overview (list of permissions) for the user
+          properties:
+            root:
+              type: array
+              description: The list of root permissions
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - displayName
+                - type
+                - hasPermission
+                additionalProperties: false
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the permission
+                    example: 1
+                  name:
+                    type: string
+                    description: The name of the permission
+                    example: CREATE_FEATURE_STRATEGY
+                  displayName:
+                    type: string
+                    description: The display name of the permission
+                    example: Create activation strategies
+                  type:
+                    type: string
+                    description: The type of the permission
+                    example: environment
+                  environment:
+                    type: string
+                    nullable: true
+                    description: The environment that the permission applies to
+                    example: dev
+                  hasPermission:
+                    type: boolean
+                    description: Whether the user has this permission
+                    example: true
+            project:
+              type: array
+              description: The list of project permissions
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - displayName
+                - type
+                - hasPermission
+                additionalProperties: false
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the permission
+                    example: 1
+                  name:
+                    type: string
+                    description: The name of the permission
+                    example: CREATE_FEATURE_STRATEGY
+                  displayName:
+                    type: string
+                    description: The display name of the permission
+                    example: Create activation strategies
+                  type:
+                    type: string
+                    description: The type of the permission
+                    example: environment
+                  environment:
+                    type: string
+                    nullable: true
+                    description: The environment that the permission applies to
+                    example: dev
+                  hasPermission:
+                    type: boolean
+                    description: Whether the user has this permission
+                    example: true
+            environment:
+              type: array
+              description: The list of environment permissions
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - displayName
+                - type
+                - hasPermission
+                additionalProperties: false
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the permission
+                    example: 1
+                  name:
+                    type: string
+                    description: The name of the permission
+                    example: CREATE_FEATURE_STRATEGY
+                  displayName:
+                    type: string
+                    description: The display name of the permission
+                    example: Create activation strategies
+                  type:
+                    type: string
+                    description: The type of the permission
+                    example: environment
+                  environment:
+                    type: string
+                    nullable: true
+                    description: The environment that the permission applies to
+                    example: dev
+                  hasPermission:
+                    type: boolean
+                    description: Whether the user has this permission
+                    example: true
+        user:
+          description: The user that this access overview is for
+          $ref: '#/components/schemas/userSchema'
+        rootRole:
+          description: The name of the root role that this user has
+          $ref: '#/components/schemas/roleSchema'
+        projectRoles:
+          type: array
+          description: The list of project roles that this user has in the selected project
+          items:
+            type: object
+            required:
+            - id
+            - type
+            - name
+            - permissions
+            additionalProperties: false
+            properties:
+              id:
+                type: integer
+                description: The role id
+                example: 9
+                minimum: 0
+              type:
+                description: A role can either be a global root role (applies to all projects) or a project role
+                type: string
+                example: root
+              name:
+                description: The name of the role
+                type: string
+                example: Editor
+              description:
+                description: A more detailed description of the role and what use it's intended for
+                type: string
+                example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+              project:
+                description: What project the role belongs to
+                type: string
+                nullable: true
+                example: default
+              permissions:
+                type: array
+                description: The permissions that this role has
+                items:
+                  type: object
+                  required:
+                  - id
+                  - name
+                  - displayName
+                  - type
+                  additionalProperties: false
+                  properties:
+                    id:
+                      type: integer
+                      description: The ID of the permission
+                      example: 1
+                    name:
+                      type: string
+                      description: The name of the permission
+                      example: CREATE_FEATURE_STRATEGY
+                    displayName:
+                      type: string
+                      description: The display name of the permission
+                      example: Create activation strategies
+                    type:
+                      type: string
+                      description: The type of the permission
+                      example: environment
+                    environment:
+                      type: string
+                      nullable: true
+                      description: The environment that the permission applies to
+                      example: dev
+    impactMetricsConfigListSchema:
+      type: object
+      required:
+      - configs
+      description: A list of impact metrics configurations for a feature flag.
+      additionalProperties: false
+      properties:
+        configs:
+          type: array
+          description: The list of impact metrics configurations.
+          items:
+            $ref: '#/components/schemas/impactMetricsConfigSchema'
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    safeguardTriggerConditionSchema:
+      type: object
+      required:
+      - operator
+      - threshold
+      additionalProperties: false
+      description: The condition that triggers the safeguard.
+      properties:
+        operator:
+          type: string
+          enum:
+          - '>'
+          - <
+          description: The comparison operator for the threshold check.
+          example: '>'
+        threshold:
+          type: number
+          description: The threshold value to compare against.
+          example: 100
+    setScimSettingsSchema:
+      type: object
+      required:
+      - enabled
+      description: An object describing settings for SCIM provisioning.
+      properties:
+        enabled:
+          type: boolean
+          description: Whether SCIM provisioning is currently enabled.
+          example: true
+    feedbackSchema:
+      additionalProperties: false
+      description: Schema representing feedback information.
+      type: object
+      required:
+      - id
+      - category
+      - userType
+      - difficultyScore
+      - positive
+      - areasForImprovement
+      - createdAt
+      properties:
+        id:
+          type: number
+          example: 123
+          description: The unique identifier of the feedback.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2022-12-12T12:13:24.218Z'
+          description: The date and time when the feedback was provided.
+        category:
+          type: string
+          example: UI/UX
+          description: The category of the feedback.
+        userType:
+          type: string
+          nullable: true
+          example: developer
+          description: The type of user providing the feedback.
+        difficultyScore:
+          type: number
+          nullable: true
+          example: 5
+          description: A score indicating the difficulty experienced by the user.
+        positive:
+          type: string
+          nullable: true
+          example: Easy to navigate.
+          description: This field is for users to mention what they liked.
+        areasForImprovement:
+          nullable: true
+          type: string
+          example: Slow response time.
+          description: Details aspects of the service or product that could benefit from enhancements or modifications. Aids in pinpointing areas needing attention for improvement.
+    cdnApiTokenSchema:
+      description: The data required to create an CDN API token.
+      type: object
+      required:
+      - tokenName
+      - environment
+      properties:
+        tokenName:
+          type: string
+          description: The name of the token.
+          example: token-64522
+        project:
+          type: string
+          description: The project that the token should be valid for. Defaults to "*" meaning every project.
+          example: project-851
+        environment:
+          type: string
+          description: The environment that the token should be valid for.
+          example: development
+        expiresAt:
+          type: string
+          format: date-time
+          description: The time when this token should expire.
+          example: '2023-07-04T11:26:24+02:00'
+          nullable: true
+    strategyVariantSchema:
+      type: object
+      additionalProperties: false
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+    createSafeguardSchema:
+      type: object
+      required:
+      - impactMetric
+      - triggerCondition
+      description: Request body to create a safeguard with metric-based alert condition.
+      additionalProperties: false
+      properties:
+        impactMetric:
+          type: object
+          required:
+          - metricName
+          - timeRange
+          - aggregationMode
+          - labelSelectors
+          properties:
+            metricName:
+              type: string
+              description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+              example: unleash_counter_feature_toggle_usage_total
+            timeRange:
+              type: string
+              enum:
+              - hour
+              - day
+              - week
+              - month
+              description: The time range for the metric data.
+              example: day
+            aggregationMode:
+              type: string
+              description: The aggregation mode for the metric data.
+              enum:
+              - rps
+              - count
+              - avg
+              - sum
+              - p95
+              - p99
+              - p50
+              example: rps
+            labelSelectors:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              description: The selected labels and their values for filtering the metric data.
+              example:
+                environment:
+                - development
+                project:
+                - default
+          description: Metric configuration that should be evaluated for the safeguard.
+        triggerCondition:
+          $ref: '#/components/schemas/safeguardTriggerConditionSchema'
+          description: The condition that triggers the safeguard.
+    clientFeatureSchema:
+      type: object
+      required:
+      - name
+      - enabled
+      description: Feature flag configuration used by SDKs to evaluate state of a flag
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          description: The unique name of a feature flag. Is validated to be URL safe on creation
+          example: new.payment.flow.stripe
+        type:
+          type: string
+          description: What kind of feature flag is this. Refer to the documentation on [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types) for more information
+          example: release
+        description:
+          type: string
+          description: A description of the flag
+          nullable: true
+          example: No variants here
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled for the current API key or not. This is ANDed with the evaluation results of the strategies list, so if this is false, the evaluation result will always be false
+          example: true
+        stale:
+          description: If this is true Unleash believes this feature flag has been active longer than Unleash expects a flag of this type to be active
+          type: boolean
+          example: false
+        impressionData:
+          description: Set to true if SDKs should trigger [impression events](https://docs.getunleash.io/concepts/impression-data) when this flag is evaluated
+          type: boolean
+          nullable: true
+          example: false
+        project:
+          description: Which project this feature flag belongs to
+          type: string
+          example: new.payment.flow
+        strategies:
+          type: array
+          description: Evaluation strategies for this flag. Each entry in this list will be evaluated and ORed together
+          items:
+            $ref: '#/components/schemas/featureStrategySchema'
+        variants:
+          type: array
+          description: '[Variants](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) configured for this flag'
+          items:
+            $ref: '#/components/schemas/variantSchema'
+          nullable: true
+        dependencies:
+          type: array
+          description: Feature dependencies for this flag
+          items:
+            $ref: '#/components/schemas/dependentFeatureSchema'
+    plausibleMetricsResponseSchema:
+      type: object
+      required:
+      - data
+      description: Response containing Plausible analytics data for favorite events.
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          description: Array of analytics data points
+          items:
+            type: object
+            required:
+            - count
+            - date
+            additionalProperties: false
+            properties:
+              count:
+                type: number
+                description: Number of events for this time period
+                example: 1
+              date:
+                type: string
+                description: Date and time of the event (hourly granularity)
+                example: '2025-10-15 06:00:00'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

@@ -1,0 +1,482 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons API tokens API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: API tokens
+  description: Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
+paths:
+  /api/admin/api-tokens:
+    get:
+      tags:
+      - API tokens
+      operationId: getAllApiTokens
+      summary: Get API Tokens
+      description: Retrieves all API tokens that exist in the Unleash instance.
+      responses:
+        '200':
+          description: apiTokensSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiTokensSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - API tokens
+      operationId: createApiToken
+      requestBody:
+        description: createApiTokenSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createApiTokenSchema'
+      summary: Create API Token
+      description: 'Create an API token of a specific type: one of client, admin, frontend, backend.'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiTokenSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/api-tokens/{name}:
+    get:
+      tags:
+      - API tokens
+      operationId: getApiTokensByName
+      summary: Get API Tokens by Name
+      description: Retrieves all API tokens that match a given token name. Because token names are not unique, this endpoint will always return a list. If no tokens with the provided name exist, the list will be empty. Otherwise, it will contain all the tokens with the given name.
+      responses:
+        '200':
+          description: apiTokensSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiTokensSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/api-tokens/{token}:
+    put:
+      tags:
+      - API tokens
+      operationId: updateApiToken
+      summary: Update API Token
+      description: Updates an existing API token with a new expiry date. The `token` path parameter is the token's `secret`. If the token does not exist, this endpoint returns a 200 OK, but does nothing.
+      requestBody:
+        description: updateApiTokenSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateApiTokenSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - API tokens
+      summary: Delete API Token
+      description: Deletes an existing API token. The `token` path parameter is the token's `secret`. If the token does not exist, this endpoint returns a 200 OK, but does nothing.
+      operationId: deleteApiToken
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    apiTokensSchema:
+      type: object
+      description: An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)
+      additionalProperties: false
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: array
+          description: A list of Unleash API tokens.
+          items:
+            $ref: '#/components/schemas/apiTokenSchema'
+    updateApiTokenSchema:
+      type: object
+      required:
+      - expiresAt
+      description: An object with fields to updated for a given API token.
+      properties:
+        expiresAt:
+          description: The new time when this token should expire.
+          example: '2023-09-04T11:26:24+02:00'
+          type: string
+          format: date-time
+    apiTokenSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - secret
+      - tokenName
+      - type
+      - projects
+      - createdAt
+      description: An overview of an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
+      properties:
+        secret:
+          type: string
+          description: The token used for authentication.
+          example: project:environment.xyzrandomstring
+        tokenName:
+          type: string
+          description: A unique name for this particular token
+          example: some-user
+        type:
+          type: string
+          enum:
+          - client
+          - admin
+          - frontend
+          - backend
+          description: The type of API token
+          example: client
+        environment:
+          type: string
+          description: The environment the token has access to.
+          example: development
+          default: development
+        project:
+          type: string
+          description: The project this token belongs to.
+          example: developerexperience
+        projects:
+          type: array
+          description: The list of projects this token has access to. If the token has access to specific projects they will be listed here. If the token has access to all projects it will be represented as `[*]`
+          items:
+            type: string
+          example:
+          - developerexperience
+          - enterprisegrowth
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: The token's expiration date. NULL if the token doesn't have an expiration set.
+          example: '2023-04-19T08:15:14.000Z'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2023-04-19T08:15:14.000Z'
+          description: When the token was created.
+        seenAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-04-19T08:15:14.000Z'
+          description: When the token was last seen/used to authenticate with. NULL if the token has not yet been used for authentication.
+        alias:
+          type: string
+          nullable: true
+          description: Alias is no longer in active use and will often be NULL. It's kept around as a way of allowing old proxy tokens created with the old metadata format to keep working.
+          example: randomid-or-some-alias
+    createApiTokenSchema:
+      type: object
+      description: The data required to create an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
+      oneOf:
+      - required:
+        - type
+        - tokenName
+        type: object
+        properties:
+          expiresAt:
+            type: string
+            format: date-time
+            description: The time when this token should expire.
+            example: '2023-07-04T11:26:24+02:00'
+          type:
+            type: string
+            pattern: ^([Cc][Ll][Ii][Ee][Nn][Tt]|[Bb][Aa][Cc][Kk][Ee][Nn][Dd]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$
+            description: A client or frontend token. Must be one of the strings "client" (deprecated), "backend" (preferred over "client") or "frontend" (not case sensitive).
+            example: frontend
+          environment:
+            type: string
+            description: The environment that the token should be valid for. Defaults to "default"
+            example: development
+          project:
+            type: string
+            description: The project that the token should be valid for. Defaults to "*" meaning every project. This property is mutually incompatible with the `projects` property. If you specify one, you cannot specify the other.
+            example: project-851
+          projects:
+            type: array
+            description: A list of projects that the token should be valid for. This property is mutually incompatible with the `project` property. If you specify one, you cannot specify the other.
+            example:
+            - project-851
+            - project-852
+            items:
+              type: string
+          tokenName:
+            type: string
+            description: The name of the token.
+            example: token-64522
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

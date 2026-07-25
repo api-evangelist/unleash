@@ -1,0 +1,2089 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Auth API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Auth
+  description: Manage logins, passwords, etc.
+paths:
+  /api/admin/permissions:
+    get:
+      tags:
+      - Auth
+      operationId: getPermissions
+      summary: Gets Available Permissions
+      description: '**Enterprise feature**
+
+
+        Returns a list of available permissions'
+      responses:
+        '200':
+          description: adminPermissionsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminPermissionsSchema'
+  /auth/simple/login:
+    post:
+      tags:
+      - Auth
+      summary: Log in
+      description: Logs in the user and creates an active session
+      operationId: login
+      requestBody:
+        description: loginSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginSchema'
+      responses:
+        '200':
+          description: userSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+  /api/admin/auth/saml/settings:
+    get:
+      tags:
+      - Auth
+      summary: Get SAML Auth Settings
+      description: '**Enterprise feature**
+
+
+        Returns the current settings for SAML authentication'
+      operationId: getSamlSettings
+      responses:
+        '200':
+          description: samlSettingsResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/samlSettingsResponseSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Auth
+      operationId: setSamlSettings
+      summary: Update SAML Auth Settings
+      description: '**Enterprise feature**
+
+
+        Updates the settings for SAML Authentication'
+      requestBody:
+        description: samlSettingsSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/samlSettingsSchema'
+      responses:
+        '200':
+          description: samlSettingsResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/samlSettingsResponseSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/auth/oidc/settings:
+    get:
+      tags:
+      - Auth
+      summary: Get OIDC Auth Settings
+      description: '**Enterprise feature**
+
+
+        Returns the current settings for OIDC Authentication'
+      operationId: getOidcSettings
+      responses:
+        '200':
+          description: oidcSettingsResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/oidcSettingsResponseSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Auth
+      operationId: setOidcSettings
+      summary: Set OIDC Settings
+      description: '**Enterprise feature**
+
+
+        Configure OpenID Connect as a login provider for Unleash.'
+      requestBody:
+        description: oidcSettingsSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/oidcSettingsSchema'
+      responses:
+        '200':
+          description: oidcSettingsResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/oidcSettingsResponseSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/auth/simple/settings:
+    get:
+      tags:
+      - Auth
+      operationId: getSimpleSettings
+      summary: Get Simple Auth Settings
+      description: '**Enterprise feature**
+
+
+        Is simple authentication (username/password) enabled for this server'
+      responses:
+        '200':
+          description: passwordAuthSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/passwordAuthSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Auth
+      operationId: setSimpleSettings
+      summary: Update Simple Auth Settings
+      description: '**Enterprise feature**
+
+
+        Enable or disable simple authentication (username/password)'
+      requestBody:
+        description: passwordAuthSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/passwordAuthSchema'
+      responses:
+        '200':
+          description: passwordAuthSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/passwordAuthSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/service-account/{id}/permissions:
+    get:
+      tags:
+      - Auth
+      operationId: getServiceAccountPermissions
+      summary: Returns the List of Permissions for the Service Account.
+      description: '**Enterprise feature**
+
+
+        Gets a list of permissions for a service account. Project and environment can be specified.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: project
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: environment
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/access/overview:
+    get:
+      tags:
+      - Auth
+      operationId: getAccessOverview
+      summary: Gets Access Overview
+      description: '**Enterprise feature**
+
+
+        Gets an overview of what access all users have to all projects and groups'
+      responses:
+        '200':
+          description: accessOverviewSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accessOverviewSchema'
+            text/csv:
+              schema:
+                type: string
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /auth/reset/validate:
+    get:
+      summary: Validates a Token
+      description: If the token is valid returns the user that owns the token
+      tags:
+      - Auth
+      operationId: validateToken
+      responses:
+        '200':
+          description: tokenUserSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tokenUserSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /auth/reset/password:
+    post:
+      tags:
+      - Auth
+      summary: Changes a User Password
+      description: Allows users with a valid reset token to reset their password without remembering their old password
+      operationId: changePassword
+      requestBody:
+        description: changePasswordSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changePasswordSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /auth/reset/validate-password:
+    post:
+      tags:
+      - Auth
+      summary: Validates Password
+      description: Verifies that the password adheres to the [Unleash password guidelines](https://docs.getunleash.io/using-unleash/deploy/configuring-unleash#securing-unleash)
+      operationId: validatePassword
+      requestBody:
+        description: validatePasswordSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/validatePasswordSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /auth/reset/password-email:
+    post:
+      tags:
+      - Auth
+      summary: Reset Password
+      description: Requests a password reset email for the user. This email can be used to reset the password for a user that has forgotten their password
+      operationId: sendResetPasswordEmail
+      requestBody:
+        description: emailSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/emailSchema'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+components:
+  schemas:
+    emailSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - email
+      description: Represents the email of a user. Used to send email communication (reset password, welcome mail etc)
+      properties:
+        email:
+          description: The email address
+          type: string
+          example: test@example.com
+    tokenUserSchema:
+      type: object
+      additionalProperties: false
+      description: A user identified by a token
+      required:
+      - id
+      - email
+      - token
+      - createdBy
+      - role
+      properties:
+        id:
+          type: integer
+          description: The user id
+          example: 7
+        name:
+          description: The name of the user
+          type: string
+          example: Test McTest
+        email:
+          description: The email of the user
+          type: string
+          example: test@example.com
+        token:
+          description: A token uniquely identifying a user
+          type: string
+          example: user:xyzrandomstring
+        createdBy:
+          description: A username or email identifying which user created this token
+          type: string
+          nullable: true
+          example: admin@example.com
+        role:
+          $ref: '#/components/schemas/roleSchema'
+    passwordAuthSchema:
+      type: object
+      description: Does the server allow username/password authentication
+      properties:
+        disabled:
+          description: Is username/password authentication disabled
+          type: boolean
+          example: false
+    validatePasswordSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - password
+      description: Used to validate passwords obeying [Unleash password guidelines](https://docs.getunleash.io/using-unleash/deploy/configuring-unleash#securing-unleash)
+      properties:
+        password:
+          description: The password to validate
+          type: string
+          example: hunter2
+    samlSettingsSchema:
+      type: object
+      description: Settings used to authenticate via SAML
+      oneOf:
+      - required:
+        - entityId
+        - signOnUrl
+        - certificate
+        type: object
+        properties:
+          enabled:
+            description: Whether to enable or disable SAML 2.0 for this instance
+            type: boolean
+            example: true
+            enum:
+            - true
+          entityId:
+            description: The SAML 2.0 entity ID
+            type: string
+            example: http://localhost:8080/auth/realms/master
+          signOnUrl:
+            description: Which URL to use for Single Sign On
+            type: string
+            example: http://localhost:8080/auth/realms/master/protocol/saml
+          certificate:
+            description: The X509 certificate used to validate requests
+            type: string
+            example: 'MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG
+
+              A1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE
+
+              MRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl
+
+              YiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw
+
+              ODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE
+
+              CAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs
+
+              ZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I
+
+              nrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa
+
+              e7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr
+
+              fSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf
+
+              epfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2
+
+              SfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC
+
+              IQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR
+
+              69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa
+
+              /KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv
+
+              w8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S
+
+              fIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef
+
+              0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4
+
+              FzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn
+
+              nf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz
+
+              cPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP
+
+              IOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf
+
+              HTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9
+
+              /Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD
+
+              gYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC
+
+              JGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9
+
+              3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=
+
+              '
+          signOutUrl:
+            description: Which URL to use for Single Sign Out
+            type: string
+            example: http://localhost:8080/auth/realms/master/protocol/saml
+          spCertificate:
+            description: Signing certificate for sign out requests
+            type: string
+            example: 'MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG
+
+              A1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE
+
+              MRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl
+
+              YiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw
+
+              ODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE
+
+              CAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs
+
+              ZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I
+
+              nrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa
+
+              e7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr
+
+              fSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf
+
+              epfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2
+
+              SfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC
+
+              IQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR
+
+              69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa
+
+              /KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv
+
+              w8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S
+
+              fIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef
+
+              0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4
+
+              FzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn
+
+              nf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz
+
+              cPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP
+
+              IOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf
+
+              HTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9
+
+              /Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD
+
+              gYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC
+
+              JGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9
+
+              3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=
+
+              '
+          autoCreate:
+            description: Should Unleash create users based on the emails coming back in the authentication reply from the SAML server
+            type: boolean
+            example: true
+          emailDomains:
+            description: A comma separated list of email domains that Unleash will auto create user accounts for.
+            type: string
+            example: getunleash.io,unleash-hosted.com
+          defaultRootRole:
+            description: Assign this root role to auto created users
+            type: string
+            enum:
+            - Viewer
+            - Editor
+            - Admin
+            example: Editor
+          defaultRootRoleId:
+            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+            type: number
+            example: 2
+          enableGroupSyncing:
+            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+            type: boolean
+            example: false
+          groupJsonPath:
+            description: Specifies the path in the SAML token response from which to read the groups the user belongs to.
+            type: string
+            example: groups
+      - type: object
+        properties:
+          enabled:
+            description: Whether to enable or disable SAML 2.0 for this instance
+            type: boolean
+            example: false
+            enum:
+            - false
+          entityId:
+            description: The SAML 2.0 entity ID
+            type: string
+            example: http://localhost:8080/auth/realms/master
+          signOnUrl:
+            description: Which URL to use for Single Sign On
+            type: string
+            example: http://localhost:8080/auth/realms/master/protocol/saml
+          certificate:
+            description: The X509 certificate used to validate requests
+            type: string
+            example: 'MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG
+
+              A1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE
+
+              MRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl
+
+              YiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw
+
+              ODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE
+
+              CAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs
+
+              ZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I
+
+              nrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa
+
+              e7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr
+
+              fSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf
+
+              epfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2
+
+              SfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC
+
+              IQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR
+
+              69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa
+
+              /KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv
+
+              w8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S
+
+              fIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef
+
+              0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4
+
+              FzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn
+
+              nf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz
+
+              cPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP
+
+              IOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf
+
+              HTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9
+
+              /Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD
+
+              gYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC
+
+              JGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9
+
+              3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=
+
+              '
+          signOutUrl:
+            description: Which URL to use for Single Sign Out
+            type: string
+            example: http://localhost:8080/auth/realms/master/protocol/saml
+          spCertificate:
+            description: Signing certificate for sign out requests
+            type: string
+            example: 'MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG
+
+              A1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE
+
+              MRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl
+
+              YiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw
+
+              ODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE
+
+              CAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs
+
+              ZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I
+
+              nrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa
+
+              e7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr
+
+              fSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf
+
+              epfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2
+
+              SfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC
+
+              IQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR
+
+              69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa
+
+              /KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv
+
+              w8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S
+
+              fIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef
+
+              0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4
+
+              FzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn
+
+              nf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz
+
+              cPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP
+
+              IOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf
+
+              HTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9
+
+              /Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD
+
+              gYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC
+
+              JGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9
+
+              3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=
+
+              '
+          autoCreate:
+            description: Should Unleash create users based on the emails coming back in the authentication reply from the SAML server
+            type: boolean
+            example: true
+          emailDomains:
+            description: A comma separated list of email domains that Unleash will auto create user accounts for.
+            type: string
+            example: getunleash.io,unleash-hosted.com
+          defaultRootRole:
+            description: Assign this root role to auto created users
+            type: string
+            enum:
+            - Viewer
+            - Editor
+            - Admin
+            example: Editor
+          defaultRootRoleId:
+            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+            type: number
+            example: 2
+          enableGroupSyncing:
+            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+            type: boolean
+            example: false
+          groupJsonPath:
+            description: Specifies the path in the SAML token response from which to read the groups the user belongs to.
+            type: string
+            example: groups
+    accessOverviewSchema:
+      description: Data containing an overview of all the projects and groups users have access to
+      type: object
+      properties:
+        overview:
+          type: array
+          description: A list of user access details
+          items:
+            $ref: '#/components/schemas/userAccessSchema'
+    oidcSettingsResponseSchema:
+      type: object
+      description: Response for OpenID Connect settings
+      properties:
+        enabled:
+          description: Whether to enable or disable OpenID Connect for this instance
+          type: boolean
+          example: true
+          enum:
+          - true
+        discoverUrl:
+          description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
+          example: https://myoidchost.azure.com/.well-known/openid-configuration
+          type: string
+          format: uri
+        clientId:
+          description: The OIDC client ID of this application.
+          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+          type: string
+        secret:
+          description: Shared secret from OpenID server. Used to authenticate login requests
+          type: string
+          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+        autoCreate:
+          description: Auto create users based on email addresses from login tokens
+          type: boolean
+        enableSingleSignOut:
+          description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
+          type: boolean
+        defaultRootRole:
+          description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
+          type: string
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+          type: number
+          example: 2
+        emailDomains:
+          description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
+          type: string
+          example: getunleash.io,getunleash.ai
+        acrValues:
+          description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
+          type: string
+          example: urn:okta:loa:2fa:any phr
+        idTokenSigningAlgorithm:
+          description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
+          type: string
+          example: RS256
+          enum:
+          - RS256
+          - RS384
+          - RS512
+        enableGroupSyncing:
+          description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+          type: boolean
+          example: false
+        groupJsonPath:
+          description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
+          type: string
+          example: groups
+        addGroupsScope:
+          description: When enabled Unleash will also request the 'groups' scope as part of the login request.
+          type: boolean
+          example: false
+        enablePkce:
+          description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
+          type: boolean
+          example: false
+    oidcSettingsSchema:
+      type: object
+      description: Settings for configuring OpenID Connect as a login provider for Unleash
+      oneOf:
+      - required:
+        - enabled
+        - clientId
+        - secret
+        type: object
+        properties:
+          enabled:
+            description: Whether to enable or disable OpenID Connect for this instance
+            type: boolean
+            example: true
+            enum:
+            - true
+          discoverUrl:
+            description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
+            example: https://myoidchost.azure.com/.well-known/openid-configuration
+            type: string
+            format: uri
+          clientId:
+            description: The OIDC client ID of this application.
+            example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+            type: string
+          secret:
+            description: Shared secret from OpenID server. Used to authenticate login requests
+            type: string
+            example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          autoCreate:
+            description: Auto create users based on email addresses from login tokens
+            type: boolean
+          enableSingleSignOut:
+            description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
+            type: boolean
+          defaultRootRole:
+            description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
+            type: string
+            enum:
+            - Viewer
+            - Editor
+            - Admin
+          defaultRootRoleId:
+            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+            type: number
+            example: 2
+          emailDomains:
+            description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
+            type: string
+            example: getunleash.io,getunleash.ai
+          acrValues:
+            description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
+            type: string
+            example: urn:okta:loa:2fa:any phr
+          idTokenSigningAlgorithm:
+            description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
+            type: string
+            example: RS256
+            enum:
+            - RS256
+            - RS384
+            - RS512
+          enableGroupSyncing:
+            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+            type: boolean
+            example: false
+          groupJsonPath:
+            description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
+            type: string
+            example: groups
+          addGroupsScope:
+            description: When enabled Unleash will also request the 'groups' scope as part of the login request.
+            type: boolean
+            example: false
+          enablePkce:
+            description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
+            type: boolean
+            example: false
+      - type: object
+        properties:
+          enabled:
+            description: Whether to enable or disable OpenID Connect for this instance
+            type: boolean
+            example: false
+            enum:
+            - false
+          discoverUrl:
+            description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
+            example: https://myoidchost.azure.com/.well-known/openid-configuration
+            type: string
+            format: uri
+          clientId:
+            description: The OIDC client ID of this application.
+            example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+            type: string
+          secret:
+            description: Shared secret from OpenID server. Used to authenticate login requests
+            type: string
+            example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          autoCreate:
+            description: Auto create users based on email addresses from login tokens
+            type: boolean
+          enableSingleSignOut:
+            description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
+            type: boolean
+          defaultRootRole:
+            description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
+            type: string
+            enum:
+            - Viewer
+            - Editor
+            - Admin
+          defaultRootRoleId:
+            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+            type: number
+            example: 2
+          emailDomains:
+            description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
+            type: string
+            example: getunleash.io,getunleash.ai
+          acrValues:
+            description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
+            type: string
+            example: urn:okta:loa:2fa:any phr
+          idTokenSigningAlgorithm:
+            description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
+            type: string
+            example: RS256
+            enum:
+            - RS256
+            - RS384
+            - RS512
+          enableGroupSyncing:
+            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+            type: boolean
+            example: false
+          groupJsonPath:
+            description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
+            type: string
+            example: groups
+          addGroupsScope:
+            description: When enabled Unleash will also request the 'groups' scope as part of the login request.
+            type: boolean
+            example: false
+          enablePkce:
+            description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
+            type: boolean
+            example: false
+    changePasswordSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - token
+      - password
+      description: Change password as long as the token is a valid token
+      properties:
+        token:
+          description: A reset token used to validate that the user is allowed to change the password.
+          type: string
+          example: $2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke
+        password:
+          type: string
+          description: The new password for the user
+          example: correct horse battery staple
+    samlSettingsResponseSchema:
+      type: object
+      description: Response for SAML settings
+      properties:
+        enabled:
+          description: Whether to enable or disable SAML 2.0 for this instance
+          type: boolean
+          example: true
+          enum:
+          - true
+        entityId:
+          description: The SAML 2.0 entity ID
+          type: string
+          example: http://localhost:8080/auth/realms/master
+        signOnUrl:
+          description: Which URL to use for Single Sign On
+          type: string
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+        certificate:
+          description: The X509 certificate used to validate requests
+          type: string
+          example: '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
+
+            '
+        signOutUrl:
+          description: Which URL to use for Single Sign Out
+          type: string
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+        spCertificate:
+          description: Signing certificate for sign out requests
+          type: string
+          example: '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
+
+            '
+        autoCreate:
+          description: Should Unleash create users based on the emails coming back in the authentication reply from the SAML server
+          type: boolean
+          example: true
+        emailDomains:
+          description: A comma separated list of email domains that Unleash will auto create user accounts for.
+          type: string
+          example: getunleash.io,unleash-hosted.com
+        defaultRootRole:
+          description: Assign this root role to auto created users
+          type: string
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          example: Editor
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+          type: number
+          example: 2
+        enableGroupSyncing:
+          description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+          type: boolean
+          example: false
+        groupJsonPath:
+          description: Specifies the path in the SAML token response from which to read the groups the user belongs to.
+          type: string
+          example: groups
+    userAccessSchema:
+      type: object
+      required:
+      - userId
+      - userEmail
+      - accessibleProjects
+      - groups
+      - rootRole
+      additionalProperties: false
+      description: Describes a single set of access for a user
+      properties:
+        userId:
+          type: integer
+          description: The identifier for the user
+          example: 3
+        createdAt:
+          type: string
+          nullable: true
+          description: When the user was created
+          format: date-time
+          example: '2023-03-01T12:04:26.061Z'
+        userName:
+          type: string
+          nullable: true
+          description: The name of the user
+          example: SomeUser
+        lastSeen:
+          type: string
+          format: date-time
+          nullable: true
+          description: The last time the user logged in
+          example: '2023-03-01T12:04:26.061Z'
+        accessibleProjects:
+          description: A list of project ids that this user has access to
+          type: array
+          items:
+            type: string
+          example:
+          - default
+          - project2
+        groups:
+          description: A list of group names that this user is a member of
+          type: array
+          items:
+            type: string
+          example:
+          - group1
+          - group2
+        rootRole:
+          description: The name of the root role that this user has
+          type: string
+          example: ADMIN
+        userEmail:
+          description: The email address of the user
+          type: string
+          example: some-user@example.com
+    loginSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - username
+      - password
+      description: A username/password login request
+      properties:
+        username:
+          description: The username trying to log in
+          type: string
+          example: user
+        password:
+          description: The password of the user trying to log in
+          type: string
+          example: hunter2
+    adminPermissionSchema:
+      type: object
+      required:
+      - id
+      - name
+      - displayName
+      - type
+      additionalProperties: false
+      description: Describes a single permission
+      properties:
+        id:
+          type: integer
+          description: The identifier for this permission
+          example: 3
+        name:
+          type: string
+          description: The name of this permission
+          example: UPDATE_FEATURE
+        displayName:
+          type: string
+          description: The name to display in listings of permissions
+          example: Update feature flags
+        type:
+          type: string
+          description: What level this permission applies to. Either root, project or the name of the environment it applies to
+          example: project
+        environment:
+          description: Which environment this permission applies to
+          type: string
+          example: development
+          nullable: true
+    userSchema:
+      type: object
+      additionalProperties: false
+      description: An Unleash user
+      required:
+      - id
+      properties:
+        id:
+          description: The user id
+          type: integer
+          example: 123
+        name:
+          description: Name of the user
+          type: string
+          example: User
+          nullable: true
+        email:
+          description: Email of the user
+          type: string
+          example: user@example.com
+        username:
+          description: A unique username for the user
+          type: string
+          example: hunter
+          nullable: true
+        imageUrl:
+          description: URL used for the user profile image
+          type: string
+          example: https://example.com/242x200.png
+        inviteLink:
+          description: If the user is actively inviting other users, this is the link that can be shared with other users
+          type: string
+          example: http://localhost:4242/invite-link/some-secret
+        loginAttempts:
+          description: How many unsuccessful attempts at logging in has the user made
+          type: integer
+          minimum: 0
+          example: 3
+        emailSent:
+          description: Is the welcome email sent to the user or not
+          type: boolean
+          example: false
+        rootRole:
+          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
+          type: integer
+          example: 1
+          minimum: 0
+        seenAt:
+          description: The last time this user logged in
+          type: string
+          format: date-time
+          nullable: true
+          example: '2023-06-30T11:42:00.345Z'
+        createdAt:
+          description: The user was created at this time
+          type: string
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
+        accountType:
+          description: A user is either an actual User or a Service Account
+          type: string
+          enum:
+          - User
+          - Service Account
+          example: User
+        permissions:
+          description: Deprecated
+          type: array
+          items:
+            type: string
+        scimId:
+          description: The SCIM ID of the user, only present if managed by SCIM
+          type: string
+          nullable: true
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
+        seatType:
+          description: The seat type of this user
+          type: string
+          nullable: true
+          example: Regular
+        activeSessions:
+          description: Count of active browser sessions for this user
+          type: integer
+          nullable: true
+          example: 2
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after last login
+          type: number
+          example: 1
+    adminPermissionsSchema:
+      type: object
+      required:
+      - permissions
+      - version
+      additionalProperties: false
+      description: What kind of permissions are available
+      properties:
+        permissions:
+          type: object
+          required:
+          - project
+          - environments
+          additionalProperties: false
+          description: Returns permissions available at all three levels (root|project|environment)
+          properties:
+            root:
+              type: array
+              description: Permissions available at the root level, i.e. not connected to any specific project or environment
+              items:
+                $ref: '#/components/schemas/adminPermissionSchema'
+            project:
+              type: array
+              description: Permissions available at the project level
+              items:
+                $ref: '#/components/schemas/adminPermissionSchema'
+            environments:
+              type: array
+              description: A list of environments with available permissions per environment
+              items:
+                type: object
+                required:
+                - name
+                - permissions
+                additionalProperties: false
+                properties:
+                  name:
+                    type: string
+                    description: The name of the environment
+                    example: development
+                  permissions:
+                    type: array
+                    description: Permissions available for this environment
+                    items:
+                      $ref: '#/components/schemas/adminPermissionSchema'
+        version:
+          type: integer
+          minimum: 1
+          enum:
+          - 1
+          - 2
+          description: The api version of this response. A natural increasing number. Only increases if format changes
+          example: 1
+    roleSchema:
+      type: object
+      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - name
+      properties:
+        id:
+          type: integer
+          description: The role id
+          example: 9
+          minimum: 0
+        type:
+          description: A role can either be a global root role (applies to all projects) or a project role
+          type: string
+          example: root
+        name:
+          description: The name of the role
+          type: string
+          example: Editor
+        description:
+          description: A more detailed description of the role and what use it's intended for
+          type: string
+          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+        project:
+          description: What project the role belongs to
+          type: string
+          nullable: true
+          example: default
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

@@ -1,0 +1,666 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Banners API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Banners
+  description: Create, update, flag, and delete [banners](https://docs.getunleash.io/concepts/banners).
+paths:
+  /api/admin/banners:
+    get:
+      tags:
+      - Banners
+      operationId: getBanners
+      summary: Get All Banners.
+      description: '**Enterprise feature**
+
+
+        Returns a list of all configured banners.'
+      responses:
+        '200':
+          description: bannersSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bannersSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+    post:
+      tags:
+      - Banners
+      operationId: createBanner
+      summary: Create a Banner.
+      description: '**Enterprise feature**
+
+
+        Creates a new banner.'
+      requestBody:
+        description: createBannerSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createBannerSchema'
+      responses:
+        '201':
+          headers:
+            location:
+              description: The location of the newly created resource.
+              schema:
+                type: string
+                format: uri
+          description: The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bannerSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+  /api/admin/banners/{id}:
+    put:
+      tags:
+      - Banners
+      operationId: updateBanner
+      summary: Update a Banner.
+      description: '**Enterprise feature**
+
+
+        Updates an existing banner identified by its id.'
+      requestBody:
+        description: createBannerSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createBannerSchema'
+      responses:
+        '200':
+          description: bannerSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bannerSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags:
+      - Banners
+      operationId: deleteBanner
+      summary: Delete a Banner.
+      description: '**Enterprise feature**
+
+
+        Deletes an existing banner identified by its id.'
+      responses:
+        '200':
+          description: This response has no body.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/banners/{id}/on:
+    post:
+      tags:
+      - Banners
+      operationId: enableBanner
+      summary: Enables a Banner.
+      description: '**Enterprise feature**
+
+
+        Enables an existing banner, identified by its id.'
+      responses:
+        '200':
+          description: bannerSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bannerSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/banners/{id}/off:
+    post:
+      tags:
+      - Banners
+      operationId: disableBanner
+      summary: Disables a Banner.
+      description: '**Enterprise feature**
+
+
+        Disables an existing banner, identified by its id.'
+      responses:
+        '200':
+          description: bannerSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bannerSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    bannerSchema:
+      type: object
+      required:
+      - id
+      - message
+      - createdAt
+      description: An object describing a banner to be displayed to all users.
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          description: The banner's ID. Banner IDs are incrementing integers. In other words, a more recently created banner will always have a higher ID than an older one.
+          minimum: 1
+          example: 7
+        message:
+          type: string
+          description: The message to display to all users. Supports markdown.
+          example: '**Reminder to everyone**: Maintenance is scheduled for *2337-12-27*.'
+        enabled:
+          type: boolean
+          description: Whether the banner should be displayed currently. If not specified, defaults to true.
+          example: true
+        variant:
+          type: string
+          description: The variant of the banner. One of "info", "warning", "error", or "success". If not specified, defaults to "info".
+          example: info
+        sticky:
+          type: boolean
+          description: Whether the banner should be sticky on the screen. If not specified, defaults to `false`.
+          example: true
+        icon:
+          type: string
+          description: The icon to display on the banner. Can be one of https://fonts.google.com/icons. If not specified, this will be the default icon for the variant. If "none", no icon will be displayed.
+          example: build
+          nullable: true
+        link:
+          type: string
+          description: 'The link to display on the banner. Can either be an absolute or a relative link (e.g. absolute: "https://example.com" or relative: "/admin/service-accounts"). If "dialog", will display a dialog when clicked. If not specified, no link will be displayed.'
+          example: dialog
+          nullable: true
+        linkText:
+          type: string
+          description: The text to display on the link. If not specified, will be displayed as "More info".
+          example: Learn more
+          nullable: true
+        dialogTitle:
+          type: string
+          description: The title to display on the dialog. If not specified, this will be the same as `linkText`.
+          example: Learn more about it here
+          nullable: true
+        dialog:
+          type: string
+          description: The markdown to display on the dialog. If not specified, no dialog will be displayed.
+          example: '# Information
+
+
+            Maintenance is **scheduled**.
+
+
+            ## More details
+
+
+            This is an example dialog that supports Markdown.'
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time of when the banner was created.
+          example: '2023-12-27T13:37:00+01:00'
+    createBannerSchema:
+      type: object
+      required:
+      - message
+      description: Describes the properties required to create or update a banner.
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+          description: The message to display to all users. Supports markdown.
+          example: '**Reminder to everyone**: Maintenance is scheduled for *2337-12-27*.'
+        enabled:
+          type: boolean
+          description: Whether the banner should be displayed currently. If not specified, defaults to true.
+          example: true
+        variant:
+          type: string
+          description: The variant of the banner. One of "info", "warning", "error", or "success". If not specified, defaults to "info".
+          example: info
+        sticky:
+          type: boolean
+          description: Whether the banner should be sticky on the screen. If not specified, defaults to `false`.
+          example: true
+        icon:
+          type: string
+          description: The icon to display on the banner. Can be one of https://fonts.google.com/icons. If not specified, this will be the default icon for the variant. If "none", no icon will be displayed.
+          example: build
+          nullable: true
+        link:
+          type: string
+          description: 'The link to display on the banner. Can either be an absolute or a relative link (e.g. absolute: "https://example.com" or relative: "/admin/service-accounts"). If "dialog", will display a dialog when clicked. If not specified, no link will be displayed.'
+          example: dialog
+          nullable: true
+        linkText:
+          type: string
+          description: The text to display on the link. If not specified, will be displayed as "More info".
+          example: Learn more
+          nullable: true
+        dialogTitle:
+          type: string
+          description: The title to display on the dialog. If not specified, this will be the same as `linkText`.
+          example: Learn more about it here
+          nullable: true
+        dialog:
+          type: string
+          description: The markdown to display on the dialog. If not specified, no dialog will be displayed.
+          example: '# Information
+
+
+            Maintenance is **scheduled**.
+
+
+            ## More details
+
+
+            This is an example dialog that supports Markdown.'
+          nullable: true
+    bannersSchema:
+      description: A response model with a list of banners.
+      type: object
+      additionalProperties: false
+      required:
+      - banners
+      properties:
+        banners:
+          type: array
+          description: A list of banners.
+          items:
+            $ref: '#/components/schemas/bannerSchema'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Feature Types API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Feature Types
+  description: Manage [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types).
+paths:
+  /api/admin/feature-types:
+    get:
+      tags:
+      - Feature Types
+      operationId: getAllFeatureTypes
+      summary: Get All Feature Types
+      description: Retrieves all feature types that exist in this Unleash instance, along with their descriptions and lifetimes.
+      responses:
+        '200':
+          description: featureTypesSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/featureTypesSchema'
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+  /api/admin/feature-types/{id}/lifetime:
+    put:
+      tags:
+      - Feature Types
+      operationId: updateFeatureTypeLifetime
+      summary: Update Feature Type Lifetime
+      description: 'Updates the lifetime configuration for the specified [feature flag type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types). The expected lifetime is an integer representing the number of days before Unleash marks a feature flag of that type as potentially stale. If set to `null` or `0`, then feature flags of that particular type will never be marked as potentially stale.
+
+
+        When a feature flag type''s expected lifetime is changed, this will also cause any feature flags of this type to be reevaluated for potential staleness.'
+      responses:
+        '200':
+          description: featureTypeSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/featureTypeSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '403':
+          description: The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NoAccessError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You need the "UPDATE_ADDON" permission to perform this action in the "development" environment.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+        '409':
+          description: The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NameExistsError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: There is already a feature called "my-awesome-feature".
+                    description: A description of what went wrong.
+        '415':
+          description: The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the "content-type" header.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ContentTypeerror
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.
+                    description: A description of what went wrong.
+      requestBody:
+        description: updateFeatureTypeLifetimeSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateFeatureTypeLifetimeSchema'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    featureTypesSchema:
+      type: object
+      additionalProperties: false
+      description: A list of [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types) and the schema version used to represent those feature types.
+      required:
+      - version
+      - types
+      properties:
+        version:
+          type: integer
+          enum:
+          - 1
+          example: 1
+          description: The schema version used to describe the feature flag types listed in the `types` property.
+        types:
+          type: array
+          description: The list of feature flag types.
+          items:
+            $ref: '#/components/schemas/featureTypeSchema'
+          example:
+          - id: release
+            name: Release
+            description: Release feature flags are used to release new features.
+            lifetimeDays: 40
+          - id: experiment
+            name: Experiment
+            description: Experiment feature flags are used to test and verify multiple different versions of a feature.
+            lifetimeDays: 40
+          - id: operational
+            name: Operational
+            description: Operational feature flags are used to control aspects of a rollout.
+            lifetimeDays: 7
+          - id: kill-switch
+            name: Kill switch
+            description: Kill switch feature flags are used to quickly turn on or off critical functionality in your system.
+            lifetimeDays: null
+          - id: permission
+            name: Permission
+            description: Permission feature flags are used to control permissions in your system.
+            lifetimeDays: null
+    updateFeatureTypeLifetimeSchema:
+      type: object
+      required:
+      - lifetimeDays
+      description: Data used when updating the lifetime of a [feature flag type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types).
+      properties:
+        lifetimeDays:
+          description: The new lifetime (in days) that you want to assign to the feature flag type. If the value is `null` or `0`, then the feature flags of that type will never be marked as potentially stale. Otherwise, they will be considered potentially stale after the number of days indicated by this property.
+          example: 7
+          type: integer
+          nullable: true
+          minimum: 0
+          maximum: 2147483647
+    featureTypeSchema:
+      type: object
+      description: A [feature flag type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types).
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - description
+      - lifetimeDays
+      properties:
+        id:
+          type: string
+          description: The identifier of this feature flag type.
+          example: kill-switch
+        name:
+          type: string
+          description: The display name of this feature flag type.
+          example: Kill switch
+        description:
+          type: string
+          description: A description of what this feature flag type is intended to be used for.
+          example: Kill switch feature flags are used to quickly turn on or off critical functionality in your system.
+        lifetimeDays:
+          type: integer
+          minimum: 0
+          description: How many days it takes before a feature flag of this typed is flagged as [potentially stale](https://docs.getunleash.io/concepts/technical-debt#stale-and-potentially-stale-toggles) by Unleash. If this value is `null`, Unleash will never mark it as potentially stale.
+          example: 40
+          nullable: true
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format

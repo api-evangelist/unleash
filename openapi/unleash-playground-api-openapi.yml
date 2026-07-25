@@ -1,0 +1,933 @@
+openapi: 3.0.3
+info:
+  title: Unleash Admin Addons Playground API
+  version: 7.4.1
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+servers:
+- url: https://app.unleash-instance.example.com
+  description: Your Unleash instance (replace with your actual URL)
+security:
+- apiKey: []
+- bearerToken: []
+tags:
+- name: Playground
+  description: Evaluate an Unleash context against your feature flags.
+paths:
+  /api/admin/playground/change-request/{id}:
+    post:
+      operationId: getChangeRequestPlayground
+      tags:
+      - Playground
+      responses:
+        '200':
+          description: advancedPlaygroundResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/advancedPlaygroundResponseSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+        '404':
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: NotFoundError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: Could not find the addon with ID "12345".
+                    description: A description of what went wrong.
+      requestBody:
+        description: changeRequestPlaygroundRequestSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeRequestPlaygroundRequestSchema'
+      description: '**Enterprise feature**
+
+
+        Use the provided `context` to evaluate toggles on this Unleash instance with a change request applied in preview mode. You can use comma-separated values to provide multiple values to each context field. Returns a combinatorial list of all toggles that match the parameters and what they evaluate to.'
+      summary: Evaluate an Unleash Context Against a Change Request Preview.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/admin/playground:
+    post:
+      operationId: getPlayground
+      tags:
+      - Playground
+      responses:
+        '200':
+          description: playgroundResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/playgroundResponseSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      requestBody:
+        description: playgroundRequestSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/playgroundRequestSchema'
+      description: Deprecated. Will be removed in the next Unleash major update. Use the provided `context`, `environment`, and `projects` to evaluate toggles on this Unleash instance. Returns a list of all toggles that match the parameters and what they evaluate to. The response also contains the input parameters that were provided.
+      summary: Evaluate an Unleash Context Against a Set of Environments and Projects.
+  /api/admin/playground/advanced:
+    post:
+      operationId: getAdvancedPlayground
+      tags:
+      - Playground
+      responses:
+        '200':
+          description: advancedPlaygroundResponseSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/advancedPlaygroundResponseSchema'
+        '400':
+          description: The request data does not match what we expect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: ValidationError
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].
+                    description: A description of what went wrong.
+        '401':
+          description: Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 9c40958a-daac-400e-98fb-3bb438567008
+                    description: The ID of the error instance
+                  name:
+                    type: string
+                    example: AuthenticationRequired
+                    description: The name of the error kind
+                  message:
+                    type: string
+                    example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
+                    description: A description of what went wrong.
+      requestBody:
+        description: advancedPlaygroundRequestSchema
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/advancedPlaygroundRequestSchema'
+      description: Use the provided `context`, `environments`, and `projects` to evaluate toggles on this Unleash instance. You can use comma-separated values to provide multiple values to each context field. Returns a combinatorial list of all toggles that match the parameters and what they evaluate to. The response also contains the input parameters that were provided.
+      summary: Batch Evaluate an Unleash Context Against a Set of Environments and Projects.
+components:
+  schemas:
+    advancedPlaygroundEnvironmentFeatureSchema:
+      description: A simplified feature flag model intended for the Unleash playground.
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - environment
+      - context
+      - projectId
+      - isEnabled
+      - isEnabledInCurrentEnvironment
+      - variant
+      - variants
+      - strategies
+      properties:
+        name:
+          type: string
+          example: my-feature
+          description: The feature's name.
+        environment:
+          type: string
+          example: development
+          description: The feature's environment.
+        context:
+          description: The context to use when evaluating flags
+          $ref: '#/components/schemas/sdkFlatContextSchema'
+        projectId:
+          type: string
+          example: my-project
+          description: The ID of the project that contains this feature.
+        strategies:
+          type: object
+          additionalProperties: false
+          required:
+          - result
+          - data
+          description: Feature's applicable strategies and cumulative results of the strategies
+          properties:
+            result:
+              description: "The cumulative results of all the feature's strategies. Can be `true`,\n                                  `false`, or `unknown`.\n                                  This property will only be `unknown`\n                                  if one or more of the strategies can't be fully evaluated and the rest of the strategies\n                                  all resolve to `false`."
+              anyOf:
+              - type: boolean
+              - type: string
+                enum:
+                - unknown
+            data:
+              description: The strategies that apply to this feature.
+              type: array
+              items:
+                $ref: '#/components/schemas/playgroundStrategySchema'
+        isEnabledInCurrentEnvironment:
+          type: boolean
+          description: Whether the feature is active and would be evaluated in the provided environment in a normal SDK context.
+        isEnabled:
+          description: "Whether this feature is enabled or not in the current environment.\n                          If a feature can't be fully evaluated (that is, `strategies.result` is `unknown`),\n                          this will be `false` to align with how client SDKs treat unresolved feature states."
+          type: boolean
+          example: true
+        variant:
+          description: "The feature variant you receive based on the provided context or the _disabled\n                          variant_. If a feature is disabled or doesn't have any\n                          variants, you would get the _disabled variant_.\n                          Otherwise, you'll get one of the feature's defined variants."
+          type: object
+          additionalProperties: false
+          required:
+          - name
+          - enabled
+          properties:
+            name:
+              type: string
+              description: The variant's name. If there is no variant or if the flag is disabled, this will be `disabled`
+              example: red-variant
+            enabled:
+              type: boolean
+              description: Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
+            payload:
+              type: object
+              additionalProperties: false
+              required:
+              - type
+              - value
+              description: An optional payload attached to the variant.
+              properties:
+                type:
+                  description: The format of the payload.
+                  type: string
+                value:
+                  type: string
+                  description: The payload value stringified.
+                  example: '{"property": "value"}'
+            feature_enabled:
+              type: boolean
+              description: Whether the feature is enabled or not. If the feature is disabled, this property will be `false`
+          nullable: true
+          example:
+            name: green
+            enabled: true
+        variants:
+          type: array
+          description: The feature variants.
+          items:
+            $ref: '#/components/schemas/variantSchema'
+    playgroundResponseSchema:
+      description: The state of all features given the provided input.
+      type: object
+      additionalProperties: false
+      required:
+      - features
+      - input
+      properties:
+        input:
+          description: The given input used to evaluate the features.
+          $ref: '#/components/schemas/playgroundRequestSchema'
+        features:
+          type: array
+          description: The list of features that have been evaluated.
+          items:
+            $ref: '#/components/schemas/playgroundFeatureSchema'
+    playgroundRequestSchema:
+      description: Data for the playground API to evaluate feature flags
+      type: object
+      required:
+      - environment
+      - context
+      properties:
+        environment:
+          type: string
+          example: development
+          description: The environment to evaluate feature flags in.
+        projects:
+          description: A list of projects to check for feature flags in.
+          oneOf:
+          - type: array
+            items:
+              type: string
+            example:
+            - my-project
+            description: A list of projects to check for feature flags in.
+          - type: string
+            enum:
+            - '*'
+            description: Check feature flags in all projects.
+        context:
+          $ref: '#/components/schemas/sdkContextSchema'
+    overrideSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - contextName
+      - values
+      description: An override for deciding which variant should be assigned to a user based on the context name
+      properties:
+        contextName:
+          description: The name of the context field used to determine overrides
+          type: string
+          example: userId
+        values:
+          description: Which values that should be overriden
+          type: array
+          items:
+            type: string
+          example:
+          - red
+          - blue
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    changeRequestPlaygroundRequestSchema:
+      description: Data for the playground API to evaluate flags with change request applied in preview mode
+      type: object
+      required:
+      - context
+      properties:
+        context:
+          $ref: '#/components/schemas/sdkContextSchema'
+    sdkContextSchema:
+      description: The Unleash context as modeled in client SDKs
+      type: object
+      required:
+      - appName
+      additionalProperties: true
+      properties:
+        appName:
+          type: string
+          minLength: 1
+          example: My cool application.
+          description: The name of the application.
+        currentTime:
+          type: string
+          format: date-time
+          example: '2022-07-05T12:56:41+02:00'
+          description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+        environment:
+          type: string
+          deprecated: true
+          description: The environment the app is running in.
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional Unleash context properties
+          example:
+            customContextField: this is one!
+            otherCustomField: '3'
+        remoteAddress:
+          type: string
+          example: 192.168.1.1
+          description: The app's IP address
+        sessionId:
+          type: string
+          example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+          description: An identifier for the current session
+        userId:
+          type: string
+          example: username@provider.com
+          description: An identifier for the current user
+    sdkFlatContextSchema:
+      description: The Unleash context with flattened properties
+      type: object
+      required:
+      - appName
+      additionalProperties: true
+      properties:
+        appName:
+          type: string
+          minLength: 1
+          example: My cool application.
+          description: The name of the application.
+        currentTime:
+          type: string
+          format: date-time
+          example: '2022-07-05T12:56:41+02:00'
+          description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+        environment:
+          type: string
+          deprecated: true
+          description: The environment the app is running in.
+        remoteAddress:
+          type: string
+          example: 192.168.1.1
+          description: The app's IP address
+        sessionId:
+          type: string
+          example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+          description: An identifier for the current session
+        userId:
+          type: string
+          example: username@provider.com
+          description: An identifier for the current user
+    playgroundFeatureSchema:
+      description: A simplified feature flag model intended for the Unleash playground.
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - projectId
+      - isEnabled
+      - isEnabledInCurrentEnvironment
+      - variant
+      - variants
+      - strategies
+      properties:
+        name:
+          type: string
+          example: my-feature
+          description: The feature's name.
+        projectId:
+          type: string
+          example: my-project
+          description: The ID of the project that contains this feature.
+        strategies:
+          type: object
+          additionalProperties: false
+          required:
+          - result
+          - data
+          description: The feature's applicable strategies and cumulative results of the strategies
+          properties:
+            result:
+              description: "The cumulative results of all the feature's strategies. Can be `true`,\n                                  `false`, or `unknown`.\n                                  This property will only be `unknown`\n                                  if one or more of the strategies can't be fully evaluated and the rest of the strategies\n                                  all resolve to `false`."
+              anyOf:
+              - type: boolean
+              - type: string
+                enum:
+                - unknown
+            data:
+              description: The strategies that apply to this feature.
+              type: array
+              items:
+                $ref: '#/components/schemas/playgroundStrategySchema'
+        hasUnsatisfiedDependency:
+          type: boolean
+          description: Whether the feature has a parent dependency that is not satisfied
+        isEnabledInCurrentEnvironment:
+          type: boolean
+          description: Whether the feature is active and would be evaluated in the provided environment in a normal SDK context.
+        isEnabled:
+          description: "Whether this feature is enabled or not in the current environment.\n                          If a feature can't be fully evaluated (that is, `strategies.result` is `unknown`),\n                          this will be `false` to align with how client SDKs treat unresolved feature states."
+          type: boolean
+          example: true
+        variant:
+          description: "The feature variant you receive based on the provided context or the _disabled\n                          variant_. If a feature is disabled or doesn't have any\n                          variants, you would get the _disabled variant_.\n                          Otherwise, you'll get one of thefeature's defined variants."
+          type: object
+          additionalProperties: false
+          required:
+          - name
+          - enabled
+          properties:
+            name:
+              type: string
+              description: The variant's name. If there is no variant or if the flag is disabled, this will be `disabled`
+              example: red-variant
+            enabled:
+              type: boolean
+              description: Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
+            payload:
+              type: object
+              additionalProperties: false
+              required:
+              - type
+              - value
+              description: An optional payload attached to the variant.
+              properties:
+                type:
+                  description: The format of the payload.
+                  type: string
+                value:
+                  type: string
+                  description: The payload value stringified.
+                  example: '{"property": "value"}'
+            feature_enabled:
+              type: boolean
+              description: Use `featureEnabled` instead.
+              example: true
+            featureEnabled:
+              deprecated: true
+              type: boolean
+              description: Whether the feature is enabled or not.
+              example: true
+          nullable: true
+          example:
+            name: green
+            enabled: true
+        variants:
+          type: array
+          description: The feature variants.
+          items:
+            $ref: '#/components/schemas/variantSchema'
+    advancedPlaygroundFeatureSchema:
+      description: A simplified feature flag model intended for the Unleash playground.
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - projectId
+      - environments
+      properties:
+        name:
+          type: string
+          example: my-feature
+          description: The feature's name.
+        projectId:
+          type: string
+          example: my-project
+          description: The ID of the project that contains this feature.
+        environments:
+          type: object
+          description: The lists of features that have been evaluated grouped by environment.
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/advancedPlaygroundEnvironmentFeatureSchema'
+    playgroundConstraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      - result
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+        result:
+          description: Whether this was evaluated as true or false.
+          type: boolean
+    playgroundSegmentSchema:
+      type: object
+      additionalProperties: false
+      description: The evaluated result of a segment as used by the Playground.
+      required:
+      - name
+      - id
+      - constraints
+      - result
+      properties:
+        id:
+          description: The segment's id.
+          type: integer
+        name:
+          description: The name of the segment.
+          example: segment A
+          type: string
+        result:
+          description: Whether this was evaluated as true or false.
+          type: boolean
+        constraints:
+          type: array
+          description: The list of constraints in this segment.
+          items:
+            $ref: '#/components/schemas/playgroundConstraintSchema'
+    advancedPlaygroundResponseSchema:
+      description: The state of all features given the provided input.
+      type: object
+      additionalProperties: false
+      required:
+      - features
+      - input
+      properties:
+        input:
+          description: The given input used to evaluate the features.
+          $ref: '#/components/schemas/advancedPlaygroundRequestSchema'
+        features:
+          type: array
+          description: The list of features that have been evaluated.
+          items:
+            $ref: '#/components/schemas/advancedPlaygroundFeatureSchema'
+        warnings:
+          type: object
+          description: Warnings that occurred during evaluation.
+          properties:
+            invalidContextProperties:
+              type: array
+              description: A list of top-level context properties that were provided as input that are not valid due to being the wrong type.
+              items:
+                type: string
+    playgroundStrategySchema:
+      type: object
+      description: An evaluated feature flag strategy as used by the Playground
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - result
+      - segments
+      - constraints
+      - parameters
+      - disabled
+      - links
+      properties:
+        name:
+          description: The strategy's name.
+          type: string
+        title:
+          type: string
+          example: Beta rollout
+          description: Description of the feature's purpose.
+        id:
+          description: The strategy's id.
+          type: string
+          example: 3AECCF7E-FF82-4174-8287-8EBE06079A50
+        result:
+          description: The strategy's evaluation result. If the strategy is a custom strategy that Unleash can't evaluate, `evaluationStatus` will be `unknown`. Otherwise, it will be `true` or `false`
+          anyOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - evaluationStatus
+            - enabled
+            properties:
+              evaluationStatus:
+                type: string
+                description: Signals that this strategy could not be evaluated. This is most likely because you're using a custom strategy that Unleash doesn't know about. The `unevaluated` result is also returned if the strategy is disabled.
+                enum:
+                - incomplete
+                - unevaluated
+              enabled:
+                description: Whether this strategy resolves to `false` or if it might resolve to `true`. Because Unleash can't evaluate the strategy, it can't say for certain whether it will be `true`, but if you have failing constraints or segments, it _can_ determine that your strategy would be `false`.
+                anyOf:
+                - type: boolean
+                  enum:
+                  - false
+                - type: string
+                  enum:
+                  - unknown
+          - type: object
+            additionalProperties: false
+            required:
+            - evaluationStatus
+            - enabled
+            properties:
+              evaluationStatus:
+                description: Signals that this strategy was evaluated successfully.
+                type: string
+                enum:
+                - complete
+              enabled:
+                type: boolean
+                description: Whether this strategy evaluates to true or not.
+              variant:
+                description: "The feature variant you receive based on the provided context or the _disabled\n                          variant_. If a feature is disabled or doesn't have any\n                          variants, you would get the _disabled variant_.\n                          Otherwise, you'll get one of the feature's defined variants."
+                type: object
+                additionalProperties: false
+                required:
+                - name
+                - enabled
+                properties:
+                  name:
+                    type: string
+                    description: The variant's name. If there is no variant or if the toggle is disabled, this will be `disabled`
+                    example: red-variant
+                  enabled:
+                    type: boolean
+                    description: Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
+                  payload:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - type
+                    - value
+                    description: An optional payload attached to the variant.
+                    properties:
+                      type:
+                        description: The format of the payload.
+                        type: string
+                        enum:
+                        - json
+                        - csv
+                        - string
+                        - number
+                      value:
+                        type: string
+                        description: The payload value stringified.
+                        example: '{"property": "value"}'
+                nullable: true
+                example:
+                  name: green
+                  enabled: true
+              variants:
+                type: array
+                description: The feature variants.
+                items:
+                  $ref: '#/components/schemas/variantSchema'
+        disabled:
+          type: boolean
+          description: The strategy's status. Disabled strategies are not evaluated
+          example: false
+          nullable: true
+        segments:
+          type: array
+          description: The strategy's segments and their evaluation results.
+          items:
+            $ref: '#/components/schemas/playgroundSegmentSchema'
+        constraints:
+          type: array
+          description: The strategy's constraints and their evaluation results.
+          items:
+            $ref: '#/components/schemas/playgroundConstraintSchema'
+        parameters:
+          description: The strategy's constraints and their evaluation results.
+          example:
+            myParam1: param value
+          $ref: '#/components/schemas/parametersSchema'
+        links:
+          description: A set of links to actions you can perform on this strategy
+          type: object
+          required:
+          - edit
+          properties:
+            edit:
+              type: string
+              example: /projects/some-project/features/some-feature/strategies/edit?environmentId=some-env&strategyId= 3AECCF7E-FF82-4174-8287-8EBE06079A50
+    advancedPlaygroundRequestSchema:
+      description: Data for the playground API to evaluate toggles in advanced mode with environment and context multi selection
+      type: object
+      required:
+      - environments
+      - context
+      properties:
+        environments:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            pattern: ^[a-zA-Z0-9~_.-]+$
+          minItems: 1
+          example:
+          - development
+          - production
+          description: The environments to evaluate toggles in.
+        projects:
+          description: A list of projects to check for toggles in.
+          oneOf:
+          - type: array
+            items:
+              type: string
+            example:
+            - my-project
+            description: A list of projects to check for toggles in.
+          - type: string
+            enum:
+            - '*'
+            description: Check toggles in all projects.
+        context:
+          $ref: '#/components/schemas/sdkContextSchema'
+    variantSchema:
+      type: object
+      additionalProperties: false
+      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
+      required:
+      - name
+      - weight
+      properties:
+        name:
+          type: string
+          description: The variants name. Is unique for this feature flag
+          example: blue_group
+        weight:
+          type: number
+          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
+          type: string
+          example: variable
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+        overrides:
+          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
+          type: array
+          items:
+            $ref: '#/components/schemas/overrideSchema'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key needed to access this API
+    bearerToken:
+      type: http
+      scheme: bearer
+      description: API key needed to access this API, in Bearer token format
