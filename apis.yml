@@ -1,4 +1,18 @@
 aid: unleash
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/unleash.png
 name: Unleash
 description: >-
   Unleash is the open-source feature management platform enabling progressive delivery, A/B testing, and canary releases
@@ -18,65 +32,571 @@ tags:
   - Open Source
   - Developer Tools
 apis:
-  - aid: unleash:admin-api
-    name: Unleash Admin API
-    description: >-
-      Comprehensive REST API providing full programmatic control over Unleash resources including feature flags,
-      projects, environments, users, API tokens, strategies, segments, integrations (addons), events, change requests,
-      and instance administration. Powers the Unleash Admin UI and enables CI/CD and GitOps automation workflows. Base
-      URL: https://{your-unleash-instance}/api/admin
-    humanURL: https://docs.getunleash.io/api
-    baseURL: https://app.unleash-instance.example.com
-    tags:
-      - Admin
-      - Feature Flags
-      - Projects
-      - Environments
-      - Users
-      - Events
-    properties:
-      - type: Documentation
-        url: https://docs.getunleash.io/api
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/openapi/unleash-admin-api-openapi.yml
-      - type: SpectralRules
-        url: https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
-  - aid: unleash:client-api
-    name: Unleash Client API
-    description: >-
-      API endpoint consumed by backend Unleash SDKs to fetch complete feature flag configurations including all
-      activation strategies. Supports server-side flag evaluation with zero additional latency after initial bootstrap.
-      Requires a backend API token scoped to a project and environment.
-    humanURL: https://docs.getunleash.io/api#client-api
-    baseURL: https://app.unleash-instance.example.com
-    tags:
-      - Client
-      - SDK
-      - Feature Flags
-    properties:
-      - type: Documentation
-        url: https://docs.getunleash.io/api
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/openapi/unleash-client-api-openapi.yml
-  - aid: unleash:frontend-api
-    name: Unleash Frontend API
-    description: >-
-      API endpoint consumed by frontend/client-side SDKs. Returns only the evaluated state (enabled/disabled) of feature
-      flags for a given Unleash Context, without exposing strategy configuration. Safe for use in browser and mobile
-      apps.
-    humanURL: https://docs.getunleash.io/api#frontend-api
-    baseURL: https://app.unleash-instance.example.com
-    tags:
-      - Frontend
-      - SDK
-      - Feature Flags
-    properties:
-      - type: Documentation
-        url: https://docs.getunleash.io/api
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/openapi/unleash-frontend-api-openapi.yml
+- aid: unleash:client-api
+  name: Unleash Client API
+  description: >-
+    API endpoint consumed by backend Unleash SDKs to fetch complete feature flag configurations including
+    all activation strategies. Supports server-side flag evaluation with zero additional latency after
+    initial bootstrap. Requires a backend API token scoped to a project and environment.
+  humanURL: https://docs.getunleash.io/api#client-api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Client
+  - SDK
+  - Feature Flags
+  properties:
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: OpenAPI
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/openapi/unleash-client-api-openapi.yml
+- aid: unleash:unleash-addons-api
+  name: Unleash Addons API
+  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Addons
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-addons-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-admin-ui-api
+  name: Unleash Admin UI API
+  description: >-
+    Configuration for the Unleash Admin UI. These endpoints should not be relied upon and can change at
+    any point without prior notice.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Admin UI
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-admin-ui-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-api-tokens-api
+  name: Unleash API tokens API
+  description: >-
+    Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - API tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-api-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-archive-api
+  name: Unleash Archive API
+  description: >-
+    Revive or permanently delete [archived feature flags](https://docs.getunleash.io/advanced/archived_toggles).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Archive
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-archive-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-auth-api
+  name: Unleash Auth API
+  description: Manage logins, passwords, etc.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-auth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-banners-api
+  name: Unleash Banners API
+  description: Create, update, flag, and delete [banners](https://docs.getunleash.io/concepts/banners).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Banners
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-banners-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-change-requests-api
+  name: Unleash Change Requests API
+  description: API for managing [change requests](https://docs.getunleash.io/concepts/change-requests).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Change Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-change-requests-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-context-api
+  name: Unleash Context API
+  description: >-
+    Create, update, and delete [context fields](https://docs.getunleash.io/concepts/unleash-context) that
+    Unleash is aware of.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Context
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-context-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-dependencies-api
+  name: Unleash Dependencies API
+  description: Manage feature dependencies.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Dependencies
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-dependencies-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-environments-api
+  name: Unleash Environments API
+  description: >-
+    Create, update, delete, enable or disable [environments](https://docs.getunleash.io/concepts/environments)
+    for this Unleash instance.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-environments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-events-api
+  name: Unleash Events API
+  description: Read events from this Unleash instance.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-events-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-feature-types-api
+  name: Unleash Feature Types API
+  description: >-
+    Manage [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Feature Types
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-feature-types-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-features-api
+  name: Unleash Features API
+  description: >-
+    Create, update, and delete [feature flags](https://docs.getunleash.io/concepts/feature-flags).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Features
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-features-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-frontend-api-api
+  name: Unleash Frontend API API
+  description: >-
+    The [Frontend API](https://docs.getunleash.io/concepts/front-end-api) is used for connecting client-side
+    (frontend) applications to Unleash.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Frontend API
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-frontend-api-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-import-export-api
+  name: Unleash Import/Export API
+  description: >-
+    [Import and export](https://docs.getunleash.io/concepts/import-export) the state of your Unleash instance.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Import/Export
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-import-export-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-instance-admin-api
+  name: Unleash Instance Admin API
+  description: Instance admin endpoints used to manage the Unleash instance itself.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Instance Admin
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-instance-admin-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-maintenance-api
+  name: Unleash Maintenance API
+  description: Enable/disable the maintenance mode of Unleash.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Maintenance
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-maintenance-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-metrics-api
+  name: Unleash Metrics API
+  description: Register, read, or delete metrics recorded by Unleash.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-notifications-api
+  name: Unleash Notifications API
+  description: API for managing [notifications](https://docs.getunleash.io/concepts/notifications).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-operational-api
+  name: Unleash Operational API
+  description: Endpoints related to the operational status of this Unleash instance.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Operational
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-operational-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-personal-access-tokens-api
+  name: Unleash Personal access tokens API
+  description: >-
+    Create, update, and delete [Personal access tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Personal access tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-personal-access-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-playground-api
+  name: Unleash Playground API
+  description: Evaluate an Unleash context against your feature flags.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Playground
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-playground-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-projects-api
+  name: Unleash Projects API
+  description: >-
+    Create, update, and delete [Unleash projects](https://docs.getunleash.io/concepts/projects).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-projects-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-public-signup-tokens-api
+  name: Unleash Public signup tokens API
+  description: >-
+    Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/concepts/public-signup-tokens).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Public signup tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-public-signup-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-release-templates-api
+  name: Unleash Release Templates API
+  description: >-
+    API for managing [release templates](https://docs.getunleash.io/concepts/release-templates).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Release Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-release-templates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-search-api
+  name: Unleash Search API
+  description: Search for features.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-search-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-segments-api
+  name: Unleash Segments API
+  description: >-
+    Create, update, delete, and manage [segments](https://docs.getunleash.io/concepts/segments).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Segments
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-segments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-service-accounts-api
+  name: Unleash Service Accounts API
+  description: >-
+    Endpoints for managing [Service Accounts](https://docs.getunleash.io/concepts/service-accounts), which
+    enable programmatic access to the Unleash API.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Service Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-service-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-strategies-api
+  name: Unleash Strategies API
+  description: >-
+    Create, update, delete, manage [custom strategies](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Strategies
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-strategies-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-tags-api
+  name: Unleash Tags API
+  description: >-
+    Create, update, and delete [tags and tag types](https://docs.getunleash.io/concepts/feature-flags#tags).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-tags-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-telemetry-api
+  name: Unleash Telemetry API
+  description: API for information about telemetry collection
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-telemetry-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-unknown-flags-api
+  name: Unleash Unknown Flags API
+  description: Endpoints related to unknown flags.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Unknown Flags
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-unknown-flags-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-unleash-edge-api
+  name: Unleash Unleash Edge API
+  description: Endpoints related to [Unleash Edge](https://docs.getunleash.io/unleash-edge).
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Unleash Edge
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-unleash-edge-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-unstable-api
+  name: Unleash Unstable API
+  description: Experimental endpoints that may change or disappear at any time.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Unstable
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-unstable-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
+- aid: unleash:unleash-users-api
+  name: Unleash Users API
+  description: Manage users and passwords.
+  humanURL: https://docs.getunleash.io/api
+  baseURL: https://app.unleash-instance.example.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/unleash-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getunleash.io/api
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
 common:
   - type: AgenticAccess
     url: agentic-access/unleash-agentic-access.yml
