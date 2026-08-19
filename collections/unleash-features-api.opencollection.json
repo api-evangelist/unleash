@@ -1,0 +1,977 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Features API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Features",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Move Feature to Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/changeProject",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nMoves the specified feature to the new project in the request schema. Requires you to have permissions to move the feature flag in both projects. Features that are included in any active change requests can not be moved."
+        },
+        {
+          "info": {
+            "name": "Validate a Feature Flag Name.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/features/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates a feature flag name: checks whether the name is URL-friendly and whether a feature with the given name already exists. Returns 200 if the feature name is compliant and unused."
+        },
+        {
+          "info": {
+            "name": "Get All Tags for a Feature.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/features/:featureName/tags",
+            "params": [
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves all the tags for a feature name. If the feature does not exist it returns an empty list."
+        },
+        {
+          "info": {
+            "name": "Adds a Tag to a Feature.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/features/:featureName/tags",
+            "params": [
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a tag to a feature if the feature and tag type exist in the system. The operation is idempotent, so adding an existing tag will result in a successful response."
+        },
+        {
+          "info": {
+            "name": "Updates Multiple Tags for a Feature.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/features/:featureName/tags",
+            "params": [
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Receives a list of tags to add and a list of tags to remove that are mandatory but can be empty. All tags under addedTags are first added to the feature and then all tags under removedTags are removed from the feature."
+        },
+        {
+          "info": {
+            "name": "Removes a Tag From a Feature.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/features/:featureName/tags/:type/:value",
+            "params": [
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Removes a tag from a feature. If the feature exists but the tag does not, it returns a successful response."
+        },
+        {
+          "info": {
+            "name": "Get a Feature Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Information about the enablement status and strategies for a feature flag in specified environment."
+        },
+        {
+          "info": {
+            "name": "Disable a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/off",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Disable a feature flag in the specified environment."
+        },
+        {
+          "info": {
+            "name": "Enable a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/on",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Enable a feature flag in the specified environment."
+        },
+        {
+          "info": {
+            "name": "Bulk Enable a List of Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/bulk_features/environments/:environment/on",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint enables multiple feature flags."
+        },
+        {
+          "info": {
+            "name": "Bulk Disable a List of Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/bulk_features/environments/:environment/off",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint disables multiple feature flags."
+        },
+        {
+          "info": {
+            "name": "Get Feature Flag Strategies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/strategies",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get strategies defined for a feature flag in the specified environment."
+        },
+        {
+          "info": {
+            "name": "Add a Strategy to a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/strategies",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a strategy to a feature flag in the specified environment."
+        },
+        {
+          "info": {
+            "name": "Get a Strategy Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/strategies/:strategyId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "strategyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a strategy configuration for an environment in a feature flag."
+        },
+        {
+          "info": {
+            "name": "Update a Strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/strategies/:strategyId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "strategyId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace strategy configuration for a feature flag in the specified environment."
+        },
+        {
+          "info": {
+            "name": "Change Specific Properties of a Strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/strategies/:strategyId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "strategyId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change specific properties of a strategy configuration in a feature flag."
+        },
+        {
+          "info": {
+            "name": "Delete a Strategy From a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/strategies/:strategyId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "strategyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a strategy configuration from a feature flag in the specified environment."
+        },
+        {
+          "info": {
+            "name": "Set Strategy Sort Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/strategies/set-sort-order",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set the sort order of the provided list of strategies."
+        },
+        {
+          "info": {
+            "name": "Get All Features in a Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "A list of all features for the specified project."
+        },
+        {
+          "info": {
+            "name": "Add a New Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new feature flag in a specified project."
+        },
+        {
+          "info": {
+            "name": "Clone a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/clone",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a copy of the specified feature flag. The copy can be created in any project."
+        },
+        {
+          "info": {
+            "name": "Get a Feature",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint returns the information about the requested feature if the feature belongs to the specified project."
+        },
+        {
+          "info": {
+            "name": "Update a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the specified feature if the feature belongs to the specified project. Only the provided properties are updated; any feature properties left out of the request body are left untouched."
+        },
+        {
+          "info": {
+            "name": "Modify a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change specific properties of a feature flag."
+        },
+        {
+          "info": {
+            "name": "Archive a Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint archives the specified feature if the feature belongs to the specified project."
+        },
+        {
+          "info": {
+            "name": "Mark Features as Stale / Not Stale",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/stale",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint marks the provided list of features as either [stale](https://docs.getunleash.io/concepts/technical-debt#stale-and-potentially-stale-flags) or not stale depending on the request body you send. Any provided features that don't exist are ignored."
+        },
+        {
+          "info": {
+            "name": "Get Variants for a Feature in an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/variants",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the variants for a feature in a specific environment. If the feature has no variants it will return an empty array of variants"
+        },
+        {
+          "info": {
+            "name": "Create (overwrite) Variants for a Feature in an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/variants",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This overwrites the current variants for the feature flag in the :featureName parameter for the :environment parameter.\n\nThe backend will validate the input for the following invariants:\n\n* If there are variants, there needs to be at least one variant with `weightType: variable`\n\n* The sum of the weights of variants with `weightType: fix` must be strictly less than 1000 (< 1000)\n\nThe backend will also distribute remaining weight up to 1000 after adding the variants with `weightType: fix` togethe"
+        },
+        {
+          "info": {
+            "name": "Patch a Feature's Variants in an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/environments/:environment/variants",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a list of patches to the features environments in the specified environment. The patch objects should conform to the [JSON-patch format (RFC 6902)](https://www.rfc-editor.org/rfc/rfc6902)."
+        },
+        {
+          "info": {
+            "name": "Create (overwrite) Variants for a Feature Flag in Multiple Environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/variants-batch",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This overwrites the current variants for the feature flag in the :featureName parameter for the :environment parameter."
+        },
+        {
+          "info": {
+            "name": "Validates Archive Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/archive/validate",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint return info about the archive features impact."
+        },
+        {
+          "info": {
+            "name": "Archives a List of Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/archive",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint archives the specified features. Any features that are already archived or that don't exist are ignored. All existing features (whether already archived or not) that are provided must belong to the specified project."
+        },
+        {
+          "info": {
+            "name": "Validate Constraint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/constraints/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates a constraint definition. Checks whether the context field exists and whether the applied configuration is valid. Additional properties are not allowed on data objects that you send to this endpoint."
+        },
+        {
+          "info": {
+            "name": "Add Feature to Favorites",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/favorites",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint marks the feature in the url as favorite"
+        },
+        {
+          "info": {
+            "name": "Remove Feature From Favorites",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/favorites",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint removes the feature in the url from favorites"
+        },
+        {
+          "info": {
+            "name": "Add Project to Favorites",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/favorites",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint marks the project in the url as favorite"
+        },
+        {
+          "info": {
+            "name": "Remove Project From Favorites",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/favorites",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint removes the project in the url from favorites"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

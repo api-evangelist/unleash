@@ -1,0 +1,770 @@
+{
+  "item": [
+    {
+      "id": "52072e2f-ad81-4d1a-9645-b7e244df8fa5",
+      "name": "Events",
+      "description": {
+        "content": "Read events from this Unleash instance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6a705646-4bac-4507-847f-01b154e1c5f0",
+          "name": "Get the Most Recent Events From the Unleash Instance or All Events Related to a Project.",
+          "request": {
+            "name": "Get the Most Recent Events From the Unleash Instance or All Events Related to a Project.",
+            "description": {
+              "content": "Returns **the last 100** events from the Unleash instance when called without a query parameter. When called with a `project` parameter, returns **all events** for the specified project.\n\nIf the provided project does not exist, the list of events will be empty.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project",
+                  "value": "<string>",
+                  "description": "The name of the project whose events you want to retrieve"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b81238c1-c910-46b0-8655-8de352725aee",
+              "name": "eventsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 1,\n  \"events\": [\n    {\n      \"id\": 7152,\n      \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n      \"type\": \"feature-created\",\n      \"createdBy\": \"johndoe\",\n      \"createdByUserId\": 1337,\n      \"environment\": \"development\",\n      \"project\": \"default\",\n      \"featureName\": \"my.first.feature\",\n      \"data\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"preData\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"label\": \"string\",\n      \"summary\": \"string\",\n      \"ip\": \"192.168.1.1\",\n      \"groupType\": \"change-request\",\n      \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n    },\n    {\n      \"id\": 1516,\n      \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n      \"type\": \"feature-created\",\n      \"createdBy\": \"johndoe\",\n      \"createdByUserId\": 1337,\n      \"environment\": \"development\",\n      \"project\": \"default\",\n      \"featureName\": \"my.first.feature\",\n      \"data\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"preData\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"label\": \"string\",\n      \"summary\": \"string\",\n      \"ip\": \"192.168.1.1\",\n      \"groupType\": \"change-request\",\n      \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n    }\n  ],\n  \"totalEvents\": 842\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d07e8c0-a842-42ed-b334-db989de47f2b",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb7e4443-bafa-4ed6-bc1b-5834c033775a",
+          "name": "Get All Events Related to a Specific Feature Flag.",
+          "request": {
+            "name": "Get All Events Related to a Specific Feature Flag.",
+            "description": {
+              "content": "Returns all events related to the specified feature flag. If the feature flag does not exist, the list of events will be empty.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "events",
+                ":featureName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "featureName",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b8d3004b-bbc0-48a7-9881-bf530cb701d0",
+              "name": "featureEventsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "events",
+                    ":featureName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "featureName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"events\": [\n    {\n      \"id\": 4922,\n      \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n      \"type\": \"feature-created\",\n      \"createdBy\": \"johndoe\",\n      \"createdByUserId\": 1337,\n      \"environment\": \"development\",\n      \"project\": \"default\",\n      \"featureName\": \"my.first.feature\",\n      \"data\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"preData\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"label\": \"string\",\n      \"summary\": \"string\",\n      \"ip\": \"192.168.1.1\",\n      \"groupType\": \"change-request\",\n      \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n    },\n    {\n      \"id\": 452,\n      \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n      \"type\": \"feature-created\",\n      \"createdBy\": \"johndoe\",\n      \"createdByUserId\": 1337,\n      \"environment\": \"development\",\n      \"project\": \"default\",\n      \"featureName\": \"my.first.feature\",\n      \"data\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"preData\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"label\": \"string\",\n      \"summary\": \"string\",\n      \"ip\": \"192.168.1.1\",\n      \"groupType\": \"change-request\",\n      \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n    }\n  ],\n  \"version\": 1,\n  \"toggleName\": \"my.first.feature.flag\",\n  \"totalEvents\": 13\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9289cd88-4602-44db-967f-40f5d6ffb099",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "events",
+                    ":featureName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "featureName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f72521d5-5f37-4a11-afdc-bc7602f96275",
+          "name": "Get a List of All Users That Have Created Events",
+          "request": {
+            "name": "Get a List of All Users That Have Created Events",
+            "description": {
+              "content": "Returns a list of all users that have created events in the system.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "event-creators"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "aef1c311-4b99-413f-b923-5b20d2127c01",
+              "name": "eventCreatorsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "event-creators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 50,\n    \"name\": \"User\"\n  },\n  {\n    \"id\": 50,\n    \"name\": \"User\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7122295b-be97-4b64-a1b3-e4b8a5cdb08b",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "event-creators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de6d8646-31e9-4064-ae5e-9fb19cb8b5fb",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "event-creators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "335b9b64-62fe-4f6e-9b46-d3ea83409542",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "event-creators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4df4f3a2-3d9e-41e0-9d6b-d7bc518d89bc",
+          "name": "Search for Events",
+          "request": {
+            "name": "Search for Events",
+            "description": {
+              "content": "Allows searching for events that match the query parameter criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "search",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Find events by a free-text search query. The query will be matched against the event data payload (if any)."
+                },
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "Filter by event ID using supported operators: IS, IS_ANY_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "groupId",
+                  "value": "<string>",
+                  "description": "Filter by group ID using supported operators: IS, IS_ANY_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "feature",
+                  "value": "<string>",
+                  "description": "Filter by feature name using supported operators: IS, IS_ANY_OF"
+                },
+                {
+                  "disabled": false,
+                  "key": "project",
+                  "value": "<string>",
+                  "description": "Filter by projects ID using supported operators: IS, IS_ANY_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter by event type using supported operators: IS, IS_ANY_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdBy",
+                  "value": "<string>",
+                  "description": "Filter by the ID of the event creator, using supported operators: IS, IS_ANY_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<string>",
+                  "description": "The starting date of the creation date range in IS:yyyy-MM-dd format"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<string>",
+                  "description": "The ending date of the creation date range in IS:yyyy-MM-dd format"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "The number of features to skip when returning a page. By default it is set to 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The number of feature environments to return in a page. By default it is set to 50. The maximum is 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "environment",
+                  "value": "<string>",
+                  "description": "Filter by environment name using supported operators: IS, IS_ANY_OF."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f6c166c3-47a5-4922-9acd-c81a25ac56ab",
+              "name": "eventSearchResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "search",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "admin@example.com"
+                    },
+                    {
+                      "key": "id",
+                      "value": "IS:123"
+                    },
+                    {
+                      "key": "groupId",
+                      "value": "IS:123"
+                    },
+                    {
+                      "key": "feature",
+                      "value": "IS:myfeature"
+                    },
+                    {
+                      "key": "project",
+                      "value": "IS:default"
+                    },
+                    {
+                      "key": "type",
+                      "value": "IS:change-added"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "IS:2"
+                    },
+                    {
+                      "key": "from",
+                      "value": "IS:2024-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "IS:2024-01-31"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "environment",
+                      "value": "IS:production"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"events\": [\n    {\n      \"id\": 503,\n      \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n      \"type\": \"feature-created\",\n      \"createdBy\": \"johndoe\",\n      \"createdByUserId\": 1337,\n      \"environment\": \"development\",\n      \"project\": \"default\",\n      \"featureName\": \"my.first.feature\",\n      \"data\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"preData\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"label\": \"string\",\n      \"summary\": \"string\",\n      \"ip\": \"192.168.1.1\",\n      \"groupType\": \"change-request\",\n      \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n    },\n    {\n      \"id\": 5975,\n      \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n      \"type\": \"feature-created\",\n      \"createdBy\": \"johndoe\",\n      \"createdByUserId\": 1337,\n      \"environment\": \"development\",\n      \"project\": \"default\",\n      \"featureName\": \"my.first.feature\",\n      \"data\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"preData\": {\n        \"name\": \"new-feature\",\n        \"description\": \"Flag description\",\n        \"type\": \"release\",\n        \"project\": \"my-project\",\n        \"stale\": false,\n        \"variants\": [],\n        \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n        \"lastSeenAt\": null,\n        \"impressionData\": true\n      },\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"label\": \"string\",\n      \"summary\": \"string\",\n      \"ip\": \"192.168.1.1\",\n      \"groupType\": \"change-request\",\n      \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n    }\n  ],\n  \"total\": 842\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "103cdee1-bc98-46d6-980e-e8e385896152",
+    "name": "Unleash Admin Addons Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

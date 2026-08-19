@@ -1,0 +1,1765 @@
+{
+  "item": [
+    {
+      "id": "b9a42f1b-fde1-42a8-99f4-b2fda8f0937c",
+      "name": "Addons",
+      "description": {
+        "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "036c669f-f79e-43d6-b91b-c9220a714dda",
+          "name": "Get All Addons and Providers",
+          "request": {
+            "name": "Get All Addons and Providers",
+            "description": {
+              "content": "Retrieve all addons and providers that are defined on this Unleash instance.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "addons"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4b9d19f8-fec9-40b1-9b9b-0bb0e4e36d65",
+              "name": "addonsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"addons\": [\n    {\n      \"id\": 27,\n      \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n      \"provider\": \"webhook\",\n      \"enabled\": false,\n      \"parameters\": {\n        \"key_0\": {},\n        \"key_1\": {}\n      },\n      \"events\": [\n        \"feature-created\",\n        \"feature-updated\"\n      ],\n      \"projects\": [\n        \"new-landing-project\",\n        \"signups-v2\"\n      ],\n      \"environments\": [\n        \"development\",\n        \"production\"\n      ]\n    },\n    {\n      \"id\": 27,\n      \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n      \"provider\": \"webhook\",\n      \"enabled\": false,\n      \"parameters\": {\n        \"key_0\": {}\n      },\n      \"events\": [\n        \"feature-created\",\n        \"feature-updated\"\n      ],\n      \"projects\": [\n        \"new-landing-project\",\n        \"signups-v2\"\n      ],\n      \"environments\": [\n        \"development\",\n        \"production\"\n      ]\n    }\n  ],\n  \"providers\": [\n    {\n      \"name\": \"slack\",\n      \"displayName\": \"Slack\",\n      \"documentationUrl\": \"https://docs.getunleash.io/docs/addons/slack\",\n      \"description\": \"Allows Unleash to post updates to Slack.\",\n      \"howTo\": \"This is **how you use** this addon type...\\n  - Step 1\\n  - Step 2\\n  - Step 3\",\n      \"tagTypes\": [\n        {\n          \"name\": \"slack\",\n          \"description\": \"Slack tag used by the slack-addon to specify the slack channel.\",\n          \"icon\": \"S\"\n        }\n      ],\n      \"parameters\": [\n        {\n          \"name\": \"url\",\n          \"displayName\": \"Slack webhook URL\",\n          \"description\": \"(Required)\",\n          \"type\": \"url\",\n          \"required\": true,\n          \"sensitive\": true\n        },\n        {\n          \"name\": \"username\",\n          \"displayName\": \"Username\",\n          \"placeholder\": \"Unleash\",\n          \"description\": \"The username to use when posting messages to slack. Defaults to \\\"Unleash\\\".\",\n          \"type\": \"text\",\n          \"required\": false,\n          \"sensitive\": false\n        },\n        {\n          \"name\": \"emojiIcon\",\n          \"displayName\": \"Emoji Icon\",\n          \"placeholder\": \":unleash:\",\n          \"description\": \"The emoji_icon to use when posting messages to slack. Defaults to \\\":unleash:\\\".\",\n          \"type\": \"text\",\n          \"required\": false,\n          \"sensitive\": false\n        },\n        {\n          \"name\": \"defaultChannel\",\n          \"displayName\": \"Default channel\",\n          \"description\": \"(Required) Default channel to post updates to if not specified in the slack-tag\",\n          \"type\": \"text\",\n          \"required\": true,\n          \"sensitive\": false\n        }\n      ],\n      \"events\": [\n        \"feature-created\",\n        \"feature-updated\",\n        \"feature-archived\",\n        \"feature-revived\",\n        \"feature-stale-on\",\n        \"feature-stale-off\",\n        \"feature-environment-enabled\",\n        \"feature-environment-disabled\",\n        \"feature-strategy-remove\",\n        \"feature-strategy-update\",\n        \"feature-strategy-add\",\n        \"feature-metadata-updated\",\n        \"feature-variants-updated\",\n        \"feature-project-change\"\n      ],\n      \"installation\": {\n        \"url\": \"https://app-for-slack.getunleash.io/install\",\n        \"title\": \"App for Slack installation\",\n        \"helpText\": \"Clicking the Install button will send you to Slack to initiate the installation procedure for the Unleash App for Slack for your workspace\"\n      },\n      \"alerts\": [\n        {\n          \"type\": \"info\",\n          \"text\": \"Please ensure you have the Unleash App for Slack installed in your Slack workspace if you haven't installed it already. If you want the Unleash App for Slack bot to post messages to private channels, you'll need to invite it to those channels.\"\n        },\n        {\n          \"type\": \"info\",\n          \"text\": \"Please ensure you have the Unleash App for Slack installed in your Slack workspace if you haven't installed it already. If you want the Unleash App for Slack bot to post messages to private channels, you'll need to invite it to those channels.\"\n        }\n      ],\n      \"deprecated\": \"This integration is deprecated. Please try the new integration instead.\"\n    },\n    {\n      \"name\": \"slack\",\n      \"displayName\": \"Slack\",\n      \"documentationUrl\": \"https://docs.getunleash.io/docs/addons/slack\",\n      \"description\": \"Allows Unleash to post updates to Slack.\",\n      \"howTo\": \"This is **how you use** this addon type...\\n  - Step 1\\n  - Step 2\\n  - Step 3\",\n      \"tagTypes\": [\n        {\n          \"name\": \"slack\",\n          \"description\": \"Slack tag used by the slack-addon to specify the slack channel.\",\n          \"icon\": \"S\"\n        }\n      ],\n      \"parameters\": [\n        {\n          \"name\": \"url\",\n          \"displayName\": \"Slack webhook URL\",\n          \"description\": \"(Required)\",\n          \"type\": \"url\",\n          \"required\": true,\n          \"sensitive\": true\n        },\n        {\n          \"name\": \"username\",\n          \"displayName\": \"Username\",\n          \"placeholder\": \"Unleash\",\n          \"description\": \"The username to use when posting messages to slack. Defaults to \\\"Unleash\\\".\",\n          \"type\": \"text\",\n          \"required\": false,\n          \"sensitive\": false\n        },\n        {\n          \"name\": \"emojiIcon\",\n          \"displayName\": \"Emoji Icon\",\n          \"placeholder\": \":unleash:\",\n          \"description\": \"The emoji_icon to use when posting messages to slack. Defaults to \\\":unleash:\\\".\",\n          \"type\": \"text\",\n          \"required\": false,\n          \"sensitive\": false\n        },\n        {\n          \"name\": \"defaultChannel\",\n          \"displayName\": \"Default channel\",\n          \"description\": \"(Required) Default channel to post updates to if not specified in the slack-tag\",\n          \"type\": \"text\",\n          \"required\": true,\n          \"sensitive\": false\n        }\n      ],\n      \"events\": [\n        \"feature-created\",\n        \"feature-updated\",\n        \"feature-archived\",\n        \"feature-revived\",\n        \"feature-stale-on\",\n        \"feature-stale-off\",\n        \"feature-environment-enabled\",\n        \"feature-environment-disabled\",\n        \"feature-strategy-remove\",\n        \"feature-strategy-update\",\n        \"feature-strategy-add\",\n        \"feature-metadata-updated\",\n        \"feature-variants-updated\",\n        \"feature-project-change\"\n      ],\n      \"installation\": {\n        \"url\": \"https://app-for-slack.getunleash.io/install\",\n        \"title\": \"App for Slack installation\",\n        \"helpText\": \"Clicking the Install button will send you to Slack to initiate the installation procedure for the Unleash App for Slack for your workspace\"\n      },\n      \"alerts\": [\n        {\n          \"type\": \"info\",\n          \"text\": \"Please ensure you have the Unleash App for Slack installed in your Slack workspace if you haven't installed it already. If you want the Unleash App for Slack bot to post messages to private channels, you'll need to invite it to those channels.\"\n        },\n        {\n          \"type\": \"info\",\n          \"text\": \"Please ensure you have the Unleash App for Slack installed in your Slack workspace if you haven't installed it already. If you want the Unleash App for Slack bot to post messages to private channels, you'll need to invite it to those channels.\"\n        }\n      ],\n      \"deprecated\": \"This integration is deprecated. Please try the new integration instead.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85e69859-7d01-4514-ac16-f9687bf39f8f",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f85ac335-b373-4fdc-86a6-e895d729b58b",
+          "name": "Create a New Addon",
+          "request": {
+            "name": "Create a New Addon",
+            "description": {
+              "content": "Create an addon instance. The addon must use one of the providers available on this Unleash instance.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "addons"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"provider\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {}\n  },\n  \"events\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"projects\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3188a0df-64fc-479d-a1dc-922173571af8",
+              "name": "addonSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 27,\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"provider\": \"webhook\",\n  \"enabled\": false,\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {},\n    \"key_2\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3945b58d-d600-4d4f-a2bc-fba3703f9019",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66408e08-efcb-4c60-8195-ead58c777b1b",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1759bc3b-9101-4227-80f0-a1f10ed01727",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bdfd1e51-d9cf-4491-87ce-e15ee8f82e0c",
+              "name": "The request body is larger than what we accept. By default we only accept bodies of 100kB or less",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTooLarge\",\n  \"message\": \"You provided more data than we can handle. Unleash accepts at most X MB.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2122915-bff7-4163-a1b8-271361045fd2",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "103ba092-1777-49db-a1de-076b99271f52",
+          "name": "Get a Specific Addon",
+          "request": {
+            "name": "Get a Specific Addon",
+            "description": {
+              "content": "Retrieve information about the addon whose ID matches the ID in the request URL.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "addons",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "281a6d93-7b2f-423b-bf19-80e7dcd9aaa9",
+              "name": "addonSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 27,\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"provider\": \"webhook\",\n  \"enabled\": false,\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {},\n    \"key_2\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b72a4a8f-e20a-4e70-81b8-eac2e9c90265",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f18f0ea-c67f-42bd-a45b-8c36eb7e8518",
+          "name": "Update an Addon",
+          "request": {
+            "name": "Update an Addon",
+            "description": {
+              "content": "Update the addon with a specific ID. Any fields in the update object will be updated. Properties that are not included in the update object will not be affected. To empty a property, pass `null` as that property's value.\n\nNote: passing `null` as a value for the description property will set it to an empty string.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "addons",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"provider\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {},\n    \"key_2\": {}\n  },\n  \"events\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"projects\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d41e51ba-ee78-47f8-9c07-c746959d0edf",
+              "name": "addonSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 27,\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"provider\": \"webhook\",\n  \"enabled\": false,\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {},\n    \"key_2\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5950776e-065b-4c9b-b701-e6abe1ff6711",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f3dbdbe4-6f0b-45ee-8353-e07f471866e1",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc4385c3-9d95-4430-b8c9-9ceda4929b30",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fcb6ca1f-b858-465c-aef4-0b0b8912f474",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad492062-1ea3-46a5-804e-944c9e4b899d",
+              "name": "The request body is larger than what we accept. By default we only accept bodies of 100kB or less",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTooLarge\",\n  \"message\": \"You provided more data than we can handle. Unleash accepts at most X MB.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab579753-d767-4ee3-b6b2-33524695d8d5",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"provider\": \"webhook\",\n  \"enabled\": \"<boolean>\",\n  \"parameters\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"events\": [\n    \"feature-created\",\n    \"feature-updated\"\n  ],\n  \"description\": \"This addon posts updates to our internal feature tracking system whenever a feature is created or updated.\",\n  \"projects\": [\n    \"new-landing-project\",\n    \"signups-v2\"\n  ],\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f5dc0908-5b76-472a-a345-0bac95390260",
+          "name": "Delete an Addon",
+          "request": {
+            "name": "Delete an Addon",
+            "description": {
+              "content": "Delete the addon specified by the ID in the request path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "addons",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f1d68906-4b81-44b9-88ee-748d71a805ee",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7598342a-fe72-4904-9a9e-68e88a813872",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "890ac0f5-1733-4ccf-9e89-72f031cea339",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad9fa4ff-cb8b-42cd-83d9-41235000b684",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "55062b4a-cd5a-4e88-adcd-056246d3b2d5",
+          "name": "Get Integration Events for a Specific Integration Configuration.",
+          "request": {
+            "name": "Get Integration Events for a Specific Integration Configuration.",
+            "description": {
+              "content": "Returns a list of integration events belonging to a specific integration configuration, identified by its id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "addons",
+                ":id",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<string>",
+                  "description": "The number of results to return in a page. By default it is set to 50."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<string>",
+                  "description": "The number of results to skip when returning a page. By default it is set to 0."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7bace12c-eed0-468e-aeb5-44c22c7f1fba",
+              "name": "#/components/schemas/integrationEventsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"integrationEvents\": [\n    {\n      \"id\": \"7\",\n      \"integrationId\": 42,\n      \"createdAt\": \"2023-12-27T13:37:00+01:00\",\n      \"state\": \"failed\",\n      \"stateDetails\": \"Status code: 429 - Rate limit reached.\",\n      \"event\": {\n        \"id\": 1492,\n        \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n        \"type\": \"feature-created\",\n        \"createdBy\": \"johndoe\",\n        \"createdByUserId\": 1337,\n        \"environment\": \"development\",\n        \"project\": \"default\",\n        \"featureName\": \"my.first.feature\",\n        \"data\": {\n          \"name\": \"new-feature\",\n          \"description\": \"Flag description\",\n          \"type\": \"release\",\n          \"project\": \"my-project\",\n          \"stale\": false,\n          \"variants\": [],\n          \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n          \"lastSeenAt\": null,\n          \"impressionData\": true\n        },\n        \"preData\": {\n          \"name\": \"new-feature\",\n          \"description\": \"Flag description\",\n          \"type\": \"release\",\n          \"project\": \"my-project\",\n          \"stale\": false,\n          \"variants\": [],\n          \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n          \"lastSeenAt\": null,\n          \"impressionData\": true\n        },\n        \"tags\": [\n          {\n            \"value\": \"a-tag-value\",\n            \"type\": \"simple\",\n            \"color\": \"#FFFFFF\"\n          },\n          {\n            \"value\": \"a-tag-value\",\n            \"type\": \"simple\",\n            \"color\": \"#FFFFFF\"\n          }\n        ],\n        \"label\": \"string\",\n        \"summary\": \"string\",\n        \"ip\": \"192.168.1.1\",\n        \"groupType\": \"change-request\",\n        \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n      },\n      \"details\": {\n        \"message\": \"*user@yourcompany.com* created a new *slack-app* integration configuration\",\n        \"channels\": [\n          \"engineering\",\n          \"unleash-updates\"\n        ]\n      }\n    },\n    {\n      \"id\": \"7\",\n      \"integrationId\": 42,\n      \"createdAt\": \"2023-12-27T13:37:00+01:00\",\n      \"state\": \"failed\",\n      \"stateDetails\": \"Status code: 429 - Rate limit reached.\",\n      \"event\": {\n        \"id\": 2799,\n        \"createdAt\": \"2023-07-05T12:56:00.000Z\",\n        \"type\": \"feature-created\",\n        \"createdBy\": \"johndoe\",\n        \"createdByUserId\": 1337,\n        \"environment\": \"development\",\n        \"project\": \"default\",\n        \"featureName\": \"my.first.feature\",\n        \"data\": {\n          \"name\": \"new-feature\",\n          \"description\": \"Flag description\",\n          \"type\": \"release\",\n          \"project\": \"my-project\",\n          \"stale\": false,\n          \"variants\": [],\n          \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n          \"lastSeenAt\": null,\n          \"impressionData\": true\n        },\n        \"preData\": {\n          \"name\": \"new-feature\",\n          \"description\": \"Flag description\",\n          \"type\": \"release\",\n          \"project\": \"my-project\",\n          \"stale\": false,\n          \"variants\": [],\n          \"createdAt\": \"2022-05-31T13:32:20.547Z\",\n          \"lastSeenAt\": null,\n          \"impressionData\": true\n        },\n        \"tags\": [\n          {\n            \"value\": \"a-tag-value\",\n            \"type\": \"simple\",\n            \"color\": \"#FFFFFF\"\n          },\n          {\n            \"value\": \"a-tag-value\",\n            \"type\": \"simple\",\n            \"color\": \"#FFFFFF\"\n          }\n        ],\n        \"label\": \"string\",\n        \"summary\": \"string\",\n        \"ip\": \"192.168.1.1\",\n        \"groupType\": \"change-request\",\n        \"groupId\": \"01HQVX5K8P9EXAMPLE123456\"\n      },\n      \"details\": {\n        \"message\": \"*user@yourcompany.com* created a new *slack-app* integration configuration\",\n        \"channels\": [\n          \"engineering\",\n          \"unleash-updates\"\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c11962a-964f-43fa-b583-48ab961b9c38",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b6fcbad-1f86-4184-86bc-1b9cb41ca297",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dcacda51-53bb-47a9-9338-86ea11c6cbe8",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "addons",
+                    ":id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "02963b9e-462c-440f-a61f-4009e46e2b67",
+    "name": "Unleash Admin Addons API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

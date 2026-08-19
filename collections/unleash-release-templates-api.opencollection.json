@@ -1,0 +1,525 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Release Templates API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Release Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Release Templates.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates"
+          },
+          "docs": "**Enterprise feature**\n\nReturns a list of all release templates."
+        },
+        {
+          "info": {
+            "name": "Create a Release Template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates"
+          },
+          "docs": "**Enterprise feature**\n\nCreates and returns a release template."
+        },
+        {
+          "info": {
+            "name": "Get a Release Template by Its Id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFinds and returns a release template by the provided id."
+        },
+        {
+          "info": {
+            "name": "Updates a Release Template by Its Id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFinds and updates a release template by the provided id. Will delete existing milestones and create new ones from the body"
+        },
+        {
+          "info": {
+            "name": "Deletes a Release Template by Its Id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFinds and deletes a release template by the provided id."
+        },
+        {
+          "info": {
+            "name": "Archives a Release Template by Its Id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/archive/:templateId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFinds and archives a release template by the provided id."
+        },
+        {
+          "info": {
+            "name": "Adds a Milestone to a Release Template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId/milestones",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFinds release template identified by its id and adds a milestone"
+        },
+        {
+          "info": {
+            "name": "Updates Existing Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId/milestones/:milestoneId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFinds milestone by id, and updates to body included in request"
+        },
+        {
+          "info": {
+            "name": "Removes an Existing Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId/milestones/:milestoneId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nDeletes an existing milestone and all attached strategies beneath it"
+        },
+        {
+          "info": {
+            "name": "Adds a Strategy to a Milestone.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId/milestones/:milestoneId/strategies",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFinds milestone identified by its id and adds a strategy."
+        },
+        {
+          "info": {
+            "name": "Updates a Strategy Attached to a Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId/milestones/:milestoneId/strategies/:strategyId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "strategyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nOverwrites existing strategy configuration for the strategy referenced by the id"
+        },
+        {
+          "info": {
+            "name": "Removes a Strategy Attached to a Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/release-plan-templates/:templateId/milestones/:milestoneId/strategies/:strategyId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "strategyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nDeletes the milestone strategy"
+        },
+        {
+          "info": {
+            "name": "Get Release Plans.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release_plans",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nReturns a list of all release plans for a specific feature flag and environment. Deprecated, please use /release-plans instead."
+        },
+        {
+          "info": {
+            "name": "Add a Release Plan.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release_plans",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nAdds a release plan to a specific feature flag and environment. Deprecated, please use /release-plans instead."
+        },
+        {
+          "info": {
+            "name": "Get Release Plans.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release-plans",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nReturns a list of all release plans for a specific feature flag and environment."
+        },
+        {
+          "info": {
+            "name": "Add a Release Plan.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release-plans",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nAdds a release plan to a specific feature flag and environment."
+        },
+        {
+          "info": {
+            "name": "Remove a Release Plan.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release_plans/:planId",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "planId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nRemoves a release plan from a specific feature flag and environment. Deprecated, please use /release-plans/:planId instead."
+        },
+        {
+          "info": {
+            "name": "Remove a Release Plan.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release-plans/:planId",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "planId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nRemoves a release plan from a specific feature flag and environment."
+        },
+        {
+          "info": {
+            "name": "Start a Release Plan Milestone.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release_plans/:planId/milestones/:milestoneId/start",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "planId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nStarts a release plan milestone for a specific feature flag and environment. Deprecated, please use /release-plans/:planId/milestones/:milestoneId/start instead."
+        },
+        {
+          "info": {
+            "name": "Start a Release Plan Milestone.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release-plans/:planId/milestones/:milestoneId/start",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "planId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestoneId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nStarts a release plan milestone for a specific feature flag and environment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

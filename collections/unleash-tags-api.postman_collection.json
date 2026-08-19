@@ -1,0 +1,3280 @@
+{
+  "item": [
+    {
+      "id": "8ebe91fd-93e0-4584-b1f2-04df7aacea0e",
+      "name": "Tags",
+      "description": {
+        "content": "Create, update, and delete [tags and tag types](https://docs.getunleash.io/concepts/feature-flags#tags).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "44719bbd-0740-4c85-b0a3-a58a05c239c0",
+          "name": "List All Tags.",
+          "request": {
+            "name": "List All Tags.",
+            "description": {
+              "content": "List all tags available in Unleash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "61467cde-aa36-4052-95e8-df92a64fad6a",
+              "name": "tagsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 353,\n  \"tags\": [\n    {\n      \"value\": \"a-tag-value\",\n      \"type\": \"simple\",\n      \"color\": \"#FFFFFF\"\n    },\n    {\n      \"value\": \"a-tag-value\",\n      \"type\": \"simple\",\n      \"color\": \"#FFFFFF\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25254270-89cf-4f3a-a0d1-2c28a8fef562",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69d38354-9d25-4fb7-9cd0-b2f2b19cb394",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c4a6a56-f79d-4de2-a03e-7c15f68e02a3",
+          "name": "Create a New Tag.",
+          "request": {
+            "name": "Create a New Tag.",
+            "description": {
+              "content": "Create a new tag with the specified data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<string>\",\n  \"type\": \"<string>\",\n  \"color\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "85ae1746-25a2-473c-8520-598b3cd2de29",
+              "name": "The resource was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"a-tag-value\",\n  \"type\": \"simple\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The location of the newly created resource.",
+                  "key": "location",
+                  "value": "https://EFziYQuUfQWWAZfbw.goWZfdx+jUUco"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 1,\n  \"tag\": {\n    \"value\": \"a-tag-value\",\n    \"type\": \"simple\",\n    \"color\": \"#FFFFFF\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f268929-cb93-45ef-8068-3ec7b8516324",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"a-tag-value\",\n  \"type\": \"simple\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7985797e-c4d2-43a9-b2cb-cd1937d23b58",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"a-tag-value\",\n  \"type\": \"simple\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14966e4e-0df0-40a1-98ba-5f16769a28ee",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"a-tag-value\",\n  \"type\": \"simple\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e82d7264-ae06-4ce0-acd7-c3593162abdd",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"a-tag-value\",\n  \"type\": \"simple\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "307d2d16-e170-40bb-9dce-ba55e273592c",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"a-tag-value\",\n  \"type\": \"simple\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d5d1e261-21c8-41b4-ba52-0e84c5f3da06",
+          "name": "List All Tags of a Given Type.",
+          "request": {
+            "name": "List All Tags of a Given Type.",
+            "description": {
+              "content": "List all tags of a given type. If the tag type does not exist it returns an empty list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tags",
+                ":type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a98d3c3-f14f-490f-8041-7ccdfa0b05a6",
+              "name": "tagsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 8706,\n  \"tags\": [\n    {\n      \"value\": \"a-tag-value\",\n      \"type\": \"simple\",\n      \"color\": \"#FFFFFF\"\n    },\n    {\n      \"value\": \"a-tag-value\",\n      \"type\": \"simple\",\n      \"color\": \"#FFFFFF\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20fb6430-ac90-462e-9060-7c3595d91dea",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fa6f6c7-4109-40e9-9cf9-bcefcffa57e1",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1e7814c2-19b4-4593-83fc-a0c48be75767",
+          "name": "Get a Tag by Type and Value.",
+          "request": {
+            "name": "Get a Tag by Type and Value.",
+            "description": {
+              "content": "Get a tag by type and value. Can be used to check whether a given tag already exists in Unleash or not.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tags",
+                ":type",
+                ":value"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "value",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "114160ef-88f9-4825-9421-2cfcd1d25b3a",
+              "name": "tagWithVersionSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type",
+                    ":value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "value",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 1,\n  \"tag\": {\n    \"value\": \"a-tag-value\",\n    \"type\": \"simple\",\n    \"color\": \"#FFFFFF\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8276336b-9911-4f46-8e3c-2ca6a4710bbc",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type",
+                    ":value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "value",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2abb786-9939-470c-980d-cfb6a0e99ab6",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type",
+                    ":value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "value",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "533a7ba8-04ad-456b-82ef-7015ebfb67c3",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type",
+                    ":value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "value",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "42af9c83-332e-46b9-8f1d-ead4db9af8fe",
+          "name": "Delete a Tag.",
+          "request": {
+            "name": "Delete a Tag.",
+            "description": {
+              "content": "Delete a tag by type and value. When a tag is deleted all references to the tag are removed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tags",
+                ":type",
+                ":value"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "value",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "56af4139-3690-41f1-997f-bdc46421a764",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tags",
+                    ":type",
+                    ":value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "value",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82a6f9c2-56d4-4eea-bb7a-18adb2d136fd",
+          "name": "Get All Tag Types",
+          "request": {
+            "name": "Get All Tag Types",
+            "description": {
+              "content": "Get a list of all available tag types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tag-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a5211212-e3b9-4b41-8b82-b7ac287fc790",
+              "name": "tagTypesSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 1,\n  \"tagTypes\": [\n    {\n      \"name\": \"color\",\n      \"description\": \"A tag type for describing the color of a tag.\",\n      \"icon\": \"not-really-used\",\n      \"color\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"color\",\n      \"description\": \"A tag type for describing the color of a tag.\",\n      \"icon\": \"not-really-used\",\n      \"color\": \"#FFFFFF\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "835f250d-8d00-4a0a-a2b6-99ae84d1bd19",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49ab832b-eaed-44ef-ba69-da0675aa7d68",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "26b02886-083b-4b60-a06d-6d8294a21b58",
+          "name": "Create a Tag Type",
+          "request": {
+            "name": "Create a Tag Type",
+            "description": {
+              "content": "Create a new tag type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tag-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"icon\": \"<string>\",\n  \"color\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "49d55e88-42fa-405c-ae14-ae5a432e7d41",
+              "name": "The resource was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The location of the newly created resource.",
+                  "key": "location",
+                  "value": "https://EFziYQuUfQWWAZfbw.goWZfdx+jUUco"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79791ebb-8832-4371-a1df-70f885ddf795",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "831749c3-29ed-4f03-a888-7c113b8ad270",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d33c7a3-61d6-4d7d-9252-550a7caa27d2",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea5dfb98-a0c7-4761-a37c-e38d4eb5b10c",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a26ec62-54eb-41f1-ba23-23932824a6e0",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "987e0a28-0417-4ebf-8720-af0b86de19b9",
+          "name": "Validate a Tag Type",
+          "request": {
+            "name": "Validate a Tag Type",
+            "description": {
+              "content": "Validates whether if the body of the request is a valid tag and whether the a tag type with that name already exists or not. If a tag type with the same name exists, this operation will return a 409 status code.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tag-types",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"icon\": \"<string>\",\n  \"color\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c6b7fdc5-d7ff-4eb4-8ffe-e52495ddb2fc",
+              "name": "validateTagTypeSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"valid\": true,\n  \"tagType\": {\n    \"name\": \"color\",\n    \"description\": \"A tag type for describing the color of a tag.\",\n    \"icon\": \"not-really-used\",\n    \"color\": \"#FFFFFF\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9bd7f77-e980-4aba-bfa2-bd5d1e70ac70",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d39a37de-eef5-4211-af1c-9c6085b0e1b6",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7a1eb7a-d7a4-4679-afa7-a6aed8760cfd",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0468922-d5f4-4099-9591-a5368f6fa334",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55f8d79f-46d4-44d0-ac0f-a0be77ebfc87",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ac07bd91-56ca-425d-a9ce-8dccb8a1f30b",
+          "name": "Get a Tag Type",
+          "request": {
+            "name": "Get a Tag Type",
+            "description": {
+              "content": "Get a tag type by name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tag-types",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dc8dcfa7-fc28-4426-8ec4-a861df002475",
+              "name": "tagTypeSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"color\",\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e0f32d9a-6a34-486c-a6ed-f2f776d25864",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1577eba0-8224-415e-9c37-563777d29380",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1aaffc87-0974-46bf-a8fe-dcb88e53930f",
+          "name": "Update a Tag Type",
+          "request": {
+            "name": "Update a Tag Type",
+            "description": {
+              "content": "Update the configuration for the specified tag type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tag-types",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"<string>\",\n  \"icon\": \"<string>\",\n  \"color\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ea65a05f-6e01-481d-baf4-1b97f63b8da6",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7d7e200f-5bfc-4dbe-94ae-a86700c728e2",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a0e7c02-c72d-4f26-88e1-71b78b862e58",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c5a8335-ad4e-41d6-bf44-8597f9119b9d",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b920c7f2-659f-4e9a-ab3b-634339005cfb",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A tag type for describing the color of a tag.\",\n  \"icon\": \"not-really-used\",\n  \"color\": \"#FFFFFF\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45fa4a52-b09c-4adf-a5cf-60ec85fc2776",
+          "name": "Delete a Tag Type",
+          "request": {
+            "name": "Delete a Tag Type",
+            "description": {
+              "content": "Deletes a tag type. If any features have tags of this type, those tags will be deleted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "tag-types",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23710197-3683-4522-af51-eba96b5c6bcf",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f0f02ee8-0f8e-4adb-8cea-1b2aac12c992",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a1f64c21-fea5-4309-b5f1-32c12d8910c2",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "tag-types",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d2dd19f-391b-4942-9791-fb3797803e8f",
+          "name": "Adds a Tag to the Specified Features",
+          "request": {
+            "name": "Adds a Tag to the Specified Features",
+            "description": {
+              "content": "Add a tag to a list of features. Create tags if needed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "tags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"features\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": {\n    \"addedTags\": [\n      {\n        \"value\": \"<string>\",\n        \"type\": \"<string>\",\n        \"color\": \"<string>\"\n      },\n      {\n        \"value\": \"<string>\",\n        \"type\": \"<string>\",\n        \"color\": \"<string>\"\n      }\n    ],\n    \"removedTags\": [\n      {\n        \"value\": \"<string>\",\n        \"type\": \"<string>\",\n        \"color\": \"<string>\"\n      },\n      {\n        \"value\": \"<string>\",\n        \"type\": \"<string>\",\n        \"color\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9fcd55b6-6391-41cd-899d-2c758ebeb8d2",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"features\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": {\n    \"addedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ],\n    \"removedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9c1c52a3-26b2-414d-a6ac-b00ec4d4d531",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"features\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": {\n    \"addedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ],\n    \"removedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8895a9f3-c263-4ef1-b7be-92a389203c6c",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"features\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": {\n    \"addedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ],\n    \"removedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e32135b-8f91-4812-9bc0-c9417fa1ae6a",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"features\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": {\n    \"addedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ],\n    \"removedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2722e5ce-e166-4dbc-a652-896c70ea2606",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"features\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags\": {\n    \"addedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ],\n    \"removedTags\": [\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      },\n      {\n        \"value\": \"a-tag-value\",\n        \"type\": \"simple\",\n        \"color\": \"#FFFFFF\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4ad2b2e7-b422-48f3-8cc9-a1fbc0c7c855",
+    "name": "Unleash Admin Addons Tags API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

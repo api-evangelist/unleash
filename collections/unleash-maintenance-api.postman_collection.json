@@ -1,0 +1,479 @@
+{
+  "item": [
+    {
+      "id": "333ece0f-ef01-472e-aa53-78b711187e6f",
+      "name": "Maintenance",
+      "description": {
+        "content": "Enable/disable the maintenance mode of Unleash.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cc7f4b1c-0d2e-433c-8ed8-5291e40e67cd",
+          "name": "Enabled/disabled Maintenance Mode",
+          "request": {
+            "name": "Enabled/disabled Maintenance Mode",
+            "description": {
+              "content": "Lets administrators put Unleash into a mostly read-only mode. While Unleash is in maintenance mode, users can not change any configuration settings",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "maintenance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "da4304a0-583c-483c-8975-39ee05353943",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "maintenance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8886bc0a-e142-48b7-85c0-4619dee3d573",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "maintenance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "214788a6-4fb7-4ca1-b705-c1cb07055d73",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "maintenance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e6561aa-f8a9-4c5b-9d9d-da8a6a966a16",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "maintenance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0c48e61-2ab5-40e6-bf26-2e6202d8c160",
+          "name": "Get Maintenance Mode Status",
+          "request": {
+            "name": "Get Maintenance Mode Status",
+            "description": {
+              "content": "Tells you whether maintenance mode is enabled or disabled",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "maintenance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bfc80dca-334b-4dec-9b2d-79ce616ff7ac",
+              "name": "maintenanceSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "maintenance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enabled\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5cb9c526-65b6-4438-b679-6d833034563b",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "maintenance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf462cb7-868b-4cb3-9f07-2dce26170c63",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "maintenance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f68a1a36-41ce-4c62-9adf-a6b95a98e3c7",
+    "name": "Unleash Admin Addons Maintenance API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

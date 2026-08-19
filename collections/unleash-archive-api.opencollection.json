@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Archive API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Archive",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Archives a Feature",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/archive/:featureName",
+            "params": [
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint archives the specified feature."
+        },
+        {
+          "info": {
+            "name": "Revives a Feature",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/archive/revive/:featureName",
+            "params": [
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint revives the specified feature from archive."
+        },
+        {
+          "info": {
+            "name": "Deletes a List of Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/delete",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint deletes the specified features, that are in archive."
+        },
+        {
+          "info": {
+            "name": "Revives a List of Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/revive",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint revives the specified features."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,279 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Metrics API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets Usage Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/rps"
+          },
+          "docs": "**Enterprise feature**\n\nGets usage data per app/endpoint from a prometheus compatible metrics endpoint"
+        },
+        {
+          "info": {
+            "name": "Get Aggregated Traffic Data for a Given Time Period.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/traffic",
+            "params": [
+              {
+                "name": "grouping",
+                "value": "",
+                "type": "query",
+                "description": "Whether to aggregate the data by month or by day"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGets traffic usage data for the selected period, either aggregated by day or by month."
+        },
+        {
+          "info": {
+            "name": "Get Application Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/applications/:appName",
+            "params": [
+              {
+                "name": "appName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns data about the specified application (`appName`). The data contains information on the name of the application, sdkVersion (which sdk reported these metrics, typically `unleash-client-node:3.4.1` or `unleash-client-java:7.1.0`), as well as data about how to display this application in a list."
+        },
+        {
+          "info": {
+            "name": "Create an Application to Connect Reported Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/applications/:appName",
+            "params": [
+              {
+                "name": "appName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Is used to report usage as well which sdk the application uses"
+        },
+        {
+          "info": {
+            "name": "Delete an Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/applications/:appName",
+            "params": [
+              {
+                "name": "appName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete the application specified in the request URL. Returns 200 OK if the application was successfully deleted or if it didn't exist"
+        },
+        {
+          "info": {
+            "name": "Get All Applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/applications",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "The search query for the application name"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of applications to skip when returning a page. By default it is set to 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of applications to return in a page. By default it is set to 1000."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the results by. By default it is set to \"appName\"."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "The sort order for the sortBy. By default it is det to \"asc\"."
+              }
+            ]
+          },
+          "docs": "Returns all applications registered with Unleash. Applications can be created via metrics reporting or manual creation"
+        },
+        {
+          "info": {
+            "name": "Get Application Overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/applications/:appName/overview",
+            "params": [
+              {
+                "name": "appName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns an overview of the specified application (`appName`)."
+        },
+        {
+          "info": {
+            "name": "Get Application Environment Instances (last 24h)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/instances/:appName/environment/:environment",
+            "params": [
+              {
+                "name": "appName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns an overview of the instances for the given `appName` and `environment` that have received traffic in the last 24 hours."
+        },
+        {
+          "info": {
+            "name": "Get Outdated Sdks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/sdks/outdated"
+          },
+          "docs": "Returns a list of the outdated SDKS with the applications using them."
+        },
+        {
+          "info": {
+            "name": "Get Feature Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/client-metrics/features/:name/raw",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get usage metrics for a specific feature for the last 48 hours, grouped by hour"
+        },
+        {
+          "info": {
+            "name": "Last Hour of Usage and a List of Applications That Have Reported Seeing This Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/client-metrics/features/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Separate counts for yes (enabled), no (disabled), as well as how many times each variant was selected during the last hour"
+        },
+        {
+          "info": {
+            "name": "Get Stored Custom Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/custom-metrics"
+          },
+          "docs": "Retrieves the stored custom metrics data."
+        },
+        {
+          "info": {
+            "name": "Get Metrics in Prometheus Format",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/custom-metrics/prometheus"
+          },
+          "docs": "Exposes all custom metrics in Prometheus text format for scraping."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

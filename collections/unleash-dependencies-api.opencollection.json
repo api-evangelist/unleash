@@ -1,0 +1,168 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Dependencies API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dependencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a Feature Dependency.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:child/dependencies",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "child",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a dependency to a parent feature. Each environment will resolve corresponding dependency independently."
+        },
+        {
+          "info": {
+            "name": "Deletes Feature Dependencies.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:child/dependencies",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "child",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove dependencies to all parent features."
+        },
+        {
+          "info": {
+            "name": "Deletes a Feature Dependency.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:child/dependencies/:parent",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "child",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a dependency to a parent feature."
+        },
+        {
+          "info": {
+            "name": "List Parent Options.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:child/parents",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "child",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List available parents who have no transitive dependencies."
+        },
+        {
+          "info": {
+            "name": "List Parent Feature Variants.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:parent/parent-variants",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List available parent variants across all strategy variants and feature environment variants."
+        },
+        {
+          "info": {
+            "name": "Check Dependencies Exist.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/dependencies",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check if any dependencies exist in this Unleash instance"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

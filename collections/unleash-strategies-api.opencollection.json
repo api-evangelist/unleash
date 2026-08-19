@@ -1,0 +1,202 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Strategies API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Strategies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Strategies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/strategies"
+          },
+          "docs": "Retrieves all strategy types ([predefined](https://docs.getunleash.io/concepts/activation-strategies \"predefined strategies\") and [custom strategies](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies)) that are defined on this Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Create a Strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/strategies",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a custom strategy type based on the supplied data."
+        },
+        {
+          "info": {
+            "name": "Get a Strategy Definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/strategies/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves the definition of the strategy specified in the URL"
+        },
+        {
+          "info": {
+            "name": "Update a Strategy Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/strategies/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the specified strategy type. Any properties not specified in the request body are left untouched."
+        },
+        {
+          "info": {
+            "name": "Delete a Strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/strategies/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the specified strategy definition"
+        },
+        {
+          "info": {
+            "name": "Deprecate a Strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/strategies/:strategyName/deprecate",
+            "params": [
+              {
+                "name": "strategyName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Marks the specified strategy as deprecated."
+        },
+        {
+          "info": {
+            "name": "Reactivate a Strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/strategies/:strategyName/reactivate",
+            "params": [
+              {
+                "name": "strategyName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Marks the specified strategy as not deprecated. If the strategy wasn't already deprecated, nothing changes."
+        },
+        {
+          "info": {
+            "name": "Get Strategies That Use a Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/context/:contextField/strategies",
+            "params": [
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all strategies that use the specified context field. If the context field doesn't exist, returns an empty list of strategies"
+        },
+        {
+          "info": {
+            "name": "Get Strategies That Use a Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context/:contextField/strategies",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nRetrieves a list of all strategies that use the specified context field. If the context field doesn't exist, returns an empty list of strategies"
+        },
+        {
+          "info": {
+            "name": "Update Strategy Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments/strategies",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the segments of the strategy specified to be exactly the ones passed in the payload. Any segments that were used by the strategy before will be removed if they are not in the provided list of segments."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Notifications API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves a List of Notifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/notifications"
+          },
+          "docs": "**Enterprise feature**\n\nA user may get relevant notifications from the projects they are a member of"
+        },
+        {
+          "info": {
+            "name": "Mark Notifications as Read",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/notifications/read",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nAllow to select which notifications were read and saving a read date"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

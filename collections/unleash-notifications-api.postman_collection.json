@@ -1,0 +1,228 @@
+{
+  "item": [
+    {
+      "id": "d445a6cc-0271-481c-95cc-22cfc1bb5ce9",
+      "name": "Notifications",
+      "description": {
+        "content": "API for managing [notifications](https://docs.getunleash.io/concepts/notifications).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5606b713-e066-468c-b11a-65b10cef0319",
+          "name": "Retrieves a List of Notifications",
+          "request": {
+            "name": "Retrieves a List of Notifications",
+            "description": {
+              "content": "**Enterprise feature**\n\nA user may get relevant notifications from the projects they are a member of",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "notifications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "80812e0d-ef25-4e07-a49f-e28d3ad87716",
+              "name": "notificationsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"message\": \"Your change request got approved\",\n    \"link\": \"/myunleash/projects/myproject/change-requests/46\",\n    \"notificationType\": \"string\",\n    \"createdBy\": {\n      \"username\": \"Jane Smith\",\n      \"imageUrl\": \"https://gravatar.com/avatar/758f27d1f066779a62a65665242b8780107df403509a62a9e8a5924df5469f68?s=42&d=retro&r=g\"\n    },\n    \"createdAt\": \"2022-12-02T13:17:12.445Z\",\n    \"readAt\": \"2022-12-02T13:17:12.445Z\"\n  },\n  {\n    \"id\": 1,\n    \"message\": \"Your change request got approved\",\n    \"link\": \"/myunleash/projects/myproject/change-requests/46\",\n    \"notificationType\": \"string\",\n    \"createdBy\": {\n      \"username\": \"Jane Smith\",\n      \"imageUrl\": \"https://gravatar.com/avatar/758f27d1f066779a62a65665242b8780107df403509a62a9e8a5924df5469f68?s=42&d=retro&r=g\"\n    },\n    \"createdAt\": \"2022-12-02T13:17:12.445Z\",\n    \"readAt\": \"2022-12-02T13:17:12.445Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bcb5e45d-6e45-4499-9735-d610f33ccecd",
+          "name": "Mark Notifications as Read",
+          "request": {
+            "name": "Mark Notifications as Read",
+            "description": {
+              "content": "**Enterprise feature**\n\nAllow to select which notifications were read and saving a read date",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "notifications",
+                "read"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notifications\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "caf724e7-c661-4d65-9efb-04c00acfc2aa",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "notifications",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notifications\": [\n    5,\n    5\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7cd3c8c4-e87d-4bf5-b6a8-5cdea4aa308d",
+    "name": "Unleash Admin Addons Notifications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

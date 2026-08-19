@@ -1,0 +1,783 @@
+{
+  "item": [
+    {
+      "id": "e280afff-8a4c-435e-8329-cee2c3482a4f",
+      "name": "Playground",
+      "description": {
+        "content": "Evaluate an Unleash context against your feature flags.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8c8ec641-1426-47b4-abfe-1ee93d55bbba",
+          "name": "Evaluate an Unleash Context Against a Change Request Preview.",
+          "request": {
+            "name": "Evaluate an Unleash Context Against a Change Request Preview.",
+            "description": {
+              "content": "**Enterprise feature**\n\nUse the provided `context` to evaluate toggles on this Unleash instance with a change request applied in preview mode. You can use comma-separated values to provide multiple values to each context field. Returns a combinatorial list of all toggles that match the parameters and what they evaluate to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "playground",
+                "change-request",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": {\n    \"appName\": \"<string>\",\n    \"currentTime\": \"<dateTime>\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\"\n    },\n    \"remoteAddress\": \"<string>\",\n    \"sessionId\": \"<string>\",\n    \"userId\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "23b78c64-0291-43ac-ada1-aaa7685170c4",
+              "name": "advancedPlaygroundResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground",
+                    "change-request",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"features\": [\n    {\n      \"name\": \"my-feature\",\n      \"projectId\": \"my-project\",\n      \"environments\": {\n        \"key_0\": [\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": false,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": false,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          }\n        ],\n        \"key_1\": [\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": true,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": true,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"name\": \"my-feature\",\n      \"projectId\": \"my-project\",\n      \"environments\": {\n        \"key_0\": [\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": true,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": false,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          }\n        ]\n      }\n    }\n  ],\n  \"input\": {\n    \"environments\": [\n      \"development\",\n      \"production\"\n    ],\n    \"context\": {\n      \"appName\": \"My cool application.\",\n      \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n      \"environment\": \"<string>\",\n      \"properties\": {\n        \"customContextField\": \"this is one!\",\n        \"otherCustomField\": \"3\"\n      },\n      \"remoteAddress\": \"192.168.1.1\",\n      \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n      \"userId\": \"username@provider.com\"\n    },\n    \"projects\": [\n      \"my-project\"\n    ]\n  },\n  \"warnings\": {\n    \"invalidContextProperties\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ebfe59c-447c-4135-82b8-afbc2f4e237e",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground",
+                    "change-request",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b83d7f5d-2b16-4db1-835c-8c5ca595251f",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground",
+                    "change-request",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd7e947e-0bc3-47ce-a54f-6c97bfe60b84",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground",
+                    "change-request",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c7a5cb92-53ec-4677-b918-2f30f159b70a",
+          "name": "Evaluate an Unleash Context Against a Set of Environments and Projects.",
+          "request": {
+            "name": "Evaluate an Unleash Context Against a Set of Environments and Projects.",
+            "description": {
+              "content": "Deprecated. Will be removed in the next Unleash major update. Use the provided `context`, `environment`, and `projects` to evaluate toggles on this Unleash instance. Returns a list of all toggles that match the parameters and what they evaluate to. The response also contains the input parameters that were provided.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "playground"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"environment\": \"<string>\",\n  \"context\": {\n    \"appName\": \"<string>\",\n    \"currentTime\": \"<dateTime>\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"remoteAddress\": \"<string>\",\n    \"sessionId\": \"<string>\",\n    \"userId\": \"<string>\"\n  },\n  \"projects\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "74177029-c02d-4a47-8c99-c2f63d2017fa",
+              "name": "playgroundResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"environment\": \"development\",\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  },\n  \"projects\": [\n    \"my-project\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"features\": [\n    {\n      \"name\": \"my-feature\",\n      \"projectId\": \"my-project\",\n      \"isEnabled\": true,\n      \"isEnabledInCurrentEnvironment\": false,\n      \"variant\": {\n        \"name\": \"green\",\n        \"enabled\": true\n      },\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 297.0157160207342,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 976.0479872512516,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"strategies\": {\n        \"result\": true,\n        \"data\": [\n          {\n            \"id\": \"3AECCF7E-FF82-4174-8287-8EBE06079A50\",\n            \"name\": \"string\",\n            \"result\": {\n              \"evaluationStatus\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"enabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"segments\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"constraints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parameters\": {\n              \"myParam1\": \"param value\"\n            },\n            \"disabled\": false,\n            \"links\": {\n              \"edit\": \"/projects/some-project/features/some-feature/strategies/edit?environmentId=some-env&strategyId= 3AECCF7E-FF82-4174-8287-8EBE06079A50\"\n            },\n            \"title\": \"Beta rollout\"\n          },\n          {\n            \"id\": \"3AECCF7E-FF82-4174-8287-8EBE06079A50\",\n            \"name\": \"string\",\n            \"result\": {\n              \"evaluationStatus\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"enabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"segments\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"constraints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parameters\": {\n              \"myParam1\": \"param value\"\n            },\n            \"disabled\": false,\n            \"links\": {\n              \"edit\": \"/projects/some-project/features/some-feature/strategies/edit?environmentId=some-env&strategyId= 3AECCF7E-FF82-4174-8287-8EBE06079A50\"\n            },\n            \"title\": \"Beta rollout\"\n          }\n        ]\n      },\n      \"hasUnsatisfiedDependency\": false\n    },\n    {\n      \"name\": \"my-feature\",\n      \"projectId\": \"my-project\",\n      \"isEnabled\": true,\n      \"isEnabledInCurrentEnvironment\": true,\n      \"variant\": {\n        \"name\": \"green\",\n        \"enabled\": true\n      },\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 53.37532987764326,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 635.7297801418787,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"strategies\": {\n        \"result\": true,\n        \"data\": [\n          {\n            \"id\": \"3AECCF7E-FF82-4174-8287-8EBE06079A50\",\n            \"name\": \"string\",\n            \"result\": {\n              \"evaluationStatus\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"enabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"segments\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"constraints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parameters\": {\n              \"myParam1\": \"param value\"\n            },\n            \"disabled\": false,\n            \"links\": {\n              \"edit\": \"/projects/some-project/features/some-feature/strategies/edit?environmentId=some-env&strategyId= 3AECCF7E-FF82-4174-8287-8EBE06079A50\"\n            },\n            \"title\": \"Beta rollout\"\n          },\n          {\n            \"id\": \"3AECCF7E-FF82-4174-8287-8EBE06079A50\",\n            \"name\": \"string\",\n            \"result\": {\n              \"evaluationStatus\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"enabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"segments\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"constraints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parameters\": {\n              \"myParam1\": \"param value\"\n            },\n            \"disabled\": false,\n            \"links\": {\n              \"edit\": \"/projects/some-project/features/some-feature/strategies/edit?environmentId=some-env&strategyId= 3AECCF7E-FF82-4174-8287-8EBE06079A50\"\n            },\n            \"title\": \"Beta rollout\"\n          }\n        ]\n      },\n      \"hasUnsatisfiedDependency\": false\n    }\n  ],\n  \"input\": {\n    \"environment\": \"development\",\n    \"context\": {\n      \"appName\": \"My cool application.\",\n      \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n      \"environment\": \"<string>\",\n      \"properties\": {\n        \"customContextField\": \"this is one!\",\n        \"otherCustomField\": \"3\"\n      },\n      \"remoteAddress\": \"192.168.1.1\",\n      \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n      \"userId\": \"username@provider.com\"\n    },\n    \"projects\": [\n      \"my-project\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "92695e3e-86cc-40c7-901d-742e5fde21f2",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"environment\": \"development\",\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  },\n  \"projects\": [\n    \"my-project\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "109f0e27-e71c-4119-8dd4-461bebb3d9d9",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"environment\": \"development\",\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  },\n  \"projects\": [\n    \"my-project\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ef561b05-123a-4408-95cf-df49352c4f48",
+          "name": "Batch Evaluate an Unleash Context Against a Set of Environments and Projects.",
+          "request": {
+            "name": "Batch Evaluate an Unleash Context Against a Set of Environments and Projects.",
+            "description": {
+              "content": "Use the provided `context`, `environments`, and `projects` to evaluate toggles on this Unleash instance. You can use comma-separated values to provide multiple values to each context field. Returns a combinatorial list of all toggles that match the parameters and what they evaluate to. The response also contains the input parameters that were provided.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "playground",
+                "advanced"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"environments\": [\n    \"<string>\"\n  ],\n  \"context\": {\n    \"appName\": \"<string>\",\n    \"currentTime\": \"<dateTime>\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"key_0\": \"<string>\"\n    },\n    \"remoteAddress\": \"<string>\",\n    \"sessionId\": \"<string>\",\n    \"userId\": \"<string>\"\n  },\n  \"projects\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b32eff9f-91dc-488e-a6ad-86568ca5ad9d",
+              "name": "advancedPlaygroundResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground",
+                    "advanced"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ],\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  },\n  \"projects\": [\n    \"my-project\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"features\": [\n    {\n      \"name\": \"my-feature\",\n      \"projectId\": \"my-project\",\n      \"environments\": {\n        \"key_0\": [\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": false,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": false,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          }\n        ],\n        \"key_1\": [\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": false,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": true,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"name\": \"my-feature\",\n      \"projectId\": \"my-project\",\n      \"environments\": {\n        \"key_0\": [\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": true,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          },\n          {\n            \"name\": \"my-feature\",\n            \"environment\": \"development\",\n            \"context\": {\n              \"appName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"currentTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"remoteAddress\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sessionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"userId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"projectId\": \"my-project\",\n            \"isEnabled\": true,\n            \"isEnabledInCurrentEnvironment\": true,\n            \"variant\": {\n              \"name\": \"green\",\n              \"enabled\": true\n            },\n            \"variants\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"strategies\": {\n              \"result\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"data\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ]\n            }\n          }\n        ]\n      }\n    }\n  ],\n  \"input\": {\n    \"environments\": [\n      \"development\",\n      \"production\"\n    ],\n    \"context\": {\n      \"appName\": \"My cool application.\",\n      \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n      \"environment\": \"<string>\",\n      \"properties\": {\n        \"customContextField\": \"this is one!\",\n        \"otherCustomField\": \"3\"\n      },\n      \"remoteAddress\": \"192.168.1.1\",\n      \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n      \"userId\": \"username@provider.com\"\n    },\n    \"projects\": [\n      \"my-project\"\n    ]\n  },\n  \"warnings\": {\n    \"invalidContextProperties\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90a854d1-aa9e-4186-9b64-b8557521f61a",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground",
+                    "advanced"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ],\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  },\n  \"projects\": [\n    \"my-project\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33ed249b-ebd2-4433-8f22-bde948164f88",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "playground",
+                    "advanced"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"environments\": [\n    \"development\",\n    \"production\"\n  ],\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\"\n  },\n  \"projects\": [\n    \"my-project\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c5f59800-cc1c-4186-b5c0-5a4d1f45f7fd",
+    "name": "Unleash Admin Addons Playground API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

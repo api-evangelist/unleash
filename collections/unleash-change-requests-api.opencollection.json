@@ -1,0 +1,502 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Change Requests API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Change Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves Change Request Configuration for a Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/config",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGiven a projectId, this endpoint will retrieve change request configuration for the project"
+        },
+        {
+          "info": {
+            "name": "Updates Change Request Configuration for an Environment in the Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/environments/:environment/change-requests/config",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range."
+        },
+        {
+          "info": {
+            "name": "Get Scheduled Change Requests Matching a Query.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/scheduled",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint retrieves basic information about all scheduled change requests that match the search criteria provided in the query parameters. The endpoint will return any change request that matches one or more of the provided parameters. If you use no query parameters, you'll get an empty list.\n\nFor instance, to find all the scheduled change requests that either touch feature `MyFeature` or strategy `0D198067-7D55-460C-9EC7-DB86E3AE261A`, you would use the query string "
+        },
+        {
+          "info": {
+            "name": "Create/add Change to a Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/environments/:environment/change-requests",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nGiven a change request exists, this endpoint will attempt to add a change to\n\nan existing change request for the user. If a change request does not exist,\n\nit will attempt to create one."
+        },
+        {
+          "info": {
+            "name": "Retrieves Number of Project Change Requests in Each State",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/count",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will retrieve the number of project change requests that are: approved, applied, rejected, scheduled or awaiting review"
+        },
+        {
+          "info": {
+            "name": "Retrieves Pending Change Requests in Configured Environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/open",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will retrieve the pending change requests in the configured environments for the project, for the current user performing the request."
+        },
+        {
+          "info": {
+            "name": "Retrieves Pending Change Requests in Configured Environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/pending",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will retrieve the pending change requests in the configured environments for the project, for the current user performing the request."
+        },
+        {
+          "info": {
+            "name": "Retrieves All Change Requests for a Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will retrieve all change requests regardless of status for a given project. There's an upper limit of last 300 change requests ordered by creation date."
+        },
+        {
+          "info": {
+            "name": "Retrieves All Pending Change Requests Referencing a Feature in the Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/pending/:featureName",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will retrieve all pending change requests (change requests with a status of Draft | In review | Approved) referencing the given feature flag name."
+        },
+        {
+          "info": {
+            "name": "Retrieves One Change Request by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:id",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will retrieve one change request if it matches the provided id."
+        },
+        {
+          "info": {
+            "name": "Deletes a Change Request by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:id",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will delete one change request if it matches the provided id."
+        },
+        {
+          "info": {
+            "name": "Edits a Single Change in a Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:changeRequestId/changes/:changeId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "changeRequestId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "changeId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will edit one change from a change request if it matches the provided id. The edit removes previous change and inserts a new one. You\n\nshould not rely on the changeId for subsequent edits and always check the most recent changeId."
+        },
+        {
+          "info": {
+            "name": "Discards a Change From a Change Request by Change ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:changeRequestId/changes/:changeId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "changeRequestId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "changeId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will discard one change from a change request if it matches the provided id."
+        },
+        {
+          "info": {
+            "name": "This Endpoint Will Update the State of a Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:id/state",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will update the state of a change request if the business rules allow it. The state can be one of the following: Draft, In review, Approved, Cancelled, Applied. In order to be approved, the change request must have at least one change and the number of approvals must be greater than or equal to the number of approvals required for the environment.\n\nOnce a change request has been approved, it can be applied. Once a change request has been applied, it cannot b"
+        },
+        {
+          "info": {
+            "name": "This Endpoint Will Update the Custom Title of a Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:id/title",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nChange requests get a default title e.g. Change Request #1. This endpoint allows to make the title\n\nmore meaningful and describe the intent behind the Change Request"
+        },
+        {
+          "info": {
+            "name": "This Endpoint Fetches the Requested Approvers of a Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:id/approvers",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nChange requests can have requests for review from users. This endpoint fetches the list of requested reviewers for a change request."
+        },
+        {
+          "info": {
+            "name": "This Endpoint Will Update the Reviewers of a Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:id/approvers",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nChange requests can have requests for review from users. This endpoint allows to add or remove reviewers from a change request. The maximum number of reviewers is 10."
+        },
+        {
+          "info": {
+            "name": "This Endpoint Will Add a Comment to a Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/:id/comments",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will add a comment to a change request for the user making the request."
+        },
+        {
+          "info": {
+            "name": "This Endpoint Will Return Users Available to Review/approve This Change Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/available-reviewers/:environment",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis endpoint will list users available to approve a change request in this project."
+        },
+        {
+          "info": {
+            "name": "Search Change Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/search/change-requests",
+            "params": [
+              {
+                "name": "createdBy",
+                "value": "",
+                "type": "query",
+                "description": "Filter by change request creator user ID"
+              },
+              {
+                "name": "requestedApproverId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by requested approver user ID"
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter by open / closed change requests. Change requests that are in 'draft', 'in review', 'approved', or 'scheduled' states are considered open. Change requests that are in 'cancelled', 'applied', or 'rejected' states are considered closed."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of change requests to skip when returning a page. By default it is set to 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of change requests to return in a page. By default it is set to 50. The maximum is 1000."
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nSearch and filter change requests by creator and approver."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

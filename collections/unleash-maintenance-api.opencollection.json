@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Maintenance API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Maintenance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Maintenance Mode Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/maintenance"
+          },
+          "docs": "Tells you whether maintenance mode is enabled or disabled"
+        },
+        {
+          "info": {
+            "name": "Enabled/disabled Maintenance Mode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/maintenance",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lets administrators put Unleash into a mostly read-only mode. While Unleash is in maintenance mode, users can not change any configuration settings"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

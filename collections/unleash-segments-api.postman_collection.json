@@ -1,0 +1,1865 @@
+{
+  "item": [
+    {
+      "id": "0e68f2f6-6947-4d16-81b0-84d65a5353e4",
+      "name": "Segments",
+      "description": {
+        "content": "Create, update, delete, and manage [segments](https://docs.getunleash.io/concepts/segments).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f1997b2d-bdf1-4f72-a7c7-9fdd753007de",
+          "name": "Validates If a Segment Name Exists",
+          "request": {
+            "name": "Validates If a Segment Name Exists",
+            "description": {
+              "content": "Uses the name provided in the body of the request to validate if the given name exists or not",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b6ad7cdd-c23f-4731-b0a0-dc5b631dfb1b",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"betaUser\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6c69046c-471f-4a9a-9bee-433bb68b57e6",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"betaUser\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "86d3a937-6cf6-47cc-89b1-6b460022402e",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"betaUser\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0038e46d-d90e-42e5-91d2-1b941602e727",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"betaUser\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a3982a6-5f29-4033-9582-28bc22419499",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"betaUser\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b85272ca-8754-44d9-a6bc-38c5794e037a",
+          "name": "Get Strategy Segments",
+          "request": {
+            "name": "Get Strategy Segments",
+            "description": {
+              "content": "Retrieve all segments that are referenced by the specified strategy. Returns an empty list of segments if the strategy ID doesn't exist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments",
+                "strategies",
+                ":strategyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "strategyId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9e3b650-68c7-419a-9250-687ecc33f9d3",
+              "name": "segmentsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    "strategies",
+                    ":strategyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "strategyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"segments\": [\n    {\n      \"id\": 2,\n      \"name\": \"ios-users\",\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n      \"description\": \"IOS users segment\",\n      \"usedInFeatures\": 3,\n      \"usedInProjects\": 2,\n      \"project\": \"red-vista\",\n      \"createdBy\": \"someone@example.com\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"ios-users\",\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n      \"description\": \"IOS users segment\",\n      \"usedInFeatures\": 3,\n      \"usedInProjects\": 2,\n      \"project\": \"red-vista\",\n      \"createdBy\": \"someone@example.com\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0ebe9099-0d51-45f9-8e91-ea71bab098ab",
+          "name": "Get Strategies That Reference Segment",
+          "request": {
+            "name": "Get Strategies That Reference Segment",
+            "description": {
+              "content": "Retrieve all strategies that reference the specified segment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments",
+                ":id",
+                "strategies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) a segment id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "584bdd97-af14-4a1a-9cc6-d4238df311ed",
+              "name": "segmentStrategiesSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id",
+                    "strategies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"strategies\": [\n    {\n      \"id\": \"e465c813-cffb-4232-b184-82b1d6fe9d3d\",\n      \"featureName\": \"new-signup-flow\",\n      \"projectId\": \"red-vista\",\n      \"environment\": \"development\",\n      \"strategyName\": \"flexibleRollout\"\n    },\n    {\n      \"id\": \"e465c813-cffb-4232-b184-82b1d6fe9d3d\",\n      \"featureName\": \"new-signup-flow\",\n      \"projectId\": \"red-vista\",\n      \"environment\": \"development\",\n      \"strategyName\": \"flexibleRollout\"\n    }\n  ],\n  \"changeRequestStrategies\": [\n    {\n      \"featureName\": \"new-signup-flow\",\n      \"projectId\": \"red-vista\",\n      \"environment\": \"development\",\n      \"strategyName\": \"flexibleRollout\",\n      \"id\": \"e465c813-cffb-4232-b184-82b1d6fe9d3d\"\n    },\n    {\n      \"featureName\": \"new-signup-flow\",\n      \"projectId\": \"red-vista\",\n      \"environment\": \"development\",\n      \"strategyName\": \"flexibleRollout\",\n      \"id\": \"e465c813-cffb-4232-b184-82b1d6fe9d3d\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8474fb6d-be05-4717-9490-e4543fbf8ac4",
+          "name": "Deletes a Segment by ID",
+          "request": {
+            "name": "Deletes a Segment by ID",
+            "description": {
+              "content": "Deletes a segment by its id, if not found returns a 409 error",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) a segment id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c191456d-5f86-4cc0-a2b3-b8fed5e7c40f",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d54f51fa-e866-4b62-a551-1c424dffda30",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94d488e1-34f3-4831-b124-4672f31911f4",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf0d33c9-ddc3-48d0-8b72-a625a7f8c416",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "67ec7db0-7018-4def-9eae-ad9f6fcd4666",
+          "name": "Update Segment by ID",
+          "request": {
+            "name": "Update Segment by ID",
+            "description": {
+              "content": "Updates the content of the segment with the provided payload. Requires `name` and `constraints` to be present. If `project` is not present, it will be set to `null`. Any other fields not specified will be left untouched.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) a segment id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"constraints\": [\n    {\n      \"contextName\": \"<string>\",\n      \"operator\": \"<string>\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"value\": \"<string>\"\n    },\n    {\n      \"contextName\": \"<string>\",\n      \"operator\": \"<string>\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"value\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"project\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cd5608f2-5592-4e54-8ac1-25996e726b1f",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "464bea20-986f-44b1-8eee-fdc726872965",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c766598b-a069-4e30-a6ca-c4a7abb331c6",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79aff6ad-5b37-4b18-8560-61292c8d9c3e",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b7a4f5a-1ab2-47e3-9b48-fd4b33b720eb",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd92b23b-5593-4f10-83be-6f6a53906827",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cd27efdc-449d-452b-b8bc-f710dcf37c54",
+          "name": "Get a Segment",
+          "request": {
+            "name": "Get a Segment",
+            "description": {
+              "content": "Retrieves a segment based on its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) a segment id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d8670446-50fb-44f0-8413-3f4463607ddb",
+              "name": "adminSegmentSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 2,\n  \"name\": \"ios-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n  \"description\": \"IOS users segment\",\n  \"usedInFeatures\": 3,\n  \"usedInProjects\": 2,\n  \"project\": \"red-vista\",\n  \"createdBy\": \"someone@example.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b1660c1-d86b-4641-8393-33a56d3c1259",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) a segment id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9aaff423-20a7-4914-a481-00bb74afb8e4",
+          "name": "Create a New Segment",
+          "request": {
+            "name": "Create a New Segment",
+            "description": {
+              "content": "Creates a new segment using the payload provided",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"constraints\": [\n    {\n      \"contextName\": \"<string>\",\n      \"operator\": \"<string>\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"value\": \"<string>\"\n    },\n    {\n      \"contextName\": \"<string>\",\n      \"operator\": \"<string>\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"value\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"project\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3e5b2d07-e286-4469-b65c-145bc4c5797a",
+              "name": "The resource was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The location of the newly created resource.",
+                  "key": "location",
+                  "value": "http://eaKIJNJSbPUvYwursZRLaJCAOCAJGr.neetHzl8q67Z0g6L0VFwYtpq0aDLtDA7kukhdpbJ9ZGYfoWN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 2,\n  \"name\": \"ios-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n  \"description\": \"IOS users segment\",\n  \"usedInFeatures\": 3,\n  \"usedInProjects\": 2,\n  \"project\": \"red-vista\",\n  \"createdBy\": \"someone@example.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84bc319f-2ace-4bdd-9aa7-a6706a31b9f9",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91680283-1a04-43c3-bb4c-3587b00464ad",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58a14a28-ebee-4c94-a2f5-a401e5cd855f",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1c88768-7a43-43b0-a049-e96249565546",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f18d8dc-1245-472d-9622-8ba041565f35",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"beta-users\",\n  \"constraints\": [\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    },\n    {\n      \"contextName\": \"appName\",\n      \"operator\": \"IN\",\n      \"caseInsensitive\": false,\n      \"inverted\": false,\n      \"values\": [\n        \"my-app\",\n        \"my-other-app\"\n      ],\n      \"value\": \"my-app\"\n    }\n  ],\n  \"description\": \"Users willing to help us test and build new features.\",\n  \"project\": \"red-vista\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f1c9478-f0d9-406a-98c3-82863d644706",
+          "name": "Get All Segments",
+          "request": {
+            "name": "Get All Segments",
+            "description": {
+              "content": "Retrieves all segments that exist in this Unleash instance.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "segments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e7016291-2138-40c2-b389-a1bfbcfd77a5",
+              "name": "segmentsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "segments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"segments\": [\n    {\n      \"id\": 2,\n      \"name\": \"ios-users\",\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n      \"description\": \"IOS users segment\",\n      \"usedInFeatures\": 3,\n      \"usedInProjects\": 2,\n      \"project\": \"red-vista\",\n      \"createdBy\": \"someone@example.com\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"ios-users\",\n      \"constraints\": [\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        },\n        {\n          \"contextName\": \"appName\",\n          \"operator\": \"IN\",\n          \"caseInsensitive\": false,\n          \"inverted\": false,\n          \"values\": [\n            \"my-app\",\n            \"my-other-app\"\n          ],\n          \"value\": \"my-app\"\n        }\n      ],\n      \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n      \"description\": \"IOS users segment\",\n      \"usedInFeatures\": 3,\n      \"usedInProjects\": 2,\n      \"project\": \"red-vista\",\n      \"createdBy\": \"someone@example.com\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0c3083c1-b057-40c5-b24d-7c76a2c321aa",
+    "name": "Unleash Admin Addons Segments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

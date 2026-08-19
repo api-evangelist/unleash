@@ -1,0 +1,374 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Context API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Context",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets Configured Context Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/context",
+            "params": [
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Whether the response should include project-specific or root context fields in addition to the fields in the default response. When querying the root context API, `include=project` will yield a response that includes all project-specific context fields in addition to all root context fields. Conversely, when querying a project-specific context API, using `include=root` will yield a response that includes all root context fields in addition to the project-specific context fields. The other combinations have no effect, because the responses already include those fields. When including project-specific context fields via the root-level API, context fields in private projects the user does not have access to will be omitted."
+              }
+            ]
+          },
+          "docs": "Returns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context) that have been created."
+        },
+        {
+          "info": {
+            "name": "Create a Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/context",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)"
+        },
+        {
+          "info": {
+            "name": "Gets Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/context/:contextField",
+            "params": [
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns specific [context field](https://docs.getunleash.io/concepts/unleash-context) identified by the name in the path"
+        },
+        {
+          "info": {
+            "name": "Update an Existing Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/context/:contextField",
+            "params": [
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint that allows updating a custom context field. Used to toggle stickiness and add/remove legal values for this context field"
+        },
+        {
+          "info": {
+            "name": "Delete an Existing Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/context/:contextField",
+            "params": [
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Endpoint that allows deletion of a custom context field. Does not validate that context field is not in use, but since context field configuration is stored in a json blob for the strategy, existing strategies are safe."
+        },
+        {
+          "info": {
+            "name": "Add or Update Legal Value for the Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/context/:contextField/legal-values",
+            "params": [
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint that allows adding or updating a single custom context field legal value. If the legal value already exists, it will be updated with the new description"
+        },
+        {
+          "info": {
+            "name": "Delete Legal Value for the Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/context/:contextField/legal-values/:legalValue",
+            "params": [
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "legalValue",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Removes the specified custom context field legal value. Does not validate that the legal value is not in use and does not remove usage from constraints that use it."
+        },
+        {
+          "info": {
+            "name": "Validate a Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/context/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check whether the provided data can be used to create a context field. If the data is not valid, returns a 400 status code with the reason why it is not valid."
+        },
+        {
+          "info": {
+            "name": "Gets Configured Context Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Whether the response should include project-specific or root context fields in addition to the fields in the default response. When querying the root context API, `include=project` will yield a response that includes all project-specific context fields in addition to all root context fields. Conversely, when querying a project-specific context API, using `include=root` will yield a response that includes all root context fields in addition to the project-specific context fields. The other combinations have no effect, because the responses already include those fields. When including project-specific context fields via the root-level API, context fields in private projects the user does not have access to will be omitted."
+              }
+            ]
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nReturns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context) that have been created."
+        },
+        {
+          "info": {
+            "name": "Create a Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)"
+        },
+        {
+          "info": {
+            "name": "Gets Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context/:contextField",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nReturns specific [context field](https://docs.getunleash.io/concepts/unleash-context) identified by the name in the path"
+        },
+        {
+          "info": {
+            "name": "Update an Existing Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context/:contextField",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows updating a custom context field. Used to toggle stickiness and add/remove legal values for this context field"
+        },
+        {
+          "info": {
+            "name": "Delete an Existing Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context/:contextField",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows deletion of a custom context field. Does not validate that context field is not in use, but since context field configuration is stored in a json blob for the strategy, existing strategies are safe."
+        },
+        {
+          "info": {
+            "name": "Add or Update Legal Value for the Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context/:contextField/legal-values",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows adding or updating a single custom context field legal value. If the legal value already exists, it will be updated with the new description"
+        },
+        {
+          "info": {
+            "name": "Delete Legal Value for the Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context/:contextField/legal-values/:legalValue",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contextField",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "legalValue",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nRemoves the specified custom context field legal value. Does not validate that the legal value is not in use and does not remove usage from constraints that use it."
+        },
+        {
+          "info": {
+            "name": "Validate a Context Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/context/validate",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This is a beta endpoint and it may change or be removed in the future.\n\nCheck whether the provided data can be used to create a context field. If the data is not valid, returns a 400 status code with the reason why it is not valid."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

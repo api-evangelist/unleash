@@ -1,0 +1,3327 @@
+{
+  "item": [
+    {
+      "id": "e213cb3a-cbe9-48e4-a9ac-547e03b39221",
+      "name": "Auth",
+      "description": {
+        "content": "Manage logins, passwords, etc.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6a2001cc-1677-49fd-87e2-0e97e0ec37f6",
+          "name": "Gets Available Permissions",
+          "request": {
+            "name": "Gets Available Permissions",
+            "description": {
+              "content": "**Enterprise feature**\n\nReturns a list of available permissions",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "permissions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4f6f8931-3677-4759-b666-ac6febeb89f7",
+              "name": "adminPermissionsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "permissions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"permissions\": {\n    \"project\": [\n      {\n        \"id\": 3,\n        \"name\": \"UPDATE_FEATURE\",\n        \"displayName\": \"Update feature flags\",\n        \"type\": \"project\",\n        \"environment\": \"development\"\n      },\n      {\n        \"id\": 3,\n        \"name\": \"UPDATE_FEATURE\",\n        \"displayName\": \"Update feature flags\",\n        \"type\": \"project\",\n        \"environment\": \"development\"\n      }\n    ],\n    \"environments\": [\n      {\n        \"name\": \"development\",\n        \"permissions\": [\n          {\n            \"id\": 3,\n            \"name\": \"UPDATE_FEATURE\",\n            \"displayName\": \"Update feature flags\",\n            \"type\": \"project\",\n            \"environment\": \"development\"\n          },\n          {\n            \"id\": 3,\n            \"name\": \"UPDATE_FEATURE\",\n            \"displayName\": \"Update feature flags\",\n            \"type\": \"project\",\n            \"environment\": \"development\"\n          }\n        ]\n      },\n      {\n        \"name\": \"development\",\n        \"permissions\": [\n          {\n            \"id\": 3,\n            \"name\": \"UPDATE_FEATURE\",\n            \"displayName\": \"Update feature flags\",\n            \"type\": \"project\",\n            \"environment\": \"development\"\n          },\n          {\n            \"id\": 3,\n            \"name\": \"UPDATE_FEATURE\",\n            \"displayName\": \"Update feature flags\",\n            \"type\": \"project\",\n            \"environment\": \"development\"\n          }\n        ]\n      }\n    ],\n    \"root\": [\n      {\n        \"id\": 3,\n        \"name\": \"UPDATE_FEATURE\",\n        \"displayName\": \"Update feature flags\",\n        \"type\": \"project\",\n        \"environment\": \"development\"\n      },\n      {\n        \"id\": 3,\n        \"name\": \"UPDATE_FEATURE\",\n        \"displayName\": \"Update feature flags\",\n        \"type\": \"project\",\n        \"environment\": \"development\"\n      }\n    ]\n  },\n  \"version\": 1\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0bf0d76e-d958-40c1-8eb9-f5f320576081",
+          "name": "Log in",
+          "request": {
+            "name": "Log in",
+            "description": {
+              "content": "Logs in the user and creates an active session",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "simple",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "853929d5-95ee-4085-a049-d30ab6eaedef",
+              "name": "userSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "simple",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"user\",\n  \"password\": \"hunter2\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 123,\n  \"name\": \"User\",\n  \"email\": \"user@example.com\",\n  \"username\": \"hunter\",\n  \"imageUrl\": \"https://example.com/242x200.png\",\n  \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n  \"loginAttempts\": 3,\n  \"emailSent\": false,\n  \"rootRole\": 1,\n  \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n  \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n  \"accountType\": \"User\",\n  \"permissions\": [\n    \"string\",\n    \"string\"\n  ],\n  \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n  \"seatType\": \"Regular\",\n  \"activeSessions\": 2,\n  \"deletedSessions\": 1\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f84a4561-404e-4df4-b520-45528c0e0e1c",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "simple",
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"user\",\n  \"password\": \"hunter2\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a2d5166-0a09-4c72-b02c-0fbe2d85cea0",
+          "name": "Get SAML Auth Settings",
+          "request": {
+            "name": "Get SAML Auth Settings",
+            "description": {
+              "content": "**Enterprise feature**\n\nReturns the current settings for SAML authentication",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "saml",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8d852df8-8fb4-4fd9-93eb-582ae096018d",
+              "name": "samlSettingsResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enabled\": true,\n  \"entityId\": \"http://localhost:8080/auth/realms/master\",\n  \"signOnUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"certificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"signOutUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"spCertificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"autoCreate\": true,\n  \"emailDomains\": \"getunleash.io,unleash-hosted.com\",\n  \"defaultRootRole\": \"Editor\",\n  \"defaultRootRoleId\": 2,\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5195d4cf-8059-48de-a873-8d95db102956",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12c66682-c73e-45f2-93a5-7d02aa94aeae",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5d1ef19-118a-4bc7-99b2-55428a7db1df",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "217e3a59-4cd3-4ca8-9b93-96c34c542c58",
+          "name": "Update SAML Auth Settings",
+          "request": {
+            "name": "Update SAML Auth Settings",
+            "description": {
+              "content": "**Enterprise feature**\n\nUpdates the settings for SAML Authentication",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "saml",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityId\": \"<string>\",\n  \"signOnUrl\": \"<string>\",\n  \"certificate\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"signOutUrl\": \"<string>\",\n  \"spCertificate\": \"<string>\",\n  \"autoCreate\": \"<boolean>\",\n  \"emailDomains\": \"<string>\",\n  \"defaultRootRole\": \"<string>\",\n  \"defaultRootRoleId\": \"<number>\",\n  \"enableGroupSyncing\": \"<boolean>\",\n  \"groupJsonPath\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dd1247e5-967d-4c5e-ae7a-f9a41136b460",
+              "name": "samlSettingsResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityId\": \"http://localhost:8080/auth/realms/master\",\n  \"signOnUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"certificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"enabled\": true,\n  \"signOutUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"spCertificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"autoCreate\": true,\n  \"emailDomains\": \"getunleash.io,unleash-hosted.com\",\n  \"defaultRootRole\": \"Editor\",\n  \"defaultRootRoleId\": 2,\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enabled\": true,\n  \"entityId\": \"http://localhost:8080/auth/realms/master\",\n  \"signOnUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"certificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"signOutUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"spCertificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"autoCreate\": true,\n  \"emailDomains\": \"getunleash.io,unleash-hosted.com\",\n  \"defaultRootRole\": \"Editor\",\n  \"defaultRootRoleId\": 2,\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95988be7-c47c-471f-b983-04e6b27b1c89",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityId\": \"http://localhost:8080/auth/realms/master\",\n  \"signOnUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"certificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"enabled\": true,\n  \"signOutUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"spCertificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"autoCreate\": true,\n  \"emailDomains\": \"getunleash.io,unleash-hosted.com\",\n  \"defaultRootRole\": \"Editor\",\n  \"defaultRootRoleId\": 2,\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cb568c0-f623-4fa0-9676-918b56250ab4",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityId\": \"http://localhost:8080/auth/realms/master\",\n  \"signOnUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"certificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"enabled\": true,\n  \"signOutUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"spCertificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"autoCreate\": true,\n  \"emailDomains\": \"getunleash.io,unleash-hosted.com\",\n  \"defaultRootRole\": \"Editor\",\n  \"defaultRootRoleId\": 2,\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "623aaf3b-bdb7-459a-b6e4-21fa206b8efe",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityId\": \"http://localhost:8080/auth/realms/master\",\n  \"signOnUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"certificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"enabled\": true,\n  \"signOutUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"spCertificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"autoCreate\": true,\n  \"emailDomains\": \"getunleash.io,unleash-hosted.com\",\n  \"defaultRootRole\": \"Editor\",\n  \"defaultRootRoleId\": 2,\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a90ae597-5c50-46d6-a642-213fbfcbeaab",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "saml",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityId\": \"http://localhost:8080/auth/realms/master\",\n  \"signOnUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"certificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"enabled\": true,\n  \"signOutUrl\": \"http://localhost:8080/auth/realms/master/protocol/saml\",\n  \"spCertificate\": \"MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\\n\",\n  \"autoCreate\": true,\n  \"emailDomains\": \"getunleash.io,unleash-hosted.com\",\n  \"defaultRootRole\": \"Editor\",\n  \"defaultRootRoleId\": 2,\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a1e5873c-19e9-42d5-9317-7df4b95c22a2",
+          "name": "Get OIDC Auth Settings",
+          "request": {
+            "name": "Get OIDC Auth Settings",
+            "description": {
+              "content": "**Enterprise feature**\n\nReturns the current settings for OIDC Authentication",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "oidc",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "76644a33-1e64-49ad-8a6e-0ff0171fcefc",
+              "name": "oidcSettingsResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enabled\": true,\n  \"discoverUrl\": \"https://myoidchost.azure.com/.well-known/openid-configuration\",\n  \"clientId\": \"FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B\",\n  \"secret\": \"qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO\",\n  \"autoCreate\": false,\n  \"enableSingleSignOut\": false,\n  \"defaultRootRole\": \"Viewer\",\n  \"defaultRootRoleId\": 2,\n  \"emailDomains\": \"getunleash.io,getunleash.ai\",\n  \"acrValues\": \"urn:okta:loa:2fa:any phr\",\n  \"idTokenSigningAlgorithm\": \"RS256\",\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\",\n  \"addGroupsScope\": false,\n  \"enablePkce\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6bdd4a1-3a93-4a7c-b59d-07d1d3678d7b",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ef54c74-e21b-4983-9bcb-8af30ac11e51",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a4e3c6e-4ec1-4349-aa66-cd22a60fe27d",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f593bd8f-4229-4eba-a89a-e06ec2676450",
+          "name": "Set OIDC Settings",
+          "request": {
+            "name": "Set OIDC Settings",
+            "description": {
+              "content": "**Enterprise feature**\n\nConfigure OpenID Connect as a login provider for Unleash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "oidc",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": \"<boolean>\",\n  \"clientId\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"discoverUrl\": \"<uri>\",\n  \"autoCreate\": \"<boolean>\",\n  \"enableSingleSignOut\": \"<boolean>\",\n  \"defaultRootRole\": \"<string>\",\n  \"defaultRootRoleId\": \"<number>\",\n  \"emailDomains\": \"<string>\",\n  \"acrValues\": \"<string>\",\n  \"idTokenSigningAlgorithm\": \"<string>\",\n  \"enableGroupSyncing\": \"<boolean>\",\n  \"groupJsonPath\": \"<string>\",\n  \"addGroupsScope\": \"<boolean>\",\n  \"enablePkce\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "69e6869f-9fac-4da1-801e-161372fb24b9",
+              "name": "oidcSettingsResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true,\n  \"clientId\": \"FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B\",\n  \"secret\": \"qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO\",\n  \"discoverUrl\": \"https://myoidchost.azure.com/.well-known/openid-configuration\",\n  \"autoCreate\": \"<boolean>\",\n  \"enableSingleSignOut\": \"<boolean>\",\n  \"defaultRootRole\": \"<string>\",\n  \"defaultRootRoleId\": 2,\n  \"emailDomains\": \"getunleash.io,getunleash.ai\",\n  \"acrValues\": \"urn:okta:loa:2fa:any phr\",\n  \"idTokenSigningAlgorithm\": \"RS256\",\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\",\n  \"addGroupsScope\": false,\n  \"enablePkce\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"enabled\": true,\n  \"discoverUrl\": \"https://myoidchost.azure.com/.well-known/openid-configuration\",\n  \"clientId\": \"FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B\",\n  \"secret\": \"qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO\",\n  \"autoCreate\": false,\n  \"enableSingleSignOut\": false,\n  \"defaultRootRole\": \"Viewer\",\n  \"defaultRootRoleId\": 2,\n  \"emailDomains\": \"getunleash.io,getunleash.ai\",\n  \"acrValues\": \"urn:okta:loa:2fa:any phr\",\n  \"idTokenSigningAlgorithm\": \"RS256\",\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\",\n  \"addGroupsScope\": false,\n  \"enablePkce\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5f27116-a97f-4d3f-b265-1e4f896594e4",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true,\n  \"clientId\": \"FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B\",\n  \"secret\": \"qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO\",\n  \"discoverUrl\": \"https://myoidchost.azure.com/.well-known/openid-configuration\",\n  \"autoCreate\": \"<boolean>\",\n  \"enableSingleSignOut\": \"<boolean>\",\n  \"defaultRootRole\": \"<string>\",\n  \"defaultRootRoleId\": 2,\n  \"emailDomains\": \"getunleash.io,getunleash.ai\",\n  \"acrValues\": \"urn:okta:loa:2fa:any phr\",\n  \"idTokenSigningAlgorithm\": \"RS256\",\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\",\n  \"addGroupsScope\": false,\n  \"enablePkce\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8004270e-12a7-42a9-9246-d8ee397d2f1a",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true,\n  \"clientId\": \"FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B\",\n  \"secret\": \"qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO\",\n  \"discoverUrl\": \"https://myoidchost.azure.com/.well-known/openid-configuration\",\n  \"autoCreate\": \"<boolean>\",\n  \"enableSingleSignOut\": \"<boolean>\",\n  \"defaultRootRole\": \"<string>\",\n  \"defaultRootRoleId\": 2,\n  \"emailDomains\": \"getunleash.io,getunleash.ai\",\n  \"acrValues\": \"urn:okta:loa:2fa:any phr\",\n  \"idTokenSigningAlgorithm\": \"RS256\",\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\",\n  \"addGroupsScope\": false,\n  \"enablePkce\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "168971b0-d1d5-4e55-9edc-8cbdefb36849",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true,\n  \"clientId\": \"FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B\",\n  \"secret\": \"qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO\",\n  \"discoverUrl\": \"https://myoidchost.azure.com/.well-known/openid-configuration\",\n  \"autoCreate\": \"<boolean>\",\n  \"enableSingleSignOut\": \"<boolean>\",\n  \"defaultRootRole\": \"<string>\",\n  \"defaultRootRoleId\": 2,\n  \"emailDomains\": \"getunleash.io,getunleash.ai\",\n  \"acrValues\": \"urn:okta:loa:2fa:any phr\",\n  \"idTokenSigningAlgorithm\": \"RS256\",\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\",\n  \"addGroupsScope\": false,\n  \"enablePkce\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a43c644b-1597-49ea-8f9a-6d6a5ba71f80",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "oidc",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enabled\": true,\n  \"clientId\": \"FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B\",\n  \"secret\": \"qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO\",\n  \"discoverUrl\": \"https://myoidchost.azure.com/.well-known/openid-configuration\",\n  \"autoCreate\": \"<boolean>\",\n  \"enableSingleSignOut\": \"<boolean>\",\n  \"defaultRootRole\": \"<string>\",\n  \"defaultRootRoleId\": 2,\n  \"emailDomains\": \"getunleash.io,getunleash.ai\",\n  \"acrValues\": \"urn:okta:loa:2fa:any phr\",\n  \"idTokenSigningAlgorithm\": \"RS256\",\n  \"enableGroupSyncing\": false,\n  \"groupJsonPath\": \"groups\",\n  \"addGroupsScope\": false,\n  \"enablePkce\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb445f6a-3fcf-4a39-ac9e-0d44cae18725",
+          "name": "Get Simple Auth Settings",
+          "request": {
+            "name": "Get Simple Auth Settings",
+            "description": {
+              "content": "**Enterprise feature**\n\nIs simple authentication (username/password) enabled for this server",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "simple",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c1c0772-b67b-4e12-9877-a0b6b550b1aa",
+              "name": "passwordAuthSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"disabled\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea555a7f-1224-41de-b27f-be66a80c295a",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e4cc572-c6fb-493a-a48b-627a42500964",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5bc93bcd-cc9f-43f5-a9d7-e76850c10004",
+          "name": "Update Simple Auth Settings",
+          "request": {
+            "name": "Update Simple Auth Settings",
+            "description": {
+              "content": "**Enterprise feature**\n\nEnable or disable simple authentication (username/password)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "simple",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"disabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5362b10c-162c-4655-825f-1ef282dff4ff",
+              "name": "passwordAuthSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"disabled\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"disabled\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "826e946b-cd84-425b-9841-72764025d26a",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"disabled\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3469f9d1-2b31-4be9-99d8-91e776aba41a",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"disabled\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c1137e2-9758-4090-b9a9-8d8fcb3dbefc",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"disabled\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6382c96e-9907-4cfa-934b-7b8de32881f0",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "auth",
+                    "simple",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"disabled\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1d9252f4-f335-437f-8767-e94f2335f7f2",
+          "name": "Returns the List of Permissions for the Service Account.",
+          "request": {
+            "name": "Returns the List of Permissions for the Service Account.",
+            "description": {
+              "content": "**Enterprise feature**\n\nGets a list of permissions for a service account. Project and environment can be specified.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "service-account",
+                ":id",
+                "permissions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "environment",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "32e5a217-6fb3-4f63-9e44-b9d9f7ec13ab",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "service-account",
+                    ":id",
+                    "permissions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "environment",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e30c5279-709d-4409-a1b6-afed19db28b3",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "service-account",
+                    ":id",
+                    "permissions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "environment",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71722244-d888-4298-96dd-a74f5867373d",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "service-account",
+                    ":id",
+                    "permissions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "environment",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5081a672-6cd0-451e-b2ab-b53bb3b18620",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "service-account",
+                    ":id",
+                    "permissions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "environment",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "275ef698-b39a-4287-8a1f-22f4fdaffbe5",
+          "name": "Gets Access Overview",
+          "request": {
+            "name": "Gets Access Overview",
+            "description": {
+              "content": "**Enterprise feature**\n\nGets an overview of what access all users have to all projects and groups",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "access",
+                "overview"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c45168f8-5628-4648-8119-fe46814eba05",
+              "name": "accessOverviewSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "access",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"overview\": [\n    {\n      \"userId\": 3,\n      \"userEmail\": \"some-user@example.com\",\n      \"accessibleProjects\": [\n        \"default\",\n        \"project2\"\n      ],\n      \"groups\": [\n        \"group1\",\n        \"group2\"\n      ],\n      \"rootRole\": \"ADMIN\",\n      \"createdAt\": \"2023-03-01T12:04:26.061Z\",\n      \"userName\": \"SomeUser\",\n      \"lastSeen\": \"2023-03-01T12:04:26.061Z\"\n    },\n    {\n      \"userId\": 3,\n      \"userEmail\": \"some-user@example.com\",\n      \"accessibleProjects\": [\n        \"default\",\n        \"project2\"\n      ],\n      \"groups\": [\n        \"group1\",\n        \"group2\"\n      ],\n      \"rootRole\": \"ADMIN\",\n      \"createdAt\": \"2023-03-01T12:04:26.061Z\",\n      \"userName\": \"SomeUser\",\n      \"lastSeen\": \"2023-03-01T12:04:26.061Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47efa2a7-74c5-49a2-b141-66c61a2ae299",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "access",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5d61073-6169-4309-bcb0-363dfb001e69",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "access",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8afbcfec-c254-4e91-818d-ab123ceff849",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "access",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da2a9eff-4560-467f-95e5-d1f4c540182e",
+          "name": "Validates a Token",
+          "request": {
+            "name": "Validates a Token",
+            "description": {
+              "content": "If the token is valid returns the user that owns the token",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "reset",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5017c5bc-3c20-4a43-afd9-aca9dcc16fa7",
+              "name": "tokenUserSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 7,\n  \"email\": \"test@example.com\",\n  \"token\": \"user:xyzrandomstring\",\n  \"createdBy\": \"admin@example.com\",\n  \"role\": {\n    \"id\": 9,\n    \"type\": \"root\",\n    \"name\": \"Editor\",\n    \"description\": \"Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.\",\n    \"project\": \"default\"\n  },\n  \"name\": \"Test McTest\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91f7f8b2-e0e1-4c7c-9fd1-cdbec1605e42",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45fa9f88-9db2-4511-a912-6896e2d832b1",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7a378f2-a793-417b-92e3-dd14edc0b479",
+          "name": "Changes a User Password",
+          "request": {
+            "name": "Changes a User Password",
+            "description": {
+              "content": "Allows users with a valid reset token to reset their password without remembering their old password",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "reset",
+                "password"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ca5ca42b-cdf6-45a7-b9ed-899202127cb3",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"$2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke\",\n  \"password\": \"correct horse battery staple\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54e5f69f-4ddc-468d-9dad-8ec564ad83cf",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"$2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke\",\n  \"password\": \"correct horse battery staple\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e29965d-4b45-4b76-85b8-89206936f0b7",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"$2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke\",\n  \"password\": \"correct horse battery staple\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cbd9e78-c09c-4ab4-a282-e270b45e68a7",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"$2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke\",\n  \"password\": \"correct horse battery staple\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "88577e64-f1a8-4456-a2e6-fa481cc97140",
+          "name": "Validates Password",
+          "request": {
+            "name": "Validates Password",
+            "description": {
+              "content": "Verifies that the password adheres to the [Unleash password guidelines](https://docs.getunleash.io/using-unleash/deploy/configuring-unleash#securing-unleash)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "reset",
+                "validate-password"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "37c60fa2-e1fa-4ab3-8c22-9d26cac745d0",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "validate-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"hunter2\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "43064712-d23c-4bd9-94b3-53f85f50f62a",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "validate-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"hunter2\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35acd1eb-ac21-4fc6-852f-d0324c372e2c",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "validate-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"hunter2\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c9462bdb-2a46-48b9-bcbd-3ad977ed907b",
+          "name": "Reset Password",
+          "request": {
+            "name": "Reset Password",
+            "description": {
+              "content": "Requests a password reset email for the user. This email can be used to reset the password for a user that has forgotten their password",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "reset",
+                "password-email"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0b8c1639-2773-40cc-98fa-f79d6542b904",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password-email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5d90d647-190e-41e4-b529-613f662b4a2e",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password-email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c2f449c-6929-4f04-9153-add9ecb4171c",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password-email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ddaeb80-a598-48aa-bdd5-084cffe9a7a0",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "reset",
+                    "password-email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fea61ec2-eeb5-485f-82c3-b24bbed037c1",
+    "name": "Unleash Admin Addons Auth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

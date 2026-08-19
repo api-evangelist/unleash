@@ -1,7 +1,7 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Unleash Client API",
+    "name": "Unleash Admin Addons Client API",
     "version": "7.4.1"
   },
   "request": {

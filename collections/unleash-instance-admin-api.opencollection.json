@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Instance Admin API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Instance Admin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Login Events.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/logins"
+          },
+          "docs": "**Enterprise feature**\n\nReturns **all** login events in the Unleash system. You can optionally get them in CSV format by specifying the `Accept` header as `text/csv`."
+        },
+        {
+          "info": {
+            "name": "Validates the Unleash License.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/license/check"
+          },
+          "docs": "**Enterprise feature**\n\nValidates the Unleash license."
+        },
+        {
+          "info": {
+            "name": "Reads the Unleash License.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/license"
+          },
+          "docs": "**Enterprise feature**\n\nReads the Unleash license. Only available for self-hosted Enterprise customers."
+        },
+        {
+          "info": {
+            "name": "Set a New Unleash License.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/license",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nSet a new Unleash license. Only available for self-hosted Enterprise customers."
+        },
+        {
+          "info": {
+            "name": "Instance Usage Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/instance-admin/statistics/csv"
+          },
+          "docs": "Provides statistics about various features of Unleash to allow for reporting of usage for self-hosted customers. The response contains data such as the number of users, groups, features, strategies, versions, etc."
+        },
+        {
+          "info": {
+            "name": "Instance Usage Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/instance-admin/statistics"
+          },
+          "docs": "Provides statistics about various features of Unleash to allow for reporting of usage for self-hosted customers. The response contains data such as the number of users, groups, features, strategies, versions, etc."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

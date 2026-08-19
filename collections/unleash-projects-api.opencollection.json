@@ -1,0 +1,599 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Projects API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a List of All Projects.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects",
+            "params": [
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint returns an list of all the projects in the Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Create Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nCreate a new [Unleash project](https://docs.getunleash.io/concepts/projects)."
+        },
+        {
+          "info": {
+            "name": "Validate Project ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nValidate a project ID against Unleash's rules"
+        },
+        {
+          "info": {
+            "name": "Update Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nUpdate a project with new configuration. Any fields not provided are ignored."
+        },
+        {
+          "info": {
+            "name": "Delete Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nPermanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone."
+        },
+        {
+          "info": {
+            "name": "Update Project Enterprise Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/settings",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nUpdate project enterprise settings with new values. Any fields not provided are ignored."
+        },
+        {
+          "info": {
+            "name": "Get Users and Groups in Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/access",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGet all groups, users and their roles, and available roles for the given project."
+        },
+        {
+          "info": {
+            "name": "Configure Project Access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/access",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nConfigure project access for groups and single users. The provided users and groups will be given the roles specified in the payload."
+        },
+        {
+          "info": {
+            "name": "Set Users and Groups to Roles in the Current Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/access",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nSets all groups, users and their roles for the given project, overriding any existing configuration."
+        },
+        {
+          "info": {
+            "name": "Get Project-role Mappings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/roles/:roleId/access",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nFor the provided role, retrieves a list of projects that use this role. For each project it also contains information about how the role used in that project, such as how many users, groups, or service accounts that use the role."
+        },
+        {
+          "info": {
+            "name": "Sets Roles for User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/users/:userId/roles",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nSets the roles a user has in the project."
+        },
+        {
+          "info": {
+            "name": "Remove Project Access for a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/users/:userId/roles",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nRemoves project access for a user by removing all of its roles for the project."
+        },
+        {
+          "info": {
+            "name": "Sets Roles for Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/groups/:groupId/roles",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nSets the roles a group has in the project."
+        },
+        {
+          "info": {
+            "name": "Remove Project Access for a Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/groups/:groupId/roles",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nRemoves project access for a group by removing all of its roles for the project."
+        },
+        {
+          "info": {
+            "name": "Get an Overview of a Project.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/overview",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint returns an overview of the specified projects stats, project health, number of members, which environments are configured, and the features types in the project."
+        },
+        {
+          "info": {
+            "name": "Get an Overview Project Dora Metrics.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/dora",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint returns an overview of the specified dora metrics"
+        },
+        {
+          "info": {
+            "name": "Get a List of All Applications for a Project.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/applications",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "The search query for the application name, sdk, environment"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of applications to skip when returning a page. By default it is set to 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of applications to return in a page. By default it is set to 50."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the results by. By default it is set to \"appName\"."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "The sort order for the sortBy. By default it is det to \"asc\"."
+              }
+            ]
+          },
+          "docs": "This endpoint returns an list of all the applications for a project."
+        },
+        {
+          "info": {
+            "name": "Get a List of All Flag Creators for a Project.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/flag-creators",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint returns every user who created a flag in the project."
+        },
+        {
+          "info": {
+            "name": "Get Outdated Project Sdks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/sdks/outdated",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of the outdated SDKS with the applications using them."
+        },
+        {
+          "info": {
+            "name": "Add an Environment to a Project.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/environments",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint adds the provided environment to the specified project, with optional support for enabling and disabling change requests for the environment and project."
+        },
+        {
+          "info": {
+            "name": "Remove an Environment From a Project.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/environments/:environment",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint removes the specified environment from the project."
+        },
+        {
+          "info": {
+            "name": "Set Environment-default Strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/environments/:environment/default-strategy",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets a default strategy for this environment. Unleash will use this strategy by default when enabling a feature flag. Use the wild card \"*\" for `:environment` to add to all environments. "
+        },
+        {
+          "info": {
+            "name": "Get a Health Report for a Project.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/health-report",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint returns a health report for the specified project. This data is used for [the technical debt insights](https://docs.getunleash.io/concepts/technical-debt)"
+        },
+        {
+          "info": {
+            "name": "Get API Tokens for Project.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/api-tokens",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the project-specific [API tokens](https://docs.getunleash.io/concepts/api-tokens) that have been created for this project."
+        },
+        {
+          "info": {
+            "name": "Create a Project API Token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/api-tokens",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint that allows creation of [project API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#api-token-visibility) for the specified project."
+        },
+        {
+          "info": {
+            "name": "Delete a Project API Token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/api-tokens/:token",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This operation deletes the API token specified in the request URL. If the token doesn't exist, returns an OK response (status code 200)."
+        },
+        {
+          "info": {
+            "name": "Get an Overview of a Project Insights.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/insights",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint returns insights into the specified projects stats, health, lead time for changes, feature types used, members and change requests."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

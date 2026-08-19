@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Operational API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Operational",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getInvoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/invoices"
+          },
+          "docs": "**Enterprise feature**\n\nundefined"
+        },
+        {
+          "info": {
+            "name": "getDetailedInvoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/invoices/list"
+          },
+          "docs": "**Enterprise feature**\n\nundefined"
+        },
+        {
+          "info": {
+            "name": "Get Instance Readiness Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/ready"
+          },
+          "docs": "This operation returns information about whether this Unleash instance is ready to serve requests or not. Typically used by your deployment orchestrator (e.g. Kubernetes, Docker Swarm, Mesos, et al.)."
+        },
+        {
+          "info": {
+            "name": "Get Instance Operational Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/health"
+          },
+          "docs": "This operation returns information about whether this Unleash instance is healthy and ready to serve requests or not. Typically used by your deployment orchestrator (e.g. Kubernetes, Docker Swarm, Mesos, et al.)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1318 @@
+{
+  "item": [
+    {
+      "id": "d5b59fec-2556-4b95-b9dc-57be753590c1",
+      "name": "Public signup tokens",
+      "description": {
+        "content": "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/concepts/public-signup-tokens).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "eac26dca-4626-4ebb-9fb0-d3521acfb6e2",
+          "name": "Validate Signup Token",
+          "request": {
+            "name": "Validate Signup Token",
+            "description": {
+              "content": "Check whether the provided public sign-up token exists, has not expired and is enabled",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invite",
+                ":token",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fa3d3e35-092b-496e-aaee-31e81df30ce1",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invite",
+                    ":token",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "38951384-f1bb-4618-b683-54c0a8c25397",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invite",
+                    ":token",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37891a24-4ac0-41e7-b382-52f3786fb63d",
+          "name": "Add a User Via a Signup Token",
+          "request": {
+            "name": "Add a User Via a Signup Token",
+            "description": {
+              "content": "Create a user with the viewer root role and link them to the provided signup token",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invite",
+                ":token",
+                "signup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<string>\",\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8ce4b7f9-f935-4d5e-9fa9-0038c18bd5cd",
+              "name": "userSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invite",
+                    ":token",
+                    "signup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"hunter@example.com\",\n  \"name\": \"Hunter Burgan\",\n  \"password\": \"hunter2\",\n  \"username\": \"Hunter\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 123,\n  \"name\": \"User\",\n  \"email\": \"user@example.com\",\n  \"username\": \"hunter\",\n  \"imageUrl\": \"https://example.com/242x200.png\",\n  \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n  \"loginAttempts\": 3,\n  \"emailSent\": false,\n  \"rootRole\": 1,\n  \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n  \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n  \"accountType\": \"User\",\n  \"permissions\": [\n    \"string\",\n    \"string\"\n  ],\n  \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n  \"seatType\": \"Regular\",\n  \"activeSessions\": 2,\n  \"deletedSessions\": 1\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29f18315-7da1-4aa8-9c75-f23d209a2c1f",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invite",
+                    ":token",
+                    "signup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"hunter@example.com\",\n  \"name\": \"Hunter Burgan\",\n  \"password\": \"hunter2\",\n  \"username\": \"Hunter\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e5f470c-0ec0-4851-851e-9b7c9bab3d6e",
+              "name": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invite",
+                    ":token",
+                    "signup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"hunter@example.com\",\n  \"name\": \"Hunter Burgan\",\n  \"password\": \"hunter2\",\n  \"username\": \"Hunter\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NameExistsError\",\n  \"message\": \"There is already a feature called \\\"my-awesome-feature\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e67c2f04-a4e2-43be-9b47-1ed36605347c",
+          "name": "Get Public Signup Tokens",
+          "request": {
+            "name": "Get Public Signup Tokens",
+            "description": {
+              "content": "Retrieves all existing public signup tokens.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "invite-link",
+                "tokens"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d580b39b-f84d-4713-a134-d73c8d863b9e",
+              "name": "publicSignupTokensSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tokens\": [\n    {\n      \"secret\": \"a3c84b25409ea8ca1782ef17f94a42fc\",\n      \"url\": \"https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc\",\n      \"name\": \"Invite public viewers\",\n      \"enabled\": false,\n      \"expiresAt\": \"2023-04-12T11:13:31.960Z\",\n      \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n      \"createdBy\": \"someone\",\n      \"users\": null,\n      \"role\": {\n        \"id\": 3,\n        \"type\": \"root\",\n        \"name\": \"Viewer\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2f411005-9fe3-4ba0-afbd-82766e04e7f9",
+          "name": "Create a Public Signup Token",
+          "request": {
+            "name": "Create a Public Signup Token",
+            "description": {
+              "content": "Lets administrators create a invite link to share with colleagues.  People that join using the public invite are assigned the `Viewer` role",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "invite-link",
+                "tokens"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"expiresAt\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0cd4625e-7225-4dec-8bf8-0f78ade4daf9",
+              "name": "The resource was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"expiresAt\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The location of the newly created resource.",
+                  "key": "location",
+                  "value": "http://kExsuCjAEhkTJybtXIf.mheDM.3stUKIp6qz3Saxwbep9WePRT4BQvMNkbxN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"secret\": \"a3c84b25409ea8ca1782ef17f94a42fc\",\n  \"url\": \"https://sandbox.getunleash.io/enterprise/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc\",\n  \"name\": \"Invite public viewers\",\n  \"expiresAt\": \"2023-04-12T11:13:31.960Z\",\n  \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n  \"createdBy\": \"someone@example.com\",\n  \"enabled\": true,\n  \"role\": {\n    \"id\": 9,\n    \"type\": \"root\",\n    \"name\": \"Editor\",\n    \"description\": \"Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.\",\n    \"project\": \"default\"\n  },\n  \"users\": [\n    {\n      \"id\": 123,\n      \"name\": \"User\",\n      \"email\": \"user@example.com\",\n      \"username\": \"hunter\",\n      \"imageUrl\": \"https://example.com/242x200.png\",\n      \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n      \"loginAttempts\": 3,\n      \"emailSent\": false,\n      \"rootRole\": 1,\n      \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n      \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n      \"accountType\": \"User\",\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n      \"seatType\": \"Regular\",\n      \"activeSessions\": 2,\n      \"deletedSessions\": 1\n    },\n    {\n      \"id\": 123,\n      \"name\": \"User\",\n      \"email\": \"user@example.com\",\n      \"username\": \"hunter\",\n      \"imageUrl\": \"https://example.com/242x200.png\",\n      \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n      \"loginAttempts\": 3,\n      \"emailSent\": false,\n      \"rootRole\": 1,\n      \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n      \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n      \"accountType\": \"User\",\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n      \"seatType\": \"Regular\",\n      \"activeSessions\": 2,\n      \"deletedSessions\": 1\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7833b58f-d5f5-4b0d-a194-7ad3e7b9b99d",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"expiresAt\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "997859ca-ae07-4a4d-b337-8b6f4979fc1e",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"expiresAt\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c41f83fb-150e-4cda-bc89-76b572f80022",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"expiresAt\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c28d7055-84df-4012-860a-04bb67cda61a",
+          "name": "Retrieve a Token",
+          "request": {
+            "name": "Retrieve a Token",
+            "description": {
+              "content": "Get information about a specific token. The `:token` part of the URL should be the token's secret.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "invite-link",
+                "tokens",
+                ":token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0e211fa9-0ff9-4e2b-83f4-7aa353101c45",
+              "name": "publicSignupTokenSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"secret\": \"a3c84b25409ea8ca1782ef17f94a42fc\",\n  \"url\": \"https://sandbox.getunleash.io/enterprise/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc\",\n  \"name\": \"Invite public viewers\",\n  \"expiresAt\": \"2023-04-12T11:13:31.960Z\",\n  \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n  \"createdBy\": \"someone@example.com\",\n  \"enabled\": true,\n  \"role\": {\n    \"id\": 9,\n    \"type\": \"root\",\n    \"name\": \"Editor\",\n    \"description\": \"Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.\",\n    \"project\": \"default\"\n  },\n  \"users\": [\n    {\n      \"id\": 123,\n      \"name\": \"User\",\n      \"email\": \"user@example.com\",\n      \"username\": \"hunter\",\n      \"imageUrl\": \"https://example.com/242x200.png\",\n      \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n      \"loginAttempts\": 3,\n      \"emailSent\": false,\n      \"rootRole\": 1,\n      \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n      \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n      \"accountType\": \"User\",\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n      \"seatType\": \"Regular\",\n      \"activeSessions\": 2,\n      \"deletedSessions\": 1\n    },\n    {\n      \"id\": 123,\n      \"name\": \"User\",\n      \"email\": \"user@example.com\",\n      \"username\": \"hunter\",\n      \"imageUrl\": \"https://example.com/242x200.png\",\n      \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n      \"loginAttempts\": 3,\n      \"emailSent\": false,\n      \"rootRole\": 1,\n      \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n      \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n      \"accountType\": \"User\",\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n      \"seatType\": \"Regular\",\n      \"activeSessions\": 2,\n      \"deletedSessions\": 1\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99ea37f7-81e9-4df1-a1ce-88c9ae67c8b1",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "512920b3-28ff-414c-8696-52dff260abc5",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "af272a38-e730-4e60-809c-31a7ab0fbf3c",
+          "name": "Update a Public Signup Token",
+          "request": {
+            "name": "Update a Public Signup Token",
+            "description": {
+              "content": "Update information about a specific token. The `:token` part of the URL should be the token's secret.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "invite-link",
+                "tokens",
+                ":token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"expiresAt\": \"<dateTime>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a54b025f-f7f7-4188-93c0-f8b0ed5b4071",
+              "name": "publicSignupTokenSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"expiresAt\": \"2023-04-11T15:46:56Z\",\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"secret\": \"a3c84b25409ea8ca1782ef17f94a42fc\",\n  \"url\": \"https://sandbox.getunleash.io/enterprise/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc\",\n  \"name\": \"Invite public viewers\",\n  \"expiresAt\": \"2023-04-12T11:13:31.960Z\",\n  \"createdAt\": \"2023-04-12T11:13:31.960Z\",\n  \"createdBy\": \"someone@example.com\",\n  \"enabled\": true,\n  \"role\": {\n    \"id\": 9,\n    \"type\": \"root\",\n    \"name\": \"Editor\",\n    \"description\": \"Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.\",\n    \"project\": \"default\"\n  },\n  \"users\": [\n    {\n      \"id\": 123,\n      \"name\": \"User\",\n      \"email\": \"user@example.com\",\n      \"username\": \"hunter\",\n      \"imageUrl\": \"https://example.com/242x200.png\",\n      \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n      \"loginAttempts\": 3,\n      \"emailSent\": false,\n      \"rootRole\": 1,\n      \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n      \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n      \"accountType\": \"User\",\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n      \"seatType\": \"Regular\",\n      \"activeSessions\": 2,\n      \"deletedSessions\": 1\n    },\n    {\n      \"id\": 123,\n      \"name\": \"User\",\n      \"email\": \"user@example.com\",\n      \"username\": \"hunter\",\n      \"imageUrl\": \"https://example.com/242x200.png\",\n      \"inviteLink\": \"http://localhost:4242/invite-link/some-secret\",\n      \"loginAttempts\": 3,\n      \"emailSent\": false,\n      \"rootRole\": 1,\n      \"seenAt\": \"2023-06-30T11:42:00.345Z\",\n      \"createdAt\": \"2023-06-30T11:41:00.123Z\",\n      \"accountType\": \"User\",\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scimId\": \"01HTMEXAMPLESCIMID7SWWGHN6\",\n      \"seatType\": \"Regular\",\n      \"activeSessions\": 2,\n      \"deletedSessions\": 1\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48cb8393-1ee1-4172-a6f7-b405b9988af3",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"expiresAt\": \"2023-04-11T15:46:56Z\",\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a776e800-15d0-4eee-902a-b3748096a048",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"expiresAt\": \"2023-04-11T15:46:56Z\",\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a124cc8d-adfe-4ba4-a59d-d01473edaf60",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "invite-link",
+                    "tokens",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"expiresAt\": \"2023-04-11T15:46:56Z\",\n  \"enabled\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3e9b5231-da9b-4b8f-bac5-c1a74b6b5ea1",
+    "name": "Unleash Admin Addons Public signup tokens API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

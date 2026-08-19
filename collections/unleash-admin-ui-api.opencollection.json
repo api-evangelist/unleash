@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Admin UI API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Admin UI",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Lifecycle Trends",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/insights/lifecycle",
+            "params": [
+              {
+                "name": "projects",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of project IDs to filter lifecycle trends"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGets lifecycle trends information showing feature flag progression across development, production, and cleanup stages."
+        },
+        {
+          "info": {
+            "name": "Send Unleash Feedback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/feedback",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends feedback gathered from the Unleash UI to the Unleash server. Must be called with a token with an identifiable user (either from being sent from the UI or from using a [PAT](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens))."
+        },
+        {
+          "info": {
+            "name": "Get UI Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/ui-config"
+          },
+          "docs": "Retrieves the full configuration used to set up the Unleash Admin UI."
+        },
+        {
+          "info": {
+            "name": "Sets Allowed Cors Origins",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/ui-config/cors",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets Cross-Origin Resource Sharing headers for Frontend SDK API."
+        },
+        {
+          "info": {
+            "name": "Update Unleash Feedback",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/feedback/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the feedback with the provided ID. Only provided fields are updated. Fields left out are left untouched. Must be called with a token with an identifiable user (either from being sent from the UI or from using a [PAT](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens))."
+        },
+        {
+          "info": {
+            "name": "Update Splash Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/splash/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This operation updates splash settings for a user, indicating that they have seen a particualar splash screen."
+        },
+        {
+          "info": {
+            "name": "Accepts Errors From the UI Client",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/record-ui-error",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint accepts error reports from the UI client, so that we can add observability on UI errors."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

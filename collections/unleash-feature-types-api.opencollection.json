@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Feature Types API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Feature Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Feature Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/feature-types"
+          },
+          "docs": "Retrieves all feature types that exist in this Unleash instance, along with their descriptions and lifetimes."
+        },
+        {
+          "info": {
+            "name": "Update Feature Type Lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/feature-types/:id/lifetime",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the lifetime configuration for the specified [feature flag type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types). The expected lifetime is an integer representing the number of days before Unleash marks a feature flag of that type as potentially stale. If set to `null` or `0`, then feature flags of that particular type will never be marked as potentially stale.\n\nWhen a feature flag type's expected lifetime is changed, this will also cause any feature flags of this t"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

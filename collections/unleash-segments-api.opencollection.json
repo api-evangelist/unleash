@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Segments API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Validates If a Segment Name Exists",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uses the name provided in the body of the request to validate if the given name exists or not"
+        },
+        {
+          "info": {
+            "name": "Get Strategy Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments/strategies/:strategyId",
+            "params": [
+              {
+                "name": "strategyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve all segments that are referenced by the specified strategy. Returns an empty list of segments if the strategy ID doesn't exist."
+        },
+        {
+          "info": {
+            "name": "Get Strategies That Reference Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments/:id/strategies",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a segment id"
+              }
+            ]
+          },
+          "docs": "Retrieve all strategies that reference the specified segment."
+        },
+        {
+          "info": {
+            "name": "Get a Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a segment id"
+              }
+            ]
+          },
+          "docs": "Retrieves a segment based on its ID."
+        },
+        {
+          "info": {
+            "name": "Update Segment by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a segment id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the content of the segment with the provided payload. Requires `name` and `constraints` to be present. If `project` is not present, it will be set to `null`. Any other fields not specified will be left untouched."
+        },
+        {
+          "info": {
+            "name": "Deletes a Segment by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a segment id"
+              }
+            ]
+          },
+          "docs": "Deletes a segment by its id, if not found returns a 409 error"
+        },
+        {
+          "info": {
+            "name": "Get All Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments"
+          },
+          "docs": "Retrieves all segments that exist in this Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Create a New Segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/segments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new segment using the payload provided"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

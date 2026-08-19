@@ -1,0 +1,905 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Unstable API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Unstable",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Archive Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/archive/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nArchive the provided project. All feature flags in the project must be archived before you can archive the project."
+        },
+        {
+          "info": {
+            "name": "Revive Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/revive/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nRevive the specified project from the archive."
+        },
+        {
+          "info": {
+            "name": "Get Aggregated Metered Connections for a Given Time Period.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/connection",
+            "params": [
+              {
+                "name": "grouping",
+                "value": "",
+                "type": "query",
+                "description": "Whether to aggregate the data by month or by day"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGets metered connections count for the selected period, either aggregated by day or by month."
+        },
+        {
+          "info": {
+            "name": "Get Aggregated Metered Requests for a Given Time Period.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/metrics/request",
+            "params": [
+              {
+                "name": "grouping",
+                "value": "",
+                "type": "query",
+                "description": "Whether to aggregate the data by month or by day"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGets metered requests count for the selected period, either aggregated by day or by month."
+        },
+        {
+          "info": {
+            "name": "Get Instance Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/insights",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "The beginning of the date range in yyyy-MM-dd format"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "The end of the date range in yyyy-MM-dd format"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGets high level information about the usage of this Unleash instance, including user, project, and flag information."
+        },
+        {
+          "info": {
+            "name": "Subscribe to Email Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/email-subscription/:subscription",
+            "params": [
+              {
+                "name": "subscription",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nSubscribe to email subscription e.g. monthly productivity report. By default everyone is subscribed. This API is mostly used by hosted Unleash."
+        },
+        {
+          "info": {
+            "name": "Unsubscribe From Email Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/email-subscription/:subscription",
+            "params": [
+              {
+                "name": "subscription",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nUnsubscribe from email subscription e.g. monthly productivity report. This API is mostly used by hosted Unleash."
+        },
+        {
+          "info": {
+            "name": "Retrieves All Licensed Users Data.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/licensed-users"
+          },
+          "docs": "**Enterprise feature**\n\nFetches an array of licensed users with date and count."
+        },
+        {
+          "info": {
+            "name": "Heartbeat for Enterprise Edge Instances.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/client/edge-licensing/heartbeat"
+          },
+          "docs": "**Enterprise feature**\n\nReports that an Enterprise Edge instance is alive and in use. This is related to billing and usage tracking."
+        },
+        {
+          "info": {
+            "name": "Get the Number of Change Requests You Can Do Something With",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/change-requests/actionable",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nReturns the number of change requests in this project that your user can move into the next stage by approving or applying them."
+        },
+        {
+          "info": {
+            "name": "Get All Feedback Events. Limited to 2000 Items.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/feedback"
+          },
+          "docs": "**Enterprise feature**\n\nGet all feedback events."
+        },
+        {
+          "info": {
+            "name": "Submit User Feedback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/feedback",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nAllows users to submit feedback."
+        },
+        {
+          "info": {
+            "name": "Get a Cdn Tokens.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/cdn/tokens"
+          },
+          "docs": "**Enterprise feature**\n\nRetrieves all CDN tokens for the specified Edge instance."
+        },
+        {
+          "info": {
+            "name": "Create a Cdn Token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/cdn/tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nCreates a new CDN token for the specified Edge instance."
+        },
+        {
+          "info": {
+            "name": "Get SCIM Settings.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/scim-settings"
+          },
+          "docs": "**Enterprise feature**\n\nReturns the current settings for SCIM provisioning."
+        },
+        {
+          "info": {
+            "name": "Set SCIM Settings.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/scim-settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nSets new settings for SCIM provisioning."
+        },
+        {
+          "info": {
+            "name": "Generates a New SCIM API Token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/scim-settings/generate-new-token"
+          },
+          "docs": "**Enterprise feature**\n\nGenerates a new SCIM API token. Previously generated tokens will be invalidated."
+        },
+        {
+          "info": {
+            "name": "Connect to the Streaming Api.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/client/streaming"
+          },
+          "docs": "**Enterprise feature**\n\nConnects to the client features SSE streaming API."
+        },
+        {
+          "info": {
+            "name": "Get Partial Updates (sdk)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/client/delta"
+          },
+          "docs": "**Enterprise feature**\n\nInitially returns the full set of feature flags available to the provided API key. When called again with the returned etag, only returns the flags that have changed"
+        },
+        {
+          "info": {
+            "name": "Disconnect All Clients.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/streaming/disconnect-all"
+          },
+          "docs": "**Enterprise feature**\n\nDisconnects all streaming clients."
+        },
+        {
+          "info": {
+            "name": "Get Plausible Analytics Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/impact-metrics/plausible"
+          },
+          "docs": "**Enterprise feature**\n\nFetches analytics data from Plausible API for favorite events over the last 7 days."
+        },
+        {
+          "info": {
+            "name": "Get Impact Metrics Configurations for a Single Feature",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/impact-metrics/config",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGets all impact metrics configurations associated with a specific feature flag."
+        },
+        {
+          "info": {
+            "name": "Save Flag Level Impact Metrics Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/impact-metrics/config",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nSaves a configuration for an impact metric chart associated with a feature flag."
+        },
+        {
+          "info": {
+            "name": "Get Impact Metrics Configuration for the Instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/impact-metrics/config"
+          },
+          "docs": "**Enterprise feature**\n\nGets all impact metrics configurations now associated with any feature flag."
+        },
+        {
+          "info": {
+            "name": "Save Instance Level Impact Metrics Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/impact-metrics/config",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nSaves a configuration for an instance level impact metric chart without a feature flag"
+        },
+        {
+          "info": {
+            "name": "Delete Flag Level Impact Metric Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/impact-metrics/config/:id",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nDeletes an impact metric configuration by its ID."
+        },
+        {
+          "info": {
+            "name": "Delete Instance Level Impact Metric Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/impact-metrics/config/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nDeletes an impact metric configuration by its ID."
+        },
+        {
+          "info": {
+            "name": "Create or Update a Milestone Progression",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/progressions/:id",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nThis is a beta endpoint and it may change or be removed in the future.\n\nCreates or updates a milestone progression by source milestone ID. If a progression with the given source milestone exists, it will be updated; otherwise, a new one will be created."
+        },
+        {
+          "info": {
+            "name": "Delete a Milestone Progression",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/progressions/:id",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis is a beta endpoint and it may change or be removed in the future.\n\nDeletes an existing milestone progression by source milestone ID."
+        },
+        {
+          "info": {
+            "name": "Resume Paused Milestone Progressions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/progressions/:planId/resume",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "planId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis is a beta endpoint and it may change or be removed in the future.\n\nResumes all paused milestone progressions for a release plan"
+        },
+        {
+          "info": {
+            "name": "Change a Safeguard",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release-plans/:planId/safeguards",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "planId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nThis is a beta endpoint and it may change or be removed in the future.\n\nCreates or updates a safeguard for a specific feature, environment, and release plan."
+        },
+        {
+          "info": {
+            "name": "Delete a Safeguard",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:project/features/:featureName/environments/:environment/release-plans/:planId/safeguards/:safeguardId",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "planId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "safeguardId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nThis is a beta endpoint and it may change or be removed in the future.\n\nDeletes a safeguard by its ID for a specific feature, environment, and release plan."
+        },
+        {
+          "info": {
+            "name": "Returns the List of Permissions for the User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/:id/permissions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a user id"
+              },
+              {
+                "name": "project",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Gets a list of permissions for a user, additional project and environment can be specified."
+        },
+        {
+          "info": {
+            "name": "Get Project Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/status",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint returns information on the status the project, including activities, health, resources, and aggregated flag lifecycle data."
+        },
+        {
+          "info": {
+            "name": "Get Feature Lifecycle",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/lifecycle",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Information about the lifecycle stages of the feature."
+        },
+        {
+          "info": {
+            "name": "Set Feature Completed",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/lifecycle/complete",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This will set the feature as completed."
+        },
+        {
+          "info": {
+            "name": "Set Feature Uncompleted",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/lifecycle/uncomplete",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This will set the feature as uncompleted."
+        },
+        {
+          "info": {
+            "name": "Create a Feature Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/link",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new link for a feature."
+        },
+        {
+          "info": {
+            "name": "Update a Feature Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/link/:linkId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing feature link."
+        },
+        {
+          "info": {
+            "name": "Delete a Feature Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/features/:featureName/link/:linkId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "featureName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a feature link by id."
+        },
+        {
+          "info": {
+            "name": "Get All Features Lifecycle Stage Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/lifecycle/count"
+          },
+          "docs": "Information about the number of features in each lifecycle stage."
+        },
+        {
+          "info": {
+            "name": "Get Personal Dashboard",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/personal-dashboard"
+          },
+          "docs": "Return all projects and flags that are relevant to the user."
+        },
+        {
+          "info": {
+            "name": "Get Personal Project Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/personal-dashboard/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return personal dashboard project events, owners, user roles and onboarding status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

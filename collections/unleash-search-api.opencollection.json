@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Search API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search and Filter Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/search/features",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "The search query for the feature name or tag"
+              },
+              {
+                "name": "project",
+                "value": "",
+                "type": "query",
+                "description": "Id of the project where search and filter is performed. The project id can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "The state of the feature active/stale. The state can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+              },
+              {
+                "name": "lifecycle",
+                "value": "",
+                "type": "query",
+                "description": "The lifecycle stage of the feature. The stagee can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The feature flag type to filter by. The type can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+              },
+              {
+                "name": "createdBy",
+                "value": "",
+                "type": "query",
+                "description": "The feature flag creator to filter by. The creators can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "The list of feature tags to filter by. Feature tag has to specify a type and a value joined with a colon."
+              },
+              {
+                "name": "segment",
+                "value": "",
+                "type": "query",
+                "description": "The list of segments with operators to filter by. The segment valid operators are INCLUDE, DO_NOT_INCLUDE, INCLUDE_ALL_OF, INCLUDE_ANY_OF, EXCLUDE_IF_ANY_OF, EXCLUDE_ALL."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The list of feature environment status to filter by. Feature environment has to specify a name and a status joined with a colon."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of features to skip when returning a page. By default it is set to 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of feature environments to return in a page. By default it is set to 50."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort the results by. By default it is set to \"createdAt\"."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "The sort order for the sortBy. By default it is det to \"asc\"."
+              },
+              {
+                "name": "favoritesFirst",
+                "value": "",
+                "type": "query",
+                "description": "The flag to indicate if the favorite features should be returned first. By default it is set to false."
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "Whether to get results for archived feature flags or active feature flags. If `IS:true`, Unleash will return only archived flags. If `IS:false`, it will return only active flags."
+              },
+              {
+                "name": "createdAt",
+                "value": "",
+                "type": "query",
+                "description": "The date the feature was created. The date can be specified with an operator. The supported operators are IS_BEFORE, IS_ON_OR_AFTER."
+              },
+              {
+                "name": "lastSeenAt",
+                "value": "",
+                "type": "query",
+                "description": "The date the feature was last seen from metrics. The date can be specified with an operator. The supported operators are IS_BEFORE, IS_ON_OR_AFTER."
+              }
+            ]
+          },
+          "docs": "Search and filter by selected fields."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1851 @@
+{
+  "item": [
+    {
+      "id": "22f37992-7332-4ed2-8b76-90029099d7bb",
+      "name": "Context",
+      "description": {
+        "content": "Create, update, and delete [context fields](https://docs.getunleash.io/concepts/unleash-context) that Unleash is aware of.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e433342f-5618-4fb5-80f1-09fbb9cee586",
+          "name": "Gets Configured Context Fields",
+          "request": {
+            "name": "Gets Configured Context Fields",
+            "description": {
+              "content": "Returns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context) that have been created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Whether the response should include project-specific or root context fields in addition to the fields in the default response. When querying the root context API, `include=project` will yield a response that includes all project-specific context fields in addition to all root context fields. Conversely, when querying a project-specific context API, using `include=root` will yield a response that includes all root context fields in addition to the project-specific context fields. The other combinations have no effect, because the responses already include those fields. When including project-specific context fields via the root-level API, context fields in private projects the user does not have access to will be omitted."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5b9e317f-8dc7-4124-9f74-7efeaecbfd1c",
+              "name": "contextFieldsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "project"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"userId\",\n    \"description\": \"Used to uniquely identify users\",\n    \"stickiness\": true,\n    \"sortOrder\": 900,\n    \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n    \"usedInFeatures\": 3,\n    \"usedInProjects\": 2,\n    \"legalValues\": [\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      },\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      }\n    ],\n    \"project\": \"my-project\"\n  },\n  {\n    \"name\": \"userId\",\n    \"description\": \"Used to uniquely identify users\",\n    \"stickiness\": true,\n    \"sortOrder\": 900,\n    \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n    \"usedInFeatures\": 3,\n    \"usedInProjects\": 2,\n    \"legalValues\": [\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      },\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      }\n    ],\n    \"project\": \"my-project\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e84bdefb-8eeb-4b8b-bf1b-bdf3d68e0bd6",
+          "name": "Create a Context Field",
+          "request": {
+            "name": "Create a Context Field",
+            "description": {
+              "content": "Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"stickiness\": \"<boolean>\",\n  \"sortOrder\": \"<integer>\",\n  \"legalValues\": [\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"project\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3740d052-3d33-40db-9b2d-4318c9ae56d8",
+              "name": "The resource was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"subscriptionTier\",\n  \"description\": \"The user's subscription tier\",\n  \"stickiness\": false,\n  \"sortOrder\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"gold\"\n    },\n    {\n      \"value\": \"silver\"\n    },\n    {\n      \"value\": \"crystal\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The location of the newly created resource.",
+                  "key": "location",
+                  "value": "http://tiGMcviRBWMFYeqw.iuuxrRlJM6AGpMKVmjjvIgf0Tz4BGAnU7"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"userId\",\n  \"description\": \"Used to uniquely identify users\",\n  \"stickiness\": true,\n  \"sortOrder\": 900,\n  \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n  \"usedInFeatures\": 3,\n  \"usedInProjects\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    },\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36906ddb-c5ea-40d2-a0e9-7daa0d6a7a76",
+          "name": "Gets Context Field",
+          "request": {
+            "name": "Gets Context Field",
+            "description": {
+              "content": "Returns specific [context field](https://docs.getunleash.io/concepts/unleash-context) identified by the name in the path",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context",
+                ":contextField"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c7e0ba09-3a38-4caf-b5a4-9e98f6f78e39",
+              "name": "contextFieldSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context",
+                    ":contextField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"userId\",\n  \"description\": \"Used to uniquely identify users\",\n  \"stickiness\": true,\n  \"sortOrder\": 900,\n  \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n  \"usedInFeatures\": 3,\n  \"usedInProjects\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    },\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a7d039a5-2b0e-4500-ada6-263b83664b04",
+          "name": "Update an Existing Context Field",
+          "request": {
+            "name": "Update an Existing Context Field",
+            "description": {
+              "content": "Endpoint that allows updating a custom context field. Used to toggle stickiness and add/remove legal values for this context field",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context",
+                ":contextField"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"<string>\",\n  \"stickiness\": \"<boolean>\",\n  \"sortOrder\": \"<integer>\",\n  \"legalValues\": [\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"project\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0eb47040-7760-4833-b6bb-681e1a9f4888",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context",
+                    ":contextField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"The user's subscription tier\",\n  \"stickiness\": false,\n  \"sortOrder\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"gold\"\n    },\n    {\n      \"value\": \"silver\"\n    },\n    {\n      \"value\": \"crystal\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "584eb85c-d974-4ed2-a1fe-39f39a85d5f7",
+          "name": "Delete an Existing Context Field",
+          "request": {
+            "name": "Delete an Existing Context Field",
+            "description": {
+              "content": "Endpoint that allows deletion of a custom context field. Does not validate that context field is not in use, but since context field configuration is stored in a json blob for the strategy, existing strategies are safe.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context",
+                ":contextField"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "51e75245-9e91-4420-8939-9cc29318c3e6",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context",
+                    ":contextField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0bfbd06d-fb8a-48fa-8104-b6c7d2783e59",
+          "name": "Add or Update Legal Value for the Context Field",
+          "request": {
+            "name": "Add or Update Legal Value for the Context Field",
+            "description": {
+              "content": "Endpoint that allows adding or updating a single custom context field legal value. If the legal value already exists, it will be updated with the new description",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context",
+                ":contextField",
+                "legal-values"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "de2c6c7a-4dfa-41be-b4a4-9c0b53ca6227",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context",
+                    ":contextField",
+                    "legal-values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"#c154c1\",\n  \"description\": \"Deep fuchsia\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ede79be7-d623-4463-9dea-f58fc2f8024f",
+          "name": "Delete Legal Value for the Context Field",
+          "request": {
+            "name": "Delete Legal Value for the Context Field",
+            "description": {
+              "content": "Removes the specified custom context field legal value. Does not validate that the legal value is not in use and does not remove usage from constraints that use it.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context",
+                ":contextField",
+                "legal-values",
+                ":legalValue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "legalValue",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8a53e1dc-8b49-41a9-b08b-3d4bd1b54adb",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context",
+                    ":contextField",
+                    "legal-values",
+                    ":legalValue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "legalValue",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9264bd79-e2e7-4e9f-b6a7-26b87f81b5d3",
+          "name": "Validate a Context Field",
+          "request": {
+            "name": "Validate a Context Field",
+            "description": {
+              "content": "Check whether the provided data can be used to create a context field. If the data is not valid, returns a 400 status code with the reason why it is not valid.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "context",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "545eaf3b-ee87-4613-8478-b910904797df",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "context",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"betaUser\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "05fc5802-5a8f-439b-8456-2e7babf5f27c",
+          "name": "Gets Configured Context Fields",
+          "request": {
+            "name": "Gets Configured Context Fields",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nReturns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context) that have been created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Whether the response should include project-specific or root context fields in addition to the fields in the default response. When querying the root context API, `include=project` will yield a response that includes all project-specific context fields in addition to all root context fields. Conversely, when querying a project-specific context API, using `include=root` will yield a response that includes all root context fields in addition to the project-specific context fields. The other combinations have no effect, because the responses already include those fields. When including project-specific context fields via the root-level API, context fields in private projects the user does not have access to will be omitted."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "db980180-43ee-4354-9fe1-c11b869945f7",
+              "name": "contextFieldsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "project"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"userId\",\n    \"description\": \"Used to uniquely identify users\",\n    \"stickiness\": true,\n    \"sortOrder\": 900,\n    \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n    \"usedInFeatures\": 3,\n    \"usedInProjects\": 2,\n    \"legalValues\": [\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      },\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      }\n    ],\n    \"project\": \"my-project\"\n  },\n  {\n    \"name\": \"userId\",\n    \"description\": \"Used to uniquely identify users\",\n    \"stickiness\": true,\n    \"sortOrder\": 900,\n    \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n    \"usedInFeatures\": 3,\n    \"usedInProjects\": 2,\n    \"legalValues\": [\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      },\n      {\n        \"value\": \"#c154c1\",\n        \"description\": \"Deep fuchsia\"\n      }\n    ],\n    \"project\": \"my-project\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4a27d1e3-84e4-40b1-8292-f338006c3a04",
+          "name": "Create a Context Field",
+          "request": {
+            "name": "Create a Context Field",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"stickiness\": \"<boolean>\",\n  \"sortOrder\": \"<integer>\",\n  \"legalValues\": [\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"project\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1d50a78b-01bc-4ff5-82d7-9b40994e9d93",
+              "name": "The resource was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"subscriptionTier\",\n  \"description\": \"The user's subscription tier\",\n  \"stickiness\": false,\n  \"sortOrder\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"gold\"\n    },\n    {\n      \"value\": \"silver\"\n    },\n    {\n      \"value\": \"crystal\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The location of the newly created resource.",
+                  "key": "location",
+                  "value": "http://tiGMcviRBWMFYeqw.iuuxrRlJM6AGpMKVmjjvIgf0Tz4BGAnU7"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"userId\",\n  \"description\": \"Used to uniquely identify users\",\n  \"stickiness\": true,\n  \"sortOrder\": 900,\n  \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n  \"usedInFeatures\": 3,\n  \"usedInProjects\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    },\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c3e88201-4ff5-4ae9-bc2c-5a70478a135b",
+          "name": "Gets Context Field",
+          "request": {
+            "name": "Gets Context Field",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nReturns specific [context field](https://docs.getunleash.io/concepts/unleash-context) identified by the name in the path",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context",
+                ":contextField"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3e424c3e-fde3-4a65-97f7-8fceee38e68f",
+              "name": "contextFieldSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context",
+                    ":contextField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"userId\",\n  \"description\": \"Used to uniquely identify users\",\n  \"stickiness\": true,\n  \"sortOrder\": 900,\n  \"createdAt\": \"2023-06-29T10:19:00.000Z\",\n  \"usedInFeatures\": 3,\n  \"usedInProjects\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    },\n    {\n      \"value\": \"#c154c1\",\n      \"description\": \"Deep fuchsia\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dc1e5ce4-dbf0-4bbc-8b66-e6f73ab30b60",
+          "name": "Update an Existing Context Field",
+          "request": {
+            "name": "Update an Existing Context Field",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows updating a custom context field. Used to toggle stickiness and add/remove legal values for this context field",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context",
+                ":contextField"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"<string>\",\n  \"stickiness\": \"<boolean>\",\n  \"sortOrder\": \"<integer>\",\n  \"legalValues\": [\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  ],\n  \"project\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d7e587bb-236e-4289-bf63-de6a50823d43",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context",
+                    ":contextField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"The user's subscription tier\",\n  \"stickiness\": false,\n  \"sortOrder\": 2,\n  \"legalValues\": [\n    {\n      \"value\": \"gold\"\n    },\n    {\n      \"value\": \"silver\"\n    },\n    {\n      \"value\": \"crystal\"\n    }\n  ],\n  \"project\": \"my-project\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27c663d0-2360-4a94-9916-19007ed34aac",
+          "name": "Delete an Existing Context Field",
+          "request": {
+            "name": "Delete an Existing Context Field",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows deletion of a custom context field. Does not validate that context field is not in use, but since context field configuration is stored in a json blob for the strategy, existing strategies are safe.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context",
+                ":contextField"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5d9300b3-ea46-4779-afc1-0fe432e2a985",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context",
+                    ":contextField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c54b113-972a-42ac-bdb0-59757bcdf531",
+          "name": "Add or Update Legal Value for the Context Field",
+          "request": {
+            "name": "Add or Update Legal Value for the Context Field",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nEndpoint that allows adding or updating a single custom context field legal value. If the legal value already exists, it will be updated with the new description",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context",
+                ":contextField",
+                "legal-values"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e87c2b8e-9bb7-440f-aaf4-91735da94412",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context",
+                    ":contextField",
+                    "legal-values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"#c154c1\",\n  \"description\": \"Deep fuchsia\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b2cad1b3-5ef3-4c4a-a28d-9375ad46ab78",
+          "name": "Delete Legal Value for the Context Field",
+          "request": {
+            "name": "Delete Legal Value for the Context Field",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nRemoves the specified custom context field legal value. Does not validate that the legal value is not in use and does not remove usage from constraints that use it.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context",
+                ":contextField",
+                "legal-values",
+                ":legalValue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contextField",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "legalValue",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "92faf4f0-8c86-4688-8f4f-4c559bc6826e",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context",
+                    ":contextField",
+                    "legal-values",
+                    ":legalValue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contextField",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "legalValue",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e72d74f0-7a26-4635-a54e-a029a7d3069a",
+          "name": "Validate a Context Field",
+          "request": {
+            "name": "Validate a Context Field",
+            "description": {
+              "content": "This is a beta endpoint and it may change or be removed in the future.\n\nCheck whether the provided data can be used to create a context field. If the data is not valid, returns a 400 status code with the reason why it is not valid.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                ":projectId",
+                "context",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b8030539-0cd5-40c9-8fde-7881e7c7c991",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "projects",
+                    ":projectId",
+                    "context",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"betaUser\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f2eedfb5-9827-4a07-a2e2-5227215bebcb",
+    "name": "Unleash Admin Addons Context API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Unleash Edge API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Unleash Edge",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register Edge Observability Metrics.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/client/metrics/edge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nRegisters Edge observability metrics from downstream Edge instances to aggregate a comprehensive status view of connected Edges."
+        },
+        {
+          "info": {
+            "name": "Send Metrics in Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/client/metrics/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This operation accepts batched metrics from any client. Metrics will be inserted into Unleash's metrics storage"
+        },
+        {
+          "info": {
+            "name": "Check Which Tokens Are Valid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/edge/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This operation accepts a list of tokens to validate. Unleash will validate each token you provide. For each valid token you provide, Unleash will return the token along with its type and which projects it has access to."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

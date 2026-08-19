@@ -1,0 +1,216 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Environments API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments"
+          },
+          "docs": "Retrieves all environments that exist in this Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Creates a New Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nUses the details provided in the payload to create a new environment"
+        },
+        {
+          "info": {
+            "name": "Validates If an Environment Name Exists",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nUses the name provided in the body of the request to validate if the given name exists or not"
+        },
+        {
+          "info": {
+            "name": "Updates an Environment by Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/update/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nGiven an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API"
+        },
+        {
+          "info": {
+            "name": "Get the Environment With `name`",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves the environment with `name` if it exists in this Unleash instance"
+        },
+        {
+          "info": {
+            "name": "Deletes an Environment by Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGiven an existing environment by name, this endpoint will attempt to delete it"
+        },
+        {
+          "info": {
+            "name": "Clones an Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/:name/clone",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nGiven an existing environment name and a set of options, this will create a copy of that environment"
+        },
+        {
+          "info": {
+            "name": "Get the Environments Available to a Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/project/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Gets the environments that are available for this project. An environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/concepts/environments#enable-an-environment)"
+        },
+        {
+          "info": {
+            "name": "Update Environment Sort Orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/sort-order",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates sort orders for the named environments. Environments not specified are unaffected."
+        },
+        {
+          "info": {
+            "name": "Toggle the Environment With `name` on",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/:name/on",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Makes it possible to enable this environment for a project. An environment must first be globally enabled using this endpoint before it can be enabled for a project"
+        },
+        {
+          "info": {
+            "name": "Toggle the Environment With `name` Off",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/environments/:name/off",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Removes this environment from the list of available environments for projects to use"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

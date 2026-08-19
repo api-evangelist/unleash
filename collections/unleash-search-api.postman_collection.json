@@ -1,0 +1,672 @@
+{
+  "item": [
+    {
+      "id": "e4c5f388-937e-4a84-9b71-c681b9c38136",
+      "name": "Search",
+      "description": {
+        "content": "Search for features.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "930975e0-1475-4a2e-bdf1-0f3fa4df4830",
+          "name": "Search and Filter Features",
+          "request": {
+            "name": "Search and Filter Features",
+            "description": {
+              "content": "Search and filter by selected fields.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "search",
+                "features"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "The search query for the feature name or tag"
+                },
+                {
+                  "disabled": false,
+                  "key": "project",
+                  "value": "<string>",
+                  "description": "Id of the project where search and filter is performed. The project id can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "The state of the feature active/stale. The state can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "lifecycle",
+                  "value": "<string>",
+                  "description": "The lifecycle stage of the feature. The stagee can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The feature flag type to filter by. The type can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdBy",
+                  "value": "<string>",
+                  "description": "The feature flag creator to filter by. The creators can be specified with an operator. The supported operators are IS, IS_NOT, IS_ANY_OF, IS_NONE_OF."
+                },
+                {
+                  "disabled": false,
+                  "key": "tag",
+                  "value": "<string>",
+                  "description": "The list of feature tags to filter by. Feature tag has to specify a type and a value joined with a colon."
+                },
+                {
+                  "disabled": false,
+                  "key": "segment",
+                  "value": "<string>",
+                  "description": "The list of segments with operators to filter by. The segment valid operators are INCLUDE, DO_NOT_INCLUDE, INCLUDE_ALL_OF, INCLUDE_ANY_OF, EXCLUDE_IF_ANY_OF, EXCLUDE_ALL."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The list of feature environment status to filter by. Feature environment has to specify a name and a status joined with a colon."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The list of feature environment status to filter by. Feature environment has to specify a name and a status joined with a colon."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<string>",
+                  "description": "The number of features to skip when returning a page. By default it is set to 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<string>",
+                  "description": "The number of feature environments to return in a page. By default it is set to 50."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "<string>",
+                  "description": "The field to sort the results by. By default it is set to \"createdAt\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "The sort order for the sortBy. By default it is det to \"asc\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "favoritesFirst",
+                  "value": "<string>",
+                  "description": "The flag to indicate if the favorite features should be returned first. By default it is set to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "<string>",
+                  "description": "Whether to get results for archived feature flags or active feature flags. If `IS:true`, Unleash will return only archived flags. If `IS:false`, it will return only active flags."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdAt",
+                  "value": "<string>",
+                  "description": "The date the feature was created. The date can be specified with an operator. The supported operators are IS_BEFORE, IS_ON_OR_AFTER."
+                },
+                {
+                  "disabled": false,
+                  "key": "lastSeenAt",
+                  "value": "<string>",
+                  "description": "The date the feature was last seen from metrics. The date can be specified with an operator. The supported operators are IS_BEFORE, IS_ON_OR_AFTER."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4c96c9df-c3d4-489e-bc7d-1bcfb5310349",
+              "name": "searchFeaturesSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "search",
+                    "features"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "feature_a"
+                    },
+                    {
+                      "key": "project",
+                      "value": "IS:default"
+                    },
+                    {
+                      "key": "state",
+                      "value": "IS:active"
+                    },
+                    {
+                      "key": "lifecycle",
+                      "value": "IS:initial"
+                    },
+                    {
+                      "key": "type",
+                      "value": "IS:release"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "IS:1"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "INCLUDE:simple:my_tag"
+                    },
+                    {
+                      "key": "segment",
+                      "value": "INCLUDE:pro-users"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "type"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "favoritesFirst",
+                      "value": "true"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "IS:true"
+                    },
+                    {
+                      "key": "createdAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    },
+                    {
+                      "key": "lastSeenAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"features\": [\n    {\n      \"name\": \"disable-comments\",\n      \"description\": \"Controls disabling of the comments section in case of an incident\",\n      \"dependencyType\": \"parent\",\n      \"type\": \"kill-switch\",\n      \"project\": \"dx-squad\",\n      \"stale\": false,\n      \"favorite\": true,\n      \"impressionData\": false,\n      \"createdAt\": \"2023-01-28T15:21:39.975Z\",\n      \"createdBy\": {\n        \"id\": 123,\n        \"name\": \"User\",\n        \"imageUrl\": \"https://example.com/242x200.png\"\n      },\n      \"environments\": [\n        {\n          \"name\": \"my-dev-env\",\n          \"enabled\": true,\n          \"type\": \"development\",\n          \"featureName\": \"disable-comments\",\n          \"environment\": \"development\",\n          \"sortOrder\": 3,\n          \"variantCount\": 3531.5169762307187,\n          \"strategies\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"changeRequestIds\": [\n            9476.301005254047,\n            3209.4285495709173\n          ],\n          \"milestoneName\": \"Phase One\",\n          \"milestoneOrder\": 0,\n          \"totalMilestones\": 0,\n          \"lastSeenAt\": \"2023-01-28T16:21:39.975Z\",\n          \"hasStrategies\": true,\n          \"hasEnabledStrategies\": false,\n          \"releasePlans\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"yes\": 974,\n          \"no\": 50\n        },\n        {\n          \"name\": \"my-dev-env\",\n          \"enabled\": true,\n          \"type\": \"development\",\n          \"featureName\": \"disable-comments\",\n          \"environment\": \"development\",\n          \"sortOrder\": 3,\n          \"variantCount\": 2335.7866309905407,\n          \"strategies\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"changeRequestIds\": [\n            6171.274402099104,\n            1535.9600699817622\n          ],\n          \"milestoneName\": \"Phase One\",\n          \"milestoneOrder\": 0,\n          \"totalMilestones\": 0,\n          \"lastSeenAt\": \"2023-01-28T16:21:39.975Z\",\n          \"hasStrategies\": false,\n          \"hasEnabledStrategies\": false,\n          \"releasePlans\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"yes\": 974,\n          \"no\": 50\n        }\n      ],\n      \"segments\": [\n        \"pro-users\",\n        \"main-segment\"\n      ],\n      \"archivedAt\": \"2023-01-29T15:21:39.975Z\",\n      \"lastSeenAt\": \"2023-01-28T16:21:39.975Z\",\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 229.87247374552055,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 245.18514645813516,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"lifecycle\": {\n        \"stage\": \"initial\",\n        \"enteredStageAt\": \"2023-01-28T15:21:39.975Z\",\n        \"status\": \"kept\"\n      }\n    },\n    {\n      \"name\": \"disable-comments\",\n      \"description\": \"Controls disabling of the comments section in case of an incident\",\n      \"dependencyType\": \"parent\",\n      \"type\": \"kill-switch\",\n      \"project\": \"dx-squad\",\n      \"stale\": false,\n      \"favorite\": true,\n      \"impressionData\": false,\n      \"createdAt\": \"2023-01-28T15:21:39.975Z\",\n      \"createdBy\": {\n        \"id\": 123,\n        \"name\": \"User\",\n        \"imageUrl\": \"https://example.com/242x200.png\"\n      },\n      \"environments\": [\n        {\n          \"name\": \"my-dev-env\",\n          \"enabled\": true,\n          \"type\": \"development\",\n          \"featureName\": \"disable-comments\",\n          \"environment\": \"development\",\n          \"sortOrder\": 3,\n          \"variantCount\": 858.6652517205196,\n          \"strategies\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"changeRequestIds\": [\n            7617.511360315036,\n            9072.385796466835\n          ],\n          \"milestoneName\": \"Phase One\",\n          \"milestoneOrder\": 0,\n          \"totalMilestones\": 0,\n          \"lastSeenAt\": \"2023-01-28T16:21:39.975Z\",\n          \"hasStrategies\": true,\n          \"hasEnabledStrategies\": false,\n          \"releasePlans\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"yes\": 974,\n          \"no\": 50\n        },\n        {\n          \"name\": \"my-dev-env\",\n          \"enabled\": true,\n          \"type\": \"development\",\n          \"featureName\": \"disable-comments\",\n          \"environment\": \"development\",\n          \"sortOrder\": 3,\n          \"variantCount\": 2734.333911745328,\n          \"strategies\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"title\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"disabled\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"sortOrder\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"segments\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"constraints\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"variants\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"parameters\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"variants\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weight\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"weightType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"stickiness\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payload\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"overrides\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"changeRequestIds\": [\n            3543.106489339073,\n            1730.131317994329\n          ],\n          \"milestoneName\": \"Phase One\",\n          \"milestoneOrder\": 0,\n          \"totalMilestones\": 0,\n          \"lastSeenAt\": \"2023-01-28T16:21:39.975Z\",\n          \"hasStrategies\": false,\n          \"hasEnabledStrategies\": true,\n          \"releasePlans\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"discriminator\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"featureName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"environment\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdByUserId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"createdAt\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"milestones\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"releasePlanTemplateId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"description\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"activeMilestoneId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"safeguards\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"yes\": 974,\n          \"no\": 50\n        }\n      ],\n      \"segments\": [\n        \"pro-users\",\n        \"main-segment\"\n      ],\n      \"archivedAt\": \"2023-01-29T15:21:39.975Z\",\n      \"lastSeenAt\": \"2023-01-28T16:21:39.975Z\",\n      \"variants\": [\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 464.5285122368992,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"blue_group\",\n          \"weight\": 167.06555852207316,\n          \"weightType\": \"variable\",\n          \"stickiness\": \"custom.context.field\",\n          \"payload\": {\n            \"type\": \"json\",\n            \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n          },\n          \"overrides\": [\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"contextName\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"values\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"tags\": [\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        },\n        {\n          \"value\": \"a-tag-value\",\n          \"type\": \"simple\",\n          \"color\": \"#FFFFFF\"\n        }\n      ],\n      \"lifecycle\": {\n        \"stage\": \"initial\",\n        \"enteredStageAt\": \"2023-01-28T15:21:39.975Z\",\n        \"status\": \"kept\"\n      }\n    }\n  ],\n  \"total\": 10\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3b98c77-0a05-453a-bea1-78198c640e40",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "search",
+                    "features"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "feature_a"
+                    },
+                    {
+                      "key": "project",
+                      "value": "IS:default"
+                    },
+                    {
+                      "key": "state",
+                      "value": "IS:active"
+                    },
+                    {
+                      "key": "lifecycle",
+                      "value": "IS:initial"
+                    },
+                    {
+                      "key": "type",
+                      "value": "IS:release"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "IS:1"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "INCLUDE:simple:my_tag"
+                    },
+                    {
+                      "key": "segment",
+                      "value": "INCLUDE:pro-users"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "type"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "favoritesFirst",
+                      "value": "true"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "IS:true"
+                    },
+                    {
+                      "key": "createdAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    },
+                    {
+                      "key": "lastSeenAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9483a50-27b6-47ff-a749-2fdce4aecd13",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "search",
+                    "features"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "feature_a"
+                    },
+                    {
+                      "key": "project",
+                      "value": "IS:default"
+                    },
+                    {
+                      "key": "state",
+                      "value": "IS:active"
+                    },
+                    {
+                      "key": "lifecycle",
+                      "value": "IS:initial"
+                    },
+                    {
+                      "key": "type",
+                      "value": "IS:release"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "IS:1"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "INCLUDE:simple:my_tag"
+                    },
+                    {
+                      "key": "segment",
+                      "value": "INCLUDE:pro-users"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "type"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "favoritesFirst",
+                      "value": "true"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "IS:true"
+                    },
+                    {
+                      "key": "createdAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    },
+                    {
+                      "key": "lastSeenAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9bf2eb27-2ec1-407c-9ab9-25d101a89fcf",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "search",
+                    "features"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "feature_a"
+                    },
+                    {
+                      "key": "project",
+                      "value": "IS:default"
+                    },
+                    {
+                      "key": "state",
+                      "value": "IS:active"
+                    },
+                    {
+                      "key": "lifecycle",
+                      "value": "IS:initial"
+                    },
+                    {
+                      "key": "type",
+                      "value": "IS:release"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "IS:1"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "INCLUDE:simple:my_tag"
+                    },
+                    {
+                      "key": "segment",
+                      "value": "INCLUDE:pro-users"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "status",
+                      "value": "production:enabled"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "type"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "favoritesFirst",
+                      "value": "true"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "IS:true"
+                    },
+                    {
+                      "key": "createdAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    },
+                    {
+                      "key": "lastSeenAt",
+                      "value": "IS_ON_OR_AFTER:2023-01-28"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7edf718e-d839-4463-aa84-0c7213e0e504",
+    "name": "Unleash Admin Addons Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

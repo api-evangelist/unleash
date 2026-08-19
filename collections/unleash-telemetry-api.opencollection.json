@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Telemetry API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Telemetry",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Telemetry Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/telemetry/settings"
+          },
+          "docs": "Provides the configured settings for [telemetry information collection](https://docs.getunleash.io/topics/data-collection)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

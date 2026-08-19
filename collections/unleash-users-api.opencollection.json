@@ -1,0 +1,494 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Users API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a List of Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/groups"
+          },
+          "docs": "**Enterprise feature**\n\nGet a list of user groups for Role-Based Access Control"
+        },
+        {
+          "info": {
+            "name": "Create a New Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/groups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nCreate a new user group for Role-Based Access Control"
+        },
+        {
+          "info": {
+            "name": "Get a Single Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGet a single user group by group id"
+        },
+        {
+          "info": {
+            "name": "Update a Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nUpdate existing user group by group id. It overrides previous group details."
+        },
+        {
+          "info": {
+            "name": "Delete a Single Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nDelete a single user group by group id"
+        },
+        {
+          "info": {
+            "name": "Delete All SCIM Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/groups/scim-groups"
+          },
+          "docs": "**Enterprise feature**\n\nDeletes all groups managed by SCIM"
+        },
+        {
+          "info": {
+            "name": "Get a List of Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/roles"
+          },
+          "docs": "**Enterprise feature**\n\nGet a list of project, root and custom roles for Role-Based Access Control"
+        },
+        {
+          "info": {
+            "name": "Create a New Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/roles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nCreate a new custom role for Role-Based Access Control"
+        },
+        {
+          "info": {
+            "name": "Get a Single Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/roles/:roleId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGet a single role by role id"
+        },
+        {
+          "info": {
+            "name": "Update a Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/roles/:roleId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nUpdate a custom role by role id"
+        },
+        {
+          "info": {
+            "name": "Delete a Custom Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/roles/:roleId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nDelete a custom role by id. You cannot delete built-in roles or roles that are in use."
+        },
+        {
+          "info": {
+            "name": "Validate a Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/roles/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nCheck if the role matches schema and has a unique name"
+        },
+        {
+          "info": {
+            "name": "Get Your Own User Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user"
+          },
+          "docs": "Detailed information about the current user, user permissions and user feedback"
+        },
+        {
+          "info": {
+            "name": "Get Your Own User Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user/profile"
+          },
+          "docs": "Detailed information about the current user root role and project membership"
+        },
+        {
+          "info": {
+            "name": "Change Your Own Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/user/change-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Requires specifying old password and confirming new password"
+        },
+        {
+          "info": {
+            "name": "Get Roles for Currently Logged in User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user/roles",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the project you want to check permissions for"
+              }
+            ]
+          },
+          "docs": "Gets roles assigned to currently logged in user. Both explicitly and transitively through group memberships"
+        },
+        {
+          "info": {
+            "name": "Gets Inactive Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/inactive"
+          },
+          "docs": "Gets all inactive users. An inactive user is a user that has not logged in in the last 180 days"
+        },
+        {
+          "info": {
+            "name": "Deletes Inactive Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/inactive/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes all inactive users. An inactive user is a user that has not logged in in the last 180 days"
+        },
+        {
+          "info": {
+            "name": "Validate Password for a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/validate-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validate the password strength. Minimum 10 characters, uppercase letter, number, special character."
+        },
+        {
+          "info": {
+            "name": "Change Password for a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/:id/change-password",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a user id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change password for a user as an admin"
+        },
+        {
+          "info": {
+            "name": "Reset User Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/reset-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reset user password as an admin"
+        },
+        {
+          "info": {
+            "name": "Get All Users and [root Roles](https://docs.getunleash.io/concepts/rbac#predefined-roles)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin"
+          },
+          "docs": "Will return all users and all available root roles for the Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Create a New User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new user with the given root role."
+        },
+        {
+          "info": {
+            "name": "Search Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "The pattern to search in the username or email"
+              }
+            ]
+          },
+          "docs": " It will preform a simple search based on name and email matching the given query. Requires minimum 2 characters"
+        },
+        {
+          "info": {
+            "name": "Get Basic User and Group Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/access"
+          },
+          "docs": "Get a subset of user and group information eligible even for non-admin users"
+        },
+        {
+          "info": {
+            "name": "Get Total Count of Admin Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/admin-count"
+          },
+          "docs": "Get a total count of admins with password, without password and admin service accounts"
+        },
+        {
+          "info": {
+            "name": "Get User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a user id"
+              }
+            ]
+          },
+          "docs": "Will return a single user by id"
+        },
+        {
+          "info": {
+            "name": "Update a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a user id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Only the explicitly specified fields get updated."
+        },
+        {
+          "info": {
+            "name": "Delete a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "a user id"
+              }
+            ]
+          },
+          "docs": "Deletes the user with the given userId"
+        },
+        {
+          "info": {
+            "name": "Delete All SCIM Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/user-admin/scim-users"
+          },
+          "docs": "Deletes all users managed by SCIM"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

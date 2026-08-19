@@ -1,0 +1,919 @@
+{
+  "item": [
+    {
+      "id": "1bd3a7aa-1940-4fca-b71a-1f3e3541c493",
+      "name": "Instance Admin",
+      "description": {
+        "content": "Instance admin endpoints used to manage the Unleash instance itself.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2d8672d4-ae2e-4818-92e6-f4dadde033d9",
+          "name": "Get All Login Events.",
+          "request": {
+            "name": "Get All Login Events.",
+            "description": {
+              "content": "**Enterprise feature**\n\nReturns **all** login events in the Unleash system. You can optionally get them in CSV format by specifying the `Accept` header as `text/csv`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "logins"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "04c70def-2f51-4748-af34-e7a4c4950bb9",
+              "name": "loginHistorySchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "logins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"events\": [\n    {\n      \"id\": 13,\n      \"username\": \"admin\",\n      \"auth_type\": \"simple\",\n      \"created_at\": \"2023-03-01T12:04:26.061Z\",\n      \"successful\": true,\n      \"ip\": \"::ffff:127.0.0.1\",\n      \"failure_reason\": \"No user found\"\n    },\n    {\n      \"id\": 13,\n      \"username\": \"admin\",\n      \"auth_type\": \"simple\",\n      \"created_at\": \"2023-03-01T12:04:26.061Z\",\n      \"successful\": true,\n      \"ip\": \"::ffff:127.0.0.1\",\n      \"failure_reason\": \"No user found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "260b500c-6b59-481a-8448-958828e5654d",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "logins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e8828749-31de-4d94-ab50-b5af3638181e",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "logins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9136ed8-6723-44e8-8f81-2e5661c8d332",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "logins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b6b8027-31eb-46df-9180-42eb39d1b890",
+          "name": "Validates the Unleash License.",
+          "request": {
+            "name": "Validates the Unleash License.",
+            "description": {
+              "content": "**Enterprise feature**\n\nValidates the Unleash license.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "license",
+                "check"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "51a4a812-bdde-461c-bb4a-8ba4820195b6",
+              "name": "licenseCheckSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "license",
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"isValid\": true,\n  \"message\": \"Your license expired 3 days ago\",\n  \"messageType\": \"info\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eca03495-cb47-4966-b673-cc23c677b9e4",
+          "name": "Reads the Unleash License.",
+          "request": {
+            "name": "Reads the Unleash License.",
+            "description": {
+              "content": "**Enterprise feature**\n\nReads the Unleash license. Only available for self-hosted Enterprise customers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "license"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "72f7d8d6-842a-4b1c-90a0-093a075d09c0",
+              "name": "licenseReadSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "license"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"isValid\": true,\n  \"token\": \"string\",\n  \"customer\": \"string\",\n  \"type\": \"string\",\n  \"instanceName\": \"string\",\n  \"instanceId\": \"string\",\n  \"plan\": \"string\",\n  \"resources\": {\n    \"seats\": 9147.019945310087,\n    \"releaseTemplates\": 728.1807118715,\n    \"edgeInstances\": 3350.2214810105947,\n    \"readOnlyUsers\": 9719.902364431786\n  },\n  \"expireAt\": \"2023-07-31T13:33:02Z\",\n  \"issuedAt\": \"2023-07-31T13:33:02Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ab6578d5-8e3f-40f6-8606-cd13d8183675",
+          "name": "Set a New Unleash License.",
+          "request": {
+            "name": "Set a New Unleash License.",
+            "description": {
+              "content": "**Enterprise feature**\n\nSet a new Unleash license. Only available for self-hosted Enterprise customers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "license"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9ed622df-a821-487c-9ba4-874738f651f2",
+              "name": "The resource was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "license"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The location of the newly created resource.",
+                  "key": "location",
+                  "value": "http://rPilHElGLMRsPevRLAk.gqyJxRY2BhVA8e8mxJY14kPL3nimA3T4SMS.uuiHlJSd4qTc2W5k+j3.M0bm9F1w6g,30Of"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"isValid\": true,\n  \"token\": \"string\",\n  \"customer\": \"string\",\n  \"type\": \"string\",\n  \"instanceName\": \"string\",\n  \"instanceId\": \"string\",\n  \"plan\": \"string\",\n  \"resources\": {\n    \"seats\": 9147.019945310087,\n    \"releaseTemplates\": 728.1807118715,\n    \"edgeInstances\": 3350.2214810105947,\n    \"readOnlyUsers\": 9719.902364431786\n  },\n  \"expireAt\": \"2023-07-31T13:33:02Z\",\n  \"issuedAt\": \"2023-07-31T13:33:02Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7cd87b05-1862-4196-9e30-1088cc6bf476",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "license"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "627c76c6-382d-4e42-b715-b5e8add418cd",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "license"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f18bbc11-7797-4e9b-8c0a-efe7d0aa0b25",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "license"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae139ad6-ddae-4f65-a9fc-908d72f0eea0",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "license"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19017b14-6d88-45de-8e3b-26839fee2dc8",
+          "name": "Instance Usage Statistics",
+          "request": {
+            "name": "Instance Usage Statistics",
+            "description": {
+              "content": "Provides statistics about various features of Unleash to allow for reporting of usage for self-hosted customers. The response contains data such as the number of users, groups, features, strategies, versions, etc.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "instance-admin",
+                "statistics",
+                "csv"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3869cbf2-b430-4dd4-b313-f690b25a1c18",
+              "name": "instanceAdminStatsSchemaCsv",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "instance-admin",
+                    "statistics",
+                    "csv"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "\"OIDCenabled\",\"SAMLenabled\",\"passwordAuthEnabled\",\"SCIMenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"archivedFeatureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"licensedUsers\",\"serviceAccounts\",\"apiTokens\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\",\"productionChanges\",\"previousDayMetricsBucketsCount\",\"maxEnvironmentStrategies\",\"maxConstraints\",\"maxConstraintValues\",\"releaseTemplates\",\"releasePlans\",\"edgeInstanceUsage\",\"readOnlyUsers\"\ntrue,false,true,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,10,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",4,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,12,2,\"{}\",\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last60\"\":12,\"\"last30\"\":10,\"\"last7\"\":5}\",\"{\"\"last30\"\":100,\"\"last60\"\":200,\"\"last90\"\":200}\",\"{\"\"variantCount\"\":100,\"\"enabledCount\"\":200}\",20,17,123,3,5,\"{\"\"2022-06\"\":2.345,\"\"2022-07\"\":2.567,\"\"2022-08\"\":2.789}\",4",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "865b80de-3fe8-4ee6-82b5-e3c59101468a",
+          "name": "Instance Usage Statistics",
+          "request": {
+            "name": "Instance Usage Statistics",
+            "description": {
+              "content": "Provides statistics about various features of Unleash to allow for reporting of usage for self-hosted customers. The response contains data such as the number of users, groups, features, strategies, versions, etc.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "instance-admin",
+                "statistics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a57f6e73-be49-40e7-88db-0405af4fb5a1",
+              "name": "instanceAdminStatsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "instance-admin",
+                    "statistics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instanceId\": \"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",\n  \"timestamp\": \"2023-06-12T12:25:06Z\",\n  \"versionOSS\": \"5.1.7\",\n  \"versionEnterprise\": \"5.1.7\",\n  \"users\": 8,\n  \"previousDayMetricsBucketsCount\": {\n    \"enabledCount\": 10,\n    \"variantCount\": 10\n  },\n  \"activeUsers\": {\n    \"last7\": 5,\n    \"last30\": 10,\n    \"last60\": 12,\n    \"last90\": 15\n  },\n  \"licensedUsers\": 10,\n  \"productionChanges\": {\n    \"last30\": 10,\n    \"last60\": 12,\n    \"last90\": 15\n  },\n  \"featureToggles\": 47,\n  \"projects\": 3,\n  \"contextFields\": 7,\n  \"roles\": 5,\n  \"groups\": 12,\n  \"environments\": 3,\n  \"segments\": 19,\n  \"strategies\": 8,\n  \"SAMLenabled\": false,\n  \"OIDCenabled\": true,\n  \"clientApps\": [\n    {\n      \"range\": \"30d\",\n      \"count\": 1\n    },\n    {\n      \"range\": \"30d\",\n      \"count\": 1\n    }\n  ],\n  \"featureExports\": 0,\n  \"featureImports\": 0,\n  \"apiTokens\": {\n    \"admin\": 5,\n    \"client\": 5,\n    \"frontend\": 5\n  },\n  \"maxEnvironmentStrategies\": 3,\n  \"maxConstraints\": 4,\n  \"maxConstraintValues\": 17,\n  \"releaseTemplates\": 2,\n  \"releasePlans\": 1,\n  \"edgeInstanceUsage\": {\n    \"2025-09\": 2.25,\n    \"2025-08\": 1.75,\n    \"2024-10\": 0.45\n  },\n  \"readOnlyUsers\": 1,\n  \"sum\": \"b023323477abb1eb145bebf3cdb30a1c2063e3edc1f7ae474ed8ed6c80de9a3b\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "acd7e1c8-a63f-469d-b627-74039605f0df",
+    "name": "Unleash Admin Addons Instance Admin API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

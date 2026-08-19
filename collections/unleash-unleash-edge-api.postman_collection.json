@@ -1,0 +1,636 @@
+{
+  "item": [
+    {
+      "id": "c162044c-dcd0-4193-a7d5-e18bc794409e",
+      "name": "Unleash Edge",
+      "description": {
+        "content": "Endpoints related to [Unleash Edge](https://docs.getunleash.io/unleash-edge).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bf18cf1c-3d1e-41ec-b82c-982a987a1a28",
+          "name": "Register Edge Observability Metrics.",
+          "request": {
+            "name": "Register Edge Observability Metrics.",
+            "description": {
+              "content": "**Enterprise feature**\n\nRegisters Edge observability metrics from downstream Edge instances to aggregate a comprehensive status view of connected Edges.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "client",
+                "metrics",
+                "edge"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"<string>\",\n  \"appName\": \"<string>\",\n  \"edgeVersion\": \"<string>\",\n  \"started\": \"<dateTime>\",\n  \"traffic\": {\n    \"get\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      },\n      \"key_1\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      },\n      \"key_2\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      },\n      \"key_3\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      }\n    },\n    \"post\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      },\n      \"key_1\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      }\n    },\n    \"accessDenied\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      }\n    },\n    \"cachedResponses\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      },\n      \"key_1\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": \"<number>\"\n      }\n    }\n  },\n  \"latencyUpstream\": {\n    \"features\": {\n      \"avg\": \"<number>\",\n      \"count\": \"<number>\",\n      \"p99\": \"<number>\"\n    },\n    \"metrics\": {\n      \"avg\": \"<number>\",\n      \"count\": \"<number>\",\n      \"p99\": \"<number>\"\n    },\n    \"edge\": {\n      \"avg\": \"<number>\",\n      \"count\": \"<number>\",\n      \"p99\": \"<number>\"\n    }\n  },\n  \"connectedStreamingClients\": \"<number>\",\n  \"connectedEdges\": [\n    {\n      \"identifier\": \"<string>\",\n      \"appName\": \"<string>\",\n      \"edgeVersion\": \"<string>\",\n      \"started\": \"<dateTime>\",\n      \"traffic\": {\n        \"get\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        },\n        \"post\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_2\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_3\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        },\n        \"accessDenied\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        },\n        \"cachedResponses\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        }\n      },\n      \"latencyUpstream\": {\n        \"features\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": \"<number>\"\n        },\n        \"metrics\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": \"<number>\"\n        },\n        \"edge\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": \"<number>\"\n        }\n      },\n      \"connectedStreamingClients\": \"<number>\",\n      \"connectedEdges\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        }\n      ],\n      \"region\": \"<string>\",\n      \"processMetrics\": {\n        \"cpuUsage\": \"<number>\",\n        \"memoryUsage\": \"<number>\"\n      },\n      \"requestsSinceLastReport\": {\n        \"/api/client/features\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/frontend\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/proxy\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/bulk\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/edge\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        }\n      },\n      \"connectionConsumptionSinceLastReport\": {\n        \"features\": [\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"metrics\": [\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ]\n      },\n      \"requestConsumptionSinceLastReport\": [\n        {\n          \"meteredGroup\": \"<string>\",\n          \"requests\": \"<number>\"\n        },\n        {\n          \"meteredGroup\": \"<string>\",\n          \"requests\": \"<number>\"\n        }\n      ],\n      \"hosting\": \"<string>\",\n      \"apiKeyRevisionIds\": [\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        },\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        }\n      ]\n    },\n    {\n      \"identifier\": \"<string>\",\n      \"appName\": \"<string>\",\n      \"edgeVersion\": \"<string>\",\n      \"started\": \"<dateTime>\",\n      \"traffic\": {\n        \"get\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        },\n        \"post\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_2\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        },\n        \"accessDenied\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        },\n        \"cachedResponses\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_2\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          },\n          \"key_3\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": \"<number>\"\n          }\n        }\n      },\n      \"latencyUpstream\": {\n        \"features\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": \"<number>\"\n        },\n        \"metrics\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": \"<number>\"\n        },\n        \"edge\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": \"<number>\"\n        }\n      },\n      \"connectedStreamingClients\": \"<number>\",\n      \"connectedEdges\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        }\n      ],\n      \"region\": \"<string>\",\n      \"processMetrics\": {\n        \"cpuUsage\": \"<number>\",\n        \"memoryUsage\": \"<number>\"\n      },\n      \"requestsSinceLastReport\": {\n        \"/api/client/features\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/frontend\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/proxy\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/bulk\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/edge\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        }\n      },\n      \"connectionConsumptionSinceLastReport\": {\n        \"features\": [\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"metrics\": [\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"<string>\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ]\n      },\n      \"requestConsumptionSinceLastReport\": [\n        {\n          \"meteredGroup\": \"<string>\",\n          \"requests\": \"<number>\"\n        },\n        {\n          \"meteredGroup\": \"<string>\",\n          \"requests\": \"<number>\"\n        }\n      ],\n      \"hosting\": \"<string>\",\n      \"apiKeyRevisionIds\": [\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        },\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        }\n      ]\n    }\n  ],\n  \"region\": \"<string>\",\n  \"processMetrics\": {\n    \"cpuUsage\": \"<number>\",\n    \"memoryUsage\": \"<number>\"\n  },\n  \"requestsSinceLastReport\": {\n    \"/api/client/features\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/frontend\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/proxy\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/client/metrics\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/client/metrics/bulk\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/client/metrics/edge\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    }\n  },\n  \"connectionConsumptionSinceLastReport\": {\n    \"features\": [\n      {\n        \"meteredGroup\": \"<string>\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      },\n      {\n        \"meteredGroup\": \"<string>\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      }\n    ],\n    \"metrics\": [\n      {\n        \"meteredGroup\": \"<string>\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      },\n      {\n        \"meteredGroup\": \"<string>\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      }\n    ]\n  },\n  \"requestConsumptionSinceLastReport\": [\n    {\n      \"meteredGroup\": \"<string>\",\n      \"requests\": \"<number>\"\n    },\n    {\n      \"meteredGroup\": \"<string>\",\n      \"requests\": \"<number>\"\n    }\n  ],\n  \"hosting\": \"<string>\",\n  \"apiKeyRevisionIds\": [\n    {\n      \"environment\": \"<string>\",\n      \"projects\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"revisionId\": \"<number>\",\n      \"lastUpdated\": \"<dateTime>\"\n    },\n    {\n      \"environment\": \"<string>\",\n      \"projects\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"revisionId\": \"<number>\",\n      \"lastUpdated\": \"<dateTime>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2a807567-7cba-4d8c-bd1a-aaff559aa38b",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics",
+                    "edge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifier\": \"01ARZ3NDEKTSV4RRFFQ69G5FAV\",\n  \"appName\": \"unleash-edge-us-east-1\",\n  \"edgeVersion\": \"19.6.3\",\n  \"started\": \"<dateTime>\",\n  \"traffic\": {\n    \"get\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      },\n      \"key_1\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      },\n      \"key_2\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      }\n    },\n    \"post\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      }\n    },\n    \"accessDenied\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      }\n    },\n    \"cachedResponses\": {\n      \"key_0\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      },\n      \"key_1\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      },\n      \"key_2\": {\n        \"avg\": \"<number>\",\n        \"count\": \"<number>\",\n        \"p99\": 34.5\n      }\n    }\n  },\n  \"latencyUpstream\": {\n    \"features\": {\n      \"avg\": \"<number>\",\n      \"count\": \"<number>\",\n      \"p99\": 34.5\n    },\n    \"metrics\": {\n      \"avg\": \"<number>\",\n      \"count\": \"<number>\",\n      \"p99\": 34.5\n    },\n    \"edge\": {\n      \"avg\": \"<number>\",\n      \"count\": \"<number>\",\n      \"p99\": 34.5\n    }\n  },\n  \"connectedStreamingClients\": \"<number>\",\n  \"connectedEdges\": [\n    {\n      \"identifier\": \"01ARZ3NDEKTSV4RRFFQ69G5FAV\",\n      \"appName\": \"unleash-edge-us-east-1\",\n      \"edgeVersion\": \"19.6.3\",\n      \"started\": \"<dateTime>\",\n      \"traffic\": {\n        \"get\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          },\n          \"key_2\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          },\n          \"key_3\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        },\n        \"post\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        },\n        \"accessDenied\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        },\n        \"cachedResponses\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        }\n      },\n      \"latencyUpstream\": {\n        \"features\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": 34.5\n        },\n        \"metrics\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": 34.5\n        },\n        \"edge\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": 34.5\n        }\n      },\n      \"connectedStreamingClients\": \"<number>\",\n      \"connectedEdges\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        }\n      ],\n      \"region\": \"us-east-1\",\n      \"processMetrics\": {\n        \"cpuUsage\": 54.54,\n        \"memoryUsage\": 34000432\n      },\n      \"requestsSinceLastReport\": {\n        \"/api/client/features\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/frontend\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/proxy\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/bulk\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/edge\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        }\n      },\n      \"connectionConsumptionSinceLastReport\": {\n        \"features\": [\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"metrics\": [\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ]\n      },\n      \"requestConsumptionSinceLastReport\": [\n        {\n          \"meteredGroup\": \"default\",\n          \"requests\": 10000\n        },\n        {\n          \"meteredGroup\": \"default\",\n          \"requests\": 10000\n        }\n      ],\n      \"hosting\": \"<string>\",\n      \"apiKeyRevisionIds\": [\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        },\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        }\n      ]\n    },\n    {\n      \"identifier\": \"01ARZ3NDEKTSV4RRFFQ69G5FAV\",\n      \"appName\": \"unleash-edge-us-east-1\",\n      \"edgeVersion\": \"19.6.3\",\n      \"started\": \"<dateTime>\",\n      \"traffic\": {\n        \"get\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        },\n        \"post\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        },\n        \"accessDenied\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        },\n        \"cachedResponses\": {\n          \"key_0\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          },\n          \"key_1\": {\n            \"avg\": \"<number>\",\n            \"count\": \"<number>\",\n            \"p99\": 34.5\n          }\n        }\n      },\n      \"latencyUpstream\": {\n        \"features\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": 34.5\n        },\n        \"metrics\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": 34.5\n        },\n        \"edge\": {\n          \"avg\": \"<number>\",\n          \"count\": \"<number>\",\n          \"p99\": 34.5\n        }\n      },\n      \"connectedStreamingClients\": \"<number>\",\n      \"connectedEdges\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/edgeInstanceDataSchema detected>\"\n        }\n      ],\n      \"region\": \"us-east-1\",\n      \"processMetrics\": {\n        \"cpuUsage\": 54.54,\n        \"memoryUsage\": 34000432\n      },\n      \"requestsSinceLastReport\": {\n        \"/api/client/features\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/frontend\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/proxy\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/bulk\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        },\n        \"/api/client/metrics/edge\": {\n          \"requests200\": \"<number>\",\n          \"requests304\": \"<number>\"\n        }\n      },\n      \"connectionConsumptionSinceLastReport\": {\n        \"features\": [\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"metrics\": [\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"meteredGroup\": \"default\",\n            \"dataPoints\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ]\n      },\n      \"requestConsumptionSinceLastReport\": [\n        {\n          \"meteredGroup\": \"default\",\n          \"requests\": 10000\n        },\n        {\n          \"meteredGroup\": \"default\",\n          \"requests\": 10000\n        }\n      ],\n      \"hosting\": \"<string>\",\n      \"apiKeyRevisionIds\": [\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        },\n        {\n          \"environment\": \"<string>\",\n          \"projects\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"revisionId\": \"<number>\",\n          \"lastUpdated\": \"<dateTime>\"\n        }\n      ]\n    }\n  ],\n  \"region\": \"us-east-1\",\n  \"processMetrics\": {\n    \"cpuUsage\": 54.54,\n    \"memoryUsage\": 34000432\n  },\n  \"requestsSinceLastReport\": {\n    \"/api/client/features\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/frontend\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/proxy\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/client/metrics\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/client/metrics/bulk\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    },\n    \"/api/client/metrics/edge\": {\n      \"requests200\": \"<number>\",\n      \"requests304\": \"<number>\"\n    }\n  },\n  \"connectionConsumptionSinceLastReport\": {\n    \"features\": [\n      {\n        \"meteredGroup\": \"default\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      },\n      {\n        \"meteredGroup\": \"default\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      }\n    ],\n    \"metrics\": [\n      {\n        \"meteredGroup\": \"default\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      },\n      {\n        \"meteredGroup\": \"default\",\n        \"dataPoints\": [\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          },\n          {\n            \"interval\": [\n              0,\n              15000\n            ],\n            \"requests\": \"<number>\"\n          }\n        ]\n      }\n    ]\n  },\n  \"requestConsumptionSinceLastReport\": [\n    {\n      \"meteredGroup\": \"default\",\n      \"requests\": 10000\n    },\n    {\n      \"meteredGroup\": \"default\",\n      \"requests\": 10000\n    }\n  ],\n  \"hosting\": \"<string>\",\n  \"apiKeyRevisionIds\": [\n    {\n      \"environment\": \"<string>\",\n      \"projects\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"revisionId\": \"<number>\",\n      \"lastUpdated\": \"<dateTime>\"\n    },\n    {\n      \"environment\": \"<string>\",\n      \"projects\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"revisionId\": \"<number>\",\n      \"lastUpdated\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4fe93868-43ab-4d37-8eb2-a6011dcebdf1",
+          "name": "Send Metrics in Bulk",
+          "request": {
+            "name": "Send Metrics in Bulk",
+            "description": {
+              "content": "This operation accepts batched metrics from any client. Metrics will be inserted into Unleash's metrics storage",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "client",
+                "metrics",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"applications\": [\n    {\n      \"appName\": \"<string>\",\n      \"instanceId\": \"<string>\",\n      \"environment\": \"<string>\",\n      \"connectVia\": [\n        {\n          \"appName\": \"<string>\",\n          \"instanceId\": \"<string>\"\n        },\n        {\n          \"appName\": \"<string>\",\n          \"instanceId\": \"<string>\"\n        }\n      ],\n      \"interval\": \"<number>\",\n      \"started\": \"<dateTime>\",\n      \"strategies\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"projects\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"sdkVersion\": \"<string>\",\n      \"sdkType\": \"<string>\"\n    },\n    {\n      \"appName\": \"<string>\",\n      \"instanceId\": \"<string>\",\n      \"environment\": \"<string>\",\n      \"connectVia\": [\n        {\n          \"appName\": \"<string>\",\n          \"instanceId\": \"<string>\"\n        },\n        {\n          \"appName\": \"<string>\",\n          \"instanceId\": \"<string>\"\n        }\n      ],\n      \"interval\": \"<number>\",\n      \"started\": \"<dateTime>\",\n      \"strategies\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"projects\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"sdkVersion\": \"<string>\",\n      \"sdkType\": \"<string>\"\n    }\n  ],\n  \"metrics\": [\n    {\n      \"featureName\": \"<string>\",\n      \"appName\": \"<string>\",\n      \"environment\": \"<string>\",\n      \"timestamp\": \"<dateTime>\",\n      \"yes\": \"<integer>\",\n      \"no\": \"<integer>\",\n      \"variants\": {\n        \"key_0\": \"<integer>\",\n        \"key_1\": \"<integer>\"\n      }\n    },\n    {\n      \"featureName\": \"<string>\",\n      \"appName\": \"<string>\",\n      \"environment\": \"<string>\",\n      \"timestamp\": \"<dateTime>\",\n      \"yes\": \"<integer>\",\n      \"no\": \"<integer>\",\n      \"variants\": {\n        \"key_0\": \"<integer>\"\n      }\n    }\n  ],\n  \"impactMetrics\": [\n    {\n      \"name\": \"<string>\",\n      \"help\": \"<string>\",\n      \"type\": \"<string>\",\n      \"samples\": [\n        {\n          \"value\": \"<number>\",\n          \"labels\": {\n            \"key_0\": \"<string>\"\n          }\n        },\n        {\n          \"value\": \"<number>\",\n          \"labels\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"<string>\",\n      \"help\": \"<string>\",\n      \"type\": \"<string>\",\n      \"samples\": [\n        {\n          \"value\": \"<number>\",\n          \"labels\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          }\n        },\n        {\n          \"value\": \"<number>\",\n          \"labels\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\",\n            \"key_2\": \"<string>\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1ce3fe74-e1d9-4195-b61c-6d683e74a54b",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    },\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    }\n  ],\n  \"metrics\": [\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    },\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    }\n  ],\n  \"impactMetrics\": [\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fba8b8c4-7844-42f7-b472-67a4b5d91ba5",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    },\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    }\n  ],\n  \"metrics\": [\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    },\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    }\n  ],\n  \"impactMetrics\": [\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fad6fe2-9bd1-4511-925d-195f25106d00",
+              "name": "The request body is larger than what we accept. By default we only accept bodies of 100kB or less",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    },\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    }\n  ],\n  \"metrics\": [\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    },\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    }\n  ],\n  \"impactMetrics\": [\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTooLarge\",\n  \"message\": \"You provided more data than we can handle. Unleash accepts at most X MB.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b4bef6e-297e-4469-b2dd-1109ebaf6a3f",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "client",
+                    "metrics",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    },\n    {\n      \"appName\": \"Ingress load balancer\",\n      \"instanceId\": \"application-name-dacb1234\",\n      \"environment\": \"development\",\n      \"connectVia\": [\n        {\n          \"appName\": \"unleash-edge\",\n          \"instanceId\": \"edge-pod-bghzv5\"\n        }\n      ],\n      \"interval\": 10,\n      \"started\": \"2023-07-27T11:23:44Z\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\"\n      ],\n      \"projects\": [\n        \"projectA\",\n        \"projectB\"\n      ],\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"sdkType\": \"backend\"\n    }\n  ],\n  \"metrics\": [\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    },\n    {\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    }\n  ],\n  \"impactMetrics\": [\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"my-counter\",\n      \"help\": \"Counts the number of operations\",\n      \"type\": \"counter\",\n      \"samples\": [\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        },\n        {\n          \"value\": 10,\n          \"labels\": {\n            \"application\": \"my-app\",\n            \"environment\": \"production\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "94c731e2-63f1-459b-ab64-c47959f08c3e",
+          "name": "Check Which Tokens Are Valid",
+          "request": {
+            "name": "Check Which Tokens Are Valid",
+            "description": {
+              "content": "This operation accepts a list of tokens to validate. Unleash will validate each token you provide. For each valid token you provide, Unleash will return the token along with its type and which projects it has access to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "edge",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tokens\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f315e9dd-c6d0-4cb2-9579-9258305eae43",
+              "name": "validatedEdgeTokensSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "edge",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tokens\": [\n    \"aproject:development.randomstring\",\n    \"[]:production.randomstring\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tokens\": [\n    {\n      \"token\": \"*:development.5c806b5320c88cf27e81f3e9b97dab298a77d5879316e3c2d806206b\",\n      \"projects\": [\n        \"developerexperience\",\n        \"enterprisegrowth\"\n      ],\n      \"type\": \"client\"\n    },\n    {\n      \"token\": \"*:development.5c806b5320c88cf27e81f3e9b97dab298a77d5879316e3c2d806206b\",\n      \"projects\": [\n        \"developerexperience\",\n        \"enterprisegrowth\"\n      ],\n      \"type\": \"client\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f33a43c-bbbd-4b17-ad63-210a911c6129",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "edge",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tokens\": [\n    \"aproject:development.randomstring\",\n    \"[]:production.randomstring\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0efea7f-6e6a-4d68-96b9-8770b85f08b3",
+              "name": "The request body is larger than what we accept. By default we only accept bodies of 100kB or less",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "edge",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tokens\": [\n    \"aproject:development.randomstring\",\n    \"[]:production.randomstring\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTooLarge\",\n  \"message\": \"You provided more data than we can handle. Unleash accepts at most X MB.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad1a7c93-bc1d-43af-9e6a-96ef7c626aa7",
+              "name": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "edge",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tokens\": [\n    \"aproject:development.randomstring\",\n    \"[]:production.randomstring\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ContentTypeerror\",\n  \"message\": \"We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d0496d26-ed13-4b21-acc9-4c58a1893358",
+    "name": "Unleash Admin Addons Unleash Edge API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

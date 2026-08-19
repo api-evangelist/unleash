@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons API tokens API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "API tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get API Tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/api-tokens"
+          },
+          "docs": "Retrieves all API tokens that exist in the Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Create API Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/api-tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an API token of a specific type: one of client, admin, frontend, backend."
+        },
+        {
+          "info": {
+            "name": "Get API Tokens by Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/api-tokens/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves all API tokens that match a given token name. Because token names are not unique, this endpoint will always return a list. If no tokens with the provided name exist, the list will be empty. Otherwise, it will contain all the tokens with the given name."
+        },
+        {
+          "info": {
+            "name": "Update API Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/api-tokens/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing API token with a new expiry date. The `token` path parameter is the token's `secret`. If the token does not exist, this endpoint returns a 200 OK, but does nothing."
+        },
+        {
+          "info": {
+            "name": "Delete API Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/api-tokens/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes an existing API token. The `token` path parameter is the token's `secret`. If the token does not exist, this endpoint returns a 200 OK, but does nothing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

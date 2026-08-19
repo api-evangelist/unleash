@@ -1,0 +1,998 @@
+{
+  "item": [
+    {
+      "id": "aa4ea464-cb9a-409b-a5d1-096a1a1c7fa7",
+      "name": "Frontend API",
+      "description": {
+        "content": "The [Frontend API](https://docs.getunleash.io/concepts/front-end-api) is used for connecting client-side (frontend) applications to Unleash.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6f584519-e843-4db1-b54e-5406ba96d874",
+          "name": "Retrieve Enabled Feature Flags for the Provided Context.",
+          "request": {
+            "name": "Retrieve Enabled Feature Flags for the Provided Context.",
+            "description": {
+              "content": "This endpoint returns the list of feature flags that the frontend API evaluates to enabled for the given context. Context values are provided as query parameters. If the Frontend API is disabled 404 is returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "frontend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5bfa57aa-d25d-4fd2-89f8-68488808cd6e",
+              "name": "frontendApiFeaturesSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"toggles\": [\n    {\n      \"name\": \"disable-comments\",\n      \"enabled\": true,\n      \"impressionData\": false,\n      \"variant\": {\n        \"name\": \"blue_group\",\n        \"enabled\": true,\n        \"payload\": {\n          \"type\": \"json\",\n          \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n        },\n        \"feature_enabled\": true,\n        \"featureEnabled\": true\n      }\n    },\n    {\n      \"name\": \"disable-comments\",\n      \"enabled\": true,\n      \"impressionData\": false,\n      \"variant\": {\n        \"name\": \"blue_group\",\n        \"enabled\": true,\n        \"payload\": {\n          \"type\": \"json\",\n          \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n        },\n        \"feature_enabled\": true,\n        \"featureEnabled\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a05da21f-af96-4e73-9de1-72a35215f186",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abb85fd4-88ef-4b81-ba91-e0699c405ee6",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d5f36fde-6b55-4e71-8172-35de1b173ce9",
+          "name": "Retrieve Enabled Feature Flags for the Provided Context, Using Post.",
+          "request": {
+            "name": "Retrieve Enabled Feature Flags for the Provided Context, Using Post.",
+            "description": {
+              "content": "This endpoint returns the list of feature flags that the frontend API evaluates to enabled for the given context, using POST. Context values are provided as a `context` property in the request body. If the Frontend API is disabled 404 is returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "frontend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": {\n    \"appName\": \"<string>\",\n    \"currentTime\": \"<dateTime>\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"remoteAddress\": \"<string>\",\n    \"sessionId\": \"<string>\",\n    \"userId\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "21582729-439e-484b-8587-ae9f75eaa3c6",
+              "name": "frontendApiFeaturesSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\",\n    \"key_0\": 4490\n  },\n  \"key_0\": true,\n  \"key_1\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"toggles\": [\n    {\n      \"name\": \"disable-comments\",\n      \"enabled\": true,\n      \"impressionData\": false,\n      \"variant\": {\n        \"name\": \"blue_group\",\n        \"enabled\": true,\n        \"payload\": {\n          \"type\": \"json\",\n          \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n        },\n        \"feature_enabled\": true,\n        \"featureEnabled\": true\n      }\n    },\n    {\n      \"name\": \"disable-comments\",\n      \"enabled\": true,\n      \"impressionData\": false,\n      \"variant\": {\n        \"name\": \"blue_group\",\n        \"enabled\": true,\n        \"payload\": {\n          \"type\": \"json\",\n          \"value\": \"{\\\"color\\\": \\\"red\\\"}\"\n        },\n        \"feature_enabled\": true,\n        \"featureEnabled\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71079e8c-cc43-4b65-92e0-ac8de7e7c229",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\",\n    \"key_0\": 4490\n  },\n  \"key_0\": true,\n  \"key_1\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bdda7182-6852-4daf-82e4-303393bc3623",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"context\": {\n    \"appName\": \"My cool application.\",\n    \"currentTime\": \"2022-07-05T12:56:41+02:00\",\n    \"environment\": \"<string>\",\n    \"properties\": {\n      \"customContextField\": \"this is one!\",\n      \"otherCustomField\": \"3\"\n    },\n    \"remoteAddress\": \"192.168.1.1\",\n    \"sessionId\": \"b65e7b23-fec0-4814-a129-0e9861ef18fc\",\n    \"userId\": \"username@provider.com\",\n    \"key_0\": 4490\n  },\n  \"key_0\": true,\n  \"key_1\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e0d1156b-c8c7-4bb3-be0f-2e27d752b198",
+          "name": "Register Client Usage Metrics",
+          "request": {
+            "name": "Register Client Usage Metrics",
+            "description": {
+              "content": "Registers usage metrics. Stores information about how many times each flag was evaluated to enabled and disabled within a time frame. If provided, this operation will also store data on how many times each feature flag's variants were displayed to the end user. If the Frontend API is disabled 404 is returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "frontend",
+                "client",
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appName\": \"<string>\",\n  \"bucket\": {\n    \"start\": \"<dateTime>\",\n    \"stop\": \"<dateTime>\",\n    \"toggles\": {\n      \"key_0\": {\n        \"yes\": \"<number>\",\n        \"no\": \"<integer>\",\n        \"variants\": {\n          \"key_0\": \"<integer>\",\n          \"key_1\": \"<integer>\"\n        }\n      }\n    }\n  },\n  \"instanceId\": \"<string>\",\n  \"environment\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"platformVersion\": \"<string>\",\n  \"yggdrasilVersion\": \"<string>\",\n  \"specVersion\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9a364403-5057-4275-814c-80b4895515f5",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c5f63d75-de70-4ed7-83ab-ec517aead53a",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "26f78ee0-71ad-4a1a-8192-3a93aac67e03",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d73bab5b-4c16-4890-9547-e4c163b51713",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0a31692-2f4d-428c-a544-a663c1bd0e42",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"insurance-selector\",\n  \"bucket\": {\n    \"start\": \"2023-07-27T11:23:44Z\",\n    \"stop\": \"2023-07-27T11:23:44Z\",\n    \"toggles\": {\n      \"myCoolToggle\": {\n        \"yes\": 25,\n        \"no\": 42,\n        \"variants\": {\n          \"blue\": 6,\n          \"green\": 15,\n          \"red\": 46\n        }\n      },\n      \"myOtherToggle\": {\n        \"yes\": 0,\n        \"no\": 100\n      }\n    }\n  },\n  \"instanceId\": \"application-name-dacb1234\",\n  \"environment\": \"development\",\n  \"sdkVersion\": \"unleash-client-java:7.0.0\",\n  \"platformName\": \".NET Core\",\n  \"platformVersion\": \"3.1\",\n  \"yggdrasilVersion\": \"1.0.0\",\n  \"specVersion\": \"3.0.0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9dba89b9-7aae-47c2-b74d-5f2860f02728",
+          "name": "Register a Client SDK",
+          "request": {
+            "name": "Register a Client SDK",
+            "description": {
+              "content": "This is for future use. Currently Frontend client registration is not supported. Returning 200 for clients that expect this status code. If the Frontend API is disabled 404 is returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "frontend",
+                "client",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appName\": \"<string>\",\n  \"interval\": \"<number>\",\n  \"started\": \"<dateTime>\",\n  \"strategies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instanceId\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"environment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cb6ac159-02de-4b32-a767-eda310573fd4",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"<string>\",\n  \"interval\": \"<number>\",\n  \"started\": \"<dateTime>\",\n  \"strategies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instanceId\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"environment\": \"development\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "51d9cde6-bbd9-445a-882b-e2432442891f",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"<string>\",\n  \"interval\": \"<number>\",\n  \"started\": \"<dateTime>\",\n  \"strategies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instanceId\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"environment\": \"development\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee863c61-54b1-4c88-a08a-9dbfb897e658",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"<string>\",\n  \"interval\": \"<number>\",\n  \"started\": \"<dateTime>\",\n  \"strategies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instanceId\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"environment\": \"development\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d88cf71c-cce7-460e-879f-2002b416b5ff",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "frontend",
+                    "client",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"appName\": \"<string>\",\n  \"interval\": \"<number>\",\n  \"started\": \"<dateTime>\",\n  \"strategies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instanceId\": \"<string>\",\n  \"sdkVersion\": \"<string>\",\n  \"environment\": \"development\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b3c4c9db-7238-47f0-a2f9-23ec8392c988",
+    "name": "Unleash Admin Addons Frontend API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

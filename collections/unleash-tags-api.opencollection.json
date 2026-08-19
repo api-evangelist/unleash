@@ -1,0 +1,237 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Tags API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Tags.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/tags"
+          },
+          "docs": "List all tags available in Unleash."
+        },
+        {
+          "info": {
+            "name": "Create a New Tag.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/tags",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new tag with the specified data."
+        },
+        {
+          "info": {
+            "name": "List All Tags of a Given Type.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/tags/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all tags of a given type. If the tag type does not exist it returns an empty list."
+        },
+        {
+          "info": {
+            "name": "Get a Tag by Type and Value.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/tags/:type/:value",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a tag by type and value. Can be used to check whether a given tag already exists in Unleash or not."
+        },
+        {
+          "info": {
+            "name": "Delete a Tag.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/tags/:type/:value",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a tag by type and value. When a tag is deleted all references to the tag are removed."
+        },
+        {
+          "info": {
+            "name": "Get All Tag Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/tag-types"
+          },
+          "docs": "Get a list of all available tag types."
+        },
+        {
+          "info": {
+            "name": "Create a Tag Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/tag-types",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new tag type."
+        },
+        {
+          "info": {
+            "name": "Validate a Tag Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/tag-types/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates whether if the body of the request is a valid tag and whether the a tag type with that name already exists or not. If a tag type with the same name exists, this operation will return a 409 status code."
+        },
+        {
+          "info": {
+            "name": "Get a Tag Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/tag-types/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a tag type by name."
+        },
+        {
+          "info": {
+            "name": "Update a Tag Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/tag-types/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the configuration for the specified tag type."
+        },
+        {
+          "info": {
+            "name": "Delete a Tag Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/tag-types/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a tag type. If any features have tags of this type, those tags will be deleted."
+        },
+        {
+          "info": {
+            "name": "Adds a Tag to the Specified Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/projects/:projectId/tags",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a tag to a list of features. Create tags if needed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

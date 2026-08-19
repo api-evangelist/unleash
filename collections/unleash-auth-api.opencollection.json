@@ -1,0 +1,225 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Auth API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets Available Permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/permissions"
+          },
+          "docs": "**Enterprise feature**\n\nReturns a list of available permissions"
+        },
+        {
+          "info": {
+            "name": "Log in",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/auth/simple/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Logs in the user and creates an active session"
+        },
+        {
+          "info": {
+            "name": "Get SAML Auth Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/auth/saml/settings"
+          },
+          "docs": "**Enterprise feature**\n\nReturns the current settings for SAML authentication"
+        },
+        {
+          "info": {
+            "name": "Update SAML Auth Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/auth/saml/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nUpdates the settings for SAML Authentication"
+        },
+        {
+          "info": {
+            "name": "Get OIDC Auth Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/auth/oidc/settings"
+          },
+          "docs": "**Enterprise feature**\n\nReturns the current settings for OIDC Authentication"
+        },
+        {
+          "info": {
+            "name": "Set OIDC Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/auth/oidc/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nConfigure OpenID Connect as a login provider for Unleash."
+        },
+        {
+          "info": {
+            "name": "Get Simple Auth Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/auth/simple/settings"
+          },
+          "docs": "**Enterprise feature**\n\nIs simple authentication (username/password) enabled for this server"
+        },
+        {
+          "info": {
+            "name": "Update Simple Auth Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/auth/simple/settings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Enterprise feature**\n\nEnable or disable simple authentication (username/password)"
+        },
+        {
+          "info": {
+            "name": "Returns the List of Permissions for the Service Account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/service-account/:id/permissions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "**Enterprise feature**\n\nGets a list of permissions for a service account. Project and environment can be specified."
+        },
+        {
+          "info": {
+            "name": "Gets Access Overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/access/overview"
+          },
+          "docs": "**Enterprise feature**\n\nGets an overview of what access all users have to all projects and groups"
+        },
+        {
+          "info": {
+            "name": "Validates a Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/auth/reset/validate"
+          },
+          "docs": "If the token is valid returns the user that owns the token"
+        },
+        {
+          "info": {
+            "name": "Changes a User Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/auth/reset/password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows users with a valid reset token to reset their password without remembering their old password"
+        },
+        {
+          "info": {
+            "name": "Validates Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/auth/reset/validate-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verifies that the password adheres to the [Unleash password guidelines](https://docs.getunleash.io/using-unleash/deploy/configuring-unleash#securing-unleash)"
+        },
+        {
+          "info": {
+            "name": "Reset Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/auth/reset/password-email",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Requests a password reset email for the user. This email can be used to reset the password for a user that has forgotten their password"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

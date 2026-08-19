@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons Public signup tokens API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Public signup tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Validate Signup Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/invite/:token/validate",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check whether the provided public sign-up token exists, has not expired and is enabled"
+        },
+        {
+          "info": {
+            "name": "Add a User Via a Signup Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/invite/:token/signup",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a user with the viewer root role and link them to the provided signup token"
+        },
+        {
+          "info": {
+            "name": "Get Public Signup Tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/invite-link/tokens"
+          },
+          "docs": "Retrieves all existing public signup tokens."
+        },
+        {
+          "info": {
+            "name": "Create a Public Signup Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/invite-link/tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lets administrators create a invite link to share with colleagues.  People that join using the public invite are assigned the `Viewer` role"
+        },
+        {
+          "info": {
+            "name": "Retrieve a Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/invite-link/tokens/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get information about a specific token. The `:token` part of the URL should be the token's secret."
+        },
+        {
+          "info": {
+            "name": "Update a Public Signup Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/invite-link/tokens/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update information about a specific token. The `:token` part of the URL should be the token's secret."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

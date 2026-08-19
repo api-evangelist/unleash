@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unleash Admin Addons API",
+    "version": "7.4.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Addons",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Addons and Providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/addons"
+          },
+          "docs": "Retrieve all addons and providers that are defined on this Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Create a New Addon",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.unleash-instance.example.com/api/admin/addons",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an addon instance. The addon must use one of the providers available on this Unleash instance."
+        },
+        {
+          "info": {
+            "name": "Get a Specific Addon",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/addons/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve information about the addon whose ID matches the ID in the request URL."
+        },
+        {
+          "info": {
+            "name": "Update an Addon",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.unleash-instance.example.com/api/admin/addons/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the addon with a specific ID. Any fields in the update object will be updated. Properties that are not included in the update object will not be affected. To empty a property, pass `null` as that property's value.\n\nNote: passing `null` as a value for the description property will set it to an empty string."
+        },
+        {
+          "info": {
+            "name": "Delete an Addon",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.unleash-instance.example.com/api/admin/addons/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete the addon specified by the ID in the request path."
+        },
+        {
+          "info": {
+            "name": "Get Integration Events for a Specific Integration Configuration.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.unleash-instance.example.com/api/admin/addons/:id/events",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return in a page. By default it is set to 50."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to skip when returning a page. By default it is set to 0."
+              }
+            ]
+          },
+          "docs": "Returns a list of integration events belonging to a specific integration configuration, identified by its id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

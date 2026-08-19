@@ -1,0 +1,133 @@
+{
+  "item": [
+    {
+      "id": "eb91d145-faf6-4201-901d-86cd7fcd71f0",
+      "name": "Unknown Flags",
+      "description": {
+        "content": "Endpoints related to unknown flags.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "df772e9b-db8b-446c-a273-8e84ce241e5b",
+          "name": "Get Unknown Flags",
+          "request": {
+            "name": "Get Unknown Flags",
+            "description": {
+              "content": "Returns a list of unknown flag reports from the last 24 hours, if any. Maximum of 1000.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "unknown-flags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "713f4f4d-9f10-4846-84c2-f7ff113d73be",
+              "name": "unknownFlagsResponseSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "unknown-flags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"unknownFlags\": [\n    {\n      \"name\": \"my-unknown-flag\",\n      \"lastSeenAt\": \"2023-10-01T12:00:00Z\",\n      \"lastEventAt\": \"2023-10-01T12:00:00Z\",\n      \"reports\": [\n        {\n          \"appName\": \"my-app\",\n          \"environments\": [\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            },\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            }\n          ]\n        },\n        {\n          \"appName\": \"my-app\",\n          \"environments\": [\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            },\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"name\": \"my-unknown-flag\",\n      \"lastSeenAt\": \"2023-10-01T12:00:00Z\",\n      \"lastEventAt\": \"2023-10-01T12:00:00Z\",\n      \"reports\": [\n        {\n          \"appName\": \"my-app\",\n          \"environments\": [\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            },\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            }\n          ]\n        },\n        {\n          \"appName\": \"my-app\",\n          \"environments\": [\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            },\n            {\n              \"environment\": \"production\",\n              \"seenAt\": \"2023-10-01T12:00:00Z\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8281f08c-6443-4712-8d2c-ef4fd557bd3f",
+    "name": "Unleash Admin Addons Unknown Flags API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}

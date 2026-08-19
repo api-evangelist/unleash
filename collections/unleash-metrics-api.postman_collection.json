@@ -1,0 +1,2230 @@
+{
+  "item": [
+    {
+      "id": "6611c8c1-6975-4dc8-a39a-3e96be85211f",
+      "name": "Metrics",
+      "description": {
+        "content": "Register, read, or delete metrics recorded by Unleash.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "83ca461f-3290-4788-bd6e-1a7e12b53a9d",
+          "name": "Gets Usage Data",
+          "request": {
+            "name": "Gets Usage Data",
+            "description": {
+              "content": "**Enterprise feature**\n\nGets usage data per app/endpoint from a prometheus compatible metrics endpoint",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "rps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64ae3dda-0099-40d5-b72e-3a14e4cf011d",
+              "name": "requestsPerSecondSegmentedSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "rps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientMetrics\": {\n    \"status\": \"success\",\n    \"data\": {\n      \"resultType\": \"vector\",\n      \"result\": [\n        {\n          \"metric\": {\n            \"appName\": \"mySdk\",\n            \"endpoint\": \"/api/frontend\"\n          },\n          \"values\": [\n            [\n              \"string\",\n              \"string\"\n            ],\n            [\n              \"string\",\n              \"string\"\n            ]\n          ]\n        },\n        {\n          \"metric\": {\n            \"appName\": \"mySdk\",\n            \"endpoint\": \"/api/frontend\"\n          },\n          \"values\": [\n            [\n              \"string\",\n              \"string\"\n            ],\n            [\n              \"string\",\n              \"string\"\n            ]\n          ]\n        }\n      ]\n    }\n  },\n  \"adminMetrics\": {\n    \"status\": \"success\",\n    \"data\": {\n      \"resultType\": \"vector\",\n      \"result\": [\n        {\n          \"metric\": {\n            \"appName\": \"mySdk\",\n            \"endpoint\": \"/api/frontend\"\n          },\n          \"values\": [\n            [\n              \"string\",\n              \"string\"\n            ],\n            [\n              \"string\",\n              \"string\"\n            ]\n          ]\n        },\n        {\n          \"metric\": {\n            \"appName\": \"mySdk\",\n            \"endpoint\": \"/api/frontend\"\n          },\n          \"values\": [\n            [\n              \"string\",\n              \"string\"\n            ],\n            [\n              \"string\",\n              \"string\"\n            ]\n          ]\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "20baa150-9f0f-49ff-8838-4caa76cd8d16",
+          "name": "Get Aggregated Traffic Data for a Given Time Period.",
+          "request": {
+            "name": "Get Aggregated Traffic Data for a Given Time Period.",
+            "description": {
+              "content": "**Enterprise feature**\n\nGets traffic usage data for the selected period, either aggregated by day or by month.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "traffic"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "grouping",
+                  "value": "<string>",
+                  "description": "(Required) Whether to aggregate the data by month or by day"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "(Required) The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "(Required) The starting date of the traffic data usage search in IS:yyyy-MM-dd format"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c8752264-d7f4-4515-8328-0f04e3075561",
+              "name": "trafficUsageDataSegmentedCombinedSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "traffic"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "grouping",
+                      "value": "daily"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2024-01-31"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dateRange\": {\n    \"from\": \"2023-04-01\",\n    \"to\": \"2023-04-30\"\n  },\n  \"apiData\": [\n    {\n      \"apiPath\": \"/api/client\",\n      \"dataPoints\": [\n        {\n          \"period\": \"2023-04-01\",\n          \"trafficTypes\": [\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            },\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            }\n          ]\n        },\n        {\n          \"period\": \"2023-04-01\",\n          \"trafficTypes\": [\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            },\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"apiPath\": \"/api/client\",\n      \"dataPoints\": [\n        {\n          \"period\": \"2023-04-01\",\n          \"trafficTypes\": [\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            },\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            }\n          ]\n        },\n        {\n          \"period\": \"2023-04-01\",\n          \"trafficTypes\": [\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            },\n            {\n              \"group\": \"successful-requests\",\n              \"count\": 42\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"grouping\": \"monthly\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1c32e418-3c19-492e-ae3b-ae0b5f00125b",
+          "name": "Create an Application to Connect Reported Metrics",
+          "request": {
+            "name": "Create an Application to Connect Reported Metrics",
+            "description": {
+              "content": "Is used to report usage as well which sdk the application uses",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "applications",
+                ":appName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appName",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"strategies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<string>\",\n  \"color\": \"<string>\",\n  \"icon\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7550b8a4-38a3-482e-886d-44956a8509db",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"strategies\": [\n    \"standard\",\n    \"gradualRollout\",\n    \"mySpecialCustomStrategy\"\n  ],\n  \"url\": \"https://github.com/Unleash/unleash-proxy-client-js\",\n  \"color\": \"red\",\n  \"icon\": \"https://github.com/favicon.ico\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "60306681-13fe-4d4b-b714-604a7153241e",
+              "name": "The request data does not match what we expect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"strategies\": [\n    \"standard\",\n    \"gradualRollout\",\n    \"mySpecialCustomStrategy\"\n  ],\n  \"url\": \"https://github.com/Unleash/unleash-proxy-client-js\",\n  \"color\": \"red\",\n  \"icon\": \"https://github.com/favicon.ico\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"ValidationError\",\n  \"message\": \"The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f08aec1-594e-408a-afd4-41740205e040",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"strategies\": [\n    \"standard\",\n    \"gradualRollout\",\n    \"mySpecialCustomStrategy\"\n  ],\n  \"url\": \"https://github.com/Unleash/unleash-proxy-client-js\",\n  \"color\": \"red\",\n  \"icon\": \"https://github.com/favicon.ico\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64f5031c-2e8b-4ab9-b85c-b664a636d4bd",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"strategies\": [\n    \"standard\",\n    \"gradualRollout\",\n    \"mySpecialCustomStrategy\"\n  ],\n  \"url\": \"https://github.com/Unleash/unleash-proxy-client-js\",\n  \"color\": \"red\",\n  \"icon\": \"https://github.com/favicon.ico\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8c9176fa-aa1a-4b0e-a543-4d57fd730ddc",
+          "name": "Delete an Application",
+          "request": {
+            "name": "Delete an Application",
+            "description": {
+              "content": "Delete the application specified in the request URL. Returns 200 OK if the application was successfully deleted or if it didn't exist",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "applications",
+                ":appName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appName",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0d08cf48-1ef5-4afb-8e3a-196071ad1304",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e22f08f1-f288-4e15-9ef0-71240b302f96",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c7a0095-6188-4b5c-a2c3-128398ec38e3",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7b53b097-480f-495f-8031-6c6bbc6990d7",
+          "name": "Get Application Data",
+          "request": {
+            "name": "Get Application Data",
+            "description": {
+              "content": "Returns data about the specified application (`appName`). The data contains information on the name of the application, sdkVersion (which sdk reported these metrics, typically `unleash-client-node:3.4.1` or `unleash-client-java:7.1.0`), as well as data about how to display this application in a list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "applications",
+                ":appName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appName",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba003bc3-8d27-4c11-9eb7-1f54c0fa8732",
+              "name": "applicationSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"appName\": \"accounting\",\n  \"sdkVersion\": \"unleash-client-java:8.0.0\",\n  \"strategies\": [\n    \"standard\",\n    \"gradualRollout\",\n    \"mySpecialCustomStrategy\"\n  ],\n  \"description\": \"Application for reporting page visits\",\n  \"url\": \"https://github.com/Unleash/unleash-proxy-client-js\",\n  \"color\": \"red\",\n  \"icon\": \"https://github.com/favicon.ico\",\n  \"usage\": [\n    {\n      \"project\": \"main-project\",\n      \"environments\": [\n        \"development\",\n        \"production\"\n      ]\n    },\n    {\n      \"project\": \"main-project\",\n      \"environments\": [\n        \"development\",\n        \"production\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c57e0fd-b760-4d60-8e03-06b34a1cd49a",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7347c0f-f049-4919-b014-4bc33b0663e9",
+          "name": "Get All Applications",
+          "request": {
+            "name": "Get All Applications",
+            "description": {
+              "content": "Returns all applications registered with Unleash. Applications can be created via metrics reporting or manual creation",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "applications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "The search query for the application name"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<string>",
+                  "description": "The number of applications to skip when returning a page. By default it is set to 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<string>",
+                  "description": "The number of applications to return in a page. By default it is set to 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "<string>",
+                  "description": "The field to sort the results by. By default it is set to \"appName\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>",
+                  "description": "The sort order for the sortBy. By default it is det to \"asc\"."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "863a8030-2b79-4cba-b5db-549a7783fb4a",
+              "name": "applicationsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "first_app"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "50"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "type"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": 50,\n  \"applications\": [\n    {\n      \"appName\": \"accounting\",\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\",\n        \"mySpecialCustomStrategy\"\n      ],\n      \"description\": \"Application for reporting page visits\",\n      \"url\": \"https://github.com/Unleash/unleash-proxy-client-js\",\n      \"color\": \"red\",\n      \"icon\": \"https://github.com/favicon.ico\",\n      \"usage\": [\n        {\n          \"project\": \"main-project\",\n          \"environments\": [\n            \"development\",\n            \"production\"\n          ]\n        },\n        {\n          \"project\": \"main-project\",\n          \"environments\": [\n            \"development\",\n            \"production\"\n          ]\n        }\n      ]\n    },\n    {\n      \"appName\": \"accounting\",\n      \"sdkVersion\": \"unleash-client-java:8.0.0\",\n      \"strategies\": [\n        \"standard\",\n        \"gradualRollout\",\n        \"mySpecialCustomStrategy\"\n      ],\n      \"description\": \"Application for reporting page visits\",\n      \"url\": \"https://github.com/Unleash/unleash-proxy-client-js\",\n      \"color\": \"red\",\n      \"icon\": \"https://github.com/favicon.ico\",\n      \"usage\": [\n        {\n          \"project\": \"main-project\",\n          \"environments\": [\n            \"development\",\n            \"production\"\n          ]\n        },\n        {\n          \"project\": \"main-project\",\n          \"environments\": [\n            \"development\",\n            \"production\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6fa75c36-3831-47d9-8c52-8d36bfd61de2",
+          "name": "Get Application Overview",
+          "request": {
+            "name": "Get Application Overview",
+            "description": {
+              "content": "Returns an overview of the specified application (`appName`).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "applications",
+                ":appName",
+                "overview"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appName",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4c727147-4b62-45a7-8c38-e52d65884308",
+              "name": "applicationOverviewSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"projects\": [\n    \"default\",\n    \"payment\"\n  ],\n  \"featureCount\": 5,\n  \"environments\": [\n    {\n      \"name\": \"production\",\n      \"instanceCount\": 5,\n      \"sdks\": [\n        \"unleash-client-node:5.4.0\",\n        \"unleash-client-node:5.3.0\"\n      ],\n      \"frontendSdks\": [\n        \"unleash-client-js:3.7.5\"\n      ],\n      \"backendSdks\": [\n        \"unleash-client-node:5.4.0\"\n      ],\n      \"lastSeen\": \"2023-04-19T08:15:14.000Z\",\n      \"issues\": {\n        \"missingFeatures\": [\n          \"feature1\",\n          \"feature2\"\n        ],\n        \"outdatedSdks\": [\n          \"unleash-client-node:5.4.0\",\n          \"unleash-client-node:5.3.0\"\n        ]\n      }\n    },\n    {\n      \"name\": \"production\",\n      \"instanceCount\": 5,\n      \"sdks\": [\n        \"unleash-client-node:5.4.0\",\n        \"unleash-client-node:5.3.0\"\n      ],\n      \"frontendSdks\": [\n        \"unleash-client-js:3.7.5\"\n      ],\n      \"backendSdks\": [\n        \"unleash-client-node:5.4.0\"\n      ],\n      \"lastSeen\": \"2023-04-19T08:15:14.000Z\",\n      \"issues\": {\n        \"missingFeatures\": [\n          \"feature1\",\n          \"feature2\"\n        ],\n        \"outdatedSdks\": [\n          \"unleash-client-node:5.4.0\",\n          \"unleash-client-node:5.3.0\"\n        ]\n      }\n    }\n  ],\n  \"issues\": {\n    \"missingStrategies\": [\n      \"feature1\",\n      \"feature2\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5760fef-68be-4989-be05-346188f291e6",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "applications",
+                    ":appName",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "06f25c1e-e2ff-43cd-816c-4dcc01e8964e",
+          "name": "Get Application Environment Instances (last 24h)",
+          "request": {
+            "name": "Get Application Environment Instances (last 24h)",
+            "description": {
+              "content": "Returns an overview of the instances for the given `appName` and `environment` that have received traffic in the last 24 hours.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "instances",
+                ":appName",
+                "environment",
+                ":environment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appName",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "environment",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0c9969eb-636e-4ee3-a3fa-e89a6477ec64",
+              "name": "applicationEnvironmentInstancesSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "instances",
+                    ":appName",
+                    "environment",
+                    ":environment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environment",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instances\": [\n    {\n      \"instanceId\": \"b77f3d13-5f48-4a7b-a3f4-a449b97ce43a\",\n      \"sdkVersion\": \"unleash-client-java:7.0.0\",\n      \"clientIp\": \"192.168.0.1\",\n      \"lastSeen\": \"2023-04-19T08:15:14.000Z\"\n    },\n    {\n      \"instanceId\": \"b77f3d13-5f48-4a7b-a3f4-a449b97ce43a\",\n      \"sdkVersion\": \"unleash-client-java:7.0.0\",\n      \"clientIp\": \"192.168.0.1\",\n      \"lastSeen\": \"2023-04-19T08:15:14.000Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "630579c1-12ac-4479-85ad-9b4df9659b49",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "instances",
+                    ":appName",
+                    "environment",
+                    ":environment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appName",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environment",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "39d0cf50-6ef0-4f62-a4a8-f85cd0a9f6f7",
+          "name": "Get Outdated Sdks",
+          "request": {
+            "name": "Get Outdated Sdks",
+            "description": {
+              "content": "Returns a list of the outdated SDKS with the applications using them.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "metrics",
+                "sdks",
+                "outdated"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c433a229-88bd-461e-ba1b-4444e74de972",
+              "name": "outdatedSdksSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "sdks",
+                    "outdated"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sdks\": [\n    {\n      \"sdkVersion\": \"unleash-client-java:7.0.0\",\n      \"applications\": [\n        \"accounting\",\n        \"accounting\"\n      ]\n    },\n    {\n      \"sdkVersion\": \"unleash-client-java:7.0.0\",\n      \"applications\": [\n        \"accounting\",\n        \"accounting\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5c133e0-3792-4d46-980d-c5a3bb4e4d5c",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "metrics",
+                    "sdks",
+                    "outdated"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e56285e-a558-481d-8f6a-45bc804f06ab",
+          "name": "Get Feature Metrics",
+          "request": {
+            "name": "Get Feature Metrics",
+            "description": {
+              "content": "Get usage metrics for a specific feature for the last 48 hours, grouped by hour",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "client-metrics",
+                "features",
+                ":name",
+                "raw"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1151ce13-dca6-4165-8685-3b6dc839a72a",
+              "name": "featureMetricsSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name",
+                    "raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 9816,\n  \"maturity\": \"stable\",\n  \"data\": [\n    {\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    },\n    {\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec87e269-c28c-42fb-8e08-613b92cdda3e",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name",
+                    "raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdd64c9a-ffe9-4f06-9485-b3718fc3180f",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name",
+                    "raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a83c0c5b-5460-489a-933f-c9de1ce48a3d",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name",
+                    "raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36d12845-b809-4c1a-8ed7-9a03b0bed12d",
+          "name": "Last Hour of Usage and a List of Applications That Have Reported Seeing This Feature Flag",
+          "request": {
+            "name": "Last Hour of Usage and a List of Applications That Have Reported Seeing This Feature Flag",
+            "description": {
+              "content": "Separate counts for yes (enabled), no (disabled), as well as how many times each variant was selected during the last hour",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "client-metrics",
+                "features",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "427fbfbe-617e-45c3-8b05-d626fb632f3d",
+              "name": "featureUsageSchema",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": 2578,\n  \"maturity\": \"stable\",\n  \"featureName\": \"my.special.feature\",\n  \"lastHourUsage\": [\n    {\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    },\n    {\n      \"environment\": \"development\",\n      \"timestamp\": \"2023-07-27T11:23:44Z\",\n      \"yes\": 974,\n      \"no\": 50,\n      \"featureName\": \"my.special.feature\",\n      \"appName\": \"accounting\",\n      \"variants\": {\n        \"variantA\": 15,\n        \"variantB\": 25,\n        \"variantC\": 5\n      }\n    }\n  ],\n  \"seenApplications\": [\n    \"accounting\",\n    \"billing\",\n    \"booking\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab2d485a-67d6-4901-886c-77683406d82f",
+              "name": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"AuthenticationRequired\",\n  \"message\": \"You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26c43e62-ac92-40d6-a812-1388ebf8006d",
+              "name": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NoAccessError\",\n  \"message\": \"You need the \\\"UPDATE_ADDON\\\" permission to perform this action in the \\\"development\\\" environment.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5965773-62d4-4ce1-8fd5-b582e4d0c7c3",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "client-metrics",
+                    "features",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c40958a-daac-400e-98fb-3bb438567008\",\n  \"name\": \"NotFoundError\",\n  \"message\": \"Could not find the addon with ID \\\"12345\\\".\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a36d41f2-631c-4489-910e-63717eae2593",
+          "name": "Get Stored Custom Metrics",
+          "request": {
+            "name": "Get Stored Custom Metrics",
+            "description": {
+              "content": "Retrieves the stored custom metrics data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "custom-metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b5ec9074-1d4c-4d53-bb4a-45579aca3a1b",
+              "name": "This response has no body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "custom-metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e1cd630-9810-47ba-9463-cfa70e01108f",
+          "name": "Get Metrics in Prometheus Format",
+          "request": {
+            "name": "Get Metrics in Prometheus Format",
+            "description": {
+              "content": "Exposes all custom metrics in Prometheus text format for scraping.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "custom-metrics",
+                "prometheus"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77927f46-062f-49b5-9fd1-adb555007110",
+              "name": "Prometheus formatted metrics",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "custom-metrics",
+                    "prometheus"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.unleash-instance.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4d565e3e-5806-4011-a88d-67d90e305092",
+    "name": "Unleash Admin Addons Metrics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).",
+      "type": "text/plain"
+    }
+  }
+}
