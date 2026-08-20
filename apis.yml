@@ -29,6 +29,13 @@ tags:
   - Feature Management
   - Progressive Delivery
   - A/B Testing
+  - Open-Source
+  - Developer Tools
+tags_raw:
+  - Feature Flags
+  - Feature Management
+  - Progressive Delivery
+  - A/B Testing
   - Open Source
   - Developer Tools
 apis:
@@ -41,6 +48,10 @@ apis:
   humanURL: https://docs.getunleash.io/api#client-api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Clients
+  - SDK
+  - Feature Flags
+  tags_raw:
   - Client
   - SDK
   - Feature Flags
@@ -89,6 +100,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - API Tokens
+  tags_raw:
   - API tokens
   properties:
   - type: OpenAPI
@@ -120,6 +133,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -214,6 +229,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -279,6 +296,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Import Export
+  tags_raw:
   - Import/Export
   properties:
   - type: OpenAPI
@@ -339,6 +358,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -370,6 +391,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Personal Access Tokens
+  tags_raw:
   - Personal access tokens
   properties:
   - type: OpenAPI
@@ -401,6 +424,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -588,6 +613,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
