@@ -1,4 +1,16 @@
 aid: unleash
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
@@ -625,6 +637,9 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/unleash-capability-edges.yml
+    name: Unleash Business Capability Map
   - type: AgenticAccess
     url: agentic-access/unleash-agentic-access.yml
   - type: DomainSecurity
