@@ -112,7 +112,7 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
-  - API tokens
+  - API Tokens
   tags_raw:
   - API tokens
   properties:
@@ -308,7 +308,7 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
-  - Import/Export
+  - Import Export
   tags_raw:
   - Import/Export
   properties:
@@ -403,7 +403,7 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
-  - Personal access tokens
+  - Personal Access Tokens
   tags_raw:
   - Personal access tokens
   properties:
