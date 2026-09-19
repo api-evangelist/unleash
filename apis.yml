@@ -117,6 +117,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Archives
+  tags_raw:
   - Archive
   properties:
   - type: OpenAPI
@@ -213,6 +215,8 @@ apis:
   humanURL: https://docs.getunleash.io/api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Environment
+  tags_raw:
   - Environments
   properties:
   - type: OpenAPI
@@ -629,6 +633,8 @@ apis:
   humanURL: https://docs.getunleash.io/api#client-api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Addons
+  tags_raw:
   - Add Ons
   properties:
   - type: OpenAPI
