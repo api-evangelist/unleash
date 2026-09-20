@@ -1,0 +1,157 @@
+slug: unleash
+provider: Unleash
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 14
+edges:
+- tag: Features
+  spec_file: unleash-features-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.9
+  evidence: POST .../environments/{environment}/on  toggleFeatureEnvironmentOn  Enable a Feature Flag;
+    GET .../strategies  getFeatureStrategies  Get Feature Flag Strategies
+  reason: Core CRUD, enable/disable, tagging, strategies and variants for feature flags per environment
+    — plainly Feature Flag Management.
+- tag: Auth
+  spec_file: unleash-auth-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /api/admin/auth/saml/settings  setSamlSettings  Update SAML Auth Settings / GET /api/admin/access/overview  getAccessOverview
+  reason: SAML/OIDC federation settings, permissions listing, access overview and password reset — identity
+    and access management surface. Federation and permission administration go beyond mere login plumbing.
+- tag: Dependencies
+  spec_file: unleash-dependencies-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.8
+  evidence: POST /api/admin/projects/{projectId}/features/{child}/dependencies  addFeatureDependency  Add
+    a Feature Dependency.
+  reason: Operations manage parent/child relationships between feature flags and their variants — a feature-flag
+    lifecycle concern within release/deployment management.
+- tag: Strategies
+  spec_file: unleash-strategies-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.8
+  evidence: 'GET /api/admin/strategies getAllStrategies; POST /api/admin/segments/strategies updateFeatureStrategySegments
+    ''Update Strategy Segments''; vendor: ''control rollouts by user segment'''
+  reason: In Unleash, strategies are the activation/rollout rules attached to feature flags; the operations
+    create, deprecate and reactivate strategy definitions and bind them to segments, which is runtime
+    control and targeting of feature flags.
+- tag: Users
+  spec_file: unleash-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /api/admin/roles createRole 'Create a New Role'; DELETE /api/admin/groups/scim-groups
+    'Delete All SCIM Groups'; schemas roleWithPermissionsSchema, groupSchema, inactiveUsersSchema
+  reason: Administration of users, groups, custom roles and permissions including SCIM group provisioning
+    — identity and access management for the platform.
+- tag: Archive
+  spec_file: unleash-archive-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.75
+  evidence: DELETE /api/admin/archive/{featureName}  deleteFeature  Archives a Feature / POST /api/admin/archive/revive/{featureName}  reviveFeature
+  reason: Archive and revive of feature flags in a feature management platform — end-of-life stage of
+    the feature flag lifecycle, which is Feature Flag Management.
+- tag: Client
+  spec_file: unleash-client-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.75
+  evidence: GET /api/client/features  getAllClientFeatures  Get All Flags (sdk); POST /api/client/metrics  registerClientMetrics
+  reason: The SDK-facing endpoints serve feature flag configuration (strategies, variants, segments) to
+    running applications and collect flag usage metrics — runtime control/evaluation of feature flags.
+    Not SDK library stewardship, so BC-4270.20 is rejected.
+- tag: Feature Types
+  spec_file: unleash-feature-types-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.75
+  evidence: GET /api/admin/feature-types  getAllFeatureTypes  Get All Feature Types; PUT /api/admin/feature-types/{id}/lifetime  updateFeatureTypeLifetime
+  reason: Feature types and their expected lifetimes classify flags (release, experiment, kill switch)
+    and drive stale-flag detection — part of feature flag lifecycle management.
+- tag: Frontend API
+  spec_file: unleash-frontend-api-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.75
+  evidence: GET /api/frontend  getFrontendFeatures  Retrieve Enabled Feature Flags for the Provided Context.
+  reason: Runtime evaluation endpoint returning enabled flags for a given context to client applications,
+    plus usage metric registration — runtime feature flag control and targeting.
+- tag: Change Requests
+  spec_file: unleash-change-requests-api-openapi.yml
+  capability_id: BC-4210.70
+  capability_id_l1: BC-4210
+  capability_name: Production Change Authorisation
+  confidence: 0.7
+  evidence: getOpenChangeRequestsForUser  Retrieves Pending Change Requests in Configured Environments;
+    changeRequestReviewerSchema; changeRequestScheduleSchema
+  reason: Unleash change requests are a pre-deployment review/approval workflow gating flag changes in
+    configured environments, with reviewers and scheduling — matching Production Change Authorisation
+    within Release & Deployment Management. Some ambiguity vs. general Feature Flag Management, hence
+    moderate confidence.
+- tag: Context
+  spec_file: unleash-context-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.7
+  evidence: POST /api/admin/context  createContextField  Create a Context Field; contextFieldSchema, legalValueSchema
+  reason: Context fields are the targeting attributes used to evaluate feature flags for cohorts, so their
+    lifecycle is part of feature flag management. Confidence tempered because the tag alone covers only
+    a configuration sub-object.
+- tag: Playground
+  spec_file: unleash-playground-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.7
+  evidence: POST /api/admin/playground getPlayground 'Evaluate an Unleash Context Against a Set of Environments
+    and Projects.'
+  reason: Playground evaluates feature-flag configurations (playgroundFeatureSchema, playgroundStrategySchema,
+    variantSchema) against a context to preview flag resolution — part of feature flag lifecycle/runtime
+    control tooling.
+- tag: Release Templates
+  spec_file: unleash-release-templates-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: POST /api/admin/release-plan-templates/{templateId}/milestones addMilestoneToReleaseTemplate
+    'Adds a Milestone to a Release Template.'
+  reason: Release plan templates define staged milestones with rollout strategies and safeguards (releasePlanMilestoneStrategySchema,
+    safeguardSchema), i.e. progressive-delivery rollout orchestration to production. Could also be read
+    as feature flag lifecycle management, hence moderate confidence.
+- tag: Segments
+  spec_file: unleash-segments-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.7
+  evidence: POST /api/admin/segments createSegment 'Create a New Segment'; GET /api/admin/segments/{id}/strategies
+    'Get Strategies That Reference Segment'
+  reason: Segments are reusable constraint sets (constraintSchema) referenced by feature-flag activation
+    strategies to target flags to user cohorts — feature flag targeting control, not customer segmentation
+    marketing.
