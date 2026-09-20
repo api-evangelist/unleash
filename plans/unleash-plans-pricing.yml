@@ -10,6 +10,13 @@ provenance:
   grounding: every price_text was found verbatim in the fetched page text
 audience: business-product
 pricing_basis: per-seat
+delivery:
+  delivery: open-core
+  method: page
+  read: '2026-09-20'
+  evidence: Yes. Unleash Open Source is free, self-hosted, and has no limit on seats.
+  free_edition: Unleash Open Source
+  managed_tier: Pay-As-You-Go
 published: true
 note: Per-seat pricing; Pay-As-You-Go $75/seat/month with 5 seat minimum for self-hosted; Enterprise quoted.
   Open Source free with limit of 1 project, 2 environments, and 5,000 feature flags per instance.
