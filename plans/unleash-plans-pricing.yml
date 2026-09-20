@@ -1,108 +1,34 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: Unleash
-providerId: unleash
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: true
-tags:
-  - Feature Flags
-  - Feature Management
-  - Progressive Delivery
-  - A/B Testing
-  - Developer Tools
-description: Unleash uses a per-seat subscription model with a generous monthly API request allowance and per-million overage. The Pay-As-You-Go cloud plan is credit-card billed; Enterprise is annual-contract with custom volume, support tiers, and self-hosted/hybrid hosting options. Both plans share unlimited flags, projects, environments, and experiments.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.getunleash.io/pricing
 sources:
-  - https://www.getunleash.io/pricing
+- https://www.getunleash.io/pricing
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: per-seat
+published: true
+note: Per-seat pricing; Pay-As-You-Go $75/seat/month with 5 seat minimum for self-hosted; Enterprise quoted.
+  Open Source free with limit of 1 project, 2 environments, and 5,000 feature flags per instance.
+plan_count: 2
+currency: USD
 plans:
-  - id: unleash-pay-as-you-go
-    name: Pay-As-You-Go
-    type: subscription
-    description: Per-seat cloud-hosted plan with 53M monthly API requests included and $5 per million overage.
-    entries:
-      - label: Seat
-        name: seat
-        type: subscription
-        metric: seat
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$75'
-        userMultiplied: true
-      - label: Included API Requests
-        name: api_requests_included
-        type: quota
-        metric: request
-        limit: 53000000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '0'
-        userMultiplied: false
-      - label: API Request Overage
-        name: api_requests_overage
-        type: metered
-        metric: request
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000000
-        price: '$5'
-        userMultiplied: false
-    elements:
-      - name: Unlimited Feature Flags
-      - name: Unlimited Projects
-      - name: Unlimited Environments
-      - name: Unlimited Experiments
-      - name: A/B/n Testing with Flag Variants
-      - name: 25+ SDKs
-      - name: SSO (SAML 2.0, OpenID Connect)
-      - name: Role-Based Access Control
-      - name: SOC2 Type II & GDPR Compliance
-      - name: Audit Logs (up to 2 years retention)
-      - name: 90-day Feature Flag Metrics Retention
-      - name: 99.9% Uptime SLA
-      - name: Standard Support (1 business day response)
-      - name: 14-day Free Trial
-  - id: unleash-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Annual-contract plan with custom API request volume, premium support, dedicated customer success, and cloud, self-hosted, or hybrid deployment.
-    entries:
-      - label: Seats (5 minimum self-hosted)
-        name: seat
-        type: subscription
-        metric: seat
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: contact sales
-        userMultiplied: true
-      - label: API Requests
-        name: api_requests
-        type: quota
-        metric: request
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: contact sales
-        userMultiplied: false
-    elements:
-      - name: Unlimited Feature Flags / Projects / Environments / Experiments
-      - name: Cloud / Self-Hosted / Hybrid Deployment
-      - name: 99.99% Uptime SLA
-      - name: Standard or Premium Support (severity-tiered SLAs)
-      - name: Dedicated Customer Success Manager (Premium)
-      - name: Guided Onboarding
-      - name: Annual Contract / Invoice Billing
-      - name: Add-ons (Private Instance, Multi-region Edge, Access Logs, IP Restrictions)
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- name: Pay-As-You-Go
+  price_text: 75$ /seat/month
+  price: 75
+  currency: USD
+  period: month
+  unit: seat
+  included_quota: 53M API requests per month for Cloud; unlimited client side MAU, service connections,
+    feature flags; 90 days metrics; standard support; 99.9% uptime
+  overage: $5 per million thereafter
+- name: Custom Enterprise
+  price_text: CONTACT SALES
+  period: none
+  included_quota: Full enterprise feature set, 99.99% uptime, customer success, add-ons
+  overage: Request Quote
+rate_limit_statements:
+- 53M API requests per month ($5 per million thereafter) for Cloud

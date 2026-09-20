@@ -645,6 +645,8 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
 common:
+- type: Plans
+  url: plans/unleash-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/unleash-capability-edges.yml
   name: Unleash Business Capability Map
