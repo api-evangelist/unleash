@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Events API
+  title: Unleash Admin Events API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Read events from this Unleash instance.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -55,7 +55,7 @@ paths:
 
 
         If the provided project does not exist, the list of events will be empty.'
-      summary: Get the Most Recent Events From the Unleash Instance or All Events Related to a Project.
+      summary: Get the Most Recent Events From the Unleash Instance or All Events Related to a…
   /api/admin/events/{featureName}:
     get:
       deprecated: true
@@ -89,7 +89,7 @@ paths:
                     example: You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.
                     description: A description of what went wrong.
       description: Returns all events related to the specified feature flag. If the feature flag does not exist, the list of events will be empty.
-      summary: Get All Events Related to a Specific Feature Flag.
+      summary: Get All Events Related to a Specific Feature Flag
       parameters:
       - name: featureName
         in: path
@@ -267,78 +267,6 @@ paths:
                 $ref: '#/components/schemas/eventSearchResponseSchema'
 components:
   schemas:
-    eventSearchResponseSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - events
-      - total
-      description: A list of events that have been registered by the system
-      properties:
-        events:
-          description: The list of events
-          type: array
-          items:
-            $ref: '#/components/schemas/eventSchema'
-        total:
-          type: integer
-          description: The total count of events
-          minimum: 0
-          example: 842
-    tagSchema:
-      type: object
-      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
-      additionalProperties: false
-      required:
-      - value
-      - type
-      properties:
-        value:
-          type: string
-          description: The value of the tag.
-          minLength: 2
-          maxLength: 50
-          example: a-tag-value
-        type:
-          type: string
-          minLength: 2
-          maxLength: 50
-          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
-          example: simple
-        color:
-          type: string
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-          nullable: true
-    featureEventsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - events
-      description: One or more events happening to a specific feature flag
-      properties:
-        version:
-          type: integer
-          description: An API versioning number
-          minimum: 1
-          enum:
-          - 1
-          example: 1
-        toggleName:
-          description: The name of the feature flag these events relate to
-          type: string
-          example: my.first.feature.flag
-        events:
-          description: The list of events
-          type: array
-          items:
-            $ref: '#/components/schemas/eventSchema'
-        totalEvents:
-          description: How many events are there for this feature flag
-          type: integer
-          minimum: 0
-          example: 13
     eventSchema:
       type: object
       additionalProperties: false
@@ -538,28 +466,33 @@ components:
           description: Which user created this event
           example: johndoe
         createdByUserId:
-          type: number
+          type:
+          - number
+          - 'null'
           description: The is of the user that created this event
           example: 1337
-          nullable: true
         environment:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The feature flag environment the event relates to, if applicable.
-          nullable: true
           example: development
         project:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: The project the event relates to, if applicable.
           example: default
         featureName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: The name of the feature flag the event relates to, if applicable.
           example: my.first.feature
         data:
-          type: object
-          nullable: true
+          type:
+          - object
+          - 'null'
           x-enforcer-exception-skip-codes: WSCH006
           description: Extra associated data related to the event, such as feature flag state, segment configuration, etc., if applicable.
           example:
@@ -573,8 +506,9 @@ components:
             lastSeenAt: null
             impressionData: true
         preData:
-          type: object
-          nullable: true
+          type:
+          - object
+          - 'null'
           x-enforcer-exception-skip-codes: WSCH006
           description: Data relating to the previous state of the event's subject.
           example:
@@ -588,22 +522,26 @@ components:
             lastSeenAt: null
             impressionData: true
         tags:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/tagSchema'
-          nullable: true
           description: Any tags related to the event, if applicable.
         label:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: The concise, human-readable name of the event.
         summary:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: A markdown-formatted summary of the event.
         ip:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: The IP address of the user that created the event. Only available in Enterprise.
           example: 192.168.1.1
         groupType:
@@ -614,6 +552,52 @@ components:
           type: string
           description: The unique identifier for the transaction group this event belongs to, if applicable.
           example: 01HQVX5K8P9EXAMPLE123456
+    featureEventsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - events
+      description: One or more events happening to a specific feature flag
+      properties:
+        version:
+          type: integer
+          description: An API versioning number
+          minimum: 1
+          enum:
+          - 1
+          example: 1
+        toggleName:
+          description: The name of the feature flag these events relate to
+          type: string
+          example: my.first.feature.flag
+        events:
+          description: The list of events
+          type: array
+          items:
+            $ref: '#/components/schemas/eventSchema'
+        totalEvents:
+          description: How many events are there for this feature flag
+          type: integer
+          minimum: 0
+          example: 13
+    eventSearchResponseSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - events
+      - total
+      description: A list of events that have been registered by the system
+      properties:
+        events:
+          description: The list of events
+          type: array
+          items:
+            $ref: '#/components/schemas/eventSchema'
+        total:
+          type: integer
+          description: The total count of events
+          minimum: 0
+          example: 842
     eventCreatorsSchema:
       type: array
       description: A list of event creators
@@ -657,6 +641,33 @@ components:
           description: The total count of events
           minimum: 0
           example: 842
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
   securitySchemes:
     apiKey:
       type: apiKey

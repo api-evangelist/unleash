@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Instance Admin API
+  title: Unleash Admin Instance Admin API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Instance admin endpoints used to manage the Unleash instance itself.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -72,13 +72,13 @@ paths:
 
 
         Returns **all** login events in the Unleash system. You can optionally get them in CSV format by specifying the `Accept` header as `text/csv`.'
-      summary: Get All Login Events.
+      summary: Get All Login Events
   /api/admin/license/check:
     get:
       tags:
       - Instance Admin
       operationId: checkLicense
-      summary: Validates the Unleash License.
+      summary: Validates the Unleash License
       description: '**Enterprise feature**
 
 
@@ -94,7 +94,7 @@ paths:
     get:
       tags:
       - Instance Admin
-      summary: Reads the Unleash License.
+      summary: Reads the Unleash License
       description: '**Enterprise feature**
 
 
@@ -111,7 +111,7 @@ paths:
       tags:
       - Instance Admin
       operationId: updateLicense
-      summary: Set a New Unleash License.
+      summary: Set a New Unleash License
       description: '**Enterprise feature**
 
 
@@ -245,61 +245,38 @@ paths:
                 $ref: '#/components/schemas/instanceAdminStatsSchema'
 components:
   schemas:
-    licenseReadSchema:
-      description: A model representing a license response.
+    licenseCheckSchema:
+      description: A model representing a license check response.
       type: object
       additionalProperties: false
       required:
       - isValid
       properties:
+        isValid:
+          description: Whether or not the current Unleash license is considered valid
+          type: boolean
+        message:
+          description: Message describing the current state of the Unleash license
+          type: string
+          example: Your license expired 3 days ago
+        messageType:
+          description: Type of messages, whether it is an informative or a warning
+          type: string
+          example: info
+          enum:
+          - info
+          - warning
+          - error
+    licenseUpdateSchema:
+      description: A model representing a set license token.
+      type: object
+      additionalProperties: false
+      required:
+      - token
+      properties:
         token:
           description: The actual license token.
           type: string
-        isValid:
-          description: Whether the license is valid or not.
-          type: boolean
-        customer:
-          description: Name of the customer that owns the license. This is the name of the company that purchased the license.
-          type: string
-        type:
-          description: Type of license.
-          type: string
-        instanceName:
-          description: Name of the Unleash instance where this license is valid.
-          type: string
-        instanceId:
-          description: Identifier of the Unleash instance where this license is valid.
-          type: string
-        plan:
-          description: Name of plan that the license is for.
-          type: string
-        resources:
-          type: object
-          description: The resources available in the license.
-          additionalProperties: false
-          properties:
-            seats:
-              description: Number of seats in the license.
-              type: number
-            releaseTemplates:
-              description: Number of release templates in the license.
-              type: number
-            edgeInstances:
-              description: Number of Edge instances in the license.
-              type: number
-            readOnlyUsers:
-              description: Number of read-only users in the license.
-              type: number
-        expireAt:
-          description: Date when the license expires.
-          type: string
-          format: date-time
-          example: '2023-07-31T13:33:02Z'
-        issuedAt:
-          description: Date when the license was issued.
-          type: string
-          format: date-time
-          example: '2023-07-31T13:33:02Z'
     loginHistorySchema:
       description: A response model with a list of login events.
       type: object
@@ -312,16 +289,6 @@ components:
           description: A list of login events
           items:
             $ref: '#/components/schemas/loginEventSchema'
-    licenseUpdateSchema:
-      description: A model representing a set license token.
-      type: object
-      additionalProperties: false
-      required:
-      - token
-      properties:
-        token:
-          description: The actual license token.
-          type: string
     loginEventSchema:
       description: A model representing a single login event.
       type: object
@@ -353,13 +320,15 @@ components:
           example: true
         ip:
           description: The IP address of the client that attempted to log in.
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: ::ffff:127.0.0.1
         failure_reason:
           description: The reason for the login failure. This property is only present if the login was unsuccessful.
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: No user found
     instanceAdminStatsSchema:
       type: object
@@ -373,9 +342,10 @@ components:
           description: A unique identifier for this instance. Generated by the database migration scripts at first run. Typically a UUID.
           example: ed3861ae-78f9-4e8c-8e57-b57efc15f82b
         timestamp:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
           description: When these statistics were produced
           example: '2023-06-12T12:25:06Z'
         versionOSS:
@@ -593,28 +563,61 @@ components:
           type: string
           description: A SHA-256 checksum of the instance statistics to be used to verify that the data in this object has not been tampered with
           example: b023323477abb1eb145bebf3cdb30a1c2063e3edc1f7ae474ed8ed6c80de9a3b
-    licenseCheckSchema:
-      description: A model representing a license check response.
+    licenseReadSchema:
+      description: A model representing a license response.
       type: object
       additionalProperties: false
       required:
       - isValid
       properties:
+        token:
+          description: The actual license token.
+          type: string
         isValid:
-          description: Whether or not the current Unleash license is considered valid
+          description: Whether the license is valid or not.
           type: boolean
-        message:
-          description: Message describing the current state of the Unleash license
+        customer:
+          description: Name of the customer that owns the license. This is the name of the company that purchased the license.
           type: string
-          example: Your license expired 3 days ago
-        messageType:
-          description: Type of messages, whether it is an informative or a warning
+        type:
+          description: Type of license.
           type: string
-          example: info
-          enum:
-          - info
-          - warning
-          - error
+        instanceName:
+          description: Name of the Unleash instance where this license is valid.
+          type: string
+        instanceId:
+          description: Identifier of the Unleash instance where this license is valid.
+          type: string
+        plan:
+          description: Name of plan that the license is for.
+          type: string
+        resources:
+          type: object
+          description: The resources available in the license.
+          additionalProperties: false
+          properties:
+            seats:
+              description: Number of seats in the license.
+              type: number
+            releaseTemplates:
+              description: Number of release templates in the license.
+              type: number
+            edgeInstances:
+              description: Number of Edge instances in the license.
+              type: number
+            readOnlyUsers:
+              description: Number of read-only users in the license.
+              type: number
+        expireAt:
+          description: Date when the license expires.
+          type: string
+          format: date-time
+          example: '2023-07-31T13:33:02Z'
+        issuedAt:
+          description: Date when the license was issued.
+          type: string
+          format: date-time
+          example: '2023-07-31T13:33:02Z'
   securitySchemes:
     apiKey:
       type: apiKey

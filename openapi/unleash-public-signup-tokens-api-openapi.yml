@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Public signup tokens API
+  title: Unleash Admin Public signup tokens API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, and delete Unleash Public Signup tokens.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,7 +11,7 @@ security:
 - bearerToken: []
 tags:
 - name: Public signup tokens
-  description: Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/concepts/public-signup-tokens).
+  description: Create, update, and delete Unleash Public Signup tokens.
 paths:
   /invite/{token}/validate:
     get:
@@ -132,7 +132,7 @@ paths:
       - Public signup tokens
       operationId: createPublicSignupToken
       summary: Create a Public Signup Token
-      description: Lets administrators create a invite link to share with colleagues.  People that join using the public invite are assigned the `Viewer` role
+      description: Lets administrators create a invite link to share with colleagues. People that join using the public invite are assigned the `Viewer` role
       requestBody:
         description: publicSignupTokenCreateSchema
         required: true
@@ -353,71 +353,6 @@ paths:
           type: string
 components:
   schemas:
-    publicSignupTokensSchema:
-      type: object
-      description: A wrapper object containing all the public signup tokens
-      additionalProperties: false
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: array
-          description: An array of all the public signup tokens
-          example:
-          - secret: a3c84b25409ea8ca1782ef17f94a42fc
-            url: https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
-            name: Invite public viewers
-            enabled: false
-            expiresAt: '2023-04-12T11:13:31.960Z'
-            createdAt: '2023-04-12T11:13:31.960Z'
-            createdBy: someone
-            users: null
-            role:
-              id: 3
-              type: root
-              name: Viewer
-          items:
-            $ref: '#/components/schemas/publicSignupTokenSchema'
-    publicSignupTokenCreateSchema:
-      type: object
-      description: Used for creating a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
-      additionalProperties: false
-      required:
-      - name
-      - expiresAt
-      properties:
-        name:
-          description: The token's name.
-          type: string
-        expiresAt:
-          type: string
-          description: The token's expiration date.
-          format: date-time
-    createInvitedUserSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - email
-      - name
-      - password
-      description: Data used to create a user that has been invited to Unleash.
-      properties:
-        username:
-          type: string
-          description: The user's username. Must be unique if provided.
-          example: Hunter
-        email:
-          type: string
-          description: The invited user's email address
-          example: hunter@example.com
-        name:
-          type: string
-          description: The user's name
-          example: Hunter Burgan
-        password:
-          type: string
-          description: The user's password
-          example: hunter2
     publicSignupTokenUpdateSchema:
       description: Used by Unleash for updating a token's expiration date or, when deleting the invite link, it's status
       type: object
@@ -445,18 +380,20 @@ components:
           example: 123
         name:
           description: Name of the user
-          type: string
+          type:
+          - string
+          - 'null'
           example: User
-          nullable: true
         email:
           description: Email of the user
           type: string
           example: user@example.com
         username:
           description: A unique username for the user
-          type: string
+          type:
+          - string
+          - 'null'
           example: hunter
-          nullable: true
         imageUrl:
           description: URL used for the user profile image
           type: string
@@ -481,9 +418,10 @@ components:
           minimum: 0
         seenAt:
           description: The last time this user logged in
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
           example: '2023-06-30T11:42:00.345Z'
         createdAt:
           description: The user was created at this time
@@ -504,23 +442,149 @@ components:
             type: string
         scimId:
           description: The SCIM ID of the user, only present if managed by SCIM
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: 01HTMEXAMPLESCIMID7SWWGHN6
         seatType:
           description: The seat type of this user
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: Regular
         activeSessions:
           description: Count of active browser sessions for this user
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           example: 2
         deletedSessions:
           description: Experimental. The number of deleted browser sessions after last login
           type: number
           example: 1
+    createInvitedUserSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - email
+      - name
+      - password
+      description: Data used to create a user that has been invited to Unleash.
+      properties:
+        username:
+          type: string
+          description: The user's username. Must be unique if provided.
+          example: Hunter
+        email:
+          type: string
+          description: The invited user's email address
+          example: hunter@example.com
+        name:
+          type: string
+          description: The user's name
+          example: Hunter Burgan
+        password:
+          type: string
+          description: The user's password
+          example: hunter2
+    publicSignupTokenCreateSchema:
+      type: object
+      description: Used for creating a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
+      additionalProperties: false
+      required:
+      - name
+      - expiresAt
+      properties:
+        name:
+          description: The token's name.
+          type: string
+        expiresAt:
+          type: string
+          description: The token's expiration date.
+          format: date-time
+    publicSignupTokenSchema:
+      description: Used for transporting a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
+      type: object
+      additionalProperties: false
+      required:
+      - secret
+      - url
+      - name
+      - expiresAt
+      - createdAt
+      - createdBy
+      - enabled
+      - role
+      properties:
+        secret:
+          description: The actual value of the token. This is the part that is used by Unleash to create an invite link
+          type: string
+          example: a3c84b25409ea8ca1782ef17f94a42fc
+        url:
+          description: The public signup link for the token. Users who follow this link will be taken to a signup page where they can create an Unleash user.
+          type:
+          - string
+          - 'null'
+          example: https://sandbox.getunleash.io/enterprise/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
+        name:
+          description: The token's name. Only for displaying in the UI
+          type: string
+          example: Invite public viewers
+        enabled:
+          description: Whether the token is active. This property will always be `false` for a token that has expired.
+          type: boolean
+          example: true
+        expiresAt:
+          type: string
+          description: The time when the token will expire.
+          format: date-time
+          example: '2023-04-12T11:13:31.960Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: When the token was created.
+          example: '2023-04-12T11:13:31.960Z'
+        createdBy:
+          description: The creator's email or username
+          example: someone@example.com
+          type:
+          - string
+          - 'null'
+        users:
+          type:
+          - array
+          - 'null'
+          description: Array of users that have signed up using the token.
+          items:
+            $ref: '#/components/schemas/userSchema'
+        role:
+          description: Users who sign up using this token will be given this role.
+          $ref: '#/components/schemas/roleSchema'
+    publicSignupTokensSchema:
+      type: object
+      description: A wrapper object containing all the public signup tokens
+      additionalProperties: false
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: array
+          description: An array of all the public signup tokens
+          example:
+          - secret: a3c84b25409ea8ca1782ef17f94a42fc
+            url: https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
+            name: Invite public viewers
+            enabled: false
+            expiresAt: '2023-04-12T11:13:31.960Z'
+            createdAt: '2023-04-12T11:13:31.960Z'
+            createdBy: someone
+            users: null
+            role:
+              id: 3
+              type: root
+              name: Viewer
+          items:
+            $ref: '#/components/schemas/publicSignupTokenSchema'
     roleSchema:
       type: object
       description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
@@ -549,64 +613,10 @@ components:
           example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
         project:
           description: What project the role belongs to
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: default
-    publicSignupTokenSchema:
-      description: Used for transporting a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
-      type: object
-      additionalProperties: false
-      required:
-      - secret
-      - url
-      - name
-      - expiresAt
-      - createdAt
-      - createdBy
-      - enabled
-      - role
-      properties:
-        secret:
-          description: The actual value of the token. This is the part that is used by Unleash to create an invite link
-          type: string
-          example: a3c84b25409ea8ca1782ef17f94a42fc
-        url:
-          description: The public signup link for the token. Users who follow this link will be taken to a signup page where they can create an Unleash user.
-          type: string
-          nullable: true
-          example: https://sandbox.getunleash.io/enterprise/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
-        name:
-          description: The token's name. Only for displaying in the UI
-          type: string
-          example: Invite public viewers
-        enabled:
-          description: Whether the token is active. This property will always be `false` for a token that has expired.
-          type: boolean
-          example: true
-        expiresAt:
-          type: string
-          description: The time when the token will expire.
-          format: date-time
-          example: '2023-04-12T11:13:31.960Z'
-        createdAt:
-          type: string
-          format: date-time
-          description: When the token was created.
-          example: '2023-04-12T11:13:31.960Z'
-        createdBy:
-          description: The creator's email or username
-          example: someone@example.com
-          type: string
-          nullable: true
-        users:
-          type: array
-          description: Array of users that have signed up using the token.
-          items:
-            $ref: '#/components/schemas/userSchema'
-          nullable: true
-        role:
-          description: Users who sign up using this token will be given this role.
-          $ref: '#/components/schemas/roleSchema'
   securitySchemes:
     apiKey:
       type: apiKey

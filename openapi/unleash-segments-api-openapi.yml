@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Segments API
+  title: Unleash Admin Segments API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, delete, and manage segments.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,7 +11,7 @@ security:
 - bearerToken: []
 tags:
 - name: Segments
-  description: Create, update, delete, and manage [segments](https://docs.getunleash.io/concepts/segments).
+  description: Create, update, delete, and manage segments.
 paths:
   /api/admin/segments/validate:
     post:
@@ -515,58 +515,6 @@ paths:
                 $ref: '#/components/schemas/segmentsSchema'
 components:
   schemas:
-    constraintSchema:
-      additionalProperties: false
-      type: object
-      required:
-      - contextName
-      - operator
-      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
-      properties:
-        contextName:
-          description: The name of the context field that this constraint should apply to.
-          example: appName
-          type: string
-        operator:
-          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
-          type: string
-          enum:
-          - NOT_IN
-          - IN
-          - STR_ENDS_WITH
-          - STR_STARTS_WITH
-          - STR_CONTAINS
-          - NUM_EQ
-          - NUM_GT
-          - NUM_GTE
-          - NUM_LT
-          - NUM_LTE
-          - DATE_AFTER
-          - DATE_BEFORE
-          - SEMVER_EQ
-          - SEMVER_GT
-          - SEMVER_LT
-          example: IN
-        caseInsensitive:
-          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
-          type: boolean
-          default: false
-        inverted:
-          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
-          type: boolean
-          default: false
-        values:
-          type: array
-          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
-          items:
-            type: string
-          example:
-          - my-app
-          - my-other-app
-        value:
-          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
-          type: string
-          example: my-app
     upsertSegmentSchema:
       type: object
       description: Data used to create or update a segment
@@ -579,13 +527,15 @@ components:
           example: beta-users
           type: string
         description:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: A description of what the segment is for
           example: Users willing to help us test and build new features.
         project:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: The project the segment belongs to if any.
           example: red-vista
         constraints:
@@ -593,26 +543,6 @@ components:
           description: The list of constraints that make up this segment
           items:
             $ref: '#/components/schemas/constraintSchema'
-    nameSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      description: An object with a name
-      properties:
-        name:
-          description: The name of the represented object.
-          example: betaUser
-          type: string
-    segmentsSchema:
-      description: Data containing a list of [segments](https://docs.getunleash.io/concepts/segments)
-      type: object
-      properties:
-        segments:
-          type: array
-          description: A list of segments
-          items:
-            $ref: '#/components/schemas/adminSegmentSchema'
     segmentStrategiesSchema:
       type: object
       required:
@@ -683,6 +613,78 @@ components:
                 type: string
                 description: The name of the strategy's type.
                 example: flexibleRollout
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
+    segmentsSchema:
+      description: Data containing a list of [segments](https://docs.getunleash.io/concepts/segments)
+      type: object
+      properties:
+        segments:
+          type: array
+          description: A list of segments
+          items:
+            $ref: '#/components/schemas/adminSegmentSchema'
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
     adminSegmentSchema:
       type: object
       required:
@@ -703,8 +705,9 @@ components:
           description: The name of this segment
           example: ios-users
         description:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: The description for this segment
           example: IOS users segment
         constraints:
@@ -713,27 +716,31 @@ components:
           items:
             $ref: '#/components/schemas/constraintSchema'
         usedInFeatures:
-          type: integer
+          type:
+          - integer
+          - 'null'
           minimum: 0
           description: The number of feature flags that use this segment. The number also includes the any flags with pending change requests that would add this segment.
           example: 3
-          nullable: true
         usedInProjects:
-          type: integer
+          type:
+          - integer
+          - 'null'
           minimum: 0
           description: The number of projects that use this segment. The number includes any projects with pending change requests that would add this segment.
           example: 2
-          nullable: true
         project:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: red-vista
           description: The project the segment belongs to. Only present if the segment is a project-specific segment.
         createdBy:
           description: The creator's email or username
           example: someone@example.com
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         createdAt:
           type: string
           format: date-time

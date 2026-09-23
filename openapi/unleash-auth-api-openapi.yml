@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Auth API
+  title: Unleash Admin Auth API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Manage logins, passwords, etc.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -575,7 +575,7 @@ paths:
       tags:
       - Auth
       operationId: getServiceAccountPermissions
-      summary: Returns the List of Permissions for the Service Account.
+      summary: Returns the List of Permissions for the Service Account
       description: '**Enterprise feature**
 
 
@@ -864,7 +864,7 @@ paths:
       tags:
       - Auth
       summary: Validates Password
-      description: Verifies that the password adheres to the [Unleash password guidelines](https://docs.getunleash.io/using-unleash/deploy/configuring-unleash#securing-unleash)
+      description: Verifies that the password adheres to the Unleash password guidelines
       operationId: validatePassword
       requestBody:
         description: validatePasswordSchema
@@ -990,70 +990,22 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
-    emailSchema:
+    changePasswordSchema:
       type: object
       additionalProperties: false
       required:
-      - email
-      description: Represents the email of a user. Used to send email communication (reset password, welcome mail etc)
-      properties:
-        email:
-          description: The email address
-          type: string
-          example: test@example.com
-    tokenUserSchema:
-      type: object
-      additionalProperties: false
-      description: A user identified by a token
-      required:
-      - id
-      - email
       - token
-      - createdBy
-      - role
-      properties:
-        id:
-          type: integer
-          description: The user id
-          example: 7
-        name:
-          description: The name of the user
-          type: string
-          example: Test McTest
-        email:
-          description: The email of the user
-          type: string
-          example: test@example.com
-        token:
-          description: A token uniquely identifying a user
-          type: string
-          example: user:xyzrandomstring
-        createdBy:
-          description: A username or email identifying which user created this token
-          type: string
-          nullable: true
-          example: admin@example.com
-        role:
-          $ref: '#/components/schemas/roleSchema'
-    passwordAuthSchema:
-      type: object
-      description: Does the server allow username/password authentication
-      properties:
-        disabled:
-          description: Is username/password authentication disabled
-          type: boolean
-          example: false
-    validatePasswordSchema:
-      type: object
-      additionalProperties: false
-      required:
       - password
-      description: Used to validate passwords obeying [Unleash password guidelines](https://docs.getunleash.io/using-unleash/deploy/configuring-unleash#securing-unleash)
+      description: Change password as long as the token is a valid token
       properties:
-        password:
-          description: The password to validate
+        token:
+          description: A reset token used to validate that the user is allowed to change the password.
           type: string
-          example: hunter2
+          example: $2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke
+        password:
+          type: string
+          description: The new password for the user
+          example: correct horse battery staple
     samlSettingsSchema:
       type: object
       description: Settings used to authenticate via SAML
@@ -1390,251 +1342,6 @@ components:
             description: Specifies the path in the SAML token response from which to read the groups the user belongs to.
             type: string
             example: groups
-    accessOverviewSchema:
-      description: Data containing an overview of all the projects and groups users have access to
-      type: object
-      properties:
-        overview:
-          type: array
-          description: A list of user access details
-          items:
-            $ref: '#/components/schemas/userAccessSchema'
-    oidcSettingsResponseSchema:
-      type: object
-      description: Response for OpenID Connect settings
-      properties:
-        enabled:
-          description: Whether to enable or disable OpenID Connect for this instance
-          type: boolean
-          example: true
-          enum:
-          - true
-        discoverUrl:
-          description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
-          example: https://myoidchost.azure.com/.well-known/openid-configuration
-          type: string
-          format: uri
-        clientId:
-          description: The OIDC client ID of this application.
-          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
-          type: string
-        secret:
-          description: Shared secret from OpenID server. Used to authenticate login requests
-          type: string
-          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
-        autoCreate:
-          description: Auto create users based on email addresses from login tokens
-          type: boolean
-        enableSingleSignOut:
-          description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
-          type: boolean
-        defaultRootRole:
-          description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
-          type: string
-          enum:
-          - Viewer
-          - Editor
-          - Admin
-        defaultRootRoleId:
-          description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
-          type: number
-          example: 2
-        emailDomains:
-          description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
-          type: string
-          example: getunleash.io,getunleash.ai
-        acrValues:
-          description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
-          type: string
-          example: urn:okta:loa:2fa:any phr
-        idTokenSigningAlgorithm:
-          description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
-          type: string
-          example: RS256
-          enum:
-          - RS256
-          - RS384
-          - RS512
-        enableGroupSyncing:
-          description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
-          type: boolean
-          example: false
-        groupJsonPath:
-          description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
-          type: string
-          example: groups
-        addGroupsScope:
-          description: When enabled Unleash will also request the 'groups' scope as part of the login request.
-          type: boolean
-          example: false
-        enablePkce:
-          description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
-          type: boolean
-          example: false
-    oidcSettingsSchema:
-      type: object
-      description: Settings for configuring OpenID Connect as a login provider for Unleash
-      oneOf:
-      - required:
-        - enabled
-        - clientId
-        - secret
-        type: object
-        properties:
-          enabled:
-            description: Whether to enable or disable OpenID Connect for this instance
-            type: boolean
-            example: true
-            enum:
-            - true
-          discoverUrl:
-            description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
-            example: https://myoidchost.azure.com/.well-known/openid-configuration
-            type: string
-            format: uri
-          clientId:
-            description: The OIDC client ID of this application.
-            example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
-            type: string
-          secret:
-            description: Shared secret from OpenID server. Used to authenticate login requests
-            type: string
-            example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
-          autoCreate:
-            description: Auto create users based on email addresses from login tokens
-            type: boolean
-          enableSingleSignOut:
-            description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
-            type: boolean
-          defaultRootRole:
-            description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
-            type: string
-            enum:
-            - Viewer
-            - Editor
-            - Admin
-          defaultRootRoleId:
-            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
-            type: number
-            example: 2
-          emailDomains:
-            description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
-            type: string
-            example: getunleash.io,getunleash.ai
-          acrValues:
-            description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
-            type: string
-            example: urn:okta:loa:2fa:any phr
-          idTokenSigningAlgorithm:
-            description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
-            type: string
-            example: RS256
-            enum:
-            - RS256
-            - RS384
-            - RS512
-          enableGroupSyncing:
-            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
-            type: boolean
-            example: false
-          groupJsonPath:
-            description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
-            type: string
-            example: groups
-          addGroupsScope:
-            description: When enabled Unleash will also request the 'groups' scope as part of the login request.
-            type: boolean
-            example: false
-          enablePkce:
-            description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
-            type: boolean
-            example: false
-      - type: object
-        properties:
-          enabled:
-            description: Whether to enable or disable OpenID Connect for this instance
-            type: boolean
-            example: false
-            enum:
-            - false
-          discoverUrl:
-            description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
-            example: https://myoidchost.azure.com/.well-known/openid-configuration
-            type: string
-            format: uri
-          clientId:
-            description: The OIDC client ID of this application.
-            example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
-            type: string
-          secret:
-            description: Shared secret from OpenID server. Used to authenticate login requests
-            type: string
-            example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
-          autoCreate:
-            description: Auto create users based on email addresses from login tokens
-            type: boolean
-          enableSingleSignOut:
-            description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
-            type: boolean
-          defaultRootRole:
-            description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
-            type: string
-            enum:
-            - Viewer
-            - Editor
-            - Admin
-          defaultRootRoleId:
-            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
-            type: number
-            example: 2
-          emailDomains:
-            description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
-            type: string
-            example: getunleash.io,getunleash.ai
-          acrValues:
-            description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
-            type: string
-            example: urn:okta:loa:2fa:any phr
-          idTokenSigningAlgorithm:
-            description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
-            type: string
-            example: RS256
-            enum:
-            - RS256
-            - RS384
-            - RS512
-          enableGroupSyncing:
-            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
-            type: boolean
-            example: false
-          groupJsonPath:
-            description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
-            type: string
-            example: groups
-          addGroupsScope:
-            description: When enabled Unleash will also request the 'groups' scope as part of the login request.
-            type: boolean
-            example: false
-          enablePkce:
-            description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
-            type: boolean
-            example: false
-    changePasswordSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - token
-      - password
-      description: Change password as long as the token is a valid token
-      properties:
-        token:
-          description: A reset token used to validate that the user is allowed to change the password.
-          type: string
-          example: $2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke
-        password:
-          type: string
-          description: The new password for the user
-          example: correct horse battery staple
     samlSettingsResponseSchema:
       type: object
       description: Response for SAML settings
@@ -1801,62 +1508,6 @@ components:
           description: Specifies the path in the SAML token response from which to read the groups the user belongs to.
           type: string
           example: groups
-    userAccessSchema:
-      type: object
-      required:
-      - userId
-      - userEmail
-      - accessibleProjects
-      - groups
-      - rootRole
-      additionalProperties: false
-      description: Describes a single set of access for a user
-      properties:
-        userId:
-          type: integer
-          description: The identifier for the user
-          example: 3
-        createdAt:
-          type: string
-          nullable: true
-          description: When the user was created
-          format: date-time
-          example: '2023-03-01T12:04:26.061Z'
-        userName:
-          type: string
-          nullable: true
-          description: The name of the user
-          example: SomeUser
-        lastSeen:
-          type: string
-          format: date-time
-          nullable: true
-          description: The last time the user logged in
-          example: '2023-03-01T12:04:26.061Z'
-        accessibleProjects:
-          description: A list of project ids that this user has access to
-          type: array
-          items:
-            type: string
-          example:
-          - default
-          - project2
-        groups:
-          description: A list of group names that this user is a member of
-          type: array
-          items:
-            type: string
-          example:
-          - group1
-          - group2
-        rootRole:
-          description: The name of the root role that this user has
-          type: string
-          example: ADMIN
-        userEmail:
-          description: The email address of the user
-          type: string
-          example: some-user@example.com
     loginSchema:
       type: object
       additionalProperties: false
@@ -1871,6 +1522,132 @@ components:
           example: user
         password:
           description: The password of the user trying to log in
+          type: string
+          example: hunter2
+    userSchema:
+      type: object
+      additionalProperties: false
+      description: An Unleash user
+      required:
+      - id
+      properties:
+        id:
+          description: The user id
+          type: integer
+          example: 123
+        name:
+          description: Name of the user
+          type:
+          - string
+          - 'null'
+          example: User
+        email:
+          description: Email of the user
+          type: string
+          example: user@example.com
+        username:
+          description: A unique username for the user
+          type:
+          - string
+          - 'null'
+          example: hunter
+        imageUrl:
+          description: URL used for the user profile image
+          type: string
+          example: https://example.com/242x200.png
+        inviteLink:
+          description: If the user is actively inviting other users, this is the link that can be shared with other users
+          type: string
+          example: http://localhost:4242/invite-link/some-secret
+        loginAttempts:
+          description: How many unsuccessful attempts at logging in has the user made
+          type: integer
+          minimum: 0
+          example: 3
+        emailSent:
+          description: Is the welcome email sent to the user or not
+          type: boolean
+          example: false
+        rootRole:
+          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
+          type: integer
+          example: 1
+          minimum: 0
+        seenAt:
+          description: The last time this user logged in
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-06-30T11:42:00.345Z'
+        createdAt:
+          description: The user was created at this time
+          type: string
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
+        accountType:
+          description: A user is either an actual User or a Service Account
+          type: string
+          enum:
+          - User
+          - Service Account
+          example: User
+        permissions:
+          description: Deprecated
+          type: array
+          items:
+            type: string
+        scimId:
+          description: The SCIM ID of the user, only present if managed by SCIM
+          type:
+          - string
+          - 'null'
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
+        seatType:
+          description: The seat type of this user
+          type:
+          - string
+          - 'null'
+          example: Regular
+        activeSessions:
+          description: Count of active browser sessions for this user
+          type:
+          - integer
+          - 'null'
+          example: 2
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after last login
+          type: number
+          example: 1
+    emailSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - email
+      description: Represents the email of a user. Used to send email communication (reset password, welcome mail etc)
+      properties:
+        email:
+          description: The email address
+          type: string
+          example: test@example.com
+    accessOverviewSchema:
+      description: Data containing an overview of all the projects and groups users have access to
+      type: object
+      properties:
+        overview:
+          type: array
+          description: A list of user access details
+          items:
+            $ref: '#/components/schemas/userAccessSchema'
+    validatePasswordSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - password
+      description: Used to validate passwords obeying [Unleash password guidelines](https://docs.getunleash.io/using-unleash/deploy/configuring-unleash#securing-unleash)
+      properties:
+        password:
+          description: The password to validate
           type: string
           example: hunter2
     adminPermissionSchema:
@@ -1901,98 +1678,10 @@ components:
           example: project
         environment:
           description: Which environment this permission applies to
-          type: string
+          type:
+          - string
+          - 'null'
           example: development
-          nullable: true
-    userSchema:
-      type: object
-      additionalProperties: false
-      description: An Unleash user
-      required:
-      - id
-      properties:
-        id:
-          description: The user id
-          type: integer
-          example: 123
-        name:
-          description: Name of the user
-          type: string
-          example: User
-          nullable: true
-        email:
-          description: Email of the user
-          type: string
-          example: user@example.com
-        username:
-          description: A unique username for the user
-          type: string
-          example: hunter
-          nullable: true
-        imageUrl:
-          description: URL used for the user profile image
-          type: string
-          example: https://example.com/242x200.png
-        inviteLink:
-          description: If the user is actively inviting other users, this is the link that can be shared with other users
-          type: string
-          example: http://localhost:4242/invite-link/some-secret
-        loginAttempts:
-          description: How many unsuccessful attempts at logging in has the user made
-          type: integer
-          minimum: 0
-          example: 3
-        emailSent:
-          description: Is the welcome email sent to the user or not
-          type: boolean
-          example: false
-        rootRole:
-          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
-          type: integer
-          example: 1
-          minimum: 0
-        seenAt:
-          description: The last time this user logged in
-          type: string
-          format: date-time
-          nullable: true
-          example: '2023-06-30T11:42:00.345Z'
-        createdAt:
-          description: The user was created at this time
-          type: string
-          format: date-time
-          example: '2023-06-30T11:41:00.123Z'
-        accountType:
-          description: A user is either an actual User or a Service Account
-          type: string
-          enum:
-          - User
-          - Service Account
-          example: User
-        permissions:
-          description: Deprecated
-          type: array
-          items:
-            type: string
-        scimId:
-          description: The SCIM ID of the user, only present if managed by SCIM
-          type: string
-          nullable: true
-          example: 01HTMEXAMPLESCIMID7SWWGHN6
-        seatType:
-          description: The seat type of this user
-          type: string
-          nullable: true
-          example: Regular
-        activeSessions:
-          description: Count of active browser sessions for this user
-          type: integer
-          nullable: true
-          example: 2
-        deletedSessions:
-          description: Experimental. The number of deleted browser sessions after last login
-          type: number
-          example: 1
     adminPermissionsSchema:
       type: object
       required:
@@ -2046,6 +1735,328 @@ components:
           - 2
           description: The api version of this response. A natural increasing number. Only increases if format changes
           example: 1
+    oidcSettingsResponseSchema:
+      type: object
+      description: Response for OpenID Connect settings
+      properties:
+        enabled:
+          description: Whether to enable or disable OpenID Connect for this instance
+          type: boolean
+          example: true
+          enum:
+          - true
+        discoverUrl:
+          description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
+          example: https://myoidchost.azure.com/.well-known/openid-configuration
+          type: string
+          format: uri
+        clientId:
+          description: The OIDC client ID of this application.
+          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+          type: string
+        secret:
+          description: Shared secret from OpenID server. Used to authenticate login requests
+          type: string
+          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+        autoCreate:
+          description: Auto create users based on email addresses from login tokens
+          type: boolean
+        enableSingleSignOut:
+          description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
+          type: boolean
+        defaultRootRole:
+          description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
+          type: string
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+          type: number
+          example: 2
+        emailDomains:
+          description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
+          type: string
+          example: getunleash.io,getunleash.ai
+        acrValues:
+          description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
+          type: string
+          example: urn:okta:loa:2fa:any phr
+        idTokenSigningAlgorithm:
+          description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
+          type: string
+          example: RS256
+          enum:
+          - RS256
+          - RS384
+          - RS512
+        enableGroupSyncing:
+          description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+          type: boolean
+          example: false
+        groupJsonPath:
+          description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
+          type: string
+          example: groups
+        addGroupsScope:
+          description: When enabled Unleash will also request the 'groups' scope as part of the login request.
+          type: boolean
+          example: false
+        enablePkce:
+          description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
+          type: boolean
+          example: false
+    userAccessSchema:
+      type: object
+      required:
+      - userId
+      - userEmail
+      - accessibleProjects
+      - groups
+      - rootRole
+      additionalProperties: false
+      description: Describes a single set of access for a user
+      properties:
+        userId:
+          type: integer
+          description: The identifier for the user
+          example: 3
+        createdAt:
+          type:
+          - string
+          - 'null'
+          description: When the user was created
+          format: date-time
+          example: '2023-03-01T12:04:26.061Z'
+        userName:
+          type:
+          - string
+          - 'null'
+          description: The name of the user
+          example: SomeUser
+        lastSeen:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The last time the user logged in
+          example: '2023-03-01T12:04:26.061Z'
+        accessibleProjects:
+          description: A list of project ids that this user has access to
+          type: array
+          items:
+            type: string
+          example:
+          - default
+          - project2
+        groups:
+          description: A list of group names that this user is a member of
+          type: array
+          items:
+            type: string
+          example:
+          - group1
+          - group2
+        rootRole:
+          description: The name of the root role that this user has
+          type: string
+          example: ADMIN
+        userEmail:
+          description: The email address of the user
+          type: string
+          example: some-user@example.com
+    passwordAuthSchema:
+      type: object
+      description: Does the server allow username/password authentication
+      properties:
+        disabled:
+          description: Is username/password authentication disabled
+          type: boolean
+          example: false
+    tokenUserSchema:
+      type: object
+      additionalProperties: false
+      description: A user identified by a token
+      required:
+      - id
+      - email
+      - token
+      - createdBy
+      - role
+      properties:
+        id:
+          type: integer
+          description: The user id
+          example: 7
+        name:
+          description: The name of the user
+          type: string
+          example: Test McTest
+        email:
+          description: The email of the user
+          type: string
+          example: test@example.com
+        token:
+          description: A token uniquely identifying a user
+          type: string
+          example: user:xyzrandomstring
+        createdBy:
+          description: A username or email identifying which user created this token
+          type:
+          - string
+          - 'null'
+          example: admin@example.com
+        role:
+          $ref: '#/components/schemas/roleSchema'
+    oidcSettingsSchema:
+      type: object
+      description: Settings for configuring OpenID Connect as a login provider for Unleash
+      oneOf:
+      - required:
+        - enabled
+        - clientId
+        - secret
+        type: object
+        properties:
+          enabled:
+            description: Whether to enable or disable OpenID Connect for this instance
+            type: boolean
+            example: true
+            enum:
+            - true
+          discoverUrl:
+            description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
+            example: https://myoidchost.azure.com/.well-known/openid-configuration
+            type: string
+            format: uri
+          clientId:
+            description: The OIDC client ID of this application.
+            example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+            type: string
+          secret:
+            description: Shared secret from OpenID server. Used to authenticate login requests
+            type: string
+            example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          autoCreate:
+            description: Auto create users based on email addresses from login tokens
+            type: boolean
+          enableSingleSignOut:
+            description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
+            type: boolean
+          defaultRootRole:
+            description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
+            type: string
+            enum:
+            - Viewer
+            - Editor
+            - Admin
+          defaultRootRoleId:
+            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+            type: number
+            example: 2
+          emailDomains:
+            description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
+            type: string
+            example: getunleash.io,getunleash.ai
+          acrValues:
+            description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
+            type: string
+            example: urn:okta:loa:2fa:any phr
+          idTokenSigningAlgorithm:
+            description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
+            type: string
+            example: RS256
+            enum:
+            - RS256
+            - RS384
+            - RS512
+          enableGroupSyncing:
+            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+            type: boolean
+            example: false
+          groupJsonPath:
+            description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
+            type: string
+            example: groups
+          addGroupsScope:
+            description: When enabled Unleash will also request the 'groups' scope as part of the login request.
+            type: boolean
+            example: false
+          enablePkce:
+            description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
+            type: boolean
+            example: false
+      - type: object
+        properties:
+          enabled:
+            description: Whether to enable or disable OpenID Connect for this instance
+            type: boolean
+            example: false
+            enum:
+            - false
+          discoverUrl:
+            description: The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)
+            example: https://myoidchost.azure.com/.well-known/openid-configuration
+            type: string
+            format: uri
+          clientId:
+            description: The OIDC client ID of this application.
+            example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+            type: string
+          secret:
+            description: Shared secret from OpenID server. Used to authenticate login requests
+            type: string
+            example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          autoCreate:
+            description: Auto create users based on email addresses from login tokens
+            type: boolean
+          enableSingleSignOut:
+            description: Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active
+            type: boolean
+          defaultRootRole:
+            description: '[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`'
+            type: string
+            enum:
+            - Viewer
+            - Editor
+            - Admin
+          defaultRootRoleId:
+            description: Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.
+            type: number
+            example: 2
+          emailDomains:
+            description: Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
+            type: string
+            example: getunleash.io,getunleash.ai
+          acrValues:
+            description: "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n"
+            type: string
+            example: urn:okta:loa:2fa:any phr
+          idTokenSigningAlgorithm:
+            description: The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
+            type: string
+            example: RS256
+            enum:
+            - RS256
+            - RS384
+            - RS512
+          enableGroupSyncing:
+            description: Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)
+            type: boolean
+            example: false
+          groupJsonPath:
+            description: Specifies the path in the OIDC token response to read which groups the user belongs to from.
+            type: string
+            example: groups
+          addGroupsScope:
+            description: When enabled Unleash will also request the 'groups' scope as part of the login request.
+            type: boolean
+            example: false
+          enablePkce:
+            description: Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.
+            type: boolean
+            example: false
     roleSchema:
       type: object
       description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
@@ -2074,8 +2085,9 @@ components:
           example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
         project:
           description: What project the role belongs to
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: default
   securitySchemes:
     apiKey:

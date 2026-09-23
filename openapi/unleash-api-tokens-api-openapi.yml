@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons API tokens API
+  title: Unleash Admin API tokens API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, and delete Unleash API tokens.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -10,13 +10,13 @@ security:
 - apiKey: []
 - bearerToken: []
 tags:
-- name: API tokens
-  description: Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
+- name: API Tokens
+  description: Create, update, and delete Unleash API tokens.
 paths:
   /api/admin/api-tokens:
     get:
       tags:
-      - API tokens
+      - API Tokens
       operationId: getAllApiTokens
       summary: Get API Tokens
       description: Retrieves all API tokens that exist in the Unleash instance.
@@ -67,7 +67,7 @@ paths:
                     description: A description of what went wrong.
     post:
       tags:
-      - API tokens
+      - API Tokens
       operationId: createApiToken
       requestBody:
         description: createApiTokenSchema
@@ -151,7 +151,7 @@ paths:
   /api/admin/api-tokens/{name}:
     get:
       tags:
-      - API tokens
+      - API Tokens
       operationId: getApiTokensByName
       summary: Get API Tokens by Name
       description: Retrieves all API tokens that match a given token name. Because token names are not unique, this endpoint will always return a list. If no tokens with the provided name exist, the list will be empty. Otherwise, it will contain all the tokens with the given name.
@@ -209,7 +209,7 @@ paths:
   /api/admin/api-tokens/{token}:
     put:
       tags:
-      - API tokens
+      - API Tokens
       operationId: updateApiToken
       summary: Update API Token
       description: Updates an existing API token with a new expiry date. The `token` path parameter is the token's `secret`. If the token does not exist, this endpoint returns a 200 OK, but does nothing.
@@ -288,7 +288,7 @@ paths:
           type: string
     delete:
       tags:
-      - API tokens
+      - API Tokens
       summary: Delete API Token
       description: Deletes an existing API token. The `token` path parameter is the token's `secret`. If the token does not exist, this endpoint returns a 200 OK, but does nothing.
       operationId: deleteApiToken
@@ -364,6 +364,45 @@ components:
           example: '2023-09-04T11:26:24+02:00'
           type: string
           format: date-time
+    createApiTokenSchema:
+      type: object
+      description: The data required to create an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
+      oneOf:
+      - required:
+        - type
+        - tokenName
+        type: object
+        properties:
+          expiresAt:
+            type: string
+            format: date-time
+            description: The time when this token should expire.
+            example: '2023-07-04T11:26:24+02:00'
+          type:
+            type: string
+            pattern: ^([Cc][Ll][Ii][Ee][Nn][Tt]|[Bb][Aa][Cc][Kk][Ee][Nn][Dd]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$
+            description: A client or frontend token. Must be one of the strings "client" (deprecated), "backend" (preferred over "client") or "frontend" (not case sensitive).
+            example: frontend
+          environment:
+            type: string
+            description: The environment that the token should be valid for. Defaults to "default"
+            example: development
+          project:
+            type: string
+            description: The project that the token should be valid for. Defaults to "*" meaning every project. This property is mutually incompatible with the `projects` property. If you specify one, you cannot specify the other.
+            example: project-851
+          projects:
+            type: array
+            description: A list of projects that the token should be valid for. This property is mutually incompatible with the `project` property. If you specify one, you cannot specify the other.
+            example:
+            - project-851
+            - project-852
+            items:
+              type: string
+          tokenName:
+            type: string
+            description: The name of the token.
+            example: token-64522
     apiTokenSchema:
       type: object
       additionalProperties: false
@@ -410,9 +449,10 @@ components:
           - developerexperience
           - enterprisegrowth
         expiresAt:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
           description: The token's expiration date. NULL if the token doesn't have an expiration set.
           example: '2023-04-19T08:15:14.000Z'
         createdAt:
@@ -421,55 +461,18 @@ components:
           example: '2023-04-19T08:15:14.000Z'
           description: When the token was created.
         seenAt:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
           example: '2023-04-19T08:15:14.000Z'
           description: When the token was last seen/used to authenticate with. NULL if the token has not yet been used for authentication.
         alias:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Alias is no longer in active use and will often be NULL. It's kept around as a way of allowing old proxy tokens created with the old metadata format to keep working.
           example: randomid-or-some-alias
-    createApiTokenSchema:
-      type: object
-      description: The data required to create an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
-      oneOf:
-      - required:
-        - type
-        - tokenName
-        type: object
-        properties:
-          expiresAt:
-            type: string
-            format: date-time
-            description: The time when this token should expire.
-            example: '2023-07-04T11:26:24+02:00'
-          type:
-            type: string
-            pattern: ^([Cc][Ll][Ii][Ee][Nn][Tt]|[Bb][Aa][Cc][Kk][Ee][Nn][Dd]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$
-            description: A client or frontend token. Must be one of the strings "client" (deprecated), "backend" (preferred over "client") or "frontend" (not case sensitive).
-            example: frontend
-          environment:
-            type: string
-            description: The environment that the token should be valid for. Defaults to "default"
-            example: development
-          project:
-            type: string
-            description: The project that the token should be valid for. Defaults to "*" meaning every project. This property is mutually incompatible with the `projects` property. If you specify one, you cannot specify the other.
-            example: project-851
-          projects:
-            type: array
-            description: A list of projects that the token should be valid for. This property is mutually incompatible with the `project` property. If you specify one, you cannot specify the other.
-            example:
-            - project-851
-            - project-852
-            items:
-              type: string
-          tokenName:
-            type: string
-            description: The name of the token.
-            example: token-64522
   securitySchemes:
     apiKey:
       type: apiKey

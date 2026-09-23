@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Frontend API API
+  title: Unleash Frontend Frontend API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: The Frontend API is used for connecting client-side (frontend) applications to Unleash.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,7 +11,7 @@ security:
 - bearerToken: []
 tags:
 - name: Frontend API
-  description: The [Frontend API](https://docs.getunleash.io/concepts/front-end-api) is used for connecting client-side (frontend) applications to Unleash.
+  description: The Frontend API is used for connecting client-side (frontend) applications to Unleash.
 paths:
   /api/frontend:
     get:
@@ -63,7 +63,7 @@ paths:
                     type: string
                     example: Could not find the addon with ID "12345".
                     description: A description of what went wrong.
-      summary: Retrieve Enabled Feature Flags for the Provided Context.
+      summary: Retrieve Enabled Feature Flags for the Provided Context
       description: This endpoint returns the list of feature flags that the frontend API evaluates to enabled for the given context. Context values are provided as query parameters. If the Frontend API is disabled 404 is returned.
     post:
       tags:
@@ -121,7 +121,7 @@ paths:
                     type: string
                     example: Could not find the addon with ID "12345".
                     description: A description of what went wrong.
-      summary: Retrieve Enabled Feature Flags for the Provided Context, Using Post.
+      summary: Retrieve Enabled Feature Flags for the Provided Context, Using Post
       description: This endpoint returns the list of feature flags that the frontend API evaluates to enabled for the given context, using POST. Context values are provided as a `context` property in the request body. If the Frontend API is disabled 404 is returned.
   /api/frontend/client/metrics:
     post:
@@ -275,6 +275,109 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
+    frontendApiFeaturesPostSchema:
+      description: The Unleash frontend API POST request body.
+      type: object
+      additionalProperties: true
+      properties:
+        context:
+          description: The Unleash context.
+          type: object
+          additionalProperties: true
+          properties:
+            appName:
+              type: string
+              minLength: 1
+              example: My cool application.
+              description: The name of the application.
+            currentTime:
+              type: string
+              format: date-time
+              example: '2022-07-05T12:56:41+02:00'
+              description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+            environment:
+              type: string
+              deprecated: true
+              description: The environment the app is running in.
+            properties:
+              type: object
+              additionalProperties:
+                type: string
+              description: Additional Unleash context properties
+              example:
+                customContextField: this is one!
+                otherCustomField: '3'
+            remoteAddress:
+              type: string
+              example: 192.168.1.1
+              description: The app's IP address
+            sessionId:
+              type: string
+              example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+              description: An identifier for the current session
+            userId:
+              type: string
+              example: username@provider.com
+              description: An identifier for the current user
+    frontendApiClientSchema:
+      type: object
+      required:
+      - appName
+      - interval
+      - started
+      - strategies
+      description: Frontend SDK client registration information
+      properties:
+        appName:
+          type: string
+          description: Name of the application using Unleash
+        instanceId:
+          type: string
+          description: Instance id for this application (typically hostname, podId or similar)
+        sdkVersion:
+          type: string
+          description: Optional field that describes the sdk version (name:version)
+        environment:
+          type: string
+          deprecated: true
+          description: deprecated
+          example: development
+        interval:
+          type: number
+          description: At which interval, in milliseconds, will this client be expected to send metrics
+        started:
+          oneOf:
+          - type: string
+            format: date-time
+          - type: number
+          description: When this client started. Should be reported as ISO8601 time.
+        strategies:
+          type: array
+          items:
+            type: string
+          description: List of strategies implemented by this application
+    frontendApiFeaturesSchema:
+      type: object
+      required:
+      - toggles
+      additionalProperties: false
+      description: Frontend SDK features list
+      properties:
+        toggles:
+          description: The actual features returned to the Frontend SDK
+          type: array
+          items:
+            $ref: '#/components/schemas/frontendApiFeatureSchema'
+    dateSchema:
+      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
+      oneOf:
+      - type: string
+        format: date-time
+        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
+        example: '2023-07-27T11:23:44Z'
+      - type: integer
+        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
+        example: 1690449593
     frontendApiFeatureSchema:
       type: object
       required:
@@ -343,62 +446,6 @@ components:
               type: boolean
               description: Use `feature_enabled` instead.
               example: true
-    frontendApiFeaturesPostSchema:
-      description: The Unleash frontend API POST request body.
-      type: object
-      additionalProperties: true
-      properties:
-        context:
-          description: The Unleash context.
-          type: object
-          additionalProperties: true
-          properties:
-            appName:
-              type: string
-              minLength: 1
-              example: My cool application.
-              description: The name of the application.
-            currentTime:
-              type: string
-              format: date-time
-              example: '2022-07-05T12:56:41+02:00'
-              description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
-            environment:
-              type: string
-              deprecated: true
-              description: The environment the app is running in.
-            properties:
-              type: object
-              additionalProperties:
-                type: string
-              description: Additional Unleash context properties
-              example:
-                customContextField: this is one!
-                otherCustomField: '3'
-            remoteAddress:
-              type: string
-              example: 192.168.1.1
-              description: The app's IP address
-            sessionId:
-              type: string
-              example: b65e7b23-fec0-4814-a129-0e9861ef18fc
-              description: An identifier for the current session
-            userId:
-              type: string
-              example: username@provider.com
-              description: An identifier for the current user
-    frontendApiFeaturesSchema:
-      type: object
-      required:
-      - toggles
-      additionalProperties: false
-      description: Frontend SDK features list
-      properties:
-        toggles:
-          description: The actual features returned to the Frontend SDK
-          type: array
-          items:
-            $ref: '#/components/schemas/frontendApiFeatureSchema'
     clientMetricsSchema:
       type: object
       required:
@@ -484,8 +531,9 @@ components:
                     minimum: 0
                   variants:
                     description: 'An object describing how many times each variant was returned. Variant names are used as properties, and the number of times they were exposed is the corresponding value (i.e. `{ [variantName]: number }`).'
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties:
                       type: integer
                       minimum: 0
@@ -493,53 +541,6 @@ components:
                       variantA: 15
                       variantB: 25
                       variantC: 5
-    frontendApiClientSchema:
-      type: object
-      required:
-      - appName
-      - interval
-      - started
-      - strategies
-      description: Frontend SDK client registration information
-      properties:
-        appName:
-          type: string
-          description: Name of the application using Unleash
-        instanceId:
-          type: string
-          description: Instance id for this application (typically hostname, podId or similar)
-        sdkVersion:
-          type: string
-          description: Optional field that describes the sdk version (name:version)
-        environment:
-          type: string
-          deprecated: true
-          description: deprecated
-          example: development
-        interval:
-          type: number
-          description: At which interval, in milliseconds, will this client be expected to send metrics
-        started:
-          oneOf:
-          - type: string
-            format: date-time
-          - type: number
-          description: When this client started. Should be reported as ISO8601 time.
-        strategies:
-          type: array
-          items:
-            type: string
-          description: List of strategies implemented by this application
-    dateSchema:
-      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
-      oneOf:
-      - type: string
-        format: date-time
-        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
-        example: '2023-07-27T11:23:44Z'
-      - type: integer
-        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
-        example: 1690449593
   securitySchemes:
     apiKey:
       type: apiKey

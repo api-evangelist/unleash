@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Admin UI API
+  title: Unleash Admin Admin UI API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Configuration for the Unleash Admin UI. These endpoints should not be relied upon and can change at any point without prior notice.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -44,7 +44,7 @@ paths:
       - Admin UI
       operationId: createFeedback
       summary: Send Unleash Feedback
-      description: Sends feedback gathered from the Unleash UI to the Unleash server. Must be called with a token with an identifiable user (either from being sent from the UI or from using a [PAT](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens)).
+      description: Sends feedback gathered from the Unleash UI to the Unleash server. Must be called with a token with an identifiable user (either from being sent from the UI or from using a PAT).
       requestBody:
         description: feedbackCreateSchema
         required: true
@@ -153,7 +153,7 @@ paths:
       - Admin UI
       operationId: updateFeedback
       summary: Update Unleash Feedback
-      description: Updates the feedback with the provided ID. Only provided fields are updated. Fields left out are left untouched. Must be called with a token with an identifiable user (either from being sent from the UI or from using a [PAT](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens)).
+      description: Updates the feedback with the provided ID. Only provided fields are updated. Fields left out are left untouched. Must be called with a token with an identifiable user (either from being sent from the UI or from using a PAT).
       requestBody:
         description: feedbackUpdateSchema
         required: true
@@ -384,6 +384,39 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
+    setCorsSchema:
+      type: object
+      additionalProperties: false
+      description: Unleash CORS configuration.
+      properties:
+        frontendApiOrigins:
+          description: The list of origins that the front-end API should accept requests from.
+          example:
+          - '*'
+          type: array
+          items:
+            type: string
+    splashResponseSchema:
+      type: object
+      description: Data related to a user having seen a splash screen.
+      required:
+      - userId
+      - splashId
+      - seen
+      properties:
+        userId:
+          type: integer
+          description: The ID of the user that was shown the splash screen.
+          example: 1
+        splashId:
+          type: string
+          description: The ID of the splash screen that was shown.
+          example: new-splash-screen
+        seen:
+          type: boolean
+          description: Indicates whether the user has seen the splash screen or not.
+          example: true
+      additionalProperties: false
     uiConfigSchema:
       type: object
       additionalProperties: false
@@ -533,27 +566,58 @@ components:
         unleashContext:
           type: object
           description: The context object used to configure the Unleash instance.
-    splashResponseSchema:
+    variantFlagSchema:
       type: object
-      description: Data related to a user having seen a splash screen.
-      required:
-      - userId
-      - splashId
-      - seen
-      properties:
-        userId:
-          type: integer
-          description: The ID of the user that was shown the splash screen.
-          example: 1
-        splashId:
-          type: string
-          description: The ID of the splash screen that was shown.
-          example: new-splash-screen
-        seen:
-          type: boolean
-          description: Indicates whether the user has seen the splash screen or not.
-          example: true
       additionalProperties: false
+      description: A representation of an evaluated Unleash feature variant.
+      properties:
+        name:
+          description: The name of the variant. Will always be disabled if `enabled` is false.
+          example: blue
+          type: string
+        enabled:
+          type: boolean
+          description: Whether the variant is enabled or not.
+          example: true
+        payload:
+          type: object
+          description: Additional data associated with this variant.
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of data contained.
+              type: string
+              enum:
+              - string
+              - json
+              - csv
+              - number
+              example: json
+            value:
+              description: The actual associated data
+              type: string
+              example: '{ "starter": "squirtle" }'
+        feature_enabled:
+          type: boolean
+          description: Whether the feature is enabled or not.
+          example: true
+        featureEnabled:
+          deprecated: true
+          type: boolean
+          description: Use `feature_enabled` instead.
+          example: true
+    recordUiErrorSchema:
+      type: object
+      required:
+      - errorMessage
+      description: An object representing an error from the UI
+      properties:
+        errorMessage:
+          type: string
+          description: The error message
+        errorStack:
+          type: string
+          description: The stack trace of the error
     feedbackUpdateSchema:
       type: object
       description: User feedback information to be updated.
@@ -568,24 +632,61 @@ components:
           example: false
         given:
           description: When this feedback was given
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
           example: '2023-07-06T08:29:21.282Z'
-    feedbackCreateSchema:
-      required:
-      - feedbackId
+    versionSchema:
       type: object
-      description: User feedback information to be created.
+      additionalProperties: false
+      description: Detailed information about an Unleash version
+      required:
+      - current
+      - latest
+      - isLatest
       properties:
-        neverShow:
-          description: '`true` if the user has asked never to see this feedback questionnaire again. Defaults to `false`.'
+        current:
+          type: object
+          additionalProperties: false
+          description: The current version of Unleash.
+          properties:
+            oss:
+              description: The OSS version used when building this Unleash instance, represented as a git revision belonging to the [main Unleash git repo](https://github.com/Unleash/unleash/)
+              example: 5.3.0-main
+              type: string
+            enterprise:
+              description: The Enterpris version of Unleash used to build this instance, represented as a git revision belonging to the [Unleash Enterprise](https://github.com/ivarconr/unleash-enterprise) repository. Will be an empty string if no enterprise version was used,
+              example: 5.3.0-main+2105.45ed03c9
+              type: string
+        latest:
+          type: object
+          additionalProperties: false
+          description: Information about the latest available Unleash releases. Will be an empty object if no data is available.
+          properties:
+            oss:
+              description: The latest available OSS version of Unleash
+              type: string
+              example: 5.1.5
+            enterprise:
+              description: The latest available Enterprise version of Unleash
+              type: string
+              example: 5.1.5
+        isLatest:
           type: boolean
-          example: false
-        feedbackId:
-          description: The name of the feedback session
+          description: Whether the Unleash server is running the latest release (`true`) or if there are updates available (`false`)
+          example: true
+        instanceId:
           type: string
-          example: pnps
+          description: The instance identifier of the Unleash instance
+          example: 0d652a82-43db-4144-8e02-864b0b030710
+        buildDate:
+          description: The date and time of when this Unleash instance version was built
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
     resourceLimitsSchema:
       type: object
       description: A map of resource names and their limits.
@@ -686,93 +787,20 @@ components:
           example: 50
           description: The maximum number of read-only users allowed.
           minimum: 0
-    setCorsSchema:
+    feedbackCreateSchema:
+      required:
+      - feedbackId
       type: object
-      additionalProperties: false
-      description: Unleash CORS configuration.
+      description: User feedback information to be created.
       properties:
-        frontendApiOrigins:
-          description: The list of origins that the front-end API should accept requests from.
-          example:
-          - '*'
-          type: array
-          items:
-            type: string
-    feedbackResponseSchema:
-      additionalProperties: false
-      type: object
-      description: User feedback information about a particular feedback item.
-      properties:
-        userId:
-          description: The ID of the user that gave the feedback.
-          type: integer
-          example: 2
         neverShow:
-          description: '`true` if the user has asked never to see this feedback questionnaire again.'
+          description: '`true` if the user has asked never to see this feedback questionnaire again. Defaults to `false`.'
           type: boolean
           example: false
-        given:
-          description: When this feedback was given
-          type: string
-          format: date-time
-          nullable: true
-          example: '2023-07-06T08:29:21.282Z'
         feedbackId:
           description: The name of the feedback session
           type: string
           example: pnps
-    recordUiErrorSchema:
-      type: object
-      required:
-      - errorMessage
-      description: An object representing an error from the UI
-      properties:
-        errorMessage:
-          type: string
-          description: The error message
-        errorStack:
-          type: string
-          description: The stack trace of the error
-    variantFlagSchema:
-      type: object
-      additionalProperties: false
-      description: A representation of an evaluated Unleash feature variant.
-      properties:
-        name:
-          description: The name of the variant. Will always be disabled if `enabled` is false.
-          example: blue
-          type: string
-        enabled:
-          type: boolean
-          description: Whether the variant is enabled or not.
-          example: true
-        payload:
-          type: object
-          description: Additional data associated with this variant.
-          additionalProperties: false
-          properties:
-            type:
-              description: The type of data contained.
-              type: string
-              enum:
-              - string
-              - json
-              - csv
-              - number
-              example: json
-            value:
-              description: The actual associated data
-              type: string
-              example: '{ "starter": "squirtle" }'
-        feature_enabled:
-          type: boolean
-          description: Whether the feature is enabled or not.
-          example: true
-        featureEnabled:
-          deprecated: true
-          type: boolean
-          description: Use `feature_enabled` instead.
-          example: true
     lifecycleTrendsSchema:
       additionalProperties: false
       description: Aggregated view of feature flag lifecycle trends across environments
@@ -984,55 +1012,30 @@ components:
                         newFlagsThisWeek:
                           type: number
                           example: 0
-    versionSchema:
-      type: object
+    feedbackResponseSchema:
       additionalProperties: false
-      description: Detailed information about an Unleash version
-      required:
-      - current
-      - latest
-      - isLatest
+      type: object
+      description: User feedback information about a particular feedback item.
       properties:
-        current:
-          type: object
-          additionalProperties: false
-          description: The current version of Unleash.
-          properties:
-            oss:
-              description: The OSS version used when building this Unleash instance, represented as a git revision belonging to the [main Unleash git repo](https://github.com/Unleash/unleash/)
-              example: 5.3.0-main
-              type: string
-            enterprise:
-              description: The Enterpris version of Unleash used to build this instance, represented as a git revision belonging to the [Unleash Enterprise](https://github.com/ivarconr/unleash-enterprise) repository. Will be an empty string if no enterprise version was used,
-              example: 5.3.0-main+2105.45ed03c9
-              type: string
-        latest:
-          type: object
-          additionalProperties: false
-          description: Information about the latest available Unleash releases. Will be an empty object if no data is available.
-          properties:
-            oss:
-              description: The latest available OSS version of Unleash
-              type: string
-              example: 5.1.5
-            enterprise:
-              description: The latest available Enterprise version of Unleash
-              type: string
-              example: 5.1.5
-        isLatest:
+        userId:
+          description: The ID of the user that gave the feedback.
+          type: integer
+          example: 2
+        neverShow:
+          description: '`true` if the user has asked never to see this feedback questionnaire again.'
           type: boolean
-          description: Whether the Unleash server is running the latest release (`true`) or if there are updates available (`false`)
-          example: true
-        instanceId:
-          type: string
-          description: The instance identifier of the Unleash instance
-          example: 0d652a82-43db-4144-8e02-864b0b030710
-        buildDate:
-          description: The date and time of when this Unleash instance version was built
-          type: string
+          example: false
+        given:
+          description: When this feedback was given
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
-          example: '2023-06-30T11:41:00.123Z'
+          example: '2023-07-06T08:29:21.282Z'
+        feedbackId:
+          description: The name of the feedback session
+          type: string
+          example: pnps
   securitySchemes:
     apiKey:
       type: apiKey

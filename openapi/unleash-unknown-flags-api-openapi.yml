@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Unknown Flags API
+  title: Unleash Admin Unknown Flags API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Endpoints related to unknown flags.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -29,6 +29,18 @@ paths:
                 $ref: '#/components/schemas/unknownFlagsResponseSchema'
 components:
   schemas:
+    unknownFlagsResponseSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - unknownFlags
+      description: A list of unknown flag reports
+      properties:
+        unknownFlags:
+          description: The list of recently reported unknown flags.
+          type: array
+          items:
+            $ref: '#/components/schemas/unknownFlagSchema'
     unknownFlagSchema:
       type: object
       additionalProperties: false
@@ -47,11 +59,12 @@ components:
           description: The date and time when the unknown flag was last reported.
           example: '2023-10-01T12:00:00Z'
         lastEventAt:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
           description: The date and time when the last event for the unknown flag name occurred, if any.
           example: '2023-10-01T12:00:00Z'
-          nullable: true
         reports:
           type: array
           description: The list of reports for this unknown flag.
@@ -85,18 +98,6 @@ components:
                       format: date-time
                       description: The date and time when the unknown flag was last seen in this environment.
                       example: '2023-10-01T12:00:00Z'
-    unknownFlagsResponseSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - unknownFlags
-      description: A list of unknown flag reports
-      properties:
-        unknownFlags:
-          description: The list of recently reported unknown flags.
-          type: array
-          items:
-            $ref: '#/components/schemas/unknownFlagSchema'
   securitySchemes:
     apiKey:
       type: apiKey

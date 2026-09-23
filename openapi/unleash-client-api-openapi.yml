@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Unleash Admin Addons Client API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, and delete Unleash addons.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,7 +11,7 @@ security:
 - bearerToken: []
 tags:
 - name: Client
-  description: Endpoints for [Unleash backend clients](https://docs.getunleash.io/sdks).
+  description: Endpoints for Unleash backend clients.
 paths:
   /api/client/features/{featureName}:
     get:
@@ -140,6 +140,103 @@ paths:
           description: This response has no body.
 components:
   schemas:
+    clientFeatureSchema:
+      type: object
+      required:
+      - name
+      - enabled
+      description: Feature flag configuration used by SDKs to evaluate state of a flag
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          description: The unique name of a feature flag. Is validated to be URL safe on creation
+          example: new.payment.flow.stripe
+        type:
+          type: string
+          description: What kind of feature flag is this. Refer to the documentation on [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types) for more information
+          example: release
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of the flag
+          example: No variants here
+        enabled:
+          type: boolean
+          description: Whether the feature flag is enabled for the current API key or not. This is ANDed with the evaluation results of the strategies list, so if this is false, the evaluation result will always be false
+          example: true
+        stale:
+          description: If this is true Unleash believes this feature flag has been active longer than Unleash expects a flag of this type to be active
+          type: boolean
+          example: false
+        impressionData:
+          description: Set to true if SDKs should trigger [impression events](https://docs.getunleash.io/concepts/impression-data) when this flag is evaluated
+          type:
+          - boolean
+          - 'null'
+          example: false
+        project:
+          description: Which project this feature flag belongs to
+          type: string
+          example: new.payment.flow
+        strategies:
+          type: array
+          description: Evaluation strategies for this flag. Each entry in this list will be evaluated and ORed together
+          items:
+            $ref: '#/components/schemas/featureStrategySchema'
+        variants:
+          type:
+          - array
+          - 'null'
+          description: '[Variants](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) configured for this flag'
+          items:
+            $ref: '#/components/schemas/variantSchema'
+        dependencies:
+          type: array
+          description: Feature dependencies for this flag
+          items:
+            $ref: '#/components/schemas/dependentFeatureSchema'
+    clientSegmentSchema:
+      type: object
+      description: Represents a client API segment of users defined by a set of constraints.
+      additionalProperties: false
+      required:
+      - id
+      - constraints
+      properties:
+        id:
+          type: number
+          description: The segment's id.
+        name:
+          type: string
+          description: The name of the segment.
+          example: segment A
+        constraints:
+          type: array
+          description: List of constraints that determine which users are part of the segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+    overrideSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - contextName
+      - values
+      description: An override for deciding which variant should be assigned to a user based on the context name
+      properties:
+        contextName:
+          description: The name of the context field used to determine overrides
+          type: string
+          example: userId
+        values:
+          description: Which values that should be overriden
+          type: array
+          items:
+            type: string
+          example:
+          - red
+          - blue
     constraintSchema:
       additionalProperties: false
       type: object
@@ -192,6 +289,94 @@ components:
           description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
           type: string
           example: my-app
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    dateSchema:
+      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
+      oneOf:
+      - type: string
+        format: date-time
+        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
+        example: '2023-07-27T11:23:44Z'
+      - type: integer
+        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
+        example: 1690449593
+    dependentFeatureSchema:
+      type: object
+      description: Feature dependency on a parent feature in read model
+      required:
+      - feature
+      additionalProperties: false
+      properties:
+        feature:
+          type: string
+          description: The name of the feature we depend on.
+          example: parent_feature
+        enabled:
+          type: boolean
+          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
+          example: false
+        variants:
+          type: array
+          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
+          items:
+            type: string
+          example:
+          - variantA
+          - variantB
     clientFeaturesSchema:
       type: object
       required:
@@ -252,106 +437,11 @@ components:
           description: Set to true if requesting client does not support Unleash-Client-Specification 4.2.2 or newer. Modern SDKs will have this set to false, since they will be able to merge constraints and segments themselves
           type: boolean
           example: true
-    overrideSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - contextName
-      - values
-      description: An override for deciding which variant should be assigned to a user based on the context name
-      properties:
-        contextName:
-          description: The name of the context field used to determine overrides
-          type: string
-          example: userId
-        values:
-          description: Which values that should be overriden
-          type: array
-          items:
-            type: string
-          example:
-          - red
-          - blue
-    clientSegmentSchema:
-      type: object
-      description: Represents a client API segment of users defined by a set of constraints.
-      additionalProperties: false
-      required:
-      - id
-      - constraints
-      properties:
-        id:
-          type: number
-          description: The segment's id.
-        name:
-          type: string
-          description: The name of the segment.
-          example: segment A
-        constraints:
-          type: array
-          description: List of constraints that determine which users are part of the segment
-          items:
-            $ref: '#/components/schemas/constraintSchema'
     parametersSchema:
       type: object
       description: A list of parameters for a strategy
       additionalProperties:
         type: string
-    variantSchema:
-      type: object
-      additionalProperties: false
-      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
-      required:
-      - name
-      - weight
-      properties:
-        name:
-          type: string
-          description: The variants name. Is unique for this feature flag
-          example: blue_group
-        weight:
-          type: number
-          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
-          type: string
-          example: variable
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          additionalProperties: false
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
-        overrides:
-          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
-          type: array
-          items:
-            $ref: '#/components/schemas/overrideSchema'
     clientApplicationSchema:
       type: object
       required:
@@ -415,6 +505,17 @@ components:
           - default
           - gradualRollout
           - remoteAddress
+    customMetricsSchema:
+      type: object
+      required:
+      - metrics
+      description: A collection of custom metrics
+      properties:
+        metrics:
+          type: array
+          description: Array of custom metrics
+          items:
+            $ref: '#/components/schemas/customMetricSchema'
     strategyVariantSchema:
       type: object
       additionalProperties: false
@@ -466,70 +567,84 @@ components:
           example:
             type: json
             value: '{"color": "red"}'
-    featureStrategySchema:
-      description: A single activation strategy configuration schema for a feature
+    variantSchema:
       type: object
       additionalProperties: false
+      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
       required:
       - name
+      - weight
       properties:
-        id:
-          type: string
-          description: A uuid for the feature strategy
-          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
         name:
           type: string
-          description: The name or type of strategy
-          example: flexibleRollout
-        title:
-          type: string
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-          nullable: true
-        disabled:
-          type: boolean
-          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
-          example: false
-          nullable: true
-        featureName:
-          type: string
-          description: The name or feature the strategy is attached to
-          example: myAwesomeFeature
-        sortOrder:
+          description: The variants name. Is unique for this feature flag
+          example: blue_group
+        weight:
           type: number
-          description: The order of the strategy in the list
-          example: 9999
-        segments:
-          type: array
-          description: A list of segment ids attached to the strategy
+          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
+          type: string
+          example: variable
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
           example:
-          - 1
-          - 2
-          items:
-            type: number
-        constraints:
+            type: json
+            value: '{"color": "red"}'
+        overrides:
+          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
           type: array
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
           items:
-            $ref: '#/components/schemas/constraintSchema'
-        variants:
-          type: array
-          description: Strategy level variants
-          items:
-            $ref: '#/components/schemas/strategyVariantSchema'
-        parameters:
-          $ref: '#/components/schemas/parametersSchema'
-    customMetricsSchema:
+            $ref: '#/components/schemas/overrideSchema'
+    customMetricSchema:
       type: object
       required:
-      - metrics
-      description: A collection of custom metrics
+      - name
+      - value
+      description: A custom metric with name, value and optional labels
       properties:
-        metrics:
-          type: array
-          description: Array of custom metrics
-          items:
-            $ref: '#/components/schemas/customMetricSchema'
+        name:
+          type: string
+          description: Name of the custom metric
+          example: http_responses_total
+        value:
+          type: number
+          description: Value of the custom metric
+          example: 1
+        labels:
+          type: object
+          description: Labels to categorize the metric
+          additionalProperties:
+            type: string
+          example:
+            status: '200'
+            method: GET
     clientMetricsSchema:
       type: object
       required:
@@ -615,8 +730,9 @@ components:
                     minimum: 0
                   variants:
                     description: 'An object describing how many times each variant was returned. Variant names are used as properties, and the number of times they were exposed is the corresponding value (i.e. `{ [variantName]: number }`).'
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties:
                       type: integer
                       minimum: 0
@@ -624,116 +740,6 @@ components:
                       variantA: 15
                       variantB: 25
                       variantC: 5
-    customMetricSchema:
-      type: object
-      required:
-      - name
-      - value
-      description: A custom metric with name, value and optional labels
-      properties:
-        name:
-          type: string
-          description: Name of the custom metric
-          example: http_responses_total
-        value:
-          type: number
-          description: Value of the custom metric
-          example: 1
-        labels:
-          type: object
-          description: Labels to categorize the metric
-          additionalProperties:
-            type: string
-          example:
-            status: '200'
-            method: GET
-    clientFeatureSchema:
-      type: object
-      required:
-      - name
-      - enabled
-      description: Feature flag configuration used by SDKs to evaluate state of a flag
-      additionalProperties: false
-      properties:
-        name:
-          type: string
-          description: The unique name of a feature flag. Is validated to be URL safe on creation
-          example: new.payment.flow.stripe
-        type:
-          type: string
-          description: What kind of feature flag is this. Refer to the documentation on [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types) for more information
-          example: release
-        description:
-          type: string
-          description: A description of the flag
-          nullable: true
-          example: No variants here
-        enabled:
-          type: boolean
-          description: Whether the feature flag is enabled for the current API key or not. This is ANDed with the evaluation results of the strategies list, so if this is false, the evaluation result will always be false
-          example: true
-        stale:
-          description: If this is true Unleash believes this feature flag has been active longer than Unleash expects a flag of this type to be active
-          type: boolean
-          example: false
-        impressionData:
-          description: Set to true if SDKs should trigger [impression events](https://docs.getunleash.io/concepts/impression-data) when this flag is evaluated
-          type: boolean
-          nullable: true
-          example: false
-        project:
-          description: Which project this feature flag belongs to
-          type: string
-          example: new.payment.flow
-        strategies:
-          type: array
-          description: Evaluation strategies for this flag. Each entry in this list will be evaluated and ORed together
-          items:
-            $ref: '#/components/schemas/featureStrategySchema'
-        variants:
-          type: array
-          description: '[Variants](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) configured for this flag'
-          items:
-            $ref: '#/components/schemas/variantSchema'
-          nullable: true
-        dependencies:
-          type: array
-          description: Feature dependencies for this flag
-          items:
-            $ref: '#/components/schemas/dependentFeatureSchema'
-    dependentFeatureSchema:
-      type: object
-      description: Feature dependency on a parent feature in read model
-      required:
-      - feature
-      additionalProperties: false
-      properties:
-        feature:
-          type: string
-          description: The name of the feature we depend on.
-          example: parent_feature
-        enabled:
-          type: boolean
-          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
-          example: false
-        variants:
-          type: array
-          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
-          items:
-            type: string
-          example:
-          - variantA
-          - variantB
-    dateSchema:
-      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
-      oneOf:
-      - type: string
-        format: date-time
-        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
-        example: '2023-07-27T11:23:44Z'
-      - type: integer
-        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
-        example: 1690449593
   securitySchemes:
     apiKey:
       type: apiKey

@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Dependencies API
+  title: Unleash Admin Dependencies API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Manage feature dependencies.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -17,7 +17,7 @@ paths:
     post:
       tags:
       - Dependencies
-      summary: Add a Feature Dependency.
+      summary: Add a Feature Dependency
       description: Add a dependency to a parent feature. Each environment will resolve corresponding dependency independently.
       operationId: addFeatureDependency
       requestBody:
@@ -101,7 +101,7 @@ paths:
     delete:
       tags:
       - Dependencies
-      summary: Deletes Feature Dependencies.
+      summary: Deletes Feature Dependencies
       description: Remove dependencies to all parent features.
       operationId: deleteFeatureDependencies
       responses:
@@ -179,7 +179,7 @@ paths:
     delete:
       tags:
       - Dependencies
-      summary: Deletes a Feature Dependency.
+      summary: Deletes a Feature Dependency
       description: Remove a dependency to a parent feature.
       operationId: deleteFeatureDependency
       responses:
@@ -262,7 +262,7 @@ paths:
     get:
       tags:
       - Dependencies
-      summary: List Parent Options.
+      summary: List Parent Options
       description: List available parents who have no transitive dependencies.
       operationId: listParentOptions
       responses:
@@ -344,7 +344,7 @@ paths:
     get:
       tags:
       - Dependencies
-      summary: List Parent Feature Variants.
+      summary: List Parent Feature Variants
       description: List available parent variants across all strategy variants and feature environment variants.
       operationId: listParentVariantOptions
       responses:
@@ -426,7 +426,7 @@ paths:
     get:
       tags:
       - Dependencies
-      summary: Check Dependencies Exist.
+      summary: Check Dependencies Exist
       description: Check if any dependencies exist in this Unleash instance
       operationId: checkDependenciesExist
       responses:

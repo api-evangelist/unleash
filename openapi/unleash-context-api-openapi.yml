@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Context API
+  title: Unleash Admin Context API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, and delete context fields that Unleash is aware of.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,14 +11,14 @@ security:
 - bearerToken: []
 tags:
 - name: Context
-  description: Create, update, and delete [context fields](https://docs.getunleash.io/concepts/unleash-context) that Unleash is aware of.
+  description: Create, update, and delete context fields that Unleash is aware of.
 paths:
   /api/admin/context:
     get:
       tags:
       - Context
       summary: Gets Configured Context Fields
-      description: Returns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context) that have been created.
+      description: Returns all configured Context fields that have been created.
       operationId: getContextFields
       responses:
         '200':
@@ -39,7 +39,7 @@ paths:
       - Context
       operationId: createContextField
       summary: Create a Context Field
-      description: Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)
+      description: Endpoint that allows creation of custom context fields
       requestBody:
         description: createContextFieldSchema
         required: true
@@ -65,7 +65,7 @@ paths:
       tags:
       - Context
       summary: Gets Context Field
-      description: Returns specific [context field](https://docs.getunleash.io/concepts/unleash-context) identified by the name in the path
+      description: Returns specific context field identified by the name in the path
       operationId: getContextField
       responses:
         '200':
@@ -186,7 +186,7 @@ paths:
       description: 'This is a beta endpoint and it may change or be removed in the future.
 
 
-        Returns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context) that have been created.'
+        Returns all configured Context fields that have been created.'
       operationId: getContextFieldsForProject
       responses:
         '200':
@@ -215,7 +215,7 @@ paths:
       description: 'This is a beta endpoint and it may change or be removed in the future.
 
 
-        Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)'
+        Endpoint that allows creation of custom context fields'
       requestBody:
         description: createContextFieldSchema
         required: true
@@ -250,7 +250,7 @@ paths:
       description: 'This is a beta endpoint and it may change or be removed in the future.
 
 
-        Returns specific [context field](https://docs.getunleash.io/concepts/unleash-context) identified by the name in the path'
+        Returns specific context field identified by the name in the path'
       operationId: getContextFieldForProject
       responses:
         '200':
@@ -411,73 +411,21 @@ paths:
           type: string
 components:
   schemas:
-    contextFieldSchema:
+    legalValueSchema:
       type: object
       additionalProperties: false
-      description: A representation of a [context field](https://docs.getunleash.io/concepts/unleash-context).
+      description: Describes a legal value. Typically used to limit possible values for contextFields or strategy properties
       required:
-      - name
+      - value
       properties:
-        name:
-          description: The name of the context field
+        value:
+          description: The valid value
           type: string
-          example: userId
+          example: '#c154c1'
         description:
-          description: The description of the context field.
+          description: Describes this specific legal value
           type: string
-          nullable: true
-          example: Used to uniquely identify users
-        stickiness:
-          description: Does this context field support being used for [stickiness](https://docs.getunleash.io/concepts/stickiness) calculations
-          type: boolean
-          example: true
-        sortOrder:
-          description: Used when sorting a list of context fields. Is also used as a tiebreaker if a list of context fields is sorted alphabetically.
-          type: integer
-          example: 900
-        createdAt:
-          description: When this context field was created
-          type: string
-          format: date-time
-          nullable: true
-          example: '2023-06-29T10:19:00.000Z'
-        usedInFeatures:
-          type: integer
-          description: Number of projects where this context field is used in
-          example: 3
-          nullable: true
-          minimum: 0
-        usedInProjects:
-          type: integer
-          description: Number of projects where this context field is used in
-          example: 2
-          nullable: true
-          minimum: 0
-        legalValues:
-          description: Allowed values for this context field schema. Can be used to narrow down accepted input
-          type: array
-          items:
-            $ref: '#/components/schemas/legalValueSchema'
-        project:
-          description: The project this context field belongs to (if it is project-specific)
-          type: string
-          example: my-project
-    contextFieldsSchema:
-      type: array
-      description: A list of context fields
-      items:
-        $ref: '#/components/schemas/contextFieldSchema'
-    nameSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      description: An object with a name
-      properties:
-        name:
-          description: The name of the represented object.
-          example: betaUser
-          type: string
+          example: Deep fuchsia
     createContextFieldSchema:
       type: object
       description: Data used to create a context field configuration.
@@ -542,21 +490,77 @@ components:
           description: The project this context field belongs to (if it is project-specific)
           type: string
           example: my-project
-    legalValueSchema:
+    nameSchema:
       type: object
       additionalProperties: false
-      description: Describes a legal value. Typically used to limit possible values for contextFields or strategy properties
       required:
-      - value
+      - name
+      description: An object with a name
       properties:
-        value:
-          description: The valid value
+        name:
+          description: The name of the represented object.
+          example: betaUser
           type: string
-          example: '#c154c1'
+    contextFieldsSchema:
+      type: array
+      description: A list of context fields
+      items:
+        $ref: '#/components/schemas/contextFieldSchema'
+    contextFieldSchema:
+      type: object
+      additionalProperties: false
+      description: A representation of a [context field](https://docs.getunleash.io/concepts/unleash-context).
+      required:
+      - name
+      properties:
+        name:
+          description: The name of the context field
+          type: string
+          example: userId
         description:
-          description: Describes this specific legal value
+          description: The description of the context field.
+          type:
+          - string
+          - 'null'
+          example: Used to uniquely identify users
+        stickiness:
+          description: Does this context field support being used for [stickiness](https://docs.getunleash.io/concepts/stickiness) calculations
+          type: boolean
+          example: true
+        sortOrder:
+          description: Used when sorting a list of context fields. Is also used as a tiebreaker if a list of context fields is sorted alphabetically.
+          type: integer
+          example: 900
+        createdAt:
+          description: When this context field was created
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-06-29T10:19:00.000Z'
+        usedInFeatures:
+          type:
+          - integer
+          - 'null'
+          description: Number of projects where this context field is used in
+          example: 3
+          minimum: 0
+        usedInProjects:
+          type:
+          - integer
+          - 'null'
+          description: Number of projects where this context field is used in
+          example: 2
+          minimum: 0
+        legalValues:
+          description: Allowed values for this context field schema. Can be used to narrow down accepted input
+          type: array
+          items:
+            $ref: '#/components/schemas/legalValueSchema'
+        project:
+          description: The project this context field belongs to (if it is project-specific)
           type: string
-          example: Deep fuchsia
+          example: my-project
   securitySchemes:
     apiKey:
       type: apiKey

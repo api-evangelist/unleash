@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Banners API
+  title: Unleash Admin Banners API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, flag, and delete banners.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,14 +11,14 @@ security:
 - bearerToken: []
 tags:
 - name: Banners
-  description: Create, update, flag, and delete [banners](https://docs.getunleash.io/concepts/banners).
+  description: Create, update, flag, and delete banners.
 paths:
   /api/admin/banners:
     get:
       tags:
       - Banners
       operationId: getBanners
-      summary: Get All Banners.
+      summary: Get All Banners
       description: '**Enterprise feature**
 
 
@@ -53,7 +53,7 @@ paths:
       tags:
       - Banners
       operationId: createBanner
-      summary: Create a Banner.
+      summary: Create a Banner
       description: '**Enterprise feature**
 
 
@@ -159,7 +159,7 @@ paths:
       tags:
       - Banners
       operationId: updateBanner
-      summary: Update a Banner.
+      summary: Update a Banner
       description: '**Enterprise feature**
 
 
@@ -283,7 +283,7 @@ paths:
       tags:
       - Banners
       operationId: deleteBanner
-      summary: Delete a Banner.
+      summary: Delete a Banner
       description: '**Enterprise feature**
 
 
@@ -359,7 +359,7 @@ paths:
       tags:
       - Banners
       operationId: enableBanner
-      summary: Enables a Banner.
+      summary: Enables a Banner
       description: '**Enterprise feature**
 
 
@@ -439,7 +439,7 @@ paths:
       tags:
       - Banners
       operationId: disableBanner
-      summary: Disables a Banner.
+      summary: Disables a Banner
       description: '**Enterprise feature**
 
 
@@ -516,6 +516,80 @@ paths:
           type: string
 components:
   schemas:
+    bannersSchema:
+      description: A response model with a list of banners.
+      type: object
+      additionalProperties: false
+      required:
+      - banners
+      properties:
+        banners:
+          type: array
+          description: A list of banners.
+          items:
+            $ref: '#/components/schemas/bannerSchema'
+    createBannerSchema:
+      type: object
+      required:
+      - message
+      description: Describes the properties required to create or update a banner.
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+          description: The message to display to all users. Supports markdown.
+          example: '**Reminder to everyone**: Maintenance is scheduled for *2337-12-27*.'
+        enabled:
+          type: boolean
+          description: Whether the banner should be displayed currently. If not specified, defaults to true.
+          example: true
+        variant:
+          type: string
+          description: The variant of the banner. One of "info", "warning", "error", or "success". If not specified, defaults to "info".
+          example: info
+        sticky:
+          type: boolean
+          description: Whether the banner should be sticky on the screen. If not specified, defaults to `false`.
+          example: true
+        icon:
+          type:
+          - string
+          - 'null'
+          description: The icon to display on the banner. Can be one of https://fonts.google.com/icons. If not specified, this will be the default icon for the variant. If "none", no icon will be displayed.
+          example: build
+        link:
+          type:
+          - string
+          - 'null'
+          description: 'The link to display on the banner. Can either be an absolute or a relative link (e.g. absolute: "https://example.com" or relative: "/admin/service-accounts"). If "dialog", will display a dialog when clicked. If not specified, no link will be displayed.'
+          example: dialog
+        linkText:
+          type:
+          - string
+          - 'null'
+          description: The text to display on the link. If not specified, will be displayed as "More info".
+          example: Learn more
+        dialogTitle:
+          type:
+          - string
+          - 'null'
+          description: The title to display on the dialog. If not specified, this will be the same as `linkText`.
+          example: Learn more about it here
+        dialog:
+          type:
+          - string
+          - 'null'
+          description: The markdown to display on the dialog. If not specified, no dialog will be displayed.
+          example: '# Information
+
+
+            Maintenance is **scheduled**.
+
+
+            ## More details
+
+
+            This is an example dialog that supports Markdown.'
     bannerSchema:
       type: object
       required:
@@ -547,27 +621,33 @@ components:
           description: Whether the banner should be sticky on the screen. If not specified, defaults to `false`.
           example: true
         icon:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The icon to display on the banner. Can be one of https://fonts.google.com/icons. If not specified, this will be the default icon for the variant. If "none", no icon will be displayed.
           example: build
-          nullable: true
         link:
-          type: string
+          type:
+          - string
+          - 'null'
           description: 'The link to display on the banner. Can either be an absolute or a relative link (e.g. absolute: "https://example.com" or relative: "/admin/service-accounts"). If "dialog", will display a dialog when clicked. If not specified, no link will be displayed.'
           example: dialog
-          nullable: true
         linkText:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The text to display on the link. If not specified, will be displayed as "More info".
           example: Learn more
-          nullable: true
         dialogTitle:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The title to display on the dialog. If not specified, this will be the same as `linkText`.
           example: Learn more about it here
-          nullable: true
         dialog:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The markdown to display on the dialog. If not specified, no dialog will be displayed.
           example: '# Information
 
@@ -579,81 +659,11 @@ components:
 
 
             This is an example dialog that supports Markdown.'
-          nullable: true
         createdAt:
           type: string
           format: date-time
           description: The date and time of when the banner was created.
           example: '2023-12-27T13:37:00+01:00'
-    createBannerSchema:
-      type: object
-      required:
-      - message
-      description: Describes the properties required to create or update a banner.
-      additionalProperties: false
-      properties:
-        message:
-          type: string
-          description: The message to display to all users. Supports markdown.
-          example: '**Reminder to everyone**: Maintenance is scheduled for *2337-12-27*.'
-        enabled:
-          type: boolean
-          description: Whether the banner should be displayed currently. If not specified, defaults to true.
-          example: true
-        variant:
-          type: string
-          description: The variant of the banner. One of "info", "warning", "error", or "success". If not specified, defaults to "info".
-          example: info
-        sticky:
-          type: boolean
-          description: Whether the banner should be sticky on the screen. If not specified, defaults to `false`.
-          example: true
-        icon:
-          type: string
-          description: The icon to display on the banner. Can be one of https://fonts.google.com/icons. If not specified, this will be the default icon for the variant. If "none", no icon will be displayed.
-          example: build
-          nullable: true
-        link:
-          type: string
-          description: 'The link to display on the banner. Can either be an absolute or a relative link (e.g. absolute: "https://example.com" or relative: "/admin/service-accounts"). If "dialog", will display a dialog when clicked. If not specified, no link will be displayed.'
-          example: dialog
-          nullable: true
-        linkText:
-          type: string
-          description: The text to display on the link. If not specified, will be displayed as "More info".
-          example: Learn more
-          nullable: true
-        dialogTitle:
-          type: string
-          description: The title to display on the dialog. If not specified, this will be the same as `linkText`.
-          example: Learn more about it here
-          nullable: true
-        dialog:
-          type: string
-          description: The markdown to display on the dialog. If not specified, no dialog will be displayed.
-          example: '# Information
-
-
-            Maintenance is **scheduled**.
-
-
-            ## More details
-
-
-            This is an example dialog that supports Markdown.'
-          nullable: true
-    bannersSchema:
-      description: A response model with a list of banners.
-      type: object
-      additionalProperties: false
-      required:
-      - banners
-      properties:
-        banners:
-          type: array
-          description: A list of banners.
-          items:
-            $ref: '#/components/schemas/bannerSchema'
   securitySchemes:
     apiKey:
       type: apiKey

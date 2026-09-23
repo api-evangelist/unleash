@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Maintenance API
+  title: Unleash Admin Maintenance API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Enable/disable the maintenance mode of Unleash.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -140,6 +140,16 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
+    toggleMaintenanceSchema:
+      type: object
+      description: Data used when to activate or deactivate maintenance mode for Unleash.
+      required:
+      - enabled
+      properties:
+        enabled:
+          description: '`true` if you want to activate maintenance mode, `false` if you want to deactivate it.'
+          type: boolean
+          example: true
     maintenanceSchema:
       type: object
       additionalProperties: false
@@ -149,16 +159,6 @@ components:
       properties:
         enabled:
           description: Whether maintenance mode is enabled or not.
-          type: boolean
-          example: true
-    toggleMaintenanceSchema:
-      type: object
-      description: Data used when to activate or deactivate maintenance mode for Unleash.
-      required:
-      - enabled
-      properties:
-        enabled:
-          description: '`true` if you want to activate maintenance mode, `false` if you want to deactivate it.'
           type: boolean
           example: true
   securitySchemes:

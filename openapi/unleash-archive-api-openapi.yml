@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Archive API
+  title: Unleash Admin Archive API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Revive or permanently delete archived feature flags.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,7 +11,7 @@ security:
 - bearerToken: []
 tags:
 - name: Archive
-  description: Revive or permanently delete [archived feature flags](https://docs.getunleash.io/advanced/archived_toggles).
+  description: Revive or permanently delete archived feature flags.
 paths:
   /api/admin/archive/{featureName}:
     delete:

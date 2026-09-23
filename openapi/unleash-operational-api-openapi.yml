@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Operational API
+  title: Unleash Admin Operational API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Endpoints related to the operational status of this Unleash instance.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -29,6 +29,8 @@ paths:
 
 
         undefined'
+      summary: Get invoices
+      x-summary-source: derived
   /api/admin/invoices/list:
     get:
       tags:
@@ -45,6 +47,8 @@ paths:
 
 
         undefined'
+      summary: Get detailed invoices
+      x-summary-source: derived
   /ready:
     get:
       tags:
@@ -83,20 +87,6 @@ paths:
                 $ref: '#/components/schemas/healthCheckSchema'
 components:
   schemas:
-    healthCheckSchema:
-      type: object
-      description: Used by service orchestrators to decide whether this Unleash instance should be marked as healthy or unhealthy
-      additionalProperties: false
-      required:
-      - health
-      properties:
-        health:
-          description: The state this Unleash instance is in. GOOD if the server is up and running. It never returns BAD, if the server is unhealthy you will get an unsuccessful http response.
-          type: string
-          enum:
-          - GOOD
-          - BAD
-          example: GOOD
     invoicesSchema:
       type: array
       description: A list of invoices
@@ -137,19 +127,6 @@ components:
             format: uri
             description: A link to a PDF-version of the invoice.
             example: https://invoice.url/pdf
-    readyCheckSchema:
-      type: object
-      description: Used by service orchestrators to decide whether this Unleash instance should be considered ready to serve requests.
-      additionalProperties: false
-      required:
-      - health
-      properties:
-        health:
-          description: The readiness state this Unleash instance is in. GOOD if the server is up and running. If the server is unhealthy you will get an unsuccessful http response.
-          type: string
-          enum:
-          - GOOD
-          example: GOOD
     detailedInvoicesSchema:
       type: object
       description: Detailed invoices response with nested line items
@@ -241,6 +218,19 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/detailedInvoicesLineSchema'
+    readyCheckSchema:
+      type: object
+      description: Used by service orchestrators to decide whether this Unleash instance should be considered ready to serve requests.
+      additionalProperties: false
+      required:
+      - health
+      properties:
+        health:
+          description: The readiness state this Unleash instance is in. GOOD if the server is up and running. If the server is unhealthy you will get an unsuccessful http response.
+          type: string
+          enum:
+          - GOOD
+          example: GOOD
     detailedInvoicesLineSchema:
       type: object
       required:
@@ -292,6 +282,20 @@ components:
           type: number
           description: Unit price for the line item
           example: 0.05
+    healthCheckSchema:
+      type: object
+      description: Used by service orchestrators to decide whether this Unleash instance should be marked as healthy or unhealthy
+      additionalProperties: false
+      required:
+      - health
+      properties:
+        health:
+          description: The state this Unleash instance is in. GOOD if the server is up and running. It never returns BAD, if the server is unhealthy you will get an unsuccessful http response.
+          type: string
+          enum:
+          - GOOD
+          - BAD
+          example: GOOD
   securitySchemes:
     apiKey:
       type: apiKey

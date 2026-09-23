@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Environments API
+  title: Unleash Admin Environments API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, delete, enable or disable environments for this Unleash instance.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,7 +11,7 @@ security:
 - bearerToken: []
 tags:
 - name: Environments
-  description: Create, update, delete, enable or disable [environments](https://docs.getunleash.io/concepts/environments) for this Unleash instance.
+  description: Create, update, delete, enable or disable environments for this Unleash instance.
 paths:
   /api/admin/environments:
     post:
@@ -465,7 +465,7 @@ paths:
       - Environments
       operationId: getProjectEnvironments
       summary: Get the Environments Available to a Project
-      description: Gets the environments that are available for this project. An environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/concepts/environments#enable-an-environment)
+      description: Gets the environments that are available for this project. An environment is available for a project if enabled in the project configuration
       responses:
         '200':
           description: environmentsProjectSchema
@@ -758,6 +758,296 @@ paths:
           type: string
 components:
   schemas:
+    environmentsProjectSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - environments
+      description: Environments defined for a given project
+      properties:
+        version:
+          type: integer
+          example: 1
+          description: Version of the environments schema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentProjectSchema'
+          description: List of environments
+    environmentProjectSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - type
+      - enabled
+      - protected
+      - sortOrder
+      description: Describes a project's configuration in a given environment.
+      properties:
+        name:
+          type: string
+          example: development
+          description: The name of the environment
+        type:
+          type: string
+          example: production
+          description: The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types).
+        enabled:
+          type: boolean
+          example: true
+          description: '`true` if the environment is enabled for the project, otherwise `false`'
+        protected:
+          type: boolean
+          example: false
+          description: '`true` if the environment is protected, otherwise `false`. A *protected* environment can not be deleted.'
+        sortOrder:
+          type: integer
+          example: 1
+          description: Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear
+        projectApiTokenCount:
+          type: integer
+          minimum: 0
+          example: 5
+          description: The number of client and front-end API tokens that have access to this project
+        projectEnabledToggleCount:
+          type: integer
+          minimum: 0
+          example: 7
+          description: The number of features enabled in this environment for this project
+        defaultStrategy:
+          description: The strategy configuration to add when enabling a feature environment by default
+          $ref: '#/components/schemas/featureStrategySchema'
+        visible:
+          type: boolean
+          example: true
+          description: Indicates whether the environment can be enabled for feature flags in the project
+        requiredApprovals:
+          type:
+          - integer
+          - 'null'
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    updateEnvironmentSchema:
+      type: object
+      description: Data used to update an [environment](https://docs.getunleash.io/concepts/environments).
+      properties:
+        type:
+          type: string
+          description: Updates the type of environment (i.e. development or production).
+        sortOrder:
+          type: integer
+          description: Changes the sort order of this environment.
+        requiredApprovals:
+          type:
+          - integer
+          - 'null'
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+    createEnvironmentSchema:
+      type: object
+      required:
+      - name
+      - type
+      description: Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)
+      properties:
+        name:
+          type: string
+          description: The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)
+          pattern: ^[a-zA-Z0-9~_.-]+$
+        type:
+          type: string
+          minLength: 1
+          description: 'The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
+
+            - `development`
+
+            - `test`
+
+            - `preproduction`
+
+            - `production`
+
+
+            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.'
+        enabled:
+          type: boolean
+          description: Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.
+        sortOrder:
+          type: integer
+          description: Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.
+        requiredApprovals:
+          type:
+          - integer
+          - 'null'
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+    strategyVariantSchema:
+      type: object
+      additionalProperties: false
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    cloneEnvironmentSchema:
+      type: object
+      required:
+      - name
+      - type
+      description: Data used to clone an environment.
+      properties:
+        name:
+          type: string
+          example: development
+          description: The name of the new cloned environment, this cannot be changed later
+        type:
+          type: string
+          example: development
+          description: Updates the type of environment (i.e. development or production).
+        projects:
+          type: array
+          description: A list of projects that should be included in the cloned environment.
+          items:
+            type: string
+        clonePermissions:
+          type: boolean
+          description: Copies the RBAC permissions from the source environment if true. Defaults to true
+    environmentsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - environments
+      description: A versioned list of environments
+      properties:
+        version:
+          type: integer
+          example: 1
+          description: Version of the environments schema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentSchema'
+          description: List of environments
     constraintSchema:
       additionalProperties: false
       type: object
@@ -849,314 +1139,33 @@ components:
           example: 3
           description: Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear. Needs to be an integer
         projectCount:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           minimum: 0
           example: 10
           description: The number of projects with this environment
         apiTokenCount:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           minimum: 0
           example: 6
           description: The number of API tokens for the project environment
         enabledToggleCount:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           minimum: 0
           example: 10
           description: The number of enabled toggles for the project environment
         requiredApprovals:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           description: Experimental field. The number of approvals required before a change request can be applied in this environment.
           minimum: 1
           example: 3
-    parametersSchema:
-      type: object
-      description: A list of parameters for a strategy
-      additionalProperties:
-        type: string
-    nameSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      description: An object with a name
-      properties:
-        name:
-          description: The name of the represented object.
-          example: betaUser
-          type: string
-    updateEnvironmentSchema:
-      type: object
-      description: Data used to update an [environment](https://docs.getunleash.io/concepts/environments).
-      properties:
-        type:
-          type: string
-          description: Updates the type of environment (i.e. development or production).
-        sortOrder:
-          type: integer
-          description: Changes the sort order of this environment.
-        requiredApprovals:
-          type: integer
-          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
-          minimum: 1
-          example: 3
-          nullable: true
-    strategyVariantSchema:
-      type: object
-      additionalProperties: false
-      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
-      required:
-      - name
-      - weight
-      - weightType
-      - stickiness
-      properties:
-        name:
-          type: string
-          description: The variant name. Must be unique for this feature flag
-          example: blue_group
-        weight:
-          type: integer
-          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
-          type: string
-          example: fix
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
-    featureStrategySchema:
-      description: A single activation strategy configuration schema for a feature
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      properties:
-        id:
-          type: string
-          description: A uuid for the feature strategy
-          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
-        name:
-          type: string
-          description: The name or type of strategy
-          example: flexibleRollout
-        title:
-          type: string
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-          nullable: true
-        disabled:
-          type: boolean
-          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
-          example: false
-          nullable: true
-        featureName:
-          type: string
-          description: The name or feature the strategy is attached to
-          example: myAwesomeFeature
-        sortOrder:
-          type: number
-          description: The order of the strategy in the list
-          example: 9999
-        segments:
-          type: array
-          description: A list of segment ids attached to the strategy
-          example:
-          - 1
-          - 2
-          items:
-            type: number
-        constraints:
-          type: array
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-        variants:
-          type: array
-          description: Strategy level variants
-          items:
-            $ref: '#/components/schemas/strategyVariantSchema'
-        parameters:
-          $ref: '#/components/schemas/parametersSchema'
-    environmentsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - environments
-      description: A versioned list of environments
-      properties:
-        version:
-          type: integer
-          example: 1
-          description: Version of the environments schema
-        environments:
-          type: array
-          items:
-            $ref: '#/components/schemas/environmentSchema'
-          description: List of environments
-    cloneEnvironmentSchema:
-      type: object
-      required:
-      - name
-      - type
-      description: Data used to clone an environment.
-      properties:
-        name:
-          type: string
-          example: development
-          description: The name of the new cloned environment, this cannot be changed later
-        type:
-          type: string
-          example: development
-          description: Updates the type of environment (i.e. development or production).
-        projects:
-          type: array
-          description: A list of projects that should be included in the cloned environment.
-          items:
-            type: string
-        clonePermissions:
-          type: boolean
-          description: Copies the RBAC permissions from the source environment if true. Defaults to true
-    environmentProjectSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - type
-      - enabled
-      - protected
-      - sortOrder
-      description: Describes a project's configuration in a given environment.
-      properties:
-        name:
-          type: string
-          example: development
-          description: The name of the environment
-        type:
-          type: string
-          example: production
-          description: The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types).
-        enabled:
-          type: boolean
-          example: true
-          description: '`true` if the environment is enabled for the project, otherwise `false`'
-        protected:
-          type: boolean
-          example: false
-          description: '`true` if the environment is protected, otherwise `false`. A *protected* environment can not be deleted.'
-        sortOrder:
-          type: integer
-          example: 1
-          description: Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear
-        projectApiTokenCount:
-          type: integer
-          minimum: 0
-          example: 5
-          description: The number of client and front-end API tokens that have access to this project
-        projectEnabledToggleCount:
-          type: integer
-          minimum: 0
-          example: 7
-          description: The number of features enabled in this environment for this project
-        defaultStrategy:
-          description: The strategy configuration to add when enabling a feature environment by default
-          $ref: '#/components/schemas/featureStrategySchema'
-        visible:
-          type: boolean
-          example: true
-          description: Indicates whether the environment can be enabled for feature flags in the project
-        requiredApprovals:
-          type: integer
-          nullable: true
-          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
-          minimum: 1
-          example: 3
-    createEnvironmentSchema:
-      type: object
-      required:
-      - name
-      - type
-      description: Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)
-      properties:
-        name:
-          type: string
-          description: The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)
-          pattern: ^[a-zA-Z0-9~_.-]+$
-        type:
-          type: string
-          minLength: 1
-          description: 'The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
-
-            - `development`
-
-            - `test`
-
-            - `preproduction`
-
-            - `production`
-
-
-            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.'
-        enabled:
-          type: boolean
-          description: Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.
-        sortOrder:
-          type: integer
-          description: Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.
-        requiredApprovals:
-          type: integer
-          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
-          minimum: 1
-          example: 3
-          nullable: true
-    environmentsProjectSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - environments
-      description: Environments defined for a given project
-      properties:
-        version:
-          type: integer
-          example: 1
-          description: Version of the environments schema
-        environments:
-          type: array
-          items:
-            $ref: '#/components/schemas/environmentProjectSchema'
-          description: List of environments
   securitySchemes:
     apiKey:
       type: apiKey

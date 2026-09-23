@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Telemetry API
+  title: Unleash Admin Telemetry API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: API for information about telemetry collection
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -18,7 +18,7 @@ paths:
       tags:
       - Telemetry
       summary: Get Telemetry Settings
-      description: Provides the configured settings for [telemetry information collection](https://docs.getunleash.io/topics/data-collection)
+      description: Provides the configured settings for telemetry information collection
       operationId: getTelemetrySettings
       responses:
         '200':

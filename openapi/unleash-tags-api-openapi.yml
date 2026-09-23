@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Unleash Admin Addons Tags API
+  title: Unleash Admin Tags API
   version: 7.4.1
-  description: Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons).
+  description: Create, update, and delete tags and tag types.
 servers:
 - url: https://app.unleash-instance.example.com
   description: Your Unleash instance (replace with your actual URL)
@@ -11,14 +11,14 @@ security:
 - bearerToken: []
 tags:
 - name: Tags
-  description: Create, update, and delete [tags and tag types](https://docs.getunleash.io/concepts/feature-flags#tags).
+  description: Create, update, and delete tags and tag types.
 paths:
   /api/admin/tags:
     get:
       tags:
       - Tags
       operationId: getTags
-      summary: List All Tags.
+      summary: List All Tags
       description: List all tags available in Unleash.
       responses:
         '200':
@@ -69,7 +69,7 @@ paths:
       tags:
       - Tags
       operationId: createTag
-      summary: Create a New Tag.
+      summary: Create a New Tag
       description: Create a new tag with the specified data.
       responses:
         '201':
@@ -191,7 +191,7 @@ paths:
       tags:
       - Tags
       operationId: getTagsByType
-      summary: List All Tags of a Given Type.
+      summary: List All Tags of a Given Type
       description: List all tags of a given type. If the tag type does not exist it returns an empty list.
       responses:
         '200':
@@ -249,7 +249,7 @@ paths:
       tags:
       - Tags
       operationId: getTag
-      summary: Get a Tag by Type and Value.
+      summary: Get a Tag by Type and Value
       description: Get a tag by type and value. Can be used to check whether a given tag already exists in Unleash or not.
       responses:
         '200':
@@ -330,7 +330,7 @@ paths:
       tags:
       - Tags
       operationId: deleteTag
-      summary: Delete a Tag.
+      summary: Delete a Tag
       description: Delete a tag by type and value. When a tag is deleted all references to the tag are removed.
       responses:
         '200':
@@ -945,121 +945,34 @@ paths:
           type: string
 components:
   schemas:
-    tagSchema:
-      type: object
-      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
-      additionalProperties: false
-      required:
-      - value
-      - type
-      properties:
-        value:
-          type: string
-          description: The value of the tag.
-          minLength: 2
-          maxLength: 50
-          example: a-tag-value
-        type:
-          type: string
-          minLength: 2
-          maxLength: 50
-          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
-          example: simple
-        color:
-          type: string
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-          nullable: true
-    tagTypesSchema:
+    tagTypeSchema:
       type: object
       additionalProperties: false
+      description: A tag type.
       required:
-      - version
-      - tagTypes
-      description: A list of tag types with a version number representing the schema used to model the tag types.
+      - name
       properties:
-        version:
-          type: integer
-          description: The version of the schema used to model the tag types.
-          example: 1
-        tagTypes:
-          type: array
-          description: The list of tag types.
-          items:
-            $ref: '#/components/schemas/tagTypeSchema'
-    validateTagTypeSchema:
-      type: object
-      required:
-      - valid
-      - tagType
-      description: The result of validating a tag type.
-      properties:
-        valid:
-          type: boolean
-          description: Whether or not the tag type is valid.
-          example: true
-        tagType:
-          $ref: '#/components/schemas/tagTypeSchema'
-    updateTagTypeSchema:
-      type: object
-      description: The request body for updating a tag type.
-      properties:
+        name:
+          type: string
+          description: The name of the tag type.
+          example: color
         description:
           type: string
           description: The description of the tag type.
           example: A tag type for describing the color of a tag.
         icon:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The icon of the tag type.
           example: not-really-used
         color:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The hexadecimal color code for the tag type.
           example: '#FFFFFF'
           pattern: ^#[0-9A-Fa-f]{6}$
-    tagsBulkAddSchema:
-      description: Represents tag changes to be applied to a list of features.
-      type: object
-      additionalProperties: false
-      required:
-      - features
-      - tags
-      properties:
-        features:
-          description: The list of features that will be affected by the tag changes.
-          type: array
-          items:
-            type: string
-            minLength: 1
-        tags:
-          description: The tag changes to be applied to the features.
-          $ref: '#/components/schemas/updateTagsSchema'
-    createTagSchema:
-      type: object
-      description: Data used to create a new [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
-      additionalProperties: false
-      required:
-      - value
-      - type
-      properties:
-        value:
-          type: string
-          pattern: ^\s*\S.{0,48}\S\s*$
-          description: The value of the tag. The value must be between 2 and 50 characters long. Leading and trailing whitespace is ignored and will be trimmed before saving the tag value.
-          example: a-tag-value
-        type:
-          type: string
-          minLength: 2
-          maxLength: 50
-          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
-          example: simple
-        color:
-          type: string
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-          nullable: true
     updateTagsSchema:
       type: object
       description: Represents a set of changes to a feature's tags, such as adding or removing tags.
@@ -1085,32 +998,36 @@ components:
         removedTags:
         - value: tag-to-remove
           type: simple
-    tagTypeSchema:
+    validateTagTypeSchema:
+      type: object
+      required:
+      - valid
+      - tagType
+      description: The result of validating a tag type.
+      properties:
+        valid:
+          type: boolean
+          description: Whether or not the tag type is valid.
+          example: true
+        tagType:
+          $ref: '#/components/schemas/tagTypeSchema'
+    tagsBulkAddSchema:
+      description: Represents tag changes to be applied to a list of features.
       type: object
       additionalProperties: false
-      description: A tag type.
       required:
-      - name
+      - features
+      - tags
       properties:
-        name:
-          type: string
-          description: The name of the tag type.
-          example: color
-        description:
-          type: string
-          description: The description of the tag type.
-          example: A tag type for describing the color of a tag.
-        icon:
-          type: string
-          nullable: true
-          description: The icon of the tag type.
-          example: not-really-used
-        color:
-          type: string
-          nullable: true
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
+        features:
+          description: The list of features that will be affected by the tag changes.
+          type: array
+          items:
+            type: string
+            minLength: 1
+        tags:
+          description: The tag changes to be applied to the features.
+          $ref: '#/components/schemas/updateTagsSchema'
     tagsSchema:
       description: A list of tags with a version number
       type: object
@@ -1141,6 +1058,93 @@ components:
           example: 1
         tag:
           $ref: '#/components/schemas/tagSchema'
+    tagTypesSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - tagTypes
+      description: A list of tag types with a version number representing the schema used to model the tag types.
+      properties:
+        version:
+          type: integer
+          description: The version of the schema used to model the tag types.
+          example: 1
+        tagTypes:
+          type: array
+          description: The list of tag types.
+          items:
+            $ref: '#/components/schemas/tagTypeSchema'
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    createTagSchema:
+      type: object
+      description: Data used to create a new [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          pattern: ^\s*\S.{0,48}\S\s*$
+          description: The value of the tag. The value must be between 2 and 50 characters long. Leading and trailing whitespace is ignored and will be trimmed before saving the tag value.
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    updateTagTypeSchema:
+      type: object
+      description: The request body for updating a tag type.
+      properties:
+        description:
+          type: string
+          description: The description of the tag type.
+          example: A tag type for describing the color of a tag.
+        icon:
+          type: string
+          description: The icon of the tag type.
+          example: not-really-used
+        color:
+          type: string
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
   securitySchemes:
     apiKey:
       type: apiKey
