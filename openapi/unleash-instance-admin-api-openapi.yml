@@ -245,91 +245,6 @@ paths:
                 $ref: '#/components/schemas/instanceAdminStatsSchema'
 components:
   schemas:
-    licenseCheckSchema:
-      description: A model representing a license check response.
-      type: object
-      additionalProperties: false
-      required:
-      - isValid
-      properties:
-        isValid:
-          description: Whether or not the current Unleash license is considered valid
-          type: boolean
-        message:
-          description: Message describing the current state of the Unleash license
-          type: string
-          example: Your license expired 3 days ago
-        messageType:
-          description: Type of messages, whether it is an informative or a warning
-          type: string
-          example: info
-          enum:
-          - info
-          - warning
-          - error
-    licenseUpdateSchema:
-      description: A model representing a set license token.
-      type: object
-      additionalProperties: false
-      required:
-      - token
-      properties:
-        token:
-          description: The actual license token.
-          type: string
-    loginHistorySchema:
-      description: A response model with a list of login events.
-      type: object
-      additionalProperties: false
-      required:
-      - events
-      properties:
-        events:
-          type: array
-          description: A list of login events
-          items:
-            $ref: '#/components/schemas/loginEventSchema'
-    loginEventSchema:
-      description: A model representing a single login event.
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      properties:
-        id:
-          description: The event's ID. Event IDs are incrementing integers. In other words, a more recent event will always have a higher ID than an older event.
-          type: integer
-          minimum: 1
-          example: 13
-        username:
-          description: The username of the user that attempted to log in. Will return "Incorrectly configured provider" when attempting to log in using a misconfigured provider.
-          type: string
-          example: admin
-        auth_type:
-          description: The authentication type used to log in.
-          example: simple
-          type: string
-        created_at:
-          description: The date and time of when the login was attempted.
-          type: string
-          format: date-time
-          example: '2023-03-01T12:04:26.061Z'
-        successful:
-          description: Whether the login was successful or not.
-          type: boolean
-          example: true
-        ip:
-          description: The IP address of the client that attempted to log in.
-          type:
-          - string
-          - 'null'
-          example: ::ffff:127.0.0.1
-        failure_reason:
-          description: The reason for the login failure. This property is only present if the login was unsuccessful.
-          type:
-          - string
-          - 'null'
-          example: No user found
     instanceAdminStatsSchema:
       type: object
       additionalProperties: false
@@ -618,6 +533,91 @@ components:
           type: string
           format: date-time
           example: '2023-07-31T13:33:02Z'
+    loginHistorySchema:
+      description: A response model with a list of login events.
+      type: object
+      additionalProperties: false
+      required:
+      - events
+      properties:
+        events:
+          type: array
+          description: A list of login events
+          items:
+            $ref: '#/components/schemas/loginEventSchema'
+    licenseUpdateSchema:
+      description: A model representing a set license token.
+      type: object
+      additionalProperties: false
+      required:
+      - token
+      properties:
+        token:
+          description: The actual license token.
+          type: string
+    loginEventSchema:
+      description: A model representing a single login event.
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      properties:
+        id:
+          description: The event's ID. Event IDs are incrementing integers. In other words, a more recent event will always have a higher ID than an older event.
+          type: integer
+          minimum: 1
+          example: 13
+        username:
+          description: The username of the user that attempted to log in. Will return "Incorrectly configured provider" when attempting to log in using a misconfigured provider.
+          type: string
+          example: admin
+        auth_type:
+          description: The authentication type used to log in.
+          example: simple
+          type: string
+        created_at:
+          description: The date and time of when the login was attempted.
+          type: string
+          format: date-time
+          example: '2023-03-01T12:04:26.061Z'
+        successful:
+          description: Whether the login was successful or not.
+          type: boolean
+          example: true
+        ip:
+          description: The IP address of the client that attempted to log in.
+          type:
+          - string
+          - 'null'
+          example: ::ffff:127.0.0.1
+        failure_reason:
+          description: The reason for the login failure. This property is only present if the login was unsuccessful.
+          type:
+          - string
+          - 'null'
+          example: No user found
+    licenseCheckSchema:
+      description: A model representing a license check response.
+      type: object
+      additionalProperties: false
+      required:
+      - isValid
+      properties:
+        isValid:
+          description: Whether or not the current Unleash license is considered valid
+          type: boolean
+        message:
+          description: Message describing the current state of the Unleash license
+          type: string
+          example: Your license expired 3 days ago
+        messageType:
+          description: Type of messages, whether it is an informative or a warning
+          type: string
+          example: info
+          enum:
+          - info
+          - warning
+          - error
   securitySchemes:
     apiKey:
       type: apiKey

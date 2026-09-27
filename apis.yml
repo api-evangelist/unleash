@@ -1,15 +1,21 @@
 aid: unleash
 deliveryModel:
-  model: saas
-  open_source: false
+  model: open-core
+  license: AGPL-3.0
+  license_evidence:
+    repo: unleash/unleash
+    spdx: AGPL-3.0
+    stars: 13830
+  open_source: true
   commercial: true
   callable_host: false
-  label: Hosted service · you call their endpoint
+  label: Open core · an OSS project plus a commercial hosted product
   confidence: medium
   source:
   - openapi
   - pricing
-  generated: '2026-08-28'
+  - repository-license
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: paid
@@ -43,7 +49,7 @@ tags:
 - Feature Management
 - Progressive Delivery
 - A/B Testing
-- Open-Source
+- Open Source
 - Developer Tools
 tags_raw:
 - Feature Flags
@@ -52,6 +58,7 @@ tags_raw:
 - A/B Testing
 - Open Source
 - Developer Tools
+- Open-Source
 apis:
 - aid: unleash:client-api
   name: Unleash Client API
@@ -633,8 +640,6 @@ apis:
   humanURL: https://docs.getunleash.io/api#client-api
   baseURL: https://app.unleash-instance.example.com
   tags:
-  - Addons
-  tags_raw:
   - Add Ons
   properties:
   - type: OpenAPI

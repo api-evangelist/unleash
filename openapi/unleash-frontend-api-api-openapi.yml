@@ -275,50 +275,6 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
-    frontendApiFeaturesPostSchema:
-      description: The Unleash frontend API POST request body.
-      type: object
-      additionalProperties: true
-      properties:
-        context:
-          description: The Unleash context.
-          type: object
-          additionalProperties: true
-          properties:
-            appName:
-              type: string
-              minLength: 1
-              example: My cool application.
-              description: The name of the application.
-            currentTime:
-              type: string
-              format: date-time
-              example: '2022-07-05T12:56:41+02:00'
-              description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
-            environment:
-              type: string
-              deprecated: true
-              description: The environment the app is running in.
-            properties:
-              type: object
-              additionalProperties:
-                type: string
-              description: Additional Unleash context properties
-              example:
-                customContextField: this is one!
-                otherCustomField: '3'
-            remoteAddress:
-              type: string
-              example: 192.168.1.1
-              description: The app's IP address
-            sessionId:
-              type: string
-              example: b65e7b23-fec0-4814-a129-0e9861ef18fc
-              description: An identifier for the current session
-            userId:
-              type: string
-              example: username@provider.com
-              description: An identifier for the current user
     frontendApiClientSchema:
       type: object
       required:
@@ -368,16 +324,50 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/frontendApiFeatureSchema'
-    dateSchema:
-      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
-      oneOf:
-      - type: string
-        format: date-time
-        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
-        example: '2023-07-27T11:23:44Z'
-      - type: integer
-        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
-        example: 1690449593
+    frontendApiFeaturesPostSchema:
+      description: The Unleash frontend API POST request body.
+      type: object
+      additionalProperties: true
+      properties:
+        context:
+          description: The Unleash context.
+          type: object
+          additionalProperties: true
+          properties:
+            appName:
+              type: string
+              minLength: 1
+              example: My cool application.
+              description: The name of the application.
+            currentTime:
+              type: string
+              format: date-time
+              example: '2022-07-05T12:56:41+02:00'
+              description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+            environment:
+              type: string
+              deprecated: true
+              description: The environment the app is running in.
+            properties:
+              type: object
+              additionalProperties:
+                type: string
+              description: Additional Unleash context properties
+              example:
+                customContextField: this is one!
+                otherCustomField: '3'
+            remoteAddress:
+              type: string
+              example: 192.168.1.1
+              description: The app's IP address
+            sessionId:
+              type: string
+              example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+              description: An identifier for the current session
+            userId:
+              type: string
+              example: username@provider.com
+              description: An identifier for the current user
     frontendApiFeatureSchema:
       type: object
       required:
@@ -446,6 +436,16 @@ components:
               type: boolean
               description: Use `feature_enabled` instead.
               example: true
+    dateSchema:
+      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
+      oneOf:
+      - type: string
+        format: date-time
+        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
+        example: '2023-07-27T11:23:44Z'
+      - type: integer
+        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
+        example: 1690449593
     clientMetricsSchema:
       type: object
       required:

@@ -3566,6 +3566,445 @@ paths:
           type: string
 components:
   schemas:
+    createFeatureSchema:
+      type: object
+      description: Data used to create a new feature flag.
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: disable-comments
+          description: Unique feature name
+        type:
+          enum:
+          - experiment
+          - kill-switch
+          - release
+          - operational
+          - permission
+          example: release
+          description: The feature flag's [type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types). One of experiment, kill-switch, release, operational, or permission
+        description:
+          type:
+          - string
+          - 'null'
+          example: Controls disabling of the comments section in case of an incident
+          description: Detailed description of the feature
+        impressionData:
+          type: boolean
+          example: false
+          description: '`true` if the impression data collection is enabled for the feature, otherwise `false`.'
+        tags:
+          type: array
+          description: Tags to add to the feature.
+          items:
+            $ref: '#/components/schemas/tagSchema'
+    patchesSchema:
+      type: array
+      description: A list of patches
+      items:
+        $ref: '#/components/schemas/patchSchema'
+    releasePlanSchema:
+      additionalProperties: false
+      description: Schema representing the creation of a release plan.
+      type: object
+      required:
+      - id
+      - discriminator
+      - name
+      - featureName
+      - environment
+      - createdByUserId
+      - createdAt
+      - milestones
+      - releasePlanTemplateId
+      properties:
+        id:
+          type: string
+          description: The release plan/template's ID. Release template IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+        discriminator:
+          type: string
+          description: A field to distinguish between release plans and release templates.
+          example: plan
+          enum:
+          - plan
+        name:
+          type: string
+          description: The name of the release template.
+          example: My release plan
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of the release template.
+          example: This is my release plan
+        featureName:
+          type: string
+          description: The name of the feature that uses this release plan.
+          example: my-feature
+        environment:
+          type: string
+          description: The environment that this release plan is for.
+          example: production
+        createdByUserId:
+          type: number
+          description: 'Release template: The ID of the user who created this template.'
+          example: 53
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time that the release template was created.
+          example: '2022-01-01T00:00:00Z'
+        activeMilestoneId:
+          type:
+          - string
+          - 'null'
+          description: The ID of the currently active milestone in this release plan.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW1
+        milestones:
+          type: array
+          description: A list of the milestones in this release template.
+          items:
+            $ref: '#/components/schemas/releasePlanMilestoneSchema'
+        releasePlanTemplateId:
+          type: string
+          description: The ID of the release plan template that this release plan is based on.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+        safeguards:
+          type: array
+          description: An array of safeguards configured for this release plan.
+          items:
+            $ref: '#/components/schemas/safeguardSchema'
+    batchFeaturesSchema:
+      type: object
+      description: A list of feature flag names for batch operations
+      required:
+      - features
+      properties:
+        features:
+          type: array
+          items:
+            type: string
+          description: List of feature flag names
+          example:
+          - my-feature-4
+          - my-feature-5
+          - my-feature-6
+    bulkToggleFeaturesSchema:
+      type: object
+      required:
+      - features
+      description: The feature list used for bulk toggle operations
+      properties:
+        features:
+          type: array
+          description: The features that we want to bulk toggle
+          items:
+            type: string
+            description: The feature name we want to toggle
+          example:
+          - feature-a
+          - feature-b
+    updateFeatureStrategySchema:
+      type: object
+      description: Update a strategy configuration in a feature
+      properties:
+        name:
+          type: string
+          description: The name of the strategy type
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list in feature environment configuration
+        constraints:
+          type: array
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: A toggle to disable the strategy. defaults to true. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    tagsSchema:
+      description: A list of tags with a version number
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - tags
+      properties:
+        version:
+          type: integer
+          description: The version of the schema used to model the tags.
+        tags:
+          type: array
+          description: A list of tags.
+          items:
+            $ref: '#/components/schemas/tagSchema'
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    variantSchema:
+      type: object
+      additionalProperties: false
+      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
+      required:
+      - name
+      - weight
+      properties:
+        name:
+          type: string
+          description: The variants name. Is unique for this feature flag
+          example: blue_group
+        weight:
+          type: number
+          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
+          type: string
+          example: variable
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+        overrides:
+          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
+          type: array
+          items:
+            $ref: '#/components/schemas/overrideSchema'
+    changeProjectSchema:
+      type: object
+      description: Data required to move a feature flag to a project.
+      required:
+      - newProjectId
+      properties:
+        newProjectId:
+          type: string
+          description: The project to move the feature flag to.
+          example: newProject
+    safeguardSchema:
+      type: object
+      required:
+      - id
+      - action
+      - triggerCondition
+      - impactMetric
+      description: A safeguard configuration for a release plan.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: The unique ULID identifier for this safeguard
+          example: 01JB9GGTGQYEQ9D40R17T3YVW1
+        action:
+          type: object
+          required:
+          - type
+          - id
+          additionalProperties: false
+          description: The action to take when the safeguard is triggered.
+          properties:
+            type:
+              type: string
+              description: The type of action to perform.
+              example: pauseReleasePlanProgressions
+            id:
+              type: string
+              description: The ID of the release plan this safeguard applies to.
+              example: 01JB9GGTGQYEQ9D40R17T3YVW2
+        triggerCondition:
+          $ref: '#/components/schemas/safeguardTriggerConditionSchema'
+          description: The condition that triggers the safeguard.
+        impactMetric:
+          type: object
+          required:
+          - id
+          - metricName
+          - timeRange
+          - aggregationMode
+          - labelSelectors
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+              description: The unique identifier for this impact metric
+              example: 01JB9GGTGQYEQ9D40R17T3YVW1
+            metricName:
+              type: string
+              description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+              example: unleash_counter_feature_toggle_usage_total
+            timeRange:
+              type: string
+              enum:
+              - hour
+              - day
+              - week
+              - month
+              description: The time range for the metric data.
+              example: day
+            aggregationMode:
+              type: string
+              description: The aggregation mode for the metric data.
+              enum:
+              - rps
+              - count
+              - avg
+              - sum
+              - p95
+              - p99
+              - p50
+              example: rps
+            labelSelectors:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              description: The selected labels and their values for filtering the metric data.
+              example:
+                environment:
+                - development
+                project:
+                - default
+          description: The metric configuration used to evaluate the safeguard condition.
+    validateArchiveFeaturesSchema:
+      type: object
+      additionalProperties: false
+      description: Validation details for features archive operation
+      required:
+      - parentsWithChildFeatures
+      - hasDeletedDependencies
+      properties:
+        parentsWithChildFeatures:
+          type: array
+          items:
+            type: string
+          description: List of parent features that would orphan child features that are not part of the archive operation
+          example:
+          - my-feature-4
+          - my-feature-5
+          - my-feature-6
+        hasDeletedDependencies:
+          type: boolean
+          description: Whether any dependencies will be deleted as part of archive
+          example: true
     safeguardTriggerConditionSchema:
       type: object
       required:
@@ -3585,11 +4024,28 @@ components:
           type: number
           description: The threshold value to compare against.
           example: 100
-    variantsSchema:
-      type: array
-      description: A list of variants
-      items:
-        $ref: '#/components/schemas/variantSchema'
+    batchStaleSchema:
+      type: object
+      description: A list of features to operate on and whether they should be marked as stale or as not stale.
+      required:
+      - features
+      - stale
+      properties:
+        features:
+          type: array
+          description: A list of features to mark as (not) stale
+          example:
+          - my-feature-1
+          - my-feature-2
+          - my-feature-3
+          items:
+            type: string
+            description: A feature name
+            example: my-feature-5
+        stale:
+          type: boolean
+          example: true
+          description: Whether the list of features should be marked as stale or not stale. If `true`, the features will be marked as stale. If `false`, the features will be marked as not stale.
     featureSchema:
       type: object
       additionalProperties: false
@@ -3817,124 +4273,108 @@ components:
                 example: disable-comments
                 description: The name of the feature this link belongs to
           description: The list of links. This is an experimental field and may change.
-    patchesSchema:
-      type: array
-      description: A list of patches
-      items:
-        $ref: '#/components/schemas/patchSchema'
-    batchStaleSchema:
+    featureVariantsSchema:
       type: object
-      description: A list of features to operate on and whether they should be marked as stale or as not stale.
-      required:
-      - features
-      - stale
-      properties:
-        features:
-          type: array
-          description: A list of features to mark as (not) stale
-          example:
-          - my-feature-1
-          - my-feature-2
-          - my-feature-3
-          items:
-            type: string
-            description: A feature name
-            example: my-feature-5
-        stale:
-          type: boolean
-          example: true
-          description: Whether the list of features should be marked as stale or not stale. If `true`, the features will be marked as stale. If `false`, the features will be marked as not stale.
-    setStrategySortOrderSchema:
-      type: array
-      description: An array of strategies with their new sort order
-      items:
-        type: object
-        additionalProperties: false
-        required:
-        - id
-        - sortOrder
-        description: A strategy with its new sort order
-        properties:
-          id:
-            type: string
-            example: 9c40958a-daac-400e-98fb-3bb438567008
-            description: The ID of the strategy
-          sortOrder:
-            type: number
-            example: 1
-            description: The new sort order of the strategy
-    releasePlanSchema:
       additionalProperties: false
-      description: Schema representing the creation of a release plan.
+      required:
+      - version
+      - variants
+      description: A versioned collection of feature flag variants.
+      properties:
+        version:
+          type: integer
+          example: 1
+          description: The version of the feature variants schema.
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/variantSchema'
+          description: All variants defined for a specific feature flag.
+    patchSchema:
       type: object
       required:
-      - id
-      - discriminator
-      - name
-      - featureName
-      - environment
-      - createdByUserId
-      - createdAt
-      - milestones
-      - releasePlanTemplateId
+      - path
+      - op
+      description: A [JSON patch](https://www.rfc-editor.org/rfc/rfc6902) operation description
       properties:
-        id:
+        path:
           type: string
-          description: The release plan/template's ID. Release template IDs are ulids.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW2
-        discriminator:
+          description: The path to the property to operate on
+          example: /type
+        op:
           type: string
-          description: A field to distinguish between release plans and release templates.
-          example: plan
           enum:
-          - plan
+          - add
+          - remove
+          - replace
+          - copy
+          - move
+          - test
+          description: The kind of operation to perform
+          example: replace
+        from:
+          type: string
+          description: The target to move or copy from, if performing one of those operations
+          example: /type
+        value:
+          description: The value to add or replace, if performing one of those operations
+          example: kill-switch
+    strategyVariantSchema:
+      type: object
+      additionalProperties: false
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
         name:
           type: string
-          description: The name of the release template.
-          example: My release plan
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of the release template.
-          example: This is my release plan
-        featureName:
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
           type: string
-          description: The name of the feature that uses this release plan.
-          example: my-feature
-        environment:
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
           type: string
-          description: The environment that this release plan is for.
-          example: production
-        createdByUserId:
-          type: number
-          description: 'Release template: The ID of the user who created this template.'
-          example: 53
-        createdAt:
-          type: string
-          format: date-time
-          description: The date and time that the release template was created.
-          example: '2022-01-01T00:00:00Z'
-        activeMilestoneId:
-          type:
-          - string
-          - 'null'
-          description: The ID of the currently active milestone in this release plan.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW1
-        milestones:
-          type: array
-          description: A list of the milestones in this release template.
-          items:
-            $ref: '#/components/schemas/releasePlanMilestoneSchema'
-        releasePlanTemplateId:
-          type: string
-          description: The ID of the release plan template that this release plan is based on.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW2
-        safeguards:
-          type: array
-          description: An array of safeguards configured for this release plan.
-          items:
-            $ref: '#/components/schemas/safeguardSchema'
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
     pushVariantsSchema:
       type: object
       description: Data used when copying variants into a new environment.
@@ -3949,21 +4389,58 @@ components:
           description: The enviromnents to write the provided variants to
           items:
             type: string
-    batchFeaturesSchema:
+    constraintSchema:
+      additionalProperties: false
       type: object
-      description: A list of feature flag names for batch operations
       required:
-      - features
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
       properties:
-        features:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
           type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
           items:
             type: string
-          description: List of feature flag names
           example:
-          - my-feature-4
-          - my-feature-5
-          - my-feature-6
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
     overrideSchema:
       type: object
       additionalProperties: false
@@ -3984,31 +4461,165 @@ components:
           example:
           - red
           - blue
-    updateTagsSchema:
+    projectFeatureEnvironmentSchema:
       type: object
-      description: Represents a set of changes to a feature's tags, such as adding or removing tags.
       additionalProperties: false
       required:
-      - addedTags
-      - removedTags
+      - name
+      - type
+      - enabled
+      - sortOrder
+      - variantCount
+      - lastSeenAt
+      description: A detailed description of the feature environment
       properties:
-        addedTags:
+        name:
+          type: string
+          example: my-dev-env
+          description: The name of the environment
+        type:
+          type: string
+          example: development
+          description: The type of the environment
+        enabled:
+          type: boolean
+          example: true
+          description: '`true` if the feature is enabled for the environment, otherwise `false`.'
+        sortOrder:
+          type: number
+          example: 3
+          description: The sort order of the feature environment in the feature environments list
+        variantCount:
+          type: number
+          description: The number of defined variants
+        lastSeenAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-01-28T16:21:39.975Z'
+          description: The date when metrics where last collected for the feature environment
+        hasStrategies:
+          type: boolean
+          description: Whether the feature has any strategies defined.
+        hasEnabledStrategies:
+          type: boolean
+          description: Whether the feature has any enabled strategies defined.
+    releasePlanMilestoneStrategySchema:
+      additionalProperties: false
+      description: Schema representing the creation of a release plan milestone strategy.
+      type: object
+      required:
+      - id
+      - milestoneId
+      - sortOrder
+      - strategyName
+      properties:
+        id:
+          type: string
+          description: The milestone strategy's ID. Milestone strategy IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW3
+        milestoneId:
+          type: string
+          description: The ID of the milestone that this strategy belongs to.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW1
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        strategyName:
+          type: string
+          description: The name of the strategy type
+          example: flexibleRollout
+        parameters:
+          description: An object containing the parameters for the strategy
+          example:
+            groupId: some_new
+            rollout: '25'
+            stickiness: sessionId
+          $ref: '#/components/schemas/parametersSchema'
+        constraints:
           type: array
-          description: Tags to add to the feature.
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          example:
+          - values:
+            - '1'
+            - '2'
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
           items:
-            $ref: '#/components/schemas/tagSchema'
-        removedTags:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
           type: array
-          description: Tags to remove from the feature.
+          description: Strategy level variants
           items:
-            $ref: '#/components/schemas/tagSchema'
-      example:
-        addedTags:
-        - value: tag-to-add
-          type: simple
-        removedTags:
-        - value: tag-to-remove
-          type: simple
+            $ref: '#/components/schemas/createStrategyVariantSchema'
+        segments:
+          type: array
+          description: Ids of segments to use for this strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+    createStrategyVariantSchema:
+      type: object
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
     releasePlanMilestoneSchema:
       additionalProperties: false
       description: Schema representing the creation of a release plan milestone.
@@ -4075,160 +4686,148 @@ components:
           description: A list of strategies that are attached to this milestone.
           items:
             $ref: '#/components/schemas/releasePlanMilestoneStrategySchema'
-    featureStrategySchema:
-      description: A single activation strategy configuration schema for a feature
+    projectFeaturesSchema:
       type: object
       additionalProperties: false
       required:
-      - name
+      - version
+      - features
+      description: A list of features in a project
+      deprecated: true
       properties:
-        id:
-          type: string
-          description: A uuid for the feature strategy
-          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        version:
+          type: integer
+          description: The version of the feature's schema
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectFeatureSchema'
+          description: A list of features
+    cloneFeatureSchema:
+      type: object
+      required:
+      - name
+      description: Copy of a feature with a new name
+      properties:
         name:
           type: string
-          description: The name or type of strategy
-          example: flexibleRollout
-        title:
+          description: The name of the new feature
+          example: new-feature
+        replaceGroupId:
+          type: boolean
+          example: true
+          description: Whether to use the new feature name as its group ID or not. Group ID is used for calculating [stickiness](https://docs.getunleash.io/concepts/stickiness#calculation). Defaults to true.
+    validateFeatureSchema:
+      type: object
+      required:
+      - name
+      description: Data used to validate a feature flag's name.
+      properties:
+        name:
+          description: The feature name to validate.
+          type: string
+          example: my-feature-3
+        projectId:
+          description: The id of the project that the feature flag will belong to. If the target project has a feature naming pattern defined, the name will be validated against that pattern.
           type:
           - string
           - 'null'
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-        disabled:
-          type:
-          - boolean
-          - 'null'
-          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
-          example: false
-        featureName:
-          type: string
-          description: The name or feature the strategy is attached to
-          example: myAwesomeFeature
-        sortOrder:
-          type: number
-          description: The order of the strategy in the list
-          example: 9999
-        segments:
-          type: array
-          description: A list of segment ids attached to the strategy
-          example:
-          - 1
-          - 2
-          items:
-            type: number
-        constraints:
-          type: array
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-        variants:
-          type: array
-          description: Strategy level variants
-          items:
-            $ref: '#/components/schemas/strategyVariantSchema'
-        parameters:
-          $ref: '#/components/schemas/parametersSchema'
-    variantSchema:
-      type: object
-      additionalProperties: false
-      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
-      required:
-      - name
-      - weight
-      properties:
-        name:
-          type: string
-          description: The variants name. Is unique for this feature flag
-          example: blue_group
-        weight:
-          type: number
-          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
-          type: string
-          example: variable
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          additionalProperties: false
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
-        overrides:
-          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
-          type: array
-          items:
-            $ref: '#/components/schemas/overrideSchema'
-    projectFeatureEnvironmentSchema:
+          example: project-y
+    projectFeatureSchema:
       type: object
       additionalProperties: false
       required:
       - name
       - type
-      - enabled
-      - sortOrder
-      - variantCount
+      - description
+      - stale
+      - favorite
+      - impressionData
+      - createdAt
       - lastSeenAt
-      description: A detailed description of the feature environment
+      - environments
+      description: A project feature flag definition
       properties:
         name:
           type: string
-          example: my-dev-env
-          description: The name of the environment
+          example: disable-comments
+          description: Unique feature name
         type:
           type: string
-          example: development
-          description: The type of the environment
-        enabled:
+          example: kill-switch
+          description: Type of the flag e.g. experiment, kill-switch, release, operational, permission
+        description:
+          type:
+          - string
+          - 'null'
+          example: Controls disabling of the comments section in case of an incident
+          description: Detailed description of the feature
+        stale:
+          type: boolean
+          example: false
+          description: '`true` if the feature is stale based on the age and feature type, otherwise `false`.'
+        favorite:
           type: boolean
           example: true
-          description: '`true` if the feature is enabled for the environment, otherwise `false`.'
-        sortOrder:
-          type: number
-          example: 3
-          description: The sort order of the feature environment in the feature environments list
-        variantCount:
-          type: number
-          description: The number of defined variants
+          description: '`true` if the feature was favorited, otherwise `false`.'
+        impressionData:
+          type: boolean
+          example: false
+          description: '`true` if the impression data collection is enabled for the feature, otherwise `false`.'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2023-01-28T15:21:39.975Z'
+          description: The date the feature was created
         lastSeenAt:
           type:
           - string
           - 'null'
           format: date-time
+          deprecated: true
           example: '2023-01-28T16:21:39.975Z'
-          description: The date when metrics where last collected for the feature environment
-        hasStrategies:
+          description: The date and time when metrics where last collected for this flag in any environment. This field was deprecated in v5. You should instead use the `lastSeenAt` property on the individual environments listed under the `environments` property.
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectFeatureEnvironmentSchema'
+          description: The list of environments where the feature can be used
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/tagSchema'
+          description: The list of feature tags
+    updateFeatureSchema:
+      type: object
+      description: Data used for updating a feature flag
+      properties:
+        description:
+          type: string
+          example: Controls disabling of the comments section in case of an incident
+          description: Detailed description of the feature
+        type:
+          enum:
+          - experiment
+          - kill-switch
+          - release
+          - operational
+          - permission
+          example: kill-switch
+          description: Type of the flag e.g. experiment, kill-switch, release, operational, permission
+        stale:
           type: boolean
-          description: Whether the feature has any strategies defined.
-        hasEnabledStrategies:
+          example: true
+          description: '`true` if the feature is archived'
+        archived:
           type: boolean
-          description: Whether the feature has any enabled strategies defined.
+          example: true
+          description: If `true` the feature flag will be moved to the [archive](https://docs.getunleash.io/concepts/feature-flags#archive-a-feature-flag) with a property `archivedAt` set to current time
+        impressionData:
+          type: boolean
+          example: false
+          description: '`true` if the impression data collection is enabled for the feature'
     featureEnvironmentSchema:
       type: object
       additionalProperties: false
@@ -4319,453 +4918,30 @@ components:
           description: How many times the feature evaluated to false (disabled)
           example: 50
           minimum: 0
-    tagSchema:
-      type: object
-      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
-      additionalProperties: false
-      required:
-      - value
-      - type
-      properties:
-        value:
-          type: string
-          description: The value of the tag.
-          minLength: 2
-          maxLength: 50
-          example: a-tag-value
-        type:
-          type: string
-          minLength: 2
-          maxLength: 50
-          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
-          example: simple
-        color:
-          type:
-          - string
-          - 'null'
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-    constraintSchema:
-      additionalProperties: false
-      type: object
-      required:
-      - contextName
-      - operator
-      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
-      properties:
-        contextName:
-          description: The name of the context field that this constraint should apply to.
-          example: appName
-          type: string
-        operator:
-          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
-          type: string
-          enum:
-          - NOT_IN
-          - IN
-          - STR_ENDS_WITH
-          - STR_STARTS_WITH
-          - STR_CONTAINS
-          - NUM_EQ
-          - NUM_GT
-          - NUM_GTE
-          - NUM_LT
-          - NUM_LTE
-          - DATE_AFTER
-          - DATE_BEFORE
-          - SEMVER_EQ
-          - SEMVER_GT
-          - SEMVER_LT
-          example: IN
-        caseInsensitive:
-          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
-          type: boolean
-          default: false
-        inverted:
-          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
-          type: boolean
-          default: false
-        values:
-          type: array
-          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
-          items:
+    variantsSchema:
+      type: array
+      description: A list of variants
+      items:
+        $ref: '#/components/schemas/variantSchema'
+    setStrategySortOrderSchema:
+      type: array
+      description: An array of strategies with their new sort order
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - sortOrder
+        description: A strategy with its new sort order
+        properties:
+          id:
             type: string
-          example:
-          - my-app
-          - my-other-app
-        value:
-          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
-          type: string
-          example: my-app
-    bulkToggleFeaturesSchema:
-      type: object
-      required:
-      - features
-      description: The feature list used for bulk toggle operations
-      properties:
-        features:
-          type: array
-          description: The features that we want to bulk toggle
-          items:
-            type: string
-            description: The feature name we want to toggle
-          example:
-          - feature-a
-          - feature-b
-    patchSchema:
-      type: object
-      required:
-      - path
-      - op
-      description: A [JSON patch](https://www.rfc-editor.org/rfc/rfc6902) operation description
-      properties:
-        path:
-          type: string
-          description: The path to the property to operate on
-          example: /type
-        op:
-          type: string
-          enum:
-          - add
-          - remove
-          - replace
-          - copy
-          - move
-          - test
-          description: The kind of operation to perform
-          example: replace
-        from:
-          type: string
-          description: The target to move or copy from, if performing one of those operations
-          example: /type
-        value:
-          description: The value to add or replace, if performing one of those operations
-          example: kill-switch
-    createFeatureSchema:
-      type: object
-      description: Data used to create a new feature flag.
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: disable-comments
-          description: Unique feature name
-        type:
-          enum:
-          - experiment
-          - kill-switch
-          - release
-          - operational
-          - permission
-          example: release
-          description: The feature flag's [type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types). One of experiment, kill-switch, release, operational, or permission
-        description:
-          type:
-          - string
-          - 'null'
-          example: Controls disabling of the comments section in case of an incident
-          description: Detailed description of the feature
-        impressionData:
-          type: boolean
-          example: false
-          description: '`true` if the impression data collection is enabled for the feature, otherwise `false`.'
-        tags:
-          type: array
-          description: Tags to add to the feature.
-          items:
-            $ref: '#/components/schemas/tagSchema'
-    createStrategyVariantSchema:
-      type: object
-      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
-      required:
-      - name
-      - weight
-      - weightType
-      - stickiness
-      properties:
-        name:
-          type: string
-          description: The variant name. Must be unique for this feature flag
-          example: blue_group
-        weight:
-          type: integer
-          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
-          type: string
-          example: fix
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
-    safeguardSchema:
-      type: object
-      required:
-      - id
-      - action
-      - triggerCondition
-      - impactMetric
-      description: A safeguard configuration for a release plan.
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-          description: The unique ULID identifier for this safeguard
-          example: 01JB9GGTGQYEQ9D40R17T3YVW1
-        action:
-          type: object
-          required:
-          - type
-          - id
-          additionalProperties: false
-          description: The action to take when the safeguard is triggered.
-          properties:
-            type:
-              type: string
-              description: The type of action to perform.
-              example: pauseReleasePlanProgressions
-            id:
-              type: string
-              description: The ID of the release plan this safeguard applies to.
-              example: 01JB9GGTGQYEQ9D40R17T3YVW2
-        triggerCondition:
-          $ref: '#/components/schemas/safeguardTriggerConditionSchema'
-          description: The condition that triggers the safeguard.
-        impactMetric:
-          type: object
-          required:
-          - id
-          - metricName
-          - timeRange
-          - aggregationMode
-          - labelSelectors
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-              description: The unique identifier for this impact metric
-              example: 01JB9GGTGQYEQ9D40R17T3YVW1
-            metricName:
-              type: string
-              description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
-              example: unleash_counter_feature_toggle_usage_total
-            timeRange:
-              type: string
-              enum:
-              - hour
-              - day
-              - week
-              - month
-              description: The time range for the metric data.
-              example: day
-            aggregationMode:
-              type: string
-              description: The aggregation mode for the metric data.
-              enum:
-              - rps
-              - count
-              - avg
-              - sum
-              - p95
-              - p99
-              - p50
-              example: rps
-            labelSelectors:
-              type: object
-              additionalProperties:
-                type: array
-                items:
-                  type: string
-              description: The selected labels and their values for filtering the metric data.
-              example:
-                environment:
-                - development
-                project:
-                - default
-          description: The metric configuration used to evaluate the safeguard condition.
-    strategyVariantSchema:
-      type: object
-      additionalProperties: false
-      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
-      required:
-      - name
-      - weight
-      - weightType
-      - stickiness
-      properties:
-        name:
-          type: string
-          description: The variant name. Must be unique for this feature flag
-          example: blue_group
-        weight:
-          type: integer
-          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
-          type: string
-          example: fix
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
-    validateArchiveFeaturesSchema:
-      type: object
-      additionalProperties: false
-      description: Validation details for features archive operation
-      required:
-      - parentsWithChildFeatures
-      - hasDeletedDependencies
-      properties:
-        parentsWithChildFeatures:
-          type: array
-          items:
-            type: string
-          description: List of parent features that would orphan child features that are not part of the archive operation
-          example:
-          - my-feature-4
-          - my-feature-5
-          - my-feature-6
-        hasDeletedDependencies:
-          type: boolean
-          description: Whether any dependencies will be deleted as part of archive
-          example: true
-    projectFeatureSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - type
-      - description
-      - stale
-      - favorite
-      - impressionData
-      - createdAt
-      - lastSeenAt
-      - environments
-      description: A project feature flag definition
-      properties:
-        name:
-          type: string
-          example: disable-comments
-          description: Unique feature name
-        type:
-          type: string
-          example: kill-switch
-          description: Type of the flag e.g. experiment, kill-switch, release, operational, permission
-        description:
-          type:
-          - string
-          - 'null'
-          example: Controls disabling of the comments section in case of an incident
-          description: Detailed description of the feature
-        stale:
-          type: boolean
-          example: false
-          description: '`true` if the feature is stale based on the age and feature type, otherwise `false`.'
-        favorite:
-          type: boolean
-          example: true
-          description: '`true` if the feature was favorited, otherwise `false`.'
-        impressionData:
-          type: boolean
-          example: false
-          description: '`true` if the impression data collection is enabled for the feature, otherwise `false`.'
-        createdAt:
-          type: string
-          format: date-time
-          example: '2023-01-28T15:21:39.975Z'
-          description: The date the feature was created
-        lastSeenAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          deprecated: true
-          example: '2023-01-28T16:21:39.975Z'
-          description: The date and time when metrics where last collected for this flag in any environment. This field was deprecated in v5. You should instead use the `lastSeenAt` property on the individual environments listed under the `environments` property.
-        environments:
-          type: array
-          items:
-            $ref: '#/components/schemas/projectFeatureEnvironmentSchema'
-          description: The list of environments where the feature can be used
-        tags:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/tagSchema'
-          description: The list of feature tags
-    projectFeaturesSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - features
-      description: A list of features in a project
-      deprecated: true
-      properties:
-        version:
-          type: integer
-          description: The version of the feature's schema
-        features:
-          type: array
-          items:
-            $ref: '#/components/schemas/projectFeatureSchema'
-          description: A list of features
+            example: 9c40958a-daac-400e-98fb-3bb438567008
+            description: The ID of the strategy
+          sortOrder:
+            type: number
+            example: 1
+            description: The new sort order of the strategy
     createFeatureStrategySchema:
       type: object
       required:
@@ -4825,207 +5001,31 @@ components:
           - 2
           items:
             type: number
-    cloneFeatureSchema:
+    updateTagsSchema:
       type: object
-      required:
-      - name
-      description: Copy of a feature with a new name
-      properties:
-        name:
-          type: string
-          description: The name of the new feature
-          example: new-feature
-        replaceGroupId:
-          type: boolean
-          example: true
-          description: Whether to use the new feature name as its group ID or not. Group ID is used for calculating [stickiness](https://docs.getunleash.io/concepts/stickiness#calculation). Defaults to true.
-    updateFeatureSchema:
-      type: object
-      description: Data used for updating a feature flag
-      properties:
-        description:
-          type: string
-          example: Controls disabling of the comments section in case of an incident
-          description: Detailed description of the feature
-        type:
-          enum:
-          - experiment
-          - kill-switch
-          - release
-          - operational
-          - permission
-          example: kill-switch
-          description: Type of the flag e.g. experiment, kill-switch, release, operational, permission
-        stale:
-          type: boolean
-          example: true
-          description: '`true` if the feature is archived'
-        archived:
-          type: boolean
-          example: true
-          description: If `true` the feature flag will be moved to the [archive](https://docs.getunleash.io/concepts/feature-flags#archive-a-feature-flag) with a property `archivedAt` set to current time
-        impressionData:
-          type: boolean
-          example: false
-          description: '`true` if the impression data collection is enabled for the feature'
-    validateFeatureSchema:
-      type: object
-      required:
-      - name
-      description: Data used to validate a feature flag's name.
-      properties:
-        name:
-          description: The feature name to validate.
-          type: string
-          example: my-feature-3
-        projectId:
-          description: The id of the project that the feature flag will belong to. If the target project has a feature naming pattern defined, the name will be validated against that pattern.
-          type:
-          - string
-          - 'null'
-          example: project-y
-    updateFeatureStrategySchema:
-      type: object
-      description: Update a strategy configuration in a feature
-      properties:
-        name:
-          type: string
-          description: The name of the strategy type
-        sortOrder:
-          type: number
-          description: The order of the strategy in the list in feature environment configuration
-        constraints:
-          type: array
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
-        title:
-          type:
-          - string
-          - 'null'
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-        disabled:
-          type:
-          - boolean
-          - 'null'
-          description: A toggle to disable the strategy. defaults to true. Disabled strategies are not evaluated or returned to the SDKs
-          example: false
-        parameters:
-          $ref: '#/components/schemas/parametersSchema'
-    tagsSchema:
-      description: A list of tags with a version number
-      type: object
+      description: Represents a set of changes to a feature's tags, such as adding or removing tags.
       additionalProperties: false
       required:
-      - version
-      - tags
+      - addedTags
+      - removedTags
       properties:
-        version:
-          type: integer
-          description: The version of the schema used to model the tags.
-        tags:
+        addedTags:
           type: array
-          description: A list of tags.
+          description: Tags to add to the feature.
           items:
             $ref: '#/components/schemas/tagSchema'
-    releasePlanMilestoneStrategySchema:
-      additionalProperties: false
-      description: Schema representing the creation of a release plan milestone strategy.
-      type: object
-      required:
-      - id
-      - milestoneId
-      - sortOrder
-      - strategyName
-      properties:
-        id:
-          type: string
-          description: The milestone strategy's ID. Milestone strategy IDs are ulids.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW3
-        milestoneId:
-          type: string
-          description: The ID of the milestone that this strategy belongs to.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW1
-        sortOrder:
-          type: number
-          description: The order of the strategy in the list
-          example: 9999
-        title:
-          type:
-          - string
-          - 'null'
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-        strategyName:
-          type: string
-          description: The name of the strategy type
-          example: flexibleRollout
-        parameters:
-          description: An object containing the parameters for the strategy
-          example:
-            groupId: some_new
-            rollout: '25'
-            stickiness: sessionId
-          $ref: '#/components/schemas/parametersSchema'
-        constraints:
+        removedTags:
           type: array
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
-          example:
-          - values:
-            - '1'
-            - '2'
-            inverted: false
-            operator: IN
-            contextName: appName
-            caseInsensitive: false
+          description: Tags to remove from the feature.
           items:
-            $ref: '#/components/schemas/constraintSchema'
-        variants:
-          type: array
-          description: Strategy level variants
-          items:
-            $ref: '#/components/schemas/createStrategyVariantSchema'
-        segments:
-          type: array
-          description: Ids of segments to use for this strategy
-          example:
-          - 1
-          - 2
-          items:
-            type: number
-    changeProjectSchema:
-      type: object
-      description: Data required to move a feature flag to a project.
-      required:
-      - newProjectId
-      properties:
-        newProjectId:
-          type: string
-          description: The project to move the feature flag to.
-          example: newProject
-    parametersSchema:
-      type: object
-      description: A list of parameters for a strategy
-      additionalProperties:
-        type: string
-    featureVariantsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - variants
-      description: A versioned collection of feature flag variants.
-      properties:
-        version:
-          type: integer
-          example: 1
-          description: The version of the feature variants schema.
-        variants:
-          type: array
-          items:
-            $ref: '#/components/schemas/variantSchema'
-          description: All variants defined for a specific feature flag.
+            $ref: '#/components/schemas/tagSchema'
+      example:
+        addedTags:
+        - value: tag-to-add
+          type: simple
+        removedTags:
+        - value: tag-to-remove
+          type: simple
   securitySchemes:
     apiKey:
       type: apiKey

@@ -140,16 +140,6 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
-    toggleMaintenanceSchema:
-      type: object
-      description: Data used when to activate or deactivate maintenance mode for Unleash.
-      required:
-      - enabled
-      properties:
-        enabled:
-          description: '`true` if you want to activate maintenance mode, `false` if you want to deactivate it.'
-          type: boolean
-          example: true
     maintenanceSchema:
       type: object
       additionalProperties: false
@@ -159,6 +149,16 @@ components:
       properties:
         enabled:
           description: Whether maintenance mode is enabled or not.
+          type: boolean
+          example: true
+    toggleMaintenanceSchema:
+      type: object
+      description: Data used when to activate or deactivate maintenance mode for Unleash.
+      required:
+      - enabled
+      properties:
+        enabled:
+          description: '`true` if you want to activate maintenance mode, `false` if you want to deactivate it.'
           type: boolean
           example: true
   securitySchemes:

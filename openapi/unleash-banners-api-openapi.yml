@@ -516,18 +516,6 @@ paths:
           type: string
 components:
   schemas:
-    bannersSchema:
-      description: A response model with a list of banners.
-      type: object
-      additionalProperties: false
-      required:
-      - banners
-      properties:
-        banners:
-          type: array
-          description: A list of banners.
-          items:
-            $ref: '#/components/schemas/bannerSchema'
     createBannerSchema:
       type: object
       required:
@@ -590,6 +578,18 @@ components:
 
 
             This is an example dialog that supports Markdown.'
+    bannersSchema:
+      description: A response model with a list of banners.
+      type: object
+      additionalProperties: false
+      required:
+      - banners
+      properties:
+        banners:
+          type: array
+          description: A list of banners.
+          items:
+            $ref: '#/components/schemas/bannerSchema'
     bannerSchema:
       type: object
       required:
