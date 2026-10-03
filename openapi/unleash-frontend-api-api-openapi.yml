@@ -275,99 +275,6 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
-    frontendApiClientSchema:
-      type: object
-      required:
-      - appName
-      - interval
-      - started
-      - strategies
-      description: Frontend SDK client registration information
-      properties:
-        appName:
-          type: string
-          description: Name of the application using Unleash
-        instanceId:
-          type: string
-          description: Instance id for this application (typically hostname, podId or similar)
-        sdkVersion:
-          type: string
-          description: Optional field that describes the sdk version (name:version)
-        environment:
-          type: string
-          deprecated: true
-          description: deprecated
-          example: development
-        interval:
-          type: number
-          description: At which interval, in milliseconds, will this client be expected to send metrics
-        started:
-          oneOf:
-          - type: string
-            format: date-time
-          - type: number
-          description: When this client started. Should be reported as ISO8601 time.
-        strategies:
-          type: array
-          items:
-            type: string
-          description: List of strategies implemented by this application
-    frontendApiFeaturesSchema:
-      type: object
-      required:
-      - toggles
-      additionalProperties: false
-      description: Frontend SDK features list
-      properties:
-        toggles:
-          description: The actual features returned to the Frontend SDK
-          type: array
-          items:
-            $ref: '#/components/schemas/frontendApiFeatureSchema'
-    frontendApiFeaturesPostSchema:
-      description: The Unleash frontend API POST request body.
-      type: object
-      additionalProperties: true
-      properties:
-        context:
-          description: The Unleash context.
-          type: object
-          additionalProperties: true
-          properties:
-            appName:
-              type: string
-              minLength: 1
-              example: My cool application.
-              description: The name of the application.
-            currentTime:
-              type: string
-              format: date-time
-              example: '2022-07-05T12:56:41+02:00'
-              description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
-            environment:
-              type: string
-              deprecated: true
-              description: The environment the app is running in.
-            properties:
-              type: object
-              additionalProperties:
-                type: string
-              description: Additional Unleash context properties
-              example:
-                customContextField: this is one!
-                otherCustomField: '3'
-            remoteAddress:
-              type: string
-              example: 192.168.1.1
-              description: The app's IP address
-            sessionId:
-              type: string
-              example: b65e7b23-fec0-4814-a129-0e9861ef18fc
-              description: An identifier for the current session
-            userId:
-              type: string
-              example: username@provider.com
-              description: An identifier for the current user
     frontendApiFeatureSchema:
       type: object
       required:
@@ -436,6 +343,43 @@ components:
               type: boolean
               description: Use `feature_enabled` instead.
               example: true
+    frontendApiClientSchema:
+      type: object
+      required:
+      - appName
+      - interval
+      - started
+      - strategies
+      description: Frontend SDK client registration information
+      properties:
+        appName:
+          type: string
+          description: Name of the application using Unleash
+        instanceId:
+          type: string
+          description: Instance id for this application (typically hostname, podId or similar)
+        sdkVersion:
+          type: string
+          description: Optional field that describes the sdk version (name:version)
+        environment:
+          type: string
+          deprecated: true
+          description: deprecated
+          example: development
+        interval:
+          type: number
+          description: At which interval, in milliseconds, will this client be expected to send metrics
+        started:
+          oneOf:
+          - type: string
+            format: date-time
+          - type: number
+          description: When this client started. Should be reported as ISO8601 time.
+        strategies:
+          type: array
+          items:
+            type: string
+          description: List of strategies implemented by this application
     dateSchema:
       description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
       oneOf:
@@ -541,6 +485,62 @@ components:
                       variantA: 15
                       variantB: 25
                       variantC: 5
+    frontendApiFeaturesPostSchema:
+      description: The Unleash frontend API POST request body.
+      type: object
+      additionalProperties: true
+      properties:
+        context:
+          description: The Unleash context.
+          type: object
+          additionalProperties: true
+          properties:
+            appName:
+              type: string
+              minLength: 1
+              example: My cool application.
+              description: The name of the application.
+            currentTime:
+              type: string
+              format: date-time
+              example: '2022-07-05T12:56:41+02:00'
+              description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+            environment:
+              type: string
+              deprecated: true
+              description: The environment the app is running in.
+            properties:
+              type: object
+              additionalProperties:
+                type: string
+              description: Additional Unleash context properties
+              example:
+                customContextField: this is one!
+                otherCustomField: '3'
+            remoteAddress:
+              type: string
+              example: 192.168.1.1
+              description: The app's IP address
+            sessionId:
+              type: string
+              example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+              description: An identifier for the current session
+            userId:
+              type: string
+              example: username@provider.com
+              description: An identifier for the current user
+    frontendApiFeaturesSchema:
+      type: object
+      required:
+      - toggles
+      additionalProperties: false
+      description: Frontend SDK features list
+      properties:
+        toggles:
+          description: The actual features returned to the Frontend SDK
+          type: array
+          items:
+            $ref: '#/components/schemas/frontendApiFeatureSchema'
   securitySchemes:
     apiKey:
       type: apiKey

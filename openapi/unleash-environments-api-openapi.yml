@@ -758,128 +758,36 @@ paths:
           type: string
 components:
   schemas:
-    nameSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      description: An object with a name
-      properties:
-        name:
-          description: The name of the represented object.
-          example: betaUser
-          type: string
-    environmentsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - environments
-      description: A versioned list of environments
-      properties:
-        version:
-          type: integer
-          example: 1
-          description: Version of the environments schema
-        environments:
-          type: array
-          items:
-            $ref: '#/components/schemas/environmentSchema'
-          description: List of environments
-    createEnvironmentSchema:
+    cloneEnvironmentSchema:
       type: object
       required:
       - name
       - type
-      description: Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)
+      description: Data used to clone an environment.
       properties:
         name:
           type: string
-          description: The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)
-          pattern: ^[a-zA-Z0-9~_.-]+$
+          example: development
+          description: The name of the new cloned environment, this cannot be changed later
         type:
           type: string
-          minLength: 1
-          description: 'The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
-
-            - `development`
-
-            - `test`
-
-            - `preproduction`
-
-            - `production`
-
-
-            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.'
-        enabled:
+          example: development
+          description: Updates the type of environment (i.e. development or production).
+        projects:
+          type: array
+          description: A list of projects that should be included in the cloned environment.
+          items:
+            type: string
+        clonePermissions:
           type: boolean
-          description: Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.
-        sortOrder:
-          type: integer
-          description: Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.
-        requiredApprovals:
-          type:
-          - integer
-          - 'null'
-          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
-          minimum: 1
-          example: 3
-    featureStrategySchema:
-      description: A single activation strategy configuration schema for a feature
+          description: Copies the RBAC permissions from the source environment if true. Defaults to true
+    sortOrderSchema:
       type: object
-      additionalProperties: false
-      required:
-      - name
-      properties:
-        id:
-          type: string
-          description: A uuid for the feature strategy
-          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
-        name:
-          type: string
-          description: The name or type of strategy
-          example: flexibleRollout
-        title:
-          type:
-          - string
-          - 'null'
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-        disabled:
-          type:
-          - boolean
-          - 'null'
-          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
-          example: false
-        featureName:
-          type: string
-          description: The name or feature the strategy is attached to
-          example: myAwesomeFeature
-        sortOrder:
-          type: number
-          description: The order of the strategy in the list
-          example: 9999
-        segments:
-          type: array
-          description: A list of segment ids attached to the strategy
-          example:
-          - 1
-          - 2
-          items:
-            type: number
-        constraints:
-          type: array
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-        variants:
-          type: array
-          description: Strategy level variants
-          items:
-            $ref: '#/components/schemas/strategyVariantSchema'
-        parameters:
-          $ref: '#/components/schemas/parametersSchema'
+      description: A map of object IDs and their corresponding sort orders.
+      additionalProperties:
+        type: integer
+        description: Sort order for the object whose ID is the key used for this property.
+        example: 6
     environmentSchema:
       type: object
       additionalProperties: false
@@ -939,29 +847,23 @@ components:
           description: Experimental field. The number of approvals required before a change request can be applied in this environment.
           minimum: 1
           example: 3
-    cloneEnvironmentSchema:
+    updateEnvironmentSchema:
       type: object
-      required:
-      - name
-      - type
-      description: Data used to clone an environment.
+      description: Data used to update an [environment](https://docs.getunleash.io/concepts/environments).
       properties:
-        name:
-          type: string
-          example: development
-          description: The name of the new cloned environment, this cannot be changed later
         type:
           type: string
-          example: development
           description: Updates the type of environment (i.e. development or production).
-        projects:
-          type: array
-          description: A list of projects that should be included in the cloned environment.
-          items:
-            type: string
-        clonePermissions:
-          type: boolean
-          description: Copies the RBAC permissions from the source environment if true. Defaults to true
+        sortOrder:
+          type: integer
+          description: Changes the sort order of this environment.
+        requiredApprovals:
+          type:
+          - integer
+          - 'null'
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
     environmentProjectSchema:
       type: object
       additionalProperties: false
@@ -1017,6 +919,78 @@ components:
           description: Experimental field. The number of approvals required before a change request can be applied in this environment.
           minimum: 1
           example: 3
+    environmentsProjectSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - environments
+      description: Environments defined for a given project
+      properties:
+        version:
+          type: integer
+          example: 1
+          description: Version of the environments schema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentProjectSchema'
+          description: List of environments
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
     strategyVariantSchema:
       type: object
       additionalProperties: false
@@ -1068,11 +1042,78 @@ components:
           example:
             type: json
             value: '{"color": "red"}'
+    environmentsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - environments
+      description: A versioned list of environments
+      properties:
+        version:
+          type: integer
+          example: 1
+          description: Version of the environments schema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentSchema'
+          description: List of environments
     parametersSchema:
       type: object
       description: A list of parameters for a strategy
       additionalProperties:
         type: string
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
+    createEnvironmentSchema:
+      type: object
+      required:
+      - name
+      - type
+      description: Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)
+      properties:
+        name:
+          type: string
+          description: The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)
+          pattern: ^[a-zA-Z0-9~_.-]+$
+        type:
+          type: string
+          minLength: 1
+          description: 'The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
+
+            - `development`
+
+            - `test`
+
+            - `preproduction`
+
+            - `production`
+
+
+            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.'
+        enabled:
+          type: boolean
+          description: Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.
+        sortOrder:
+          type: integer
+          description: Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.
+        requiredApprovals:
+          type:
+          - integer
+          - 'null'
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
     constraintSchema:
       additionalProperties: false
       type: object
@@ -1125,47 +1166,6 @@ components:
           description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
           type: string
           example: my-app
-    updateEnvironmentSchema:
-      type: object
-      description: Data used to update an [environment](https://docs.getunleash.io/concepts/environments).
-      properties:
-        type:
-          type: string
-          description: Updates the type of environment (i.e. development or production).
-        sortOrder:
-          type: integer
-          description: Changes the sort order of this environment.
-        requiredApprovals:
-          type:
-          - integer
-          - 'null'
-          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
-          minimum: 1
-          example: 3
-    environmentsProjectSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - environments
-      description: Environments defined for a given project
-      properties:
-        version:
-          type: integer
-          example: 1
-          description: Version of the environments schema
-        environments:
-          type: array
-          items:
-            $ref: '#/components/schemas/environmentProjectSchema'
-          description: List of environments
-    sortOrderSchema:
-      type: object
-      description: A map of object IDs and their corresponding sort orders.
-      additionalProperties:
-        type: integer
-        description: Sort order for the object whose ID is the key used for this property.
-        example: 6
   securitySchemes:
     apiKey:
       type: apiKey

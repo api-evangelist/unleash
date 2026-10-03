@@ -140,69 +140,64 @@ paths:
           description: This response has no body.
 components:
   schemas:
-    clientApplicationSchema:
+    clientFeaturesQuerySchema:
       type: object
-      required:
-      - appName
-      - interval
-      - started
-      - strategies
-      description: A client application is an instance of one of our SDKs
+      additionalProperties: false
+      description: Query parameters active for a client features request
       properties:
-        appName:
-          description: An identifier for the app that uses the sdk, should be static across SDK restarts
-          type: string
-          example: example-app
-        instanceId:
-          description: 'A unique identifier identifying the instance of the application running the SDK. Often changes based on execution environment. For instance: two pods in Kubernetes will have two different instanceIds'
-          type: string
-          example: b77f3d13-5f48-4a7b-a3f4-a449b97ce43a
-        sdkVersion:
-          type: string
-          description: An SDK version identifier. Usually formatted as "unleash-client-<language>:<version>"
-          example: unleash-client-java:7.0.0
-        environment:
-          description: The SDK's configured 'environment' property. This property was deprecated in v5. This property  does **not** control which Unleash environment the SDK gets toggles for. To control Unleash environments, use the SDKs API key.
-          deprecated: true
-          type: string
-          example: development
-        platformName:
-          description: The platform the application is running on. For languages that compile to binaries, this can be omitted
-          type: string
-          example: .NET Core
-        platformVersion:
-          description: The version of the platform the application is running on. Languages that compile to binaries, this is expected to be the compiler version used to assemble the binary.
-          type: string
-          example: '3.1'
-        yggdrasilVersion:
-          description: The semantic version of the Yggdrasil engine used by the client. If the client is using a native engine this can be omitted.
-          type: string
-          example: 1.0.0
-        specVersion:
-          description: The version of the Unleash client specification the client supports
-          type: string
-          example: 3.0.0
-        interval:
-          type: number
-          description: How often (in seconds) does the client refresh its toggles
-          example: 10
-          minimum: 0
-        started:
-          description: Either an RFC-3339 timestamp or a unix timestamp in seconds
-          oneOf:
-          - type: string
-            format: date-time
-          - type: number
-          example: '2023-06-13T16:35:00.000Z'
-        strategies:
-          description: Which strategies the SDKs runtime knows about
+        tag:
+          type: array
+          description: Features tagged with one of these tags are included
+          items:
+            type: array
+            items:
+              type: string
+          example:
+          - - simple:payment
+            - simple:stripejourney
+        project:
           type: array
           items:
             type: string
+          description: Features that are part of these projects are included in this response. This is now handled by API tokens and was marked as deprecated in v5
           example:
-          - default
-          - gradualRollout
-          - remoteAddress
+          - new.payment.flow
+          deprecated: true
+        namePrefix:
+          description: Features are filtered to only include features whose name starts with this prefix
+          type: string
+          example: payment
+        environment:
+          type: string
+          description: Strategies for the feature flag configured for this environment are included. This is now handled by API tokens and was marked as deprecated in v5
+          deprecated: true
+        inlineSegmentConstraints:
+          description: Set to true if requesting client does not support Unleash-Client-Specification 4.2.2 or newer. Modern SDKs will have this set to false, since they will be able to merge constraints and segments themselves
+          type: boolean
+          example: true
+    dependentFeatureSchema:
+      type: object
+      description: Feature dependency on a parent feature in read model
+      required:
+      - feature
+      additionalProperties: false
+      properties:
+        feature:
+          type: string
+          description: The name of the feature we depend on.
+          example: parent_feature
+        enabled:
+          type: boolean
+          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
+          example: false
+        variants:
+          type: array
+          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
+          items:
+            type: string
+          example:
+          - variantA
+          - variantB
     featureStrategySchema:
       description: A single activation strategy configuration schema for a feature
       type: object
@@ -258,29 +253,29 @@ components:
             $ref: '#/components/schemas/strategyVariantSchema'
         parameters:
           $ref: '#/components/schemas/parametersSchema'
-    dependentFeatureSchema:
+    customMetricSchema:
       type: object
-      description: Feature dependency on a parent feature in read model
       required:
-      - feature
-      additionalProperties: false
+      - name
+      - value
+      description: A custom metric with name, value and optional labels
       properties:
-        feature:
+        name:
           type: string
-          description: The name of the feature we depend on.
-          example: parent_feature
-        enabled:
-          type: boolean
-          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
-          example: false
-        variants:
-          type: array
-          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
-          items:
+          description: Name of the custom metric
+          example: http_responses_total
+        value:
+          type: number
+          description: Value of the custom metric
+          example: 1
+        labels:
+          type: object
+          description: Labels to categorize the metric
+          additionalProperties:
             type: string
           example:
-          - variantA
-          - variantB
+            status: '200'
+            method: GET
     variantSchema:
       type: object
       additionalProperties: false
@@ -336,42 +331,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/overrideSchema'
-    customMetricsSchema:
-      type: object
-      required:
-      - metrics
-      description: A collection of custom metrics
-      properties:
-        metrics:
-          type: array
-          description: Array of custom metrics
-          items:
-            $ref: '#/components/schemas/customMetricSchema'
-    clientFeaturesSchema:
-      type: object
-      required:
-      - version
-      - features
-      description: Configuration data for backend SDKs for evaluating feature flags.
-      properties:
-        version:
-          type: number
-          description: A version number for the format used in the response. Most Unleash instances now return version 2, which includes segments as a separate array
-          example: 2
-          minimum: 0
-        features:
-          description: A list of feature flags with their configuration
-          type: array
-          items:
-            $ref: '#/components/schemas/clientFeatureSchema'
-        segments:
-          description: A list of [Segments](https://docs.getunleash.io/concepts/segments) configured for this Unleash instance
-          type: array
-          items:
-            $ref: '#/components/schemas/clientSegmentSchema'
-        query:
-          description: A summary of filters and parameters sent to the endpoint. Used by the server to build the features and segments response
-          $ref: '#/components/schemas/clientFeaturesQuerySchema'
     clientFeatureSchema:
       type: object
       required:
@@ -429,6 +388,61 @@ components:
           description: Feature dependencies for this flag
           items:
             $ref: '#/components/schemas/dependentFeatureSchema'
+    dateSchema:
+      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
+      oneOf:
+      - type: string
+        format: date-time
+        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
+        example: '2023-07-27T11:23:44Z'
+      - type: integer
+        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
+        example: 1690449593
+    clientSegmentSchema:
+      type: object
+      description: Represents a client API segment of users defined by a set of constraints.
+      additionalProperties: false
+      required:
+      - id
+      - constraints
+      properties:
+        id:
+          type: number
+          description: The segment's id.
+        name:
+          type: string
+          description: The name of the segment.
+          example: segment A
+        constraints:
+          type: array
+          description: List of constraints that determine which users are part of the segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+    clientFeaturesSchema:
+      type: object
+      required:
+      - version
+      - features
+      description: Configuration data for backend SDKs for evaluating feature flags.
+      properties:
+        version:
+          type: number
+          description: A version number for the format used in the response. Most Unleash instances now return version 2, which includes segments as a separate array
+          example: 2
+          minimum: 0
+        features:
+          description: A list of feature flags with their configuration
+          type: array
+          items:
+            $ref: '#/components/schemas/clientFeatureSchema'
+        segments:
+          description: A list of [Segments](https://docs.getunleash.io/concepts/segments) configured for this Unleash instance
+          type: array
+          items:
+            $ref: '#/components/schemas/clientSegmentSchema'
+        query:
+          description: A summary of filters and parameters sent to the endpoint. Used by the server to build the features and segments response
+          $ref: '#/components/schemas/clientFeaturesQuerySchema'
     strategyVariantSchema:
       type: object
       additionalProperties: false
@@ -485,123 +499,6 @@ components:
       description: A list of parameters for a strategy
       additionalProperties:
         type: string
-    clientFeaturesQuerySchema:
-      type: object
-      additionalProperties: false
-      description: Query parameters active for a client features request
-      properties:
-        tag:
-          type: array
-          description: Features tagged with one of these tags are included
-          items:
-            type: array
-            items:
-              type: string
-          example:
-          - - simple:payment
-            - simple:stripejourney
-        project:
-          type: array
-          items:
-            type: string
-          description: Features that are part of these projects are included in this response. This is now handled by API tokens and was marked as deprecated in v5
-          example:
-          - new.payment.flow
-          deprecated: true
-        namePrefix:
-          description: Features are filtered to only include features whose name starts with this prefix
-          type: string
-          example: payment
-        environment:
-          type: string
-          description: Strategies for the feature flag configured for this environment are included. This is now handled by API tokens and was marked as deprecated in v5
-          deprecated: true
-        inlineSegmentConstraints:
-          description: Set to true if requesting client does not support Unleash-Client-Specification 4.2.2 or newer. Modern SDKs will have this set to false, since they will be able to merge constraints and segments themselves
-          type: boolean
-          example: true
-    constraintSchema:
-      additionalProperties: false
-      type: object
-      required:
-      - contextName
-      - operator
-      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
-      properties:
-        contextName:
-          description: The name of the context field that this constraint should apply to.
-          example: appName
-          type: string
-        operator:
-          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
-          type: string
-          enum:
-          - NOT_IN
-          - IN
-          - STR_ENDS_WITH
-          - STR_STARTS_WITH
-          - STR_CONTAINS
-          - NUM_EQ
-          - NUM_GT
-          - NUM_GTE
-          - NUM_LT
-          - NUM_LTE
-          - DATE_AFTER
-          - DATE_BEFORE
-          - SEMVER_EQ
-          - SEMVER_GT
-          - SEMVER_LT
-          example: IN
-        caseInsensitive:
-          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
-          type: boolean
-          default: false
-        inverted:
-          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
-          type: boolean
-          default: false
-        values:
-          type: array
-          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
-          items:
-            type: string
-          example:
-          - my-app
-          - my-other-app
-        value:
-          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
-          type: string
-          example: my-app
-    overrideSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - contextName
-      - values
-      description: An override for deciding which variant should be assigned to a user based on the context name
-      properties:
-        contextName:
-          description: The name of the context field used to determine overrides
-          type: string
-          example: userId
-        values:
-          description: Which values that should be overriden
-          type: array
-          items:
-            type: string
-          example:
-          - red
-          - blue
-    dateSchema:
-      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
-      oneOf:
-      - type: string
-        format: date-time
-        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
-        example: '2023-07-27T11:23:44Z'
-      - type: integer
-        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
-        example: 1690449593
     clientMetricsSchema:
       type: object
       required:
@@ -697,49 +594,152 @@ components:
                       variantA: 15
                       variantB: 25
                       variantC: 5
-    customMetricSchema:
+    overrideSchema:
       type: object
-      required:
-      - name
-      - value
-      description: A custom metric with name, value and optional labels
-      properties:
-        name:
-          type: string
-          description: Name of the custom metric
-          example: http_responses_total
-        value:
-          type: number
-          description: Value of the custom metric
-          example: 1
-        labels:
-          type: object
-          description: Labels to categorize the metric
-          additionalProperties:
-            type: string
-          example:
-            status: '200'
-            method: GET
-    clientSegmentSchema:
-      type: object
-      description: Represents a client API segment of users defined by a set of constraints.
       additionalProperties: false
       required:
-      - id
-      - constraints
+      - contextName
+      - values
+      description: An override for deciding which variant should be assigned to a user based on the context name
       properties:
-        id:
-          type: number
-          description: The segment's id.
-        name:
+        contextName:
+          description: The name of the context field used to determine overrides
           type: string
-          description: The name of the segment.
-          example: segment A
-        constraints:
+          example: userId
+        values:
+          description: Which values that should be overriden
           type: array
-          description: List of constraints that determine which users are part of the segment
           items:
-            $ref: '#/components/schemas/constraintSchema'
+            type: string
+          example:
+          - red
+          - blue
+    customMetricsSchema:
+      type: object
+      required:
+      - metrics
+      description: A collection of custom metrics
+      properties:
+        metrics:
+          type: array
+          description: Array of custom metrics
+          items:
+            $ref: '#/components/schemas/customMetricSchema'
+    clientApplicationSchema:
+      type: object
+      required:
+      - appName
+      - interval
+      - started
+      - strategies
+      description: A client application is an instance of one of our SDKs
+      properties:
+        appName:
+          description: An identifier for the app that uses the sdk, should be static across SDK restarts
+          type: string
+          example: example-app
+        instanceId:
+          description: 'A unique identifier identifying the instance of the application running the SDK. Often changes based on execution environment. For instance: two pods in Kubernetes will have two different instanceIds'
+          type: string
+          example: b77f3d13-5f48-4a7b-a3f4-a449b97ce43a
+        sdkVersion:
+          type: string
+          description: An SDK version identifier. Usually formatted as "unleash-client-<language>:<version>"
+          example: unleash-client-java:7.0.0
+        environment:
+          description: The SDK's configured 'environment' property. This property was deprecated in v5. This property  does **not** control which Unleash environment the SDK gets toggles for. To control Unleash environments, use the SDKs API key.
+          deprecated: true
+          type: string
+          example: development
+        platformName:
+          description: The platform the application is running on. For languages that compile to binaries, this can be omitted
+          type: string
+          example: .NET Core
+        platformVersion:
+          description: The version of the platform the application is running on. Languages that compile to binaries, this is expected to be the compiler version used to assemble the binary.
+          type: string
+          example: '3.1'
+        yggdrasilVersion:
+          description: The semantic version of the Yggdrasil engine used by the client. If the client is using a native engine this can be omitted.
+          type: string
+          example: 1.0.0
+        specVersion:
+          description: The version of the Unleash client specification the client supports
+          type: string
+          example: 3.0.0
+        interval:
+          type: number
+          description: How often (in seconds) does the client refresh its toggles
+          example: 10
+          minimum: 0
+        started:
+          description: Either an RFC-3339 timestamp or a unix timestamp in seconds
+          oneOf:
+          - type: string
+            format: date-time
+          - type: number
+          example: '2023-06-13T16:35:00.000Z'
+        strategies:
+          description: Which strategies the SDKs runtime knows about
+          type: array
+          items:
+            type: string
+          example:
+          - default
+          - gradualRollout
+          - remoteAddress
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
   securitySchemes:
     apiKey:
       type: apiKey

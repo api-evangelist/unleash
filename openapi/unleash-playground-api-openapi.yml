@@ -220,113 +220,73 @@ paths:
       summary: Batch Evaluate an Unleash Context Against a Set of Environments and Projects
 components:
   schemas:
-    playgroundSegmentSchema:
+    sdkContextSchema:
+      description: The Unleash context as modeled in client SDKs
       type: object
-      additionalProperties: false
-      description: The evaluated result of a segment as used by the Playground.
       required:
-      - name
-      - id
-      - constraints
-      - result
+      - appName
+      additionalProperties: true
       properties:
-        id:
-          description: The segment's id.
-          type: integer
-        name:
-          description: The name of the segment.
-          example: segment A
+        appName:
           type: string
-        result:
-          description: Whether this was evaluated as true or false.
-          type: boolean
-        constraints:
-          type: array
-          description: The list of constraints in this segment.
-          items:
-            $ref: '#/components/schemas/playgroundConstraintSchema'
-    advancedPlaygroundRequestSchema:
-      description: Data for the playground API to evaluate toggles in advanced mode with environment and context multi selection
+          minLength: 1
+          example: My cool application.
+          description: The name of the application.
+        currentTime:
+          type: string
+          format: date-time
+          example: '2022-07-05T12:56:41+02:00'
+          description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+        environment:
+          type: string
+          deprecated: true
+          description: The environment the app is running in.
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional Unleash context properties
+          example:
+            customContextField: this is one!
+            otherCustomField: '3'
+        remoteAddress:
+          type: string
+          example: 192.168.1.1
+          description: The app's IP address
+        sessionId:
+          type: string
+          example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+          description: An identifier for the current session
+        userId:
+          type: string
+          example: username@provider.com
+          description: An identifier for the current user
+    playgroundRequestSchema:
+      description: Data for the playground API to evaluate feature flags
       type: object
       required:
-      - environments
+      - environment
       - context
       properties:
-        environments:
-          type: array
-          items:
-            type: string
-            minLength: 1
-            pattern: ^[a-zA-Z0-9~_.-]+$
-          minItems: 1
-          example:
-          - development
-          - production
-          description: The environments to evaluate toggles in.
+        environment:
+          type: string
+          example: development
+          description: The environment to evaluate feature flags in.
         projects:
-          description: A list of projects to check for toggles in.
+          description: A list of projects to check for feature flags in.
           oneOf:
           - type: array
             items:
               type: string
             example:
             - my-project
-            description: A list of projects to check for toggles in.
+            description: A list of projects to check for feature flags in.
           - type: string
             enum:
             - '*'
-            description: Check toggles in all projects.
+            description: Check feature flags in all projects.
         context:
           $ref: '#/components/schemas/sdkContextSchema'
-    advancedPlaygroundResponseSchema:
-      description: The state of all features given the provided input.
-      type: object
-      additionalProperties: false
-      required:
-      - features
-      - input
-      properties:
-        input:
-          description: The given input used to evaluate the features.
-          $ref: '#/components/schemas/advancedPlaygroundRequestSchema'
-        features:
-          type: array
-          description: The list of features that have been evaluated.
-          items:
-            $ref: '#/components/schemas/advancedPlaygroundFeatureSchema'
-        warnings:
-          type: object
-          description: Warnings that occurred during evaluation.
-          properties:
-            invalidContextProperties:
-              type: array
-              description: A list of top-level context properties that were provided as input that are not valid due to being the wrong type.
-              items:
-                type: string
-    advancedPlaygroundFeatureSchema:
-      description: A simplified feature flag model intended for the Unleash playground.
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - projectId
-      - environments
-      properties:
-        name:
-          type: string
-          example: my-feature
-          description: The feature's name.
-        projectId:
-          type: string
-          example: my-project
-          description: The ID of the project that contains this feature.
-        environments:
-          type: object
-          description: The lists of features that have been evaluated grouped by environment.
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/advancedPlaygroundEnvironmentFeatureSchema'
     variantSchema:
       type: object
       additionalProperties: false
@@ -382,39 +342,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/overrideSchema'
-    sdkFlatContextSchema:
-      description: The Unleash context with flattened properties
-      type: object
-      required:
-      - appName
-      additionalProperties: true
-      properties:
-        appName:
-          type: string
-          minLength: 1
-          example: My cool application.
-          description: The name of the application.
-        currentTime:
-          type: string
-          format: date-time
-          example: '2022-07-05T12:56:41+02:00'
-          description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
-        environment:
-          type: string
-          deprecated: true
-          description: The environment the app is running in.
-        remoteAddress:
-          type: string
-          example: 192.168.1.1
-          description: The app's IP address
-        sessionId:
-          type: string
-          example: b65e7b23-fec0-4814-a129-0e9861ef18fc
-          description: An identifier for the current session
-        userId:
-          type: string
-          example: username@provider.com
-          description: An identifier for the current user
     playgroundResponseSchema:
       description: The state of all features given the provided input.
       type: object
@@ -431,47 +358,316 @@ components:
           description: The list of features that have been evaluated.
           items:
             $ref: '#/components/schemas/playgroundFeatureSchema'
-    sdkContextSchema:
-      description: The Unleash context as modeled in client SDKs
+    playgroundConstraintSchema:
+      additionalProperties: false
       type: object
       required:
-      - appName
-      additionalProperties: true
+      - contextName
+      - operator
+      - result
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
       properties:
-        appName:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
           type: string
-          minLength: 1
-          example: My cool application.
-          description: The name of the application.
-        currentTime:
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
           type: string
-          format: date-time
-          example: '2022-07-05T12:56:41+02:00'
-          description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+        result:
+          description: Whether this was evaluated as true or false.
+          type: boolean
+    advancedPlaygroundFeatureSchema:
+      description: A simplified feature flag model intended for the Unleash playground.
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - projectId
+      - environments
+      properties:
+        name:
+          type: string
+          example: my-feature
+          description: The feature's name.
+        projectId:
+          type: string
+          example: my-project
+          description: The ID of the project that contains this feature.
+        environments:
+          type: object
+          description: The lists of features that have been evaluated grouped by environment.
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/advancedPlaygroundEnvironmentFeatureSchema'
+    playgroundSegmentSchema:
+      type: object
+      additionalProperties: false
+      description: The evaluated result of a segment as used by the Playground.
+      required:
+      - name
+      - id
+      - constraints
+      - result
+      properties:
+        id:
+          description: The segment's id.
+          type: integer
+        name:
+          description: The name of the segment.
+          example: segment A
+          type: string
+        result:
+          description: Whether this was evaluated as true or false.
+          type: boolean
+        constraints:
+          type: array
+          description: The list of constraints in this segment.
+          items:
+            $ref: '#/components/schemas/playgroundConstraintSchema'
+    advancedPlaygroundEnvironmentFeatureSchema:
+      description: A simplified feature flag model intended for the Unleash playground.
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - environment
+      - context
+      - projectId
+      - isEnabled
+      - isEnabledInCurrentEnvironment
+      - variant
+      - variants
+      - strategies
+      properties:
+        name:
+          type: string
+          example: my-feature
+          description: The feature's name.
         environment:
           type: string
-          deprecated: true
-          description: The environment the app is running in.
-        properties:
+          example: development
+          description: The feature's environment.
+        context:
+          description: The context to use when evaluating flags
+          $ref: '#/components/schemas/sdkFlatContextSchema'
+        projectId:
+          type: string
+          example: my-project
+          description: The ID of the project that contains this feature.
+        strategies:
           type: object
-          additionalProperties:
-            type: string
-          description: Additional Unleash context properties
+          additionalProperties: false
+          required:
+          - result
+          - data
+          description: Feature's applicable strategies and cumulative results of the strategies
+          properties:
+            result:
+              description: "The cumulative results of all the feature's strategies. Can be `true`,\n                                  `false`, or `unknown`.\n                                  This property will only be `unknown`\n                                  if one or more of the strategies can't be fully evaluated and the rest of the strategies\n                                  all resolve to `false`."
+              anyOf:
+              - type: boolean
+              - type: string
+                enum:
+                - unknown
+            data:
+              description: The strategies that apply to this feature.
+              type: array
+              items:
+                $ref: '#/components/schemas/playgroundStrategySchema'
+        isEnabledInCurrentEnvironment:
+          type: boolean
+          description: Whether the feature is active and would be evaluated in the provided environment in a normal SDK context.
+        isEnabled:
+          description: "Whether this feature is enabled or not in the current environment.\n                          If a feature can't be fully evaluated (that is, `strategies.result` is `unknown`),\n                          this will be `false` to align with how client SDKs treat unresolved feature states."
+          type: boolean
+          example: true
+        variant:
+          description: "The feature variant you receive based on the provided context or the _disabled\n                          variant_. If a feature is disabled or doesn't have any\n                          variants, you would get the _disabled variant_.\n                          Otherwise, you'll get one of the feature's defined variants."
+          type:
+          - object
+          - 'null'
+          additionalProperties: false
+          required:
+          - name
+          - enabled
+          properties:
+            name:
+              type: string
+              description: The variant's name. If there is no variant or if the flag is disabled, this will be `disabled`
+              example: red-variant
+            enabled:
+              type: boolean
+              description: Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
+            payload:
+              type: object
+              additionalProperties: false
+              required:
+              - type
+              - value
+              description: An optional payload attached to the variant.
+              properties:
+                type:
+                  description: The format of the payload.
+                  type: string
+                value:
+                  type: string
+                  description: The payload value stringified.
+                  example: '{"property": "value"}'
+            feature_enabled:
+              type: boolean
+              description: Whether the feature is enabled or not. If the feature is disabled, this property will be `false`
           example:
-            customContextField: this is one!
-            otherCustomField: '3'
-        remoteAddress:
+            name: green
+            enabled: true
+        variants:
+          type: array
+          description: The feature variants.
+          items:
+            $ref: '#/components/schemas/variantSchema'
+    playgroundFeatureSchema:
+      description: A simplified feature flag model intended for the Unleash playground.
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - projectId
+      - isEnabled
+      - isEnabledInCurrentEnvironment
+      - variant
+      - variants
+      - strategies
+      properties:
+        name:
           type: string
-          example: 192.168.1.1
-          description: The app's IP address
-        sessionId:
+          example: my-feature
+          description: The feature's name.
+        projectId:
           type: string
-          example: b65e7b23-fec0-4814-a129-0e9861ef18fc
-          description: An identifier for the current session
-        userId:
-          type: string
-          example: username@provider.com
-          description: An identifier for the current user
+          example: my-project
+          description: The ID of the project that contains this feature.
+        strategies:
+          type: object
+          additionalProperties: false
+          required:
+          - result
+          - data
+          description: The feature's applicable strategies and cumulative results of the strategies
+          properties:
+            result:
+              description: "The cumulative results of all the feature's strategies. Can be `true`,\n                                  `false`, or `unknown`.\n                                  This property will only be `unknown`\n                                  if one or more of the strategies can't be fully evaluated and the rest of the strategies\n                                  all resolve to `false`."
+              anyOf:
+              - type: boolean
+              - type: string
+                enum:
+                - unknown
+            data:
+              description: The strategies that apply to this feature.
+              type: array
+              items:
+                $ref: '#/components/schemas/playgroundStrategySchema'
+        hasUnsatisfiedDependency:
+          type: boolean
+          description: Whether the feature has a parent dependency that is not satisfied
+        isEnabledInCurrentEnvironment:
+          type: boolean
+          description: Whether the feature is active and would be evaluated in the provided environment in a normal SDK context.
+        isEnabled:
+          description: "Whether this feature is enabled or not in the current environment.\n                          If a feature can't be fully evaluated (that is, `strategies.result` is `unknown`),\n                          this will be `false` to align with how client SDKs treat unresolved feature states."
+          type: boolean
+          example: true
+        variant:
+          description: "The feature variant you receive based on the provided context or the _disabled\n                          variant_. If a feature is disabled or doesn't have any\n                          variants, you would get the _disabled variant_.\n                          Otherwise, you'll get one of thefeature's defined variants."
+          type:
+          - object
+          - 'null'
+          additionalProperties: false
+          required:
+          - name
+          - enabled
+          properties:
+            name:
+              type: string
+              description: The variant's name. If there is no variant or if the flag is disabled, this will be `disabled`
+              example: red-variant
+            enabled:
+              type: boolean
+              description: Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
+            payload:
+              type: object
+              additionalProperties: false
+              required:
+              - type
+              - value
+              description: An optional payload attached to the variant.
+              properties:
+                type:
+                  description: The format of the payload.
+                  type: string
+                value:
+                  type: string
+                  description: The payload value stringified.
+                  example: '{"property": "value"}'
+            feature_enabled:
+              type: boolean
+              description: Use `featureEnabled` instead.
+              example: true
+            featureEnabled:
+              deprecated: true
+              type: boolean
+              description: Whether the feature is enabled or not.
+              example: true
+          example:
+            name: green
+            enabled: true
+        variants:
+          type: array
+          description: The feature variants.
+          items:
+            $ref: '#/components/schemas/variantSchema'
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
     playgroundStrategySchema:
       type: object
       description: An evaluated feature flag strategy as used by the Playground
@@ -610,167 +806,6 @@ components:
             edit:
               type: string
               example: /projects/some-project/features/some-feature/strategies/edit?environmentId=some-env&strategyId= 3AECCF7E-FF82-4174-8287-8EBE06079A50
-    parametersSchema:
-      type: object
-      description: A list of parameters for a strategy
-      additionalProperties:
-        type: string
-    playgroundConstraintSchema:
-      additionalProperties: false
-      type: object
-      required:
-      - contextName
-      - operator
-      - result
-      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
-      properties:
-        contextName:
-          description: The name of the context field that this constraint should apply to.
-          example: appName
-          type: string
-        operator:
-          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
-          type: string
-          enum:
-          - NOT_IN
-          - IN
-          - STR_ENDS_WITH
-          - STR_STARTS_WITH
-          - STR_CONTAINS
-          - NUM_EQ
-          - NUM_GT
-          - NUM_GTE
-          - NUM_LT
-          - NUM_LTE
-          - DATE_AFTER
-          - DATE_BEFORE
-          - SEMVER_EQ
-          - SEMVER_GT
-          - SEMVER_LT
-          example: IN
-        caseInsensitive:
-          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
-          type: boolean
-          default: false
-        inverted:
-          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
-          type: boolean
-          default: false
-        values:
-          type: array
-          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
-          items:
-            type: string
-          example:
-          - my-app
-          - my-other-app
-        value:
-          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
-          type: string
-          example: my-app
-        result:
-          description: Whether this was evaluated as true or false.
-          type: boolean
-    playgroundFeatureSchema:
-      description: A simplified feature flag model intended for the Unleash playground.
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - projectId
-      - isEnabled
-      - isEnabledInCurrentEnvironment
-      - variant
-      - variants
-      - strategies
-      properties:
-        name:
-          type: string
-          example: my-feature
-          description: The feature's name.
-        projectId:
-          type: string
-          example: my-project
-          description: The ID of the project that contains this feature.
-        strategies:
-          type: object
-          additionalProperties: false
-          required:
-          - result
-          - data
-          description: The feature's applicable strategies and cumulative results of the strategies
-          properties:
-            result:
-              description: "The cumulative results of all the feature's strategies. Can be `true`,\n                                  `false`, or `unknown`.\n                                  This property will only be `unknown`\n                                  if one or more of the strategies can't be fully evaluated and the rest of the strategies\n                                  all resolve to `false`."
-              anyOf:
-              - type: boolean
-              - type: string
-                enum:
-                - unknown
-            data:
-              description: The strategies that apply to this feature.
-              type: array
-              items:
-                $ref: '#/components/schemas/playgroundStrategySchema'
-        hasUnsatisfiedDependency:
-          type: boolean
-          description: Whether the feature has a parent dependency that is not satisfied
-        isEnabledInCurrentEnvironment:
-          type: boolean
-          description: Whether the feature is active and would be evaluated in the provided environment in a normal SDK context.
-        isEnabled:
-          description: "Whether this feature is enabled or not in the current environment.\n                          If a feature can't be fully evaluated (that is, `strategies.result` is `unknown`),\n                          this will be `false` to align with how client SDKs treat unresolved feature states."
-          type: boolean
-          example: true
-        variant:
-          description: "The feature variant you receive based on the provided context or the _disabled\n                          variant_. If a feature is disabled or doesn't have any\n                          variants, you would get the _disabled variant_.\n                          Otherwise, you'll get one of thefeature's defined variants."
-          type:
-          - object
-          - 'null'
-          additionalProperties: false
-          required:
-          - name
-          - enabled
-          properties:
-            name:
-              type: string
-              description: The variant's name. If there is no variant or if the flag is disabled, this will be `disabled`
-              example: red-variant
-            enabled:
-              type: boolean
-              description: Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
-            payload:
-              type: object
-              additionalProperties: false
-              required:
-              - type
-              - value
-              description: An optional payload attached to the variant.
-              properties:
-                type:
-                  description: The format of the payload.
-                  type: string
-                value:
-                  type: string
-                  description: The payload value stringified.
-                  example: '{"property": "value"}'
-            feature_enabled:
-              type: boolean
-              description: Use `featureEnabled` instead.
-              example: true
-            featureEnabled:
-              deprecated: true
-              type: boolean
-              description: Whether the feature is enabled or not.
-              example: true
-          example:
-            name: green
-            enabled: true
-        variants:
-          type: array
-          description: The feature variants.
-          items:
-            $ref: '#/components/schemas/variantSchema'
     overrideSchema:
       type: object
       additionalProperties: false
@@ -791,132 +826,6 @@ components:
           example:
           - red
           - blue
-    playgroundRequestSchema:
-      description: Data for the playground API to evaluate feature flags
-      type: object
-      required:
-      - environment
-      - context
-      properties:
-        environment:
-          type: string
-          example: development
-          description: The environment to evaluate feature flags in.
-        projects:
-          description: A list of projects to check for feature flags in.
-          oneOf:
-          - type: array
-            items:
-              type: string
-            example:
-            - my-project
-            description: A list of projects to check for feature flags in.
-          - type: string
-            enum:
-            - '*'
-            description: Check feature flags in all projects.
-        context:
-          $ref: '#/components/schemas/sdkContextSchema'
-    advancedPlaygroundEnvironmentFeatureSchema:
-      description: A simplified feature flag model intended for the Unleash playground.
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - environment
-      - context
-      - projectId
-      - isEnabled
-      - isEnabledInCurrentEnvironment
-      - variant
-      - variants
-      - strategies
-      properties:
-        name:
-          type: string
-          example: my-feature
-          description: The feature's name.
-        environment:
-          type: string
-          example: development
-          description: The feature's environment.
-        context:
-          description: The context to use when evaluating flags
-          $ref: '#/components/schemas/sdkFlatContextSchema'
-        projectId:
-          type: string
-          example: my-project
-          description: The ID of the project that contains this feature.
-        strategies:
-          type: object
-          additionalProperties: false
-          required:
-          - result
-          - data
-          description: Feature's applicable strategies and cumulative results of the strategies
-          properties:
-            result:
-              description: "The cumulative results of all the feature's strategies. Can be `true`,\n                                  `false`, or `unknown`.\n                                  This property will only be `unknown`\n                                  if one or more of the strategies can't be fully evaluated and the rest of the strategies\n                                  all resolve to `false`."
-              anyOf:
-              - type: boolean
-              - type: string
-                enum:
-                - unknown
-            data:
-              description: The strategies that apply to this feature.
-              type: array
-              items:
-                $ref: '#/components/schemas/playgroundStrategySchema'
-        isEnabledInCurrentEnvironment:
-          type: boolean
-          description: Whether the feature is active and would be evaluated in the provided environment in a normal SDK context.
-        isEnabled:
-          description: "Whether this feature is enabled or not in the current environment.\n                          If a feature can't be fully evaluated (that is, `strategies.result` is `unknown`),\n                          this will be `false` to align with how client SDKs treat unresolved feature states."
-          type: boolean
-          example: true
-        variant:
-          description: "The feature variant you receive based on the provided context or the _disabled\n                          variant_. If a feature is disabled or doesn't have any\n                          variants, you would get the _disabled variant_.\n                          Otherwise, you'll get one of the feature's defined variants."
-          type:
-          - object
-          - 'null'
-          additionalProperties: false
-          required:
-          - name
-          - enabled
-          properties:
-            name:
-              type: string
-              description: The variant's name. If there is no variant or if the flag is disabled, this will be `disabled`
-              example: red-variant
-            enabled:
-              type: boolean
-              description: Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
-            payload:
-              type: object
-              additionalProperties: false
-              required:
-              - type
-              - value
-              description: An optional payload attached to the variant.
-              properties:
-                type:
-                  description: The format of the payload.
-                  type: string
-                value:
-                  type: string
-                  description: The payload value stringified.
-                  example: '{"property": "value"}'
-            feature_enabled:
-              type: boolean
-              description: Whether the feature is enabled or not. If the feature is disabled, this property will be `false`
-          example:
-            name: green
-            enabled: true
-        variants:
-          type: array
-          description: The feature variants.
-          items:
-            $ref: '#/components/schemas/variantSchema'
     changeRequestPlaygroundRequestSchema:
       description: Data for the playground API to evaluate flags with change request applied in preview mode
       type: object
@@ -925,6 +834,97 @@ components:
       properties:
         context:
           $ref: '#/components/schemas/sdkContextSchema'
+    advancedPlaygroundResponseSchema:
+      description: The state of all features given the provided input.
+      type: object
+      additionalProperties: false
+      required:
+      - features
+      - input
+      properties:
+        input:
+          description: The given input used to evaluate the features.
+          $ref: '#/components/schemas/advancedPlaygroundRequestSchema'
+        features:
+          type: array
+          description: The list of features that have been evaluated.
+          items:
+            $ref: '#/components/schemas/advancedPlaygroundFeatureSchema'
+        warnings:
+          type: object
+          description: Warnings that occurred during evaluation.
+          properties:
+            invalidContextProperties:
+              type: array
+              description: A list of top-level context properties that were provided as input that are not valid due to being the wrong type.
+              items:
+                type: string
+    advancedPlaygroundRequestSchema:
+      description: Data for the playground API to evaluate toggles in advanced mode with environment and context multi selection
+      type: object
+      required:
+      - environments
+      - context
+      properties:
+        environments:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            pattern: ^[a-zA-Z0-9~_.-]+$
+          minItems: 1
+          example:
+          - development
+          - production
+          description: The environments to evaluate toggles in.
+        projects:
+          description: A list of projects to check for toggles in.
+          oneOf:
+          - type: array
+            items:
+              type: string
+            example:
+            - my-project
+            description: A list of projects to check for toggles in.
+          - type: string
+            enum:
+            - '*'
+            description: Check toggles in all projects.
+        context:
+          $ref: '#/components/schemas/sdkContextSchema'
+    sdkFlatContextSchema:
+      description: The Unleash context with flattened properties
+      type: object
+      required:
+      - appName
+      additionalProperties: true
+      properties:
+        appName:
+          type: string
+          minLength: 1
+          example: My cool application.
+          description: The name of the application.
+        currentTime:
+          type: string
+          format: date-time
+          example: '2022-07-05T12:56:41+02:00'
+          description: A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user.
+        environment:
+          type: string
+          deprecated: true
+          description: The environment the app is running in.
+        remoteAddress:
+          type: string
+          example: 192.168.1.1
+          description: The app's IP address
+        sessionId:
+          type: string
+          example: b65e7b23-fec0-4814-a129-0e9861ef18fc
+          description: An identifier for the current session
+        userId:
+          type: string
+          example: username@provider.com
+          description: An identifier for the current user
   securitySchemes:
     apiKey:
       type: apiKey

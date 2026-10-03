@@ -586,36 +586,166 @@ paths:
                 type: string
 components:
   schemas:
-    applicationOverviewSchema:
+    featureEnvironmentMetricsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - environment
+      - timestamp
+      - 'yes'
+      - 'no'
+      description: How many times `feautreName` was evaluated to `true` (yes) and `false` (no) for `appName` in `environmnet`
+      properties:
+        featureName:
+          description: The name of the feature
+          type: string
+          example: my.special.feature
+        appName:
+          description: The name of the application the SDK is being used in
+          type: string
+          example: accounting
+        environment:
+          description: Which environment the SDK is being used in
+          type: string
+          example: development
+        timestamp:
+          description: The start of the time window these metrics are valid for. The window is usually 1 hour wide
+          example: '1926-05-08T12:00:00.000Z'
+          $ref: '#/components/schemas/dateSchema'
+        'yes':
+          description: How many times the toggle evaluated to true
+          type: integer
+          example: 974
+          minimum: 0
+        'no':
+          description: How many times the toggle evaluated to false
+          type: integer
+          example: 50
+          minimum: 0
+        variants:
+          description: How many times each variant was returned
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+          example:
+            variantA: 15
+            variantB: 25
+            variantC: 5
+    applicationsSchema:
+      additionalProperties: false
+      description: An object containing a list of applications that have connected to Unleash via an SDK.
+      required:
+      - total
+      - applications
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 50
+          description: The total number of project applications.
+        applications:
+          description: The list of applications that have connected to this Unleash instance.
+          type: array
+          items:
+            $ref: '#/components/schemas/applicationSchema'
+    applicationSchema:
       type: object
       description: Data about an application that's connected to Unleash via an SDK.
       additionalProperties: false
       required:
-      - projects
-      - featureCount
-      - environments
-      - issues
+      - appName
       properties:
-        projects:
-          description: The list of projects the application has been using.
+        appName:
+          description: Name of the application
+          type: string
+          example: accounting
+        sdkVersion:
+          description: Which SDK and version the application reporting uses. Typically represented as `<identifier>:<version>`
+          type: string
+          example: unleash-client-java:8.0.0
+        strategies:
+          description: Which [strategies](https://docs.getunleash.io/concepts#activation-strategies) the application has loaded. Useful when trying to figure out if your [custom strategy](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies) has been loaded in the SDK
           type: array
           items:
             type: string
           example:
-          - default
-          - payment
-        featureCount:
-          description: The number of features the application has been using.
-          type: number
-          example: 5
-        environments:
+          - standard
+          - gradualRollout
+          - mySpecialCustomStrategy
+        description:
+          description: Extra information added about the application reporting the metrics. Only present if added via the Unleash Admin interface
+          type: string
+          example: Application for reporting page visits
+        url:
+          description: A link to reference the application reporting the metrics. Could for instance be a GitHub link to the repository of the application
+          type: string
+          example: https://github.com/Unleash/unleash-proxy-client-js
+        color:
+          description: The CSS color that is used to color the application's entry in the application list
+          type: string
+          example: red
+        icon:
+          description: An URL to an icon file to be used for the applications's entry in the application list
+          type: string
+          example: https://github.com/favicon.ico
+        usage:
+          description: The list of projects the application has been using.
           type: array
-          description: The list of environments the application has been using.
           items:
-            $ref: '#/components/schemas/applicationOverviewEnvironmentSchema'
-        issues:
-          description: This list of issues that might be wrong with the application
-          $ref: '#/components/schemas/applicationOverviewIssuesSchema'
+            $ref: '#/components/schemas/applicationUsageSchema'
+    featureMetricsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - maturity
+      - data
+      description: A batch of feature metrics
+      properties:
+        version:
+          description: The version of this schema
+          type: integer
+          minimum: 1
+        maturity:
+          description: The maturity level of this API (alpha, beta, stable, deprecated)
+          type: string
+          example: stable
+        data:
+          description: Metrics gathered per environment
+          type: array
+          items:
+            $ref: '#/components/schemas/featureEnvironmentMetricsSchema'
+    dateSchema:
+      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
+      oneOf:
+      - type: string
+        format: date-time
+        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
+        example: '2023-07-27T11:23:44Z'
+      - type: integer
+        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
+        example: 1690449593
+    applicationUsageSchema:
+      type: object
+      description: Data about an project that have been used by applications.
+      additionalProperties: false
+      required:
+      - project
+      - environments
+      properties:
+        project:
+          description: Name of the project
+          type: string
+          example: main-project
+        environments:
+          description: Which environments have been accessed in this project.
+          type: array
+          items:
+            type: string
+          example:
+          - development
+          - production
     applicationEnvironmentInstancesSchema:
       type: object
       description: Data about an application environment instances that are connected to Unleash via an SDK.
@@ -653,6 +783,66 @@ components:
                 format: date-time
                 example: '2023-04-19T08:15:14.000Z'
                 description: The last time the application environment instance was seen
+    applicationOverviewIssuesSchema:
+      type: object
+      description: This list of issues that might be wrong with the application
+      additionalProperties: false
+      required:
+      - missingStrategies
+      properties:
+        missingStrategies:
+          type: array
+          items:
+            type: string
+          description: The list of strategies that are missing from Unleash
+          example:
+          - feature1
+          - feature2
+    requestsPerSecondSegmentedSchema:
+      type: object
+      description: Get usage metrics separated by client and admin paths
+      properties:
+        clientMetrics:
+          $ref: '#/components/schemas/requestsPerSecondSchema'
+        adminMetrics:
+          $ref: '#/components/schemas/requestsPerSecondSchema'
+    featureUsageSchema:
+      type: object
+      additionalProperties: false
+      description: How many applications have seen this feature flag, as well as how this feature was evaluated the last hour
+      required:
+      - version
+      - maturity
+      - featureName
+      - lastHourUsage
+      - seenApplications
+      properties:
+        version:
+          description: The version of this schema
+          type: integer
+          minimum: 1
+        maturity:
+          description: The maturity level of this API (alpha, beta, stable, deprecated)
+          type: string
+          example: stable
+        featureName:
+          description: The name of the feature
+          type: string
+          example: my.special.feature
+        lastHourUsage:
+          description: Last hour statistics. Accumulated per feature per environment. Contains counts for evaluations to true (yes) and to false (no)
+          type: array
+          items:
+            $ref: '#/components/schemas/featureEnvironmentMetricsSchema'
+        seenApplications:
+          description: A list of applications seen using this feature
+          type: array
+          items:
+            type: string
+          example:
+          - accounting
+          - billing
+          - booking
     applicationOverviewEnvironmentSchema:
       type: object
       description: Data about an application environment
@@ -706,96 +896,88 @@ components:
         issues:
           description: This list of issues that might be wrong with the application
           $ref: '#/components/schemas/applicationEnvironmentIssuesSchema'
-    requestsPerSecondSegmentedSchema:
+    applicationEnvironmentIssuesSchema:
       type: object
-      description: Get usage metrics separated by client and admin paths
-      properties:
-        clientMetrics:
-          $ref: '#/components/schemas/requestsPerSecondSchema'
-        adminMetrics:
-          $ref: '#/components/schemas/requestsPerSecondSchema'
-    featureUsageSchema:
-      type: object
+      description: This list of issues that might be wrong with the application
       additionalProperties: false
-      description: How many applications have seen this feature flag, as well as how this feature was evaluated the last hour
       required:
-      - version
-      - maturity
-      - featureName
-      - lastHourUsage
-      - seenApplications
+      - missingFeatures
+      - outdatedSdks
       properties:
-        version:
-          description: The version of this schema
-          type: integer
-          minimum: 1
-        maturity:
-          description: The maturity level of this API (alpha, beta, stable, deprecated)
-          type: string
-          example: stable
-        featureName:
-          description: The name of the feature
-          type: string
-          example: my.special.feature
-        lastHourUsage:
-          description: Last hour statistics. Accumulated per feature per environment. Contains counts for evaluations to true (yes) and to false (no)
-          type: array
-          items:
-            $ref: '#/components/schemas/featureEnvironmentMetricsSchema'
-        seenApplications:
-          description: A list of applications seen using this feature
+        missingFeatures:
           type: array
           items:
             type: string
+          description: The list of features that are missing in Unleash
           example:
-          - accounting
-          - billing
-          - booking
-    applicationUsageSchema:
+          - feature1
+          - feature2
+        outdatedSdks:
+          type: array
+          items:
+            type: string
+          description: The list of used SDKs that are outdated
+          example:
+          - unleash-client-node:5.4.0
+          - unleash-client-node:5.3.0
+    applicationOverviewSchema:
       type: object
-      description: Data about an project that have been used by applications.
+      description: Data about an application that's connected to Unleash via an SDK.
       additionalProperties: false
       required:
-      - project
+      - projects
+      - featureCount
       - environments
+      - issues
       properties:
-        project:
-          description: Name of the project
-          type: string
-          example: main-project
+        projects:
+          description: The list of projects the application has been using.
+          type: array
+          items:
+            type: string
+          example:
+          - default
+          - payment
+        featureCount:
+          description: The number of features the application has been using.
+          type: number
+          example: 5
         environments:
-          description: Which environments have been accessed in this project.
           type: array
+          description: The list of environments the application has been using.
           items:
-            type: string
-          example:
-          - development
-          - production
-    createApplicationSchema:
+            $ref: '#/components/schemas/applicationOverviewEnvironmentSchema'
+        issues:
+          description: This list of issues that might be wrong with the application
+          $ref: '#/components/schemas/applicationOverviewIssuesSchema'
+    outdatedSdksSchema:
       type: object
-      description: Reported application information from Unleash SDKs
+      description: Data about outdated SDKs that should be upgraded.
+      additionalProperties: false
+      required:
+      - sdks
       properties:
-        strategies:
-          description: Which [strategies](https://docs.getunleash.io/concepts#activation-strategies) the application has loaded. Useful when trying to figure out if your [custom strategy](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies) has been loaded in the SDK
+        sdks:
           type: array
+          description: A list of SDKs
           items:
-            type: string
-          example:
-          - standard
-          - gradualRollout
-          - mySpecialCustomStrategy
-        url:
-          description: A link to reference the application reporting the metrics. Could for instance be a GitHub link to the repository of the application
-          type: string
-          example: https://github.com/Unleash/unleash-proxy-client-js
-        color:
-          description: Css color to be used to color the application's entry in the application list
-          type: string
-          example: red
-        icon:
-          description: An URL to an icon file to be used for the applications's entry in the application list
-          type: string
-          example: https://github.com/favicon.ico
+            type: object
+            required:
+            - sdkVersion
+            - applications
+            additionalProperties: false
+            properties:
+              sdkVersion:
+                type: string
+                description: An outdated SDK version identifier. Usually formatted as "unleash-client-<language>:<version>"
+                example: unleash-client-java:7.0.0
+              applications:
+                type: array
+                items:
+                  description: Name of the application
+                  type: string
+                  example: accounting
+                description: A list of applications using the SDK version
     trafficUsageDataSegmentedCombinedSchema:
       type: object
       description: Contains the recorded data usage for each API path, segmented by day/month and type of traffic
@@ -878,21 +1060,10 @@ components:
                             example: 42
                             description: The number of requests
                       description: The recorded traffic types for the data point
-    applicationSchema:
+    createApplicationSchema:
       type: object
-      description: Data about an application that's connected to Unleash via an SDK.
-      additionalProperties: false
-      required:
-      - appName
+      description: Reported application information from Unleash SDKs
       properties:
-        appName:
-          description: Name of the application
-          type: string
-          example: accounting
-        sdkVersion:
-          description: Which SDK and version the application reporting uses. Typically represented as `<identifier>:<version>`
-          type: string
-          example: unleash-client-java:8.0.0
         strategies:
           description: Which [strategies](https://docs.getunleash.io/concepts#activation-strategies) the application has loaded. Useful when trying to figure out if your [custom strategy](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies) has been loaded in the SDK
           type: array
@@ -902,66 +1073,18 @@ components:
           - standard
           - gradualRollout
           - mySpecialCustomStrategy
-        description:
-          description: Extra information added about the application reporting the metrics. Only present if added via the Unleash Admin interface
-          type: string
-          example: Application for reporting page visits
         url:
           description: A link to reference the application reporting the metrics. Could for instance be a GitHub link to the repository of the application
           type: string
           example: https://github.com/Unleash/unleash-proxy-client-js
         color:
-          description: The CSS color that is used to color the application's entry in the application list
+          description: Css color to be used to color the application's entry in the application list
           type: string
           example: red
         icon:
           description: An URL to an icon file to be used for the applications's entry in the application list
           type: string
           example: https://github.com/favicon.ico
-        usage:
-          description: The list of projects the application has been using.
-          type: array
-          items:
-            $ref: '#/components/schemas/applicationUsageSchema'
-    applicationOverviewIssuesSchema:
-      type: object
-      description: This list of issues that might be wrong with the application
-      additionalProperties: false
-      required:
-      - missingStrategies
-      properties:
-        missingStrategies:
-          type: array
-          items:
-            type: string
-          description: The list of strategies that are missing from Unleash
-          example:
-          - feature1
-          - feature2
-    applicationEnvironmentIssuesSchema:
-      type: object
-      description: This list of issues that might be wrong with the application
-      additionalProperties: false
-      required:
-      - missingFeatures
-      - outdatedSdks
-      properties:
-        missingFeatures:
-          type: array
-          items:
-            type: string
-          description: The list of features that are missing in Unleash
-          example:
-          - feature1
-          - feature2
-        outdatedSdks:
-          type: array
-          items:
-            type: string
-          description: The list of used SDKs that are outdated
-          example:
-          - unleash-client-node:5.4.0
-          - unleash-client-node:5.3.0
     requestsPerSecondSchema:
       type: object
       description: Statistics for usage of Unleash, formatted so it can easily be used in a graph
@@ -1017,129 +1140,6 @@ components:
                           description: An identifier for the line in the graph
                         - type: number
                           description: The number of requests at this point in time
-    dateSchema:
-      description: A representation of a date. Either as a date-time string or as a UNIX timestamp.
-      oneOf:
-      - type: string
-        format: date-time
-        description: An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant timestamp.
-        example: '2023-07-27T11:23:44Z'
-      - type: integer
-        description: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time).
-        example: 1690449593
-    featureMetricsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - maturity
-      - data
-      description: A batch of feature metrics
-      properties:
-        version:
-          description: The version of this schema
-          type: integer
-          minimum: 1
-        maturity:
-          description: The maturity level of this API (alpha, beta, stable, deprecated)
-          type: string
-          example: stable
-        data:
-          description: Metrics gathered per environment
-          type: array
-          items:
-            $ref: '#/components/schemas/featureEnvironmentMetricsSchema'
-    outdatedSdksSchema:
-      type: object
-      description: Data about outdated SDKs that should be upgraded.
-      additionalProperties: false
-      required:
-      - sdks
-      properties:
-        sdks:
-          type: array
-          description: A list of SDKs
-          items:
-            type: object
-            required:
-            - sdkVersion
-            - applications
-            additionalProperties: false
-            properties:
-              sdkVersion:
-                type: string
-                description: An outdated SDK version identifier. Usually formatted as "unleash-client-<language>:<version>"
-                example: unleash-client-java:7.0.0
-              applications:
-                type: array
-                items:
-                  description: Name of the application
-                  type: string
-                  example: accounting
-                description: A list of applications using the SDK version
-    applicationsSchema:
-      additionalProperties: false
-      description: An object containing a list of applications that have connected to Unleash via an SDK.
-      required:
-      - total
-      - applications
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 50
-          description: The total number of project applications.
-        applications:
-          description: The list of applications that have connected to this Unleash instance.
-          type: array
-          items:
-            $ref: '#/components/schemas/applicationSchema'
-    featureEnvironmentMetricsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - environment
-      - timestamp
-      - 'yes'
-      - 'no'
-      description: How many times `feautreName` was evaluated to `true` (yes) and `false` (no) for `appName` in `environmnet`
-      properties:
-        featureName:
-          description: The name of the feature
-          type: string
-          example: my.special.feature
-        appName:
-          description: The name of the application the SDK is being used in
-          type: string
-          example: accounting
-        environment:
-          description: Which environment the SDK is being used in
-          type: string
-          example: development
-        timestamp:
-          description: The start of the time window these metrics are valid for. The window is usually 1 hour wide
-          example: '1926-05-08T12:00:00.000Z'
-          $ref: '#/components/schemas/dateSchema'
-        'yes':
-          description: How many times the toggle evaluated to true
-          type: integer
-          example: 974
-          minimum: 0
-        'no':
-          description: How many times the toggle evaluated to false
-          type: integer
-          example: 50
-          minimum: 0
-        variants:
-          description: How many times each variant was returned
-          type: object
-          additionalProperties:
-            type: integer
-            minimum: 0
-          example:
-            variantA: 15
-            variantB: 25
-            variantC: 5
   securitySchemes:
     apiKey:
       type: apiKey

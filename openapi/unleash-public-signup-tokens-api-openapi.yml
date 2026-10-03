@@ -353,6 +353,46 @@ paths:
           type: string
 components:
   schemas:
+    publicSignupTokensSchema:
+      type: object
+      description: A wrapper object containing all the public signup tokens
+      additionalProperties: false
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: array
+          description: An array of all the public signup tokens
+          example:
+          - secret: a3c84b25409ea8ca1782ef17f94a42fc
+            url: https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
+            name: Invite public viewers
+            enabled: false
+            expiresAt: '2023-04-12T11:13:31.960Z'
+            createdAt: '2023-04-12T11:13:31.960Z'
+            createdBy: someone
+            users: null
+            role:
+              id: 3
+              type: root
+              name: Viewer
+          items:
+            $ref: '#/components/schemas/publicSignupTokenSchema'
+    publicSignupTokenCreateSchema:
+      type: object
+      description: Used for creating a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
+      additionalProperties: false
+      required:
+      - name
+      - expiresAt
+      properties:
+        name:
+          description: The token's name.
+          type: string
+        expiresAt:
+          type: string
+          description: The token's expiration date.
+          format: date-time
     roleSchema:
       type: object
       description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
@@ -410,45 +450,6 @@ components:
           type: string
           description: The user's password
           example: hunter2
-    publicSignupTokensSchema:
-      type: object
-      description: A wrapper object containing all the public signup tokens
-      additionalProperties: false
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: array
-          description: An array of all the public signup tokens
-          example:
-          - secret: a3c84b25409ea8ca1782ef17f94a42fc
-            url: https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
-            name: Invite public viewers
-            enabled: false
-            expiresAt: '2023-04-12T11:13:31.960Z'
-            createdAt: '2023-04-12T11:13:31.960Z'
-            createdBy: someone
-            users: null
-            role:
-              id: 3
-              type: root
-              name: Viewer
-          items:
-            $ref: '#/components/schemas/publicSignupTokenSchema'
-    publicSignupTokenUpdateSchema:
-      description: Used by Unleash for updating a token's expiration date or, when deleting the invite link, it's status
-      type: object
-      additionalProperties: false
-      properties:
-        expiresAt:
-          type: string
-          description: The token's expiration date.
-          format: date-time
-          example: '2023-04-11T15:46:56Z'
-        enabled:
-          description: Whether the token is active or not.
-          type: boolean
-          example: true
     userSchema:
       type: object
       additionalProperties: false
@@ -544,21 +545,6 @@ components:
           description: Experimental. The number of deleted browser sessions after last login
           type: number
           example: 1
-    publicSignupTokenCreateSchema:
-      type: object
-      description: Used for creating a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
-      additionalProperties: false
-      required:
-      - name
-      - expiresAt
-      properties:
-        name:
-          description: The token's name.
-          type: string
-        expiresAt:
-          type: string
-          description: The token's expiration date.
-          format: date-time
     publicSignupTokenSchema:
       description: Used for transporting a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
       type: object
@@ -617,6 +603,20 @@ components:
         role:
           description: Users who sign up using this token will be given this role.
           $ref: '#/components/schemas/roleSchema'
+    publicSignupTokenUpdateSchema:
+      description: Used by Unleash for updating a token's expiration date or, when deleting the invite link, it's status
+      type: object
+      additionalProperties: false
+      properties:
+        expiresAt:
+          type: string
+          description: The token's expiration date.
+          format: date-time
+          example: '2023-04-11T15:46:56Z'
+        enabled:
+          description: Whether the token is active or not.
+          type: boolean
+          example: true
   securitySchemes:
     apiKey:
       type: apiKey

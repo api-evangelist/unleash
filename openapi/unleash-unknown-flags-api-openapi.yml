@@ -29,18 +29,6 @@ paths:
                 $ref: '#/components/schemas/unknownFlagsResponseSchema'
 components:
   schemas:
-    unknownFlagsResponseSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - unknownFlags
-      description: A list of unknown flag reports
-      properties:
-        unknownFlags:
-          description: The list of recently reported unknown flags.
-          type: array
-          items:
-            $ref: '#/components/schemas/unknownFlagSchema'
     unknownFlagSchema:
       type: object
       additionalProperties: false
@@ -98,6 +86,18 @@ components:
                       format: date-time
                       description: The date and time when the unknown flag was last seen in this environment.
                       example: '2023-10-01T12:00:00Z'
+    unknownFlagsResponseSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - unknownFlags
+      description: A list of unknown flag reports
+      properties:
+        unknownFlags:
+          description: The list of recently reported unknown flags.
+          type: array
+          items:
+            $ref: '#/components/schemas/unknownFlagSchema'
   securitySchemes:
     apiKey:
       type: apiKey

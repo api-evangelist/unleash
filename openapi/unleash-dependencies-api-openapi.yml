@@ -482,17 +482,9 @@ paths:
           type: string
 components:
   schemas:
-    dependenciesExistSchema:
-      type: boolean
-      description: '`true` when any dependencies exist, `false` when no dependencies exist.'
     parentFeatureOptionsSchema:
       type: array
       description: A list of parent feature names available for a given child feature. Features that have their own parents are excluded.
-      items:
-        type: string
-    parentVariantOptionsSchema:
-      type: array
-      description: A list of parent variant names available for a given parent feature. This list includes strategy variants and feature environment variants.
       items:
         type: string
     createDependentFeatureSchema:
@@ -517,6 +509,14 @@ components:
           example:
           - variantA
           - variantB
+    parentVariantOptionsSchema:
+      type: array
+      description: A list of parent variant names available for a given parent feature. This list includes strategy variants and feature environment variants.
+      items:
+        type: string
+    dependenciesExistSchema:
+      type: boolean
+      description: '`true` when any dependencies exist, `false` when no dependencies exist.'
   securitySchemes:
     apiKey:
       type: apiKey

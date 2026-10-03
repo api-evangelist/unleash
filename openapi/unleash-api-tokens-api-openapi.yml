@@ -341,6 +341,18 @@ paths:
           type: string
 components:
   schemas:
+    apiTokensSchema:
+      type: object
+      description: An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)
+      additionalProperties: false
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: array
+          description: A list of Unleash API tokens.
+          items:
+            $ref: '#/components/schemas/apiTokenSchema'
     updateApiTokenSchema:
       type: object
       required:
@@ -391,18 +403,6 @@ components:
             type: string
             description: The name of the token.
             example: token-64522
-    apiTokensSchema:
-      type: object
-      description: An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)
-      additionalProperties: false
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: array
-          description: A list of Unleash API tokens.
-          items:
-            $ref: '#/components/schemas/apiTokenSchema'
     apiTokenSchema:
       type: object
       additionalProperties: false
