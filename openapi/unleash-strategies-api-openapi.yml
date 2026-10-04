@@ -713,6 +713,82 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
+    contextFieldStrategiesSchema:
+      type: object
+      description: A wrapper object containing all strategies that use a specific context field
+      required:
+      - strategies
+      properties:
+        strategies:
+          type: array
+          description: List of strategies using the context field
+          items:
+            type: object
+            required:
+            - id
+            - featureName
+            - projectId
+            - environment
+            - strategyName
+            properties:
+              id:
+                type: string
+                example: 433ae8d9-dd69-4ad0-bc46-414aedbe9c55
+                description: The ID of the strategy.
+              featureName:
+                type: string
+                example: best-feature
+                description: The name of the feature that contains this strategy.
+              projectId:
+                type: string
+                description: The ID of the project that contains this feature.
+              environment:
+                type: string
+                description: The ID of the environment where this strategy is in.
+              strategyName:
+                type: string
+                description: The name of the strategy.
+    updateStrategySchema:
+      type: object
+      description: The data required to update a strategy type.
+      required:
+      - parameters
+      properties:
+        description:
+          type: string
+          description: A description of the strategy type.
+          example: Enable the feature for users who have not logged in before.
+        parameters:
+          type: array
+          description: The parameter list lets you pass arguments to your custom activation strategy. These will be made available to your custom strategy implementation.
+          items:
+            type: object
+            required:
+            - name
+            - type
+            properties:
+              name:
+                type: string
+                description: The name of the parameter
+                example: Rollout percentage
+              type:
+                type: string
+                description: The [type of the parameter](https://docs.getunleash.io/concepts/activation-strategies#parameters)
+                enum:
+                - string
+                - percentage
+                - list
+                - number
+                - boolean
+                example: percentage
+              description:
+                type: string
+                description: A description of this strategy parameter. Use this to indicate to the users what the parameter does.
+                example: How many percent of users should see this feature?
+              required:
+                type: boolean
+                description: Whether this parameter must be configured when using the strategy. Defaults to `false`
+                example: false
     strategySchema:
       description: The [activation strategy](https://docs.getunleash.io/concepts/activation-strategies) schema
       type: object
@@ -774,41 +850,6 @@ components:
               required:
                 type: boolean
                 example: true
-    contextFieldStrategiesSchema:
-      type: object
-      description: A wrapper object containing all strategies that use a specific context field
-      required:
-      - strategies
-      properties:
-        strategies:
-          type: array
-          description: List of strategies using the context field
-          items:
-            type: object
-            required:
-            - id
-            - featureName
-            - projectId
-            - environment
-            - strategyName
-            properties:
-              id:
-                type: string
-                example: 433ae8d9-dd69-4ad0-bc46-414aedbe9c55
-                description: The ID of the strategy.
-              featureName:
-                type: string
-                example: best-feature
-                description: The name of the feature that contains this strategy.
-              projectId:
-                type: string
-                description: The ID of the project that contains this feature.
-              environment:
-                type: string
-                description: The ID of the environment where this strategy is in.
-              strategyName:
-                type: string
-                description: The name of the strategy.
     createStrategySchema:
       type: object
       description: The data required to create a strategy type. Refer to the docs on [custom strategy types](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies) for more information.
@@ -867,25 +908,6 @@ components:
                 type: boolean
                 description: Whether this parameter must be configured when using the strategy. Defaults to `false`
                 example: false
-    strategiesSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - strategies
-      description: List of strategies
-      properties:
-        version:
-          type: integer
-          enum:
-          - 1
-          example: 1
-          description: Version of the strategies schema
-        strategies:
-          type: array
-          items:
-            $ref: '#/components/schemas/strategySchema'
-          description: List of strategies
     updateFeatureStrategySegmentsSchema:
       type: object
       required:
@@ -917,47 +939,25 @@ components:
           items:
             type: integer
             minimum: 0
-    updateStrategySchema:
+    strategiesSchema:
       type: object
-      description: The data required to update a strategy type.
+      additionalProperties: false
       required:
-      - parameters
+      - version
+      - strategies
+      description: List of strategies
       properties:
-        description:
-          type: string
-          description: A description of the strategy type.
-          example: Enable the feature for users who have not logged in before.
-        parameters:
+        version:
+          type: integer
+          enum:
+          - 1
+          example: 1
+          description: Version of the strategies schema
+        strategies:
           type: array
-          description: The parameter list lets you pass arguments to your custom activation strategy. These will be made available to your custom strategy implementation.
           items:
-            type: object
-            required:
-            - name
-            - type
-            properties:
-              name:
-                type: string
-                description: The name of the parameter
-                example: Rollout percentage
-              type:
-                type: string
-                description: The [type of the parameter](https://docs.getunleash.io/concepts/activation-strategies#parameters)
-                enum:
-                - string
-                - percentage
-                - list
-                - number
-                - boolean
-                example: percentage
-              description:
-                type: string
-                description: A description of this strategy parameter. Use this to indicate to the users what the parameter does.
-                example: How many percent of users should see this feature?
-              required:
-                type: boolean
-                description: Whether this parameter must be configured when using the strategy. Defaults to `false`
-                example: false
+            $ref: '#/components/schemas/strategySchema'
+          description: List of strategies
   securitySchemes:
     apiKey:
       type: apiKey

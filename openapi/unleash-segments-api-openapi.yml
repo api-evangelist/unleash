@@ -515,6 +515,87 @@ paths:
                 $ref: '#/components/schemas/segmentsSchema'
 components:
   schemas:
+    segmentsSchema:
+      description: Data containing a list of [segments](https://docs.getunleash.io/concepts/segments)
+      type: object
+      properties:
+        segments:
+          type: array
+          description: A list of segments
+          items:
+            $ref: '#/components/schemas/adminSegmentSchema'
+    adminSegmentSchema:
+      type: object
+      required:
+      - id
+      - name
+      - constraints
+      - createdAt
+      description: A description of a [segment](https://docs.getunleash.io/concepts/segments)
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          description: The ID of this segment
+          example: 2
+          minimum: 0
+        name:
+          type: string
+          description: The name of this segment
+          example: ios-users
+        description:
+          type:
+          - string
+          - 'null'
+          description: The description for this segment
+          example: IOS users segment
+        constraints:
+          type: array
+          description: The list of constraints that are used in this segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        usedInFeatures:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+          description: The number of feature flags that use this segment. The number also includes the any flags with pending change requests that would add this segment.
+          example: 3
+        usedInProjects:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+          description: The number of projects that use this segment. The number includes any projects with pending change requests that would add this segment.
+          example: 2
+        project:
+          type:
+          - string
+          - 'null'
+          example: red-vista
+          description: The project the segment belongs to. Only present if the segment is a project-specific segment.
+        createdBy:
+          description: The creator's email or username
+          example: someone@example.com
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+          description: When the segment was created
+          example: '2023-04-12T11:13:31.960Z'
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
     segmentStrategiesSchema:
       type: object
       required:
@@ -585,115 +666,6 @@ components:
                 type: string
                 description: The name of the strategy's type.
                 example: flexibleRollout
-    adminSegmentSchema:
-      type: object
-      required:
-      - id
-      - name
-      - constraints
-      - createdAt
-      description: A description of a [segment](https://docs.getunleash.io/concepts/segments)
-      additionalProperties: false
-      properties:
-        id:
-          type: integer
-          description: The ID of this segment
-          example: 2
-          minimum: 0
-        name:
-          type: string
-          description: The name of this segment
-          example: ios-users
-        description:
-          type:
-          - string
-          - 'null'
-          description: The description for this segment
-          example: IOS users segment
-        constraints:
-          type: array
-          description: The list of constraints that are used in this segment
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-        usedInFeatures:
-          type:
-          - integer
-          - 'null'
-          minimum: 0
-          description: The number of feature flags that use this segment. The number also includes the any flags with pending change requests that would add this segment.
-          example: 3
-        usedInProjects:
-          type:
-          - integer
-          - 'null'
-          minimum: 0
-          description: The number of projects that use this segment. The number includes any projects with pending change requests that would add this segment.
-          example: 2
-        project:
-          type:
-          - string
-          - 'null'
-          example: red-vista
-          description: The project the segment belongs to. Only present if the segment is a project-specific segment.
-        createdBy:
-          description: The creator's email or username
-          example: someone@example.com
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
-          description: When the segment was created
-          example: '2023-04-12T11:13:31.960Z'
-    segmentsSchema:
-      description: Data containing a list of [segments](https://docs.getunleash.io/concepts/segments)
-      type: object
-      properties:
-        segments:
-          type: array
-          description: A list of segments
-          items:
-            $ref: '#/components/schemas/adminSegmentSchema'
-    upsertSegmentSchema:
-      type: object
-      description: Data used to create or update a segment
-      required:
-      - name
-      - constraints
-      properties:
-        name:
-          description: The name of the segment
-          example: beta-users
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of what the segment is for
-          example: Users willing to help us test and build new features.
-        project:
-          type:
-          - string
-          - 'null'
-          description: The project the segment belongs to if any.
-          example: red-vista
-        constraints:
-          type: array
-          description: The list of constraints that make up this segment
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-    nameSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      description: An object with a name
-      properties:
-        name:
-          description: The name of the represented object.
-          example: betaUser
-          type: string
     constraintSchema:
       additionalProperties: false
       type: object
@@ -746,6 +718,34 @@ components:
           description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
           type: string
           example: my-app
+    upsertSegmentSchema:
+      type: object
+      description: Data used to create or update a segment
+      required:
+      - name
+      - constraints
+      properties:
+        name:
+          description: The name of the segment
+          example: beta-users
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of what the segment is for
+          example: Users willing to help us test and build new features.
+        project:
+          type:
+          - string
+          - 'null'
+          description: The project the segment belongs to if any.
+          example: red-vista
+        constraints:
+          type: array
+          description: The list of constraints that make up this segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
   securitySchemes:
     apiKey:
       type: apiKey

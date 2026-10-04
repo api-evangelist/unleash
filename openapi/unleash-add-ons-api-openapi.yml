@@ -506,6 +506,34 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
+    tagTypeSchema:
+      type: object
+      additionalProperties: false
+      description: A tag type.
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the tag type.
+          example: color
+        description:
+          type: string
+          description: The description of the tag type.
+          example: A tag type for describing the color of a tag.
+        icon:
+          type:
+          - string
+          - 'null'
+          description: The icon of the tag type.
+          example: not-really-used
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
     eventSchema:
       type: object
       additionalProperties: false
@@ -791,6 +819,263 @@ components:
           type: string
           description: The unique identifier for the transaction group this event belongs to, if applicable.
           example: 01HQVX5K8P9EXAMPLE123456
+    addonSchema:
+      type: object
+      description: An [addon](https://docs.getunleash.io/integrate) instance description. Contains data about what kind of provider it uses, whether it's enabled or not, what events it listens for, and more.
+      required:
+      - id
+      - description
+      - provider
+      - enabled
+      - parameters
+      - events
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          example: 27
+          description: The addon's unique identifier.
+        provider:
+          type: string
+          description: The addon provider, such as "webhook" or "slack".
+          example: webhook
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of the addon. `null` if no description exists.
+          example: This addon posts updates to our internal feature tracking system whenever a feature is created or updated.
+        enabled:
+          type: boolean
+          description: Whether the addon is enabled or not.
+        parameters:
+          type: object
+          additionalProperties: {}
+          example:
+            url: http://localhost:4242/webhook
+          description: Parameters for the addon provider. This object has different required and optional properties depending on the provider you choose.
+        events:
+          type: array
+          description: The event types that trigger this specific addon.
+          items:
+            type: string
+          example:
+          - feature-created
+          - feature-updated
+        projects:
+          type: array
+          description: The projects that this addon listens to events from. An empty list means it listens to events from **all** projects.
+          example:
+          - new-landing-project
+          - signups-v2
+          items:
+            type: string
+        environments:
+          type: array
+          description: The list of environments that this addon listens to events from. An empty list means it listens to events from **all** environments.
+          example:
+          - development
+          - production
+          items:
+            type: string
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    integrationEventSchema:
+      type: object
+      required:
+      - id
+      - integrationId
+      - createdAt
+      - state
+      - stateDetails
+      - event
+      - details
+      description: An object describing an integration event.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          pattern: ^[0-9]+$
+          description: The integration event's ID. Integration event IDs are incrementing integers. In other words, a more recently created integration event will always have a higher ID than an older one. This ID is represented as a string since it is a BigInt.
+          example: '7'
+        integrationId:
+          type: integer
+          description: The ID of the integration that the integration event belongs to.
+          example: 42
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time of when the integration event was created. In other words, the date and time of when the integration handled the event.
+          example: '2023-12-27T13:37:00+01:00'
+        state:
+          type: string
+          enum:
+          - success
+          - failed
+          - successWithErrors
+          description: The state of the integration event. Can be one of `success`, `failed` or `successWithErrors`.
+          example: failed
+        stateDetails:
+          type: string
+          description: Details about the state of the integration event.
+          example: 'Status code: 429 - Rate limit reached.'
+        event:
+          $ref: '#/components/schemas/eventSchema'
+          description: The event that triggered this integration event.
+        details:
+          type: object
+          x-enforcer-exception-skip-codes: WSCH006
+          description: Detailed information about the integration event. The contents vary depending on the type of integration and the specific details.
+          example:
+            message: '*user@yourcompany.com* created a new *slack-app* integration configuration'
+            channels:
+            - engineering
+            - unleash-updates
+    addonCreateUpdateSchema:
+      type: object
+      required:
+      - provider
+      - enabled
+      - parameters
+      - events
+      description: Data required to create or update an [Unleash addon](https://docs.getunleash.io/integrate) instance.
+      properties:
+        provider:
+          type: string
+          description: 'The addon provider, such as "webhook" or "slack". This string is **case sensitive** and maps to the provider''s `name` property.
+
+
+            The list of all supported providers and their parameters for a specific Unleash instance can be found by making a GET request to the `api/admin/addons` endpoint: the `providers` property of that response will contain all available providers.
+
+
+            The default set of providers can be found in the [addons reference documentation](https://docs.getunleash.io/integrate). The default supported options are:
+
+            - `datadog` for [Datadog](https://docs.getunleash.io/integrate/datadog)
+
+            - `slack` for [Slack](https://docs.getunleash.io/integrate/slack)
+
+            - `teams` for [Microsoft Teams](https://docs.getunleash.io/integrate/teams)
+
+            - `webhook` for [webhooks](https://docs.getunleash.io/integrate/webhook)
+
+
+            The provider you choose for your addon dictates what properties the `parameters` object needs. Refer to the documentation for each provider for more information.
+
+            '
+          example: webhook
+        description:
+          type: string
+          description: A description of the addon.
+          example: This addon posts updates to our internal feature tracking system whenever a feature is created or updated.
+        enabled:
+          type: boolean
+          description: Whether the addon should be enabled or not.
+        parameters:
+          type: object
+          additionalProperties: {}
+          example:
+            url: http://localhost:4242/webhook
+          description: Parameters for the addon provider. This object has different required and optional properties depending on the provider you choose. Consult the documentation for details.
+        events:
+          type: array
+          description: The event types that will trigger this specific addon.
+          items:
+            type: string
+          example:
+          - feature-created
+          - feature-updated
+        projects:
+          type: array
+          description: The projects that this addon will listen to events from. An empty list means it will listen to events from **all** projects.
+          example:
+          - new-landing-project
+          - signups-v2
+          items:
+            type: string
+        environments:
+          type: array
+          description: The list of environments that this addon will listen to events from. An empty list means it will listen to events from **all** environments.
+          example:
+          - development
+          - production
+          items:
+            type: string
+    addonParameterSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - displayName
+      - type
+      - required
+      - sensitive
+      description: An addon parameter definition.
+      properties:
+        name:
+          type: string
+          example: emojiIcon
+          description: The name of the parameter as it is used in code. References to this parameter should use this value.
+        displayName:
+          type: string
+          example: Emoji Icon
+          description: The name of the parameter as it is shown to the end user in the Admin UI.
+        type:
+          type: string
+          description: The type of the parameter. Corresponds roughly to [HTML `input` field types](https://developer.mozilla.org/docs/Web/HTML/Element/Input#input_types). Multi-line inut fields are indicated as `textfield` (equivalent to the HTML `textarea` tag).
+          example: text
+        description:
+          type: string
+          example: The emoji_icon to use when posting messages to slack. Defaults to ":unleash:".
+          description: A description of the parameter. This should explain to the end user what the parameter is used for.
+        placeholder:
+          type: string
+          example: ':unleash:'
+          description: The default value for this parameter. This value is used if no other value is provided.
+        required:
+          type: boolean
+          example: false
+          description: Whether this parameter is required or not. If a parameter is required, you must give it a value when you create the addon. If it is not required it can be left out. It may receive a default value in those cases.
+        sensitive:
+          type: boolean
+          example: false
+          description: Indicates whether this parameter is **sensitive** or not. Unleash will not return sensitive parameters to API requests. It will instead use a number of asterisks to indicate that a value is set, e.g. "******". The number of asterisks does not correlate to the parameter's value.
+    integrationEventsSchema:
+      description: A response model with a list of integration events.
+      type: object
+      additionalProperties: false
+      required:
+      - integrationEvents
+      properties:
+        integrationEvents:
+          type: array
+          description: A list of integration events.
+          items:
+            $ref: '#/components/schemas/integrationEventSchema'
     addonsSchema:
       type: object
       required:
@@ -984,181 +1269,6 @@ components:
               icon: D
           items:
             $ref: '#/components/schemas/addonTypeSchema'
-    integrationEventsSchema:
-      description: A response model with a list of integration events.
-      type: object
-      additionalProperties: false
-      required:
-      - integrationEvents
-      properties:
-        integrationEvents:
-          type: array
-          description: A list of integration events.
-          items:
-            $ref: '#/components/schemas/integrationEventSchema'
-    tagSchema:
-      type: object
-      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
-      additionalProperties: false
-      required:
-      - value
-      - type
-      properties:
-        value:
-          type: string
-          description: The value of the tag.
-          minLength: 2
-          maxLength: 50
-          example: a-tag-value
-        type:
-          type: string
-          minLength: 2
-          maxLength: 50
-          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
-          example: simple
-        color:
-          type:
-          - string
-          - 'null'
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-    addonCreateUpdateSchema:
-      type: object
-      required:
-      - provider
-      - enabled
-      - parameters
-      - events
-      description: Data required to create or update an [Unleash addon](https://docs.getunleash.io/integrate) instance.
-      properties:
-        provider:
-          type: string
-          description: 'The addon provider, such as "webhook" or "slack". This string is **case sensitive** and maps to the provider''s `name` property.
-
-
-            The list of all supported providers and their parameters for a specific Unleash instance can be found by making a GET request to the `api/admin/addons` endpoint: the `providers` property of that response will contain all available providers.
-
-
-            The default set of providers can be found in the [addons reference documentation](https://docs.getunleash.io/integrate). The default supported options are:
-
-            - `datadog` for [Datadog](https://docs.getunleash.io/integrate/datadog)
-
-            - `slack` for [Slack](https://docs.getunleash.io/integrate/slack)
-
-            - `teams` for [Microsoft Teams](https://docs.getunleash.io/integrate/teams)
-
-            - `webhook` for [webhooks](https://docs.getunleash.io/integrate/webhook)
-
-
-            The provider you choose for your addon dictates what properties the `parameters` object needs. Refer to the documentation for each provider for more information.
-
-            '
-          example: webhook
-        description:
-          type: string
-          description: A description of the addon.
-          example: This addon posts updates to our internal feature tracking system whenever a feature is created or updated.
-        enabled:
-          type: boolean
-          description: Whether the addon should be enabled or not.
-        parameters:
-          type: object
-          additionalProperties: {}
-          example:
-            url: http://localhost:4242/webhook
-          description: Parameters for the addon provider. This object has different required and optional properties depending on the provider you choose. Consult the documentation for details.
-        events:
-          type: array
-          description: The event types that will trigger this specific addon.
-          items:
-            type: string
-          example:
-          - feature-created
-          - feature-updated
-        projects:
-          type: array
-          description: The projects that this addon will listen to events from. An empty list means it will listen to events from **all** projects.
-          example:
-          - new-landing-project
-          - signups-v2
-          items:
-            type: string
-        environments:
-          type: array
-          description: The list of environments that this addon will listen to events from. An empty list means it will listen to events from **all** environments.
-          example:
-          - development
-          - production
-          items:
-            type: string
-    addonParameterSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - displayName
-      - type
-      - required
-      - sensitive
-      description: An addon parameter definition.
-      properties:
-        name:
-          type: string
-          example: emojiIcon
-          description: The name of the parameter as it is used in code. References to this parameter should use this value.
-        displayName:
-          type: string
-          example: Emoji Icon
-          description: The name of the parameter as it is shown to the end user in the Admin UI.
-        type:
-          type: string
-          description: The type of the parameter. Corresponds roughly to [HTML `input` field types](https://developer.mozilla.org/docs/Web/HTML/Element/Input#input_types). Multi-line inut fields are indicated as `textfield` (equivalent to the HTML `textarea` tag).
-          example: text
-        description:
-          type: string
-          example: The emoji_icon to use when posting messages to slack. Defaults to ":unleash:".
-          description: A description of the parameter. This should explain to the end user what the parameter is used for.
-        placeholder:
-          type: string
-          example: ':unleash:'
-          description: The default value for this parameter. This value is used if no other value is provided.
-        required:
-          type: boolean
-          example: false
-          description: Whether this parameter is required or not. If a parameter is required, you must give it a value when you create the addon. If it is not required it can be left out. It may receive a default value in those cases.
-        sensitive:
-          type: boolean
-          example: false
-          description: Indicates whether this parameter is **sensitive** or not. Unleash will not return sensitive parameters to API requests. It will instead use a number of asterisks to indicate that a value is set, e.g. "******". The number of asterisks does not correlate to the parameter's value.
-    tagTypeSchema:
-      type: object
-      additionalProperties: false
-      description: A tag type.
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name of the tag type.
-          example: color
-        description:
-          type: string
-          description: The description of the tag type.
-          example: A tag type for describing the color of a tag.
-        icon:
-          type:
-          - string
-          - 'null'
-          description: The icon of the tag type.
-          example: not-really-used
-        color:
-          type:
-          - string
-          - 'null'
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
     addonTypeSchema:
       type: object
       additionalProperties: false
@@ -1296,116 +1406,6 @@ components:
           type: string
           description: This should be used to inform the user that this addon type is deprecated and should not be used. Deprecated addons will show a badge with this information on the UI.
           example: This integration is deprecated. Please try the new integration instead.
-    integrationEventSchema:
-      type: object
-      required:
-      - id
-      - integrationId
-      - createdAt
-      - state
-      - stateDetails
-      - event
-      - details
-      description: An object describing an integration event.
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-          pattern: ^[0-9]+$
-          description: The integration event's ID. Integration event IDs are incrementing integers. In other words, a more recently created integration event will always have a higher ID than an older one. This ID is represented as a string since it is a BigInt.
-          example: '7'
-        integrationId:
-          type: integer
-          description: The ID of the integration that the integration event belongs to.
-          example: 42
-        createdAt:
-          type: string
-          format: date-time
-          description: The date and time of when the integration event was created. In other words, the date and time of when the integration handled the event.
-          example: '2023-12-27T13:37:00+01:00'
-        state:
-          type: string
-          enum:
-          - success
-          - failed
-          - successWithErrors
-          description: The state of the integration event. Can be one of `success`, `failed` or `successWithErrors`.
-          example: failed
-        stateDetails:
-          type: string
-          description: Details about the state of the integration event.
-          example: 'Status code: 429 - Rate limit reached.'
-        event:
-          $ref: '#/components/schemas/eventSchema'
-          description: The event that triggered this integration event.
-        details:
-          type: object
-          x-enforcer-exception-skip-codes: WSCH006
-          description: Detailed information about the integration event. The contents vary depending on the type of integration and the specific details.
-          example:
-            message: '*user@yourcompany.com* created a new *slack-app* integration configuration'
-            channels:
-            - engineering
-            - unleash-updates
-    addonSchema:
-      type: object
-      description: An [addon](https://docs.getunleash.io/integrate) instance description. Contains data about what kind of provider it uses, whether it's enabled or not, what events it listens for, and more.
-      required:
-      - id
-      - description
-      - provider
-      - enabled
-      - parameters
-      - events
-      properties:
-        id:
-          type: integer
-          minimum: 1
-          example: 27
-          description: The addon's unique identifier.
-        provider:
-          type: string
-          description: The addon provider, such as "webhook" or "slack".
-          example: webhook
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of the addon. `null` if no description exists.
-          example: This addon posts updates to our internal feature tracking system whenever a feature is created or updated.
-        enabled:
-          type: boolean
-          description: Whether the addon is enabled or not.
-        parameters:
-          type: object
-          additionalProperties: {}
-          example:
-            url: http://localhost:4242/webhook
-          description: Parameters for the addon provider. This object has different required and optional properties depending on the provider you choose.
-        events:
-          type: array
-          description: The event types that trigger this specific addon.
-          items:
-            type: string
-          example:
-          - feature-created
-          - feature-updated
-        projects:
-          type: array
-          description: The projects that this addon listens to events from. An empty list means it listens to events from **all** projects.
-          example:
-          - new-landing-project
-          - signups-v2
-          items:
-            type: string
-        environments:
-          type: array
-          description: The list of environments that this addon listens to events from. An empty list means it listens to events from **all** environments.
-          example:
-          - development
-          - production
-          items:
-            type: string
   securitySchemes:
     apiKey:
       type: apiKey

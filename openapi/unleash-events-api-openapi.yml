@@ -267,24 +267,34 @@ paths:
                 $ref: '#/components/schemas/eventSearchResponseSchema'
 components:
   schemas:
-    eventCreatorsSchema:
-      type: array
-      description: A list of event creators
-      items:
-        type: object
-        additionalProperties: false
-        required:
-        - id
-        - name
-        properties:
-          id:
-            type: integer
-            example: 50
-            description: The user id.
-          name:
-            description: Name of the user. If the user has no set name, the API falls back to using the user's username (if they have one) or email (if neither name or username is set).
-            type: string
-            example: User
+    featureEventsSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - events
+      description: One or more events happening to a specific feature flag
+      properties:
+        version:
+          type: integer
+          description: An API versioning number
+          minimum: 1
+          enum:
+          - 1
+          example: 1
+        toggleName:
+          description: The name of the feature flag these events relate to
+          type: string
+          example: my.first.feature.flag
+        events:
+          description: The list of events
+          type: array
+          items:
+            $ref: '#/components/schemas/eventSchema'
+        totalEvents:
+          description: How many events are there for this feature flag
+          type: integer
+          minimum: 0
+          example: 13
     eventSchema:
       type: object
       additionalProperties: false
@@ -570,34 +580,6 @@ components:
           type: string
           description: The unique identifier for the transaction group this event belongs to, if applicable.
           example: 01HQVX5K8P9EXAMPLE123456
-    featureEventsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - events
-      description: One or more events happening to a specific feature flag
-      properties:
-        version:
-          type: integer
-          description: An API versioning number
-          minimum: 1
-          enum:
-          - 1
-          example: 1
-        toggleName:
-          description: The name of the feature flag these events relate to
-          type: string
-          example: my.first.feature.flag
-        events:
-          description: The list of events
-          type: array
-          items:
-            $ref: '#/components/schemas/eventSchema'
-        totalEvents:
-          description: How many events are there for this feature flag
-          type: integer
-          minimum: 0
-          example: 13
     tagSchema:
       type: object
       description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
@@ -643,6 +625,24 @@ components:
           description: The total count of events
           minimum: 0
           example: 842
+    eventCreatorsSchema:
+      type: array
+      description: A list of event creators
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - name
+        properties:
+          id:
+            type: integer
+            example: 50
+            description: The user id.
+          name:
+            description: Name of the user. If the user has no set name, the API falls back to using the user's username (if they have one) or email (if neither name or username is set).
+            type: string
+            example: User
     eventsSchema:
       type: object
       additionalProperties: false

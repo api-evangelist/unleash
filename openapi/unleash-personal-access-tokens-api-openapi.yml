@@ -243,6 +243,22 @@ paths:
                     description: A description of what went wrong.
 components:
   schemas:
+    createPatSchema:
+      description: Describes the properties required to create a [personal access token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.
+      type: object
+      required:
+      - description
+      - expiresAt
+      properties:
+        description:
+          type: string
+          description: The PAT's description.
+          example: user:xyzrandomstring
+        expiresAt:
+          type: string
+          format: date-time
+          description: The PAT's expiration date.
+          example: '2023-04-19T08:15:14.000Z'
     patsSchema:
       type: object
       description: Contains a collection of [personal access tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens), or PATs. PATs are automatically scoped to the authenticated user.
@@ -286,22 +302,6 @@ components:
           type: integer
           description: The ID of the user this PAT belongs to.
           example: 1337
-        description:
-          type: string
-          description: The PAT's description.
-          example: user:xyzrandomstring
-        expiresAt:
-          type: string
-          format: date-time
-          description: The PAT's expiration date.
-          example: '2023-04-19T08:15:14.000Z'
-    createPatSchema:
-      description: Describes the properties required to create a [personal access token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.
-      type: object
-      required:
-      - description
-      - expiresAt
-      properties:
         description:
           type: string
           description: The PAT's description.

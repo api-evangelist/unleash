@@ -758,36 +758,23 @@ paths:
           type: string
 components:
   schemas:
-    cloneEnvironmentSchema:
+    environmentsSchema:
       type: object
+      additionalProperties: false
       required:
-      - name
-      - type
-      description: Data used to clone an environment.
+      - version
+      - environments
+      description: A versioned list of environments
       properties:
-        name:
-          type: string
-          example: development
-          description: The name of the new cloned environment, this cannot be changed later
-        type:
-          type: string
-          example: development
-          description: Updates the type of environment (i.e. development or production).
-        projects:
+        version:
+          type: integer
+          example: 1
+          description: Version of the environments schema
+        environments:
           type: array
-          description: A list of projects that should be included in the cloned environment.
           items:
-            type: string
-        clonePermissions:
-          type: boolean
-          description: Copies the RBAC permissions from the source environment if true. Defaults to true
-    sortOrderSchema:
-      type: object
-      description: A map of object IDs and their corresponding sort orders.
-      additionalProperties:
-        type: integer
-        description: Sort order for the object whose ID is the key used for this property.
-        example: 6
+            $ref: '#/components/schemas/environmentSchema'
+          description: List of environments
     environmentSchema:
       type: object
       additionalProperties: false
@@ -847,23 +834,90 @@ components:
           description: Experimental field. The number of approvals required before a change request can be applied in this environment.
           minimum: 1
           example: 3
-    updateEnvironmentSchema:
+    environmentsProjectSchema:
       type: object
-      description: Data used to update an [environment](https://docs.getunleash.io/concepts/environments).
+      additionalProperties: false
+      required:
+      - version
+      - environments
+      description: Environments defined for a given project
       properties:
-        type:
-          type: string
-          description: Updates the type of environment (i.e. development or production).
-        sortOrder:
+        version:
           type: integer
-          description: Changes the sort order of this environment.
-        requiredApprovals:
-          type:
-          - integer
-          - 'null'
-          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
-          minimum: 1
-          example: 3
+          example: 1
+          description: Version of the environments schema
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentProjectSchema'
+          description: List of environments
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
+    strategyVariantSchema:
+      type: object
+      additionalProperties: false
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+      required:
+      - name
+      - weight
+      - weightType
+      - stickiness
+      properties:
+        name:
+          type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
     environmentProjectSchema:
       type: object
       additionalProperties: false
@@ -919,23 +973,68 @@ components:
           description: Experimental field. The number of approvals required before a change request can be applied in this environment.
           minimum: 1
           example: 3
-    environmentsProjectSchema:
+    createEnvironmentSchema:
       type: object
-      additionalProperties: false
       required:
-      - version
-      - environments
-      description: Environments defined for a given project
+      - name
+      - type
+      description: Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)
       properties:
-        version:
+        name:
+          type: string
+          description: The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)
+          pattern: ^[a-zA-Z0-9~_.-]+$
+        type:
+          type: string
+          minLength: 1
+          description: 'The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
+
+            - `development`
+
+            - `test`
+
+            - `preproduction`
+
+            - `production`
+
+
+            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.'
+        enabled:
+          type: boolean
+          description: Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.
+        sortOrder:
           type: integer
-          example: 1
-          description: Version of the environments schema
-        environments:
+          description: Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.
+        requiredApprovals:
+          type:
+          - integer
+          - 'null'
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
+    cloneEnvironmentSchema:
+      type: object
+      required:
+      - name
+      - type
+      description: Data used to clone an environment.
+      properties:
+        name:
+          type: string
+          example: development
+          description: The name of the new cloned environment, this cannot be changed later
+        type:
+          type: string
+          example: development
+          description: Updates the type of environment (i.e. development or production).
+        projects:
           type: array
+          description: A list of projects that should be included in the cloned environment.
           items:
-            $ref: '#/components/schemas/environmentProjectSchema'
-          description: List of environments
+            type: string
+        clonePermissions:
+          type: boolean
+          description: Copies the RBAC permissions from the source environment if true. Defaults to true
     featureStrategySchema:
       description: A single activation strategy configuration schema for a feature
       type: object
@@ -991,129 +1090,6 @@ components:
             $ref: '#/components/schemas/strategyVariantSchema'
         parameters:
           $ref: '#/components/schemas/parametersSchema'
-    strategyVariantSchema:
-      type: object
-      additionalProperties: false
-      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
-      required:
-      - name
-      - weight
-      - weightType
-      - stickiness
-      properties:
-        name:
-          type: string
-          description: The variant name. Must be unique for this feature flag
-          example: blue_group
-        weight:
-          type: integer
-          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
-          type: string
-          example: fix
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
-    environmentsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - environments
-      description: A versioned list of environments
-      properties:
-        version:
-          type: integer
-          example: 1
-          description: Version of the environments schema
-        environments:
-          type: array
-          items:
-            $ref: '#/components/schemas/environmentSchema'
-          description: List of environments
-    parametersSchema:
-      type: object
-      description: A list of parameters for a strategy
-      additionalProperties:
-        type: string
-    nameSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      description: An object with a name
-      properties:
-        name:
-          description: The name of the represented object.
-          example: betaUser
-          type: string
-    createEnvironmentSchema:
-      type: object
-      required:
-      - name
-      - type
-      description: Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)
-      properties:
-        name:
-          type: string
-          description: The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)
-          pattern: ^[a-zA-Z0-9~_.-]+$
-        type:
-          type: string
-          minLength: 1
-          description: 'The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
-
-            - `development`
-
-            - `test`
-
-            - `preproduction`
-
-            - `production`
-
-
-            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.'
-        enabled:
-          type: boolean
-          description: Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.
-        sortOrder:
-          type: integer
-          description: Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.
-        requiredApprovals:
-          type:
-          - integer
-          - 'null'
-          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
-          minimum: 1
-          example: 3
     constraintSchema:
       additionalProperties: false
       type: object
@@ -1166,6 +1142,30 @@ components:
           description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
           type: string
           example: my-app
+    sortOrderSchema:
+      type: object
+      description: A map of object IDs and their corresponding sort orders.
+      additionalProperties:
+        type: integer
+        description: Sort order for the object whose ID is the key used for this property.
+        example: 6
+    updateEnvironmentSchema:
+      type: object
+      description: Data used to update an [environment](https://docs.getunleash.io/concepts/environments).
+      properties:
+        type:
+          type: string
+          description: Updates the type of environment (i.e. development or production).
+        sortOrder:
+          type: integer
+          description: Changes the sort order of this environment.
+        requiredApprovals:
+          type:
+          - integer
+          - 'null'
+          description: Experimental field. The number of approvals required before a change request can be applied in this environment.
+          minimum: 1
+          example: 3
   securitySchemes:
     apiKey:
       type: apiKey

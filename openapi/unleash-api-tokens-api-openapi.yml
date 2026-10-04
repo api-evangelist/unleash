@@ -341,6 +341,17 @@ paths:
           type: string
 components:
   schemas:
+    updateApiTokenSchema:
+      type: object
+      required:
+      - expiresAt
+      description: An object with fields to updated for a given API token.
+      properties:
+        expiresAt:
+          description: The new time when this token should expire.
+          example: '2023-09-04T11:26:24+02:00'
+          type: string
+          format: date-time
     apiTokensSchema:
       type: object
       description: An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)
@@ -353,17 +364,6 @@ components:
           description: A list of Unleash API tokens.
           items:
             $ref: '#/components/schemas/apiTokenSchema'
-    updateApiTokenSchema:
-      type: object
-      required:
-      - expiresAt
-      description: An object with fields to updated for a given API token.
-      properties:
-        expiresAt:
-          description: The new time when this token should expire.
-          example: '2023-09-04T11:26:24+02:00'
-          type: string
-          format: date-time
     createApiTokenSchema:
       type: object
       description: The data required to create an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).

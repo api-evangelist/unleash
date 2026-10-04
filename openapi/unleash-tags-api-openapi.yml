@@ -945,46 +945,48 @@ paths:
           type: string
 components:
   schemas:
-    tagTypesSchema:
+    tagTypeSchema:
       type: object
       additionalProperties: false
+      description: A tag type.
       required:
-      - version
-      - tagTypes
-      description: A list of tag types with a version number representing the schema used to model the tag types.
+      - name
       properties:
-        version:
-          type: integer
-          description: The version of the schema used to model the tag types.
-          example: 1
-        tagTypes:
-          type: array
-          description: The list of tag types.
-          items:
-            $ref: '#/components/schemas/tagTypeSchema'
-    createTagSchema:
-      type: object
-      description: Data used to create a new [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
-      additionalProperties: false
-      required:
-      - value
-      - type
-      properties:
-        value:
+        name:
           type: string
-          pattern: ^\s*\S.{0,48}\S\s*$
-          description: The value of the tag. The value must be between 2 and 50 characters long. Leading and trailing whitespace is ignored and will be trimmed before saving the tag value.
-          example: a-tag-value
-        type:
+          description: The name of the tag type.
+          example: color
+        description:
           type: string
-          minLength: 2
-          maxLength: 50
-          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
-          example: simple
+          description: The description of the tag type.
+          example: A tag type for describing the color of a tag.
+        icon:
+          type:
+          - string
+          - 'null'
+          description: The icon of the tag type.
+          example: not-really-used
         color:
           type:
           - string
           - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    updateTagTypeSchema:
+      type: object
+      description: The request body for updating a tag type.
+      properties:
+        description:
+          type: string
+          description: The description of the tag type.
+          example: A tag type for describing the color of a tag.
+        icon:
+          type: string
+          description: The icon of the tag type.
+          example: not-really-used
+        color:
+          type: string
           description: The hexadecimal color code for the tag type.
           example: '#FFFFFF'
           pattern: ^#[0-9A-Fa-f]{6}$
@@ -1015,53 +1017,6 @@ components:
           description: The hexadecimal color code for the tag type.
           example: '#FFFFFF'
           pattern: ^#[0-9A-Fa-f]{6}$
-    tagWithVersionSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - tag
-      description: A tag with a version number representing the schema used to model the tag.
-      properties:
-        version:
-          type: integer
-          description: The version of the schema used to model the tag.
-          example: 1
-        tag:
-          $ref: '#/components/schemas/tagSchema'
-    tagsSchema:
-      description: A list of tags with a version number
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - tags
-      properties:
-        version:
-          type: integer
-          description: The version of the schema used to model the tags.
-        tags:
-          type: array
-          description: A list of tags.
-          items:
-            $ref: '#/components/schemas/tagSchema'
-    updateTagTypeSchema:
-      type: object
-      description: The request body for updating a tag type.
-      properties:
-        description:
-          type: string
-          description: The description of the tag type.
-          example: A tag type for describing the color of a tag.
-        icon:
-          type: string
-          description: The icon of the tag type.
-          example: not-really-used
-        color:
-          type: string
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
     tagsBulkAddSchema:
       description: Represents tag changes to be applied to a list of features.
       type: object
@@ -1079,47 +1034,22 @@ components:
         tags:
           description: The tag changes to be applied to the features.
           $ref: '#/components/schemas/updateTagsSchema'
-    tagTypeSchema:
+    tagsSchema:
+      description: A list of tags with a version number
       type: object
       additionalProperties: false
-      description: A tag type.
       required:
-      - name
+      - version
+      - tags
       properties:
-        name:
-          type: string
-          description: The name of the tag type.
-          example: color
-        description:
-          type: string
-          description: The description of the tag type.
-          example: A tag type for describing the color of a tag.
-        icon:
-          type:
-          - string
-          - 'null'
-          description: The icon of the tag type.
-          example: not-really-used
-        color:
-          type:
-          - string
-          - 'null'
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-    validateTagTypeSchema:
-      type: object
-      required:
-      - valid
-      - tagType
-      description: The result of validating a tag type.
-      properties:
-        valid:
-          type: boolean
-          description: Whether or not the tag type is valid.
-          example: true
-        tagType:
-          $ref: '#/components/schemas/tagTypeSchema'
+        version:
+          type: integer
+          description: The version of the schema used to model the tags.
+        tags:
+          type: array
+          description: A list of tags.
+          items:
+            $ref: '#/components/schemas/tagSchema'
     updateTagsSchema:
       type: object
       description: Represents a set of changes to a feature's tags, such as adding or removing tags.
@@ -1145,6 +1075,76 @@ components:
         removedTags:
         - value: tag-to-remove
           type: simple
+    validateTagTypeSchema:
+      type: object
+      required:
+      - valid
+      - tagType
+      description: The result of validating a tag type.
+      properties:
+        valid:
+          type: boolean
+          description: Whether or not the tag type is valid.
+          example: true
+        tagType:
+          $ref: '#/components/schemas/tagTypeSchema'
+    createTagSchema:
+      type: object
+      description: Data used to create a new [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          pattern: ^\s*\S.{0,48}\S\s*$
+          description: The value of the tag. The value must be between 2 and 50 characters long. Leading and trailing whitespace is ignored and will be trimmed before saving the tag value.
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+    tagTypesSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - tagTypes
+      description: A list of tag types with a version number representing the schema used to model the tag types.
+      properties:
+        version:
+          type: integer
+          description: The version of the schema used to model the tag types.
+          example: 1
+        tagTypes:
+          type: array
+          description: The list of tag types.
+          items:
+            $ref: '#/components/schemas/tagTypeSchema'
+    tagWithVersionSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - tag
+      description: A tag with a version number representing the schema used to model the tag.
+      properties:
+        version:
+          type: integer
+          description: The version of the schema used to model the tag.
+          example: 1
+        tag:
+          $ref: '#/components/schemas/tagSchema'
   securitySchemes:
     apiKey:
       type: apiKey

@@ -353,78 +353,6 @@ paths:
           type: string
 components:
   schemas:
-    publicSignupTokensSchema:
-      type: object
-      description: A wrapper object containing all the public signup tokens
-      additionalProperties: false
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: array
-          description: An array of all the public signup tokens
-          example:
-          - secret: a3c84b25409ea8ca1782ef17f94a42fc
-            url: https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
-            name: Invite public viewers
-            enabled: false
-            expiresAt: '2023-04-12T11:13:31.960Z'
-            createdAt: '2023-04-12T11:13:31.960Z'
-            createdBy: someone
-            users: null
-            role:
-              id: 3
-              type: root
-              name: Viewer
-          items:
-            $ref: '#/components/schemas/publicSignupTokenSchema'
-    publicSignupTokenCreateSchema:
-      type: object
-      description: Used for creating a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
-      additionalProperties: false
-      required:
-      - name
-      - expiresAt
-      properties:
-        name:
-          description: The token's name.
-          type: string
-        expiresAt:
-          type: string
-          description: The token's expiration date.
-          format: date-time
-    roleSchema:
-      type: object
-      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
-      additionalProperties: false
-      required:
-      - id
-      - type
-      - name
-      properties:
-        id:
-          type: integer
-          description: The role id
-          example: 9
-          minimum: 0
-        type:
-          description: A role can either be a global root role (applies to all projects) or a project role
-          type: string
-          example: root
-        name:
-          description: The name of the role
-          type: string
-          example: Editor
-        description:
-          description: A more detailed description of the role and what use it's intended for
-          type: string
-          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
-        project:
-          description: What project the role belongs to
-          type:
-          - string
-          - 'null'
-          example: default
     createInvitedUserSchema:
       type: object
       additionalProperties: false
@@ -545,6 +473,67 @@ components:
           description: Experimental. The number of deleted browser sessions after last login
           type: number
           example: 1
+    publicSignupTokenUpdateSchema:
+      description: Used by Unleash for updating a token's expiration date or, when deleting the invite link, it's status
+      type: object
+      additionalProperties: false
+      properties:
+        expiresAt:
+          type: string
+          description: The token's expiration date.
+          format: date-time
+          example: '2023-04-11T15:46:56Z'
+        enabled:
+          description: Whether the token is active or not.
+          type: boolean
+          example: true
+    publicSignupTokenCreateSchema:
+      type: object
+      description: Used for creating a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
+      additionalProperties: false
+      required:
+      - name
+      - expiresAt
+      properties:
+        name:
+          description: The token's name.
+          type: string
+        expiresAt:
+          type: string
+          description: The token's expiration date.
+          format: date-time
+    roleSchema:
+      type: object
+      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - name
+      properties:
+        id:
+          type: integer
+          description: The role id
+          example: 9
+          minimum: 0
+        type:
+          description: A role can either be a global root role (applies to all projects) or a project role
+          type: string
+          example: root
+        name:
+          description: The name of the role
+          type: string
+          example: Editor
+        description:
+          description: A more detailed description of the role and what use it's intended for
+          type: string
+          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+        project:
+          description: What project the role belongs to
+          type:
+          - string
+          - 'null'
+          example: default
     publicSignupTokenSchema:
       description: Used for transporting a [public invite link](https://docs.getunleash.io/concepts/public-signup#public-sign-up-tokens)
       type: object
@@ -603,20 +592,31 @@ components:
         role:
           description: Users who sign up using this token will be given this role.
           $ref: '#/components/schemas/roleSchema'
-    publicSignupTokenUpdateSchema:
-      description: Used by Unleash for updating a token's expiration date or, when deleting the invite link, it's status
+    publicSignupTokensSchema:
       type: object
+      description: A wrapper object containing all the public signup tokens
       additionalProperties: false
+      required:
+      - tokens
       properties:
-        expiresAt:
-          type: string
-          description: The token's expiration date.
-          format: date-time
-          example: '2023-04-11T15:46:56Z'
-        enabled:
-          description: Whether the token is active or not.
-          type: boolean
-          example: true
+        tokens:
+          type: array
+          description: An array of all the public signup tokens
+          example:
+          - secret: a3c84b25409ea8ca1782ef17f94a42fc
+            url: https://my_unleash_instance/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
+            name: Invite public viewers
+            enabled: false
+            expiresAt: '2023-04-12T11:13:31.960Z'
+            createdAt: '2023-04-12T11:13:31.960Z'
+            createdBy: someone
+            users: null
+            role:
+              id: 3
+              type: root
+              name: Viewer
+          items:
+            $ref: '#/components/schemas/publicSignupTokenSchema'
   securitySchemes:
     apiKey:
       type: apiKey

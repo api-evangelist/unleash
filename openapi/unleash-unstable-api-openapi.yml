@@ -2648,6 +2648,515 @@ paths:
           type: string
 components:
   schemas:
+    licensedUsersSchema:
+      description: A response model representing user license data.
+      type: object
+      additionalProperties: false
+      required:
+      - licensedUsers
+      - seatCount
+      properties:
+        seatCount:
+          type: integer
+          minimum: 0
+          example: 25
+          description: The total number of licensed seats currently available for this Unleash instance.
+        licensedUsers:
+          type: object
+          required:
+          - history
+          - current
+          description: An object containing historical and current licensed user data.
+          properties:
+            history:
+              type: array
+              description: A monthly history of licensed user counts.
+              items:
+                $ref: '#/components/schemas/licensedUserSchema'
+            current:
+              description: The current number of licenses in use.
+              type: integer
+              minimum: 0
+              example: 25
+    provideFeedbackSchema:
+      additionalProperties: false
+      description: Schema representing the creation of feedback information.
+      type: object
+      required:
+      - category
+      properties:
+        category:
+          type: string
+          example: UI/UX
+          description: The category of the feedback.
+        userType:
+          type:
+          - string
+          - 'null'
+          example: developer
+          description: The type of user providing the feedback.
+        difficultyScore:
+          type:
+          - number
+          - 'null'
+          example: 5
+          description: A score indicating the difficulty experienced by the user.
+        positive:
+          type:
+          - string
+          - 'null'
+          example: Easy to navigate.
+          description: This field is for users to mention what they liked.
+        areasForImprovement:
+          type:
+          - string
+          - 'null'
+          example: Slow response time.
+          description: Details aspects of the service or product that could benefit from enhancements or modifications. Aids in pinpointing areas needing attention for improvement.
+    meteredConnectionsSchema:
+      type: object
+      description: Contains the recorded metered groups connections segmented by day/month
+      required:
+      - dateRange
+      - apiData
+      - grouping
+      additionalProperties: false
+      properties:
+        grouping:
+          type: string
+          enum:
+          - monthly
+          - daily
+          description: Whether the data is aggregated by month or by day.
+          example: monthly
+        dateRange:
+          type: object
+          required:
+          - from
+          - to
+          additionalProperties: false
+          description: The date range there is data for. The range is inclusive and goes from the start of the `from` date to the end of the `to` date
+          properties:
+            from:
+              type: string
+              format: date
+              example: '2023-04-01'
+              description: The start of the dateRange
+            to:
+              type: string
+              format: date
+              example: '2023-04-30'
+              description: The end of the dateRange
+        apiData:
+          type: array
+          description: Contains the recorded daily/monthly connections for each metered group
+          items:
+            type: object
+            required:
+            - meteredGroup
+            - dataPoints
+            additionalProperties: false
+            properties:
+              meteredGroup:
+                type: string
+                example: default
+                description: The metered group representing charging unit in the organization using Unleash
+              dataPoints:
+                type: array
+                description: The recorded data points for the metered group
+                items:
+                  type: object
+                  required:
+                  - period
+                  - connections
+                  additionalProperties: false
+                  properties:
+                    period:
+                      type: string
+                      pattern: ^\d{4}-\d{2}(-\d{2})?$
+                      example: '2023-04-01'
+                      description: The date of the data point. Formatted as a full date (e.g. 2023-04-01) if the data is aggregated by day or as a month (e.g. 2023-04) if the data is aggregated by month.
+                    connections:
+                      type: number
+                      minimum: 0
+                      example: 10.5
+                      description: Number of connections. 1 connection = 7200 backend SDK requests per day
+    createImpactMetricsConfigSchema:
+      type: object
+      required:
+      - metricName
+      - timeRange
+      - yAxisMin
+      - aggregationMode
+      - labelSelectors
+      description: Describes the configuration for a single impact metric chart.
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+          description: The unique ULID identifier for this impact metric configuration. Generated automatically if not provided.
+          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
+        metricName:
+          type: string
+          description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+          example: unleash_counter_feature_toggle_usage_total
+        timeRange:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          description: The time range for the metric data.
+          example: day
+        yAxisMin:
+          type: string
+          enum:
+          - auto
+          - zero
+          description: Whether the chart should begin at zero on the y-axis.
+          example: auto
+        aggregationMode:
+          type: string
+          description: The aggregation mode for the metric data.
+          enum:
+          - rps
+          - count
+          - avg
+          - sum
+          - p95
+          - p99
+          - p50
+          example: rps
+        labelSelectors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: The selected labels and their values for filtering the metric data.
+          example:
+            environment:
+            - development
+            project:
+            - default
+        title:
+          type: string
+          description: Optional title for the impact metric chart.
+          example: Feature Toggle Usage
+    meteredRequestsSchema:
+      type: object
+      description: Contains the recorded metered groups requests segmented by day/month
+      required:
+      - dateRange
+      - apiData
+      - grouping
+      additionalProperties: false
+      properties:
+        grouping:
+          type: string
+          enum:
+          - monthly
+          - daily
+          description: Whether the data is aggregated by month or by day.
+          example: monthly
+        dateRange:
+          type: object
+          required:
+          - from
+          - to
+          additionalProperties: false
+          description: The date range there is data for. The range is inclusive and goes from the start of the `from` date to the end of the `to` date
+          properties:
+            from:
+              type: string
+              format: date
+              example: '2023-04-01'
+              description: The start of the dateRange
+            to:
+              type: string
+              format: date
+              example: '2023-04-30'
+              description: The end of the dateRange
+        apiData:
+          type: array
+          description: Contains the recorded daily/monthly requests for each metered group
+          items:
+            type: object
+            required:
+            - meteredGroup
+            - dataPoints
+            additionalProperties: false
+            properties:
+              meteredGroup:
+                type: string
+                example: default
+                description: The metered group representing charging unit in the organization using Unleash
+              dataPoints:
+                type: array
+                description: The recorded data points for the metered group
+                items:
+                  type: object
+                  required:
+                  - period
+                  - requests
+                  additionalProperties: false
+                  properties:
+                    period:
+                      type: string
+                      pattern: ^\d{4}-\d{2}(-\d{2})?$
+                      example: '2023-04-01'
+                      description: The date of the data point. Formatted as a full date (e.g. 2023-04-01) if the data is aggregated by day or as a month (e.g. 2023-04) if the data is aggregated by month.
+                    requests:
+                      type: number
+                      minimum: 0
+                      example: 1200
+                      description: Number of requests
+    featureStrategySchema:
+      description: A single activation strategy configuration schema for a feature
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      properties:
+        id:
+          type: string
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        name:
+          type: string
+          description: The name or type of strategy
+          example: flexibleRollout
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
+          example: false
+        featureName:
+          type: string
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+        sortOrder:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        segments:
+          type: array
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+        constraints:
+          type: array
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/strategyVariantSchema'
+        parameters:
+          $ref: '#/components/schemas/parametersSchema'
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
+    clientFeaturesDeltaSchema:
+      type: object
+      required:
+      - events
+      description: Schema for delta updates of feature configurations.
+      properties:
+        events:
+          description: A list of delta events.
+          type: array
+          items:
+            type: object
+            anyOf:
+            - type: object
+              required:
+              - eventId
+              - type
+              - feature
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - feature-updated
+                feature:
+                  $ref: '#/components/schemas/clientFeatureSchema'
+            - type: object
+              required:
+              - eventId
+              - type
+              - featureName
+              - project
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - feature-removed
+                featureName:
+                  type: string
+                project:
+                  type: string
+            - type: object
+              required:
+              - eventId
+              - type
+              - segment
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - segment-updated
+                segment:
+                  $ref: '#/components/schemas/clientSegmentSchema'
+            - type: object
+              required:
+              - eventId
+              - type
+              - segmentId
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - segment-removed
+                segmentId:
+                  type: number
+            - type: object
+              required:
+              - type
+              - features
+              - segments
+              - eventId
+              properties:
+                eventId:
+                  type: number
+                type:
+                  type: string
+                  enum:
+                  - hydration
+                features:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/clientFeatureSchema'
+                segments:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/clientSegmentSchema'
+    setScimSettingsSchema:
+      type: object
+      required:
+      - enabled
+      description: An object describing settings for SCIM provisioning.
+      properties:
+        enabled:
+          type: boolean
+          description: Whether SCIM provisioning is currently enabled.
+          example: true
+    plausibleMetricsResponseSchema:
+      type: object
+      required:
+      - data
+      description: Response containing Plausible analytics data for favorite events.
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          description: Array of analytics data points
+          items:
+            type: object
+            required:
+            - count
+            - date
+            additionalProperties: false
+            properties:
+              count:
+                type: number
+                description: Number of events for this time period
+                example: 1
+              date:
+                type: string
+                description: Date and time of the event (hourly granularity)
+                example: '2025-10-15 06:00:00'
+    scimTokenSchema:
+      type: object
+      required:
+      - token
+      description: An object describing a SCIM provisioning API token.
+      additionalProperties: false
+      properties:
+        token:
+          type: string
+          description: The token used for SCIM API authentication. Can be revoked at a later stage by generating a new one.
+          example: xyzrandomstring
     personalDashboardProjectDetailsSchema:
       type: object
       description: Project details in personal dashboard
@@ -2865,817 +3374,87 @@ components:
                 - project
                 example: project
                 description: The type of the role
-    featureLinkSchema:
+    featureLifecycleSchema:
+      type: array
+      description: A list of lifecycle stages for a given feature
+      items:
+        additionalProperties: false
+        type: object
+        required:
+        - stage
+        - enteredStageAt
+        properties:
+          stage:
+            type: string
+            enum:
+            - initial
+            - pre-live
+            - live
+            - completed
+            - archived
+            example: initial
+            description: The name of the lifecycle stage that got recorded for a given feature
+          status:
+            type: string
+            example: kept
+            description: The name of the detailed status of a given stage. E.g. completed stage can be kept or discarded.
+          enteredStageAt:
+            type: string
+            format: date-time
+            example: '2023-01-28T16:21:39.975Z'
+            description: The date when the feature entered a given stage
+        description: The lifecycle stage of the feature
+    strategyVariantSchema:
       type: object
-      required:
-      - url
-      properties:
-        url:
-          type: string
-          example: https://github.com/search?q=cleanupReminder&type=code
-          description: The URL the feature is linked to
-        title:
-          type:
-          - string
-          - 'null'
-          example: Github cleanup
-          description: The description of the link
-      description: The link to any URL related to the feature
-    setScimSettingsSchema:
-      type: object
-      required:
-      - enabled
-      description: An object describing settings for SCIM provisioning.
-      properties:
-        enabled:
-          type: boolean
-          description: Whether SCIM provisioning is currently enabled.
-          example: true
-    cdnApiTokensSchema:
-      description: List of CDN tokens.
-      type: object
-      properties:
-        tokens:
-          type: array
-          description: List of tokens for CDN
-          items:
-            $ref: '#/components/schemas/cdnApiTokenSchema'
-    impactMetricsConfigSchema:
-      type: object
-      required:
-      - metricName
-      - timeRange
-      - yAxisMin
-      - aggregationMode
-      - labelSelectors
-      - type
-      - displayName
-      - id
-      description: Describes the configuration for a single impact metric chart.
       additionalProperties: false
-      properties:
-        id:
-          type: string
-          description: The unique ULID identifier for this impact metric configuration. Generated automatically if not provided.
-          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
-        metricName:
-          type: string
-          description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
-          example: unleash_counter_feature_toggle_usage_total
-        timeRange:
-          type: string
-          enum:
-          - hour
-          - day
-          - week
-          - month
-          description: The time range for the metric data.
-          example: day
-        aggregationMode:
-          type: string
-          description: The aggregation mode for the metric data.
-          enum:
-          - rps
-          - count
-          - avg
-          - sum
-          - p95
-          - p99
-          - p50
-          example: rps
-        labelSelectors:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-          description: The selected labels and their values for filtering the metric data.
-          example:
-            environment:
-            - development
-            project:
-            - default
-        type:
-          type: string
-          description: The type of metric
-          enum:
-          - counter
-          - gauge
-          - histogram
-          - unknown
-          example: counter
-        displayName:
-          type: string
-          description: The human readable display name of the impact metric
-          example: feature_toggle_usage_total
-        yAxisMin:
-          type: string
-          enum:
-          - auto
-          - zero
-          description: Whether the chart should begin at zero on the y-axis.
-          example: auto
-        step:
-          type:
-          - string
-          - 'null'
-          enum:
-          - 1m
-          - 15m
-          - 3h
-          - 1d
-          description: The step interval for querying metrics data. This is automatically calculated from the timeRange and stored when the metric is created or updated.
-          example: 15m
-        title:
-          type: string
-          description: Optional title for the impact metric chart.
-          example: Feature Toggle Usage
-        mode:
-          type: string
-          enum:
-          - read
-          - write
-          description: 'The access mode for this impact metric configuration: "read" when referenced by a safeguard, "write" otherwise.'
-          example: write
-    safeguardTriggerConditionSchema:
-      type: object
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
       required:
-      - operator
-      - threshold
-      additionalProperties: false
-      description: The condition that triggers the safeguard.
+      - name
+      - weight
+      - weightType
+      - stickiness
       properties:
-        operator:
+        name:
           type: string
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
+          type: string
+          example: fix
           enum:
-          - '>'
-          - <
-          description: The comparison operator for the threshold check.
-          example: '>'
-        threshold:
-          type: number
-          description: The threshold value to compare against.
-          example: 100
-    userAccessOverviewSchema:
-      type: object
-      required:
-      - overview
-      - user
-      - rootRole
-      - projectRoles
-      additionalProperties: false
-      description: Describes the access overview (list of permissions and metadata) for a user.
-      properties:
-        overview:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
           type: object
           required:
-          - root
-          - project
-          - environment
-          additionalProperties: false
-          description: The access overview (list of permissions) for the user
+          - type
+          - value
+          description: Extra data configured for this variant
           properties:
-            root:
-              type: array
-              description: The list of root permissions
-              items:
-                type: object
-                required:
-                - id
-                - name
-                - displayName
-                - type
-                - hasPermission
-                additionalProperties: false
-                properties:
-                  id:
-                    type: integer
-                    description: The ID of the permission
-                    example: 1
-                  name:
-                    type: string
-                    description: The name of the permission
-                    example: CREATE_FEATURE_STRATEGY
-                  displayName:
-                    type: string
-                    description: The display name of the permission
-                    example: Create activation strategies
-                  type:
-                    type: string
-                    description: The type of the permission
-                    example: environment
-                  environment:
-                    type:
-                    - string
-                    - 'null'
-                    description: The environment that the permission applies to
-                    example: dev
-                  hasPermission:
-                    type: boolean
-                    description: Whether the user has this permission
-                    example: true
-            project:
-              type: array
-              description: The list of project permissions
-              items:
-                type: object
-                required:
-                - id
-                - name
-                - displayName
-                - type
-                - hasPermission
-                additionalProperties: false
-                properties:
-                  id:
-                    type: integer
-                    description: The ID of the permission
-                    example: 1
-                  name:
-                    type: string
-                    description: The name of the permission
-                    example: CREATE_FEATURE_STRATEGY
-                  displayName:
-                    type: string
-                    description: The display name of the permission
-                    example: Create activation strategies
-                  type:
-                    type: string
-                    description: The type of the permission
-                    example: environment
-                  environment:
-                    type:
-                    - string
-                    - 'null'
-                    description: The environment that the permission applies to
-                    example: dev
-                  hasPermission:
-                    type: boolean
-                    description: Whether the user has this permission
-                    example: true
-            environment:
-              type: array
-              description: The list of environment permissions
-              items:
-                type: object
-                required:
-                - id
-                - name
-                - displayName
-                - type
-                - hasPermission
-                additionalProperties: false
-                properties:
-                  id:
-                    type: integer
-                    description: The ID of the permission
-                    example: 1
-                  name:
-                    type: string
-                    description: The name of the permission
-                    example: CREATE_FEATURE_STRATEGY
-                  displayName:
-                    type: string
-                    description: The display name of the permission
-                    example: Create activation strategies
-                  type:
-                    type: string
-                    description: The type of the permission
-                    example: environment
-                  environment:
-                    type:
-                    - string
-                    - 'null'
-                    description: The environment that the permission applies to
-                    example: dev
-                  hasPermission:
-                    type: boolean
-                    description: Whether the user has this permission
-                    example: true
-        user:
-          description: The user that this access overview is for
-          $ref: '#/components/schemas/userSchema'
-        rootRole:
-          description: The name of the root role that this user has
-          $ref: '#/components/schemas/roleSchema'
-        projectRoles:
-          type: array
-          description: The list of project roles that this user has in the selected project
-          items:
-            type: object
-            required:
-            - id
-            - type
-            - name
-            - permissions
-            additionalProperties: false
-            properties:
-              id:
-                type: integer
-                description: The role id
-                example: 9
-                minimum: 0
-              type:
-                description: A role can either be a global root role (applies to all projects) or a project role
-                type: string
-                example: root
-              name:
-                description: The name of the role
-                type: string
-                example: Editor
-              description:
-                description: A more detailed description of the role and what use it's intended for
-                type: string
-                example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
-              project:
-                description: What project the role belongs to
-                type:
-                - string
-                - 'null'
-                example: default
-              permissions:
-                type: array
-                description: The permissions that this role has
-                items:
-                  type: object
-                  required:
-                  - id
-                  - name
-                  - displayName
-                  - type
-                  additionalProperties: false
-                  properties:
-                    id:
-                      type: integer
-                      description: The ID of the permission
-                      example: 1
-                    name:
-                      type: string
-                      description: The name of the permission
-                      example: CREATE_FEATURE_STRATEGY
-                    displayName:
-                      type: string
-                      description: The display name of the permission
-                      example: Create activation strategies
-                    type:
-                      type: string
-                      description: The type of the permission
-                      example: environment
-                    environment:
-                      type:
-                      - string
-                      - 'null'
-                      description: The environment that the permission applies to
-                      example: dev
-    provideFeedbackSchema:
-      additionalProperties: false
-      description: Schema representing the creation of feedback information.
-      type: object
-      required:
-      - category
-      properties:
-        category:
-          type: string
-          example: UI/UX
-          description: The category of the feedback.
-        userType:
-          type:
-          - string
-          - 'null'
-          example: developer
-          description: The type of user providing the feedback.
-        difficultyScore:
-          type:
-          - number
-          - 'null'
-          example: 5
-          description: A score indicating the difficulty experienced by the user.
-        positive:
-          type:
-          - string
-          - 'null'
-          example: Easy to navigate.
-          description: This field is for users to mention what they liked.
-        areasForImprovement:
-          type:
-          - string
-          - 'null'
-          example: Slow response time.
-          description: Details aspects of the service or product that could benefit from enhancements or modifications. Aids in pinpointing areas needing attention for improvement.
-    licensedUserSchema:
-      description: A schema representing a single licensed user data point.
-      type: object
-      additionalProperties: false
-      required:
-      - date
-      - count
-      properties:
-        date:
-          type: string
-          format: date-time
-          description: The date associated with the licensed users count.
-          example: '2024-10-01T00:00:00.000Z'
-        count:
-          type: integer
-          description: The count of licensed users on the given date.
-          minimum: 0
-          example: 100
-    actionableChangeRequestsSchema:
-      type: object
-      description: Data related to actionable change requests in a project.
-      required:
-      - total
-      properties:
-        total:
-          type: integer
-          minimum: 0
-          description: The number of actionable change requests in the project.
-    transitionConditionSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - intervalMinutes
-      description: A transition condition for milestone progression
-      properties:
-        intervalMinutes:
-          type: integer
-          minimum: 1
-          description: The interval in minutes before transitioning
-          example: 30
-    userSchema:
-      type: object
-      additionalProperties: false
-      description: An Unleash user
-      required:
-      - id
-      properties:
-        id:
-          description: The user id
-          type: integer
-          example: 123
-        name:
-          description: Name of the user
-          type:
-          - string
-          - 'null'
-          example: User
-        email:
-          description: Email of the user
-          type: string
-          example: user@example.com
-        username:
-          description: A unique username for the user
-          type:
-          - string
-          - 'null'
-          example: hunter
-        imageUrl:
-          description: URL used for the user profile image
-          type: string
-          example: https://example.com/242x200.png
-        inviteLink:
-          description: If the user is actively inviting other users, this is the link that can be shared with other users
-          type: string
-          example: http://localhost:4242/invite-link/some-secret
-        loginAttempts:
-          description: How many unsuccessful attempts at logging in has the user made
-          type: integer
-          minimum: 0
-          example: 3
-        emailSent:
-          description: Is the welcome email sent to the user or not
-          type: boolean
-          example: false
-        rootRole:
-          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
-          type: integer
-          example: 1
-          minimum: 0
-        seenAt:
-          description: The last time this user logged in
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-06-30T11:42:00.345Z'
-        createdAt:
-          description: The user was created at this time
-          type: string
-          format: date-time
-          example: '2023-06-30T11:41:00.123Z'
-        accountType:
-          description: A user is either an actual User or a Service Account
-          type: string
-          enum:
-          - User
-          - Service Account
-          example: User
-        permissions:
-          description: Deprecated
-          type: array
-          items:
-            type: string
-        scimId:
-          description: The SCIM ID of the user, only present if managed by SCIM
-          type:
-          - string
-          - 'null'
-          example: 01HTMEXAMPLESCIMID7SWWGHN6
-        seatType:
-          description: The seat type of this user
-          type:
-          - string
-          - 'null'
-          example: Regular
-        activeSessions:
-          description: Count of active browser sessions for this user
-          type:
-          - integer
-          - 'null'
-          example: 2
-        deletedSessions:
-          description: Experimental. The number of deleted browser sessions after last login
-          type: number
-          example: 1
-    scimSettingsSchema:
-      type: object
-      required:
-      - enabled
-      - hasToken
-      description: An object describing settings for SCIM provisioning.
-      additionalProperties: false
-      properties:
-        enabled:
-          type: boolean
-          description: Whether SCIM provisioning is currently enabled.
-          example: true
-        hasToken:
-          type: boolean
-          description: Whether a SCIM provisioning API token is currently set.
-          example: true
-    impactMetricsConfigListSchema:
-      type: object
-      required:
-      - configs
-      description: A list of impact metrics configurations for a feature flag.
-      additionalProperties: false
-      properties:
-        configs:
-          type: array
-          description: The list of impact metrics configurations.
-          items:
-            $ref: '#/components/schemas/impactMetricsConfigSchema'
-    feedbackSchema:
-      additionalProperties: false
-      description: Schema representing feedback information.
-      type: object
-      required:
-      - id
-      - category
-      - userType
-      - difficultyScore
-      - positive
-      - areasForImprovement
-      - createdAt
-      properties:
-        id:
-          type: number
-          example: 123
-          description: The unique identifier of the feedback.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2022-12-12T12:13:24.218Z'
-          description: The date and time when the feedback was provided.
-        category:
-          type: string
-          example: UI/UX
-          description: The category of the feedback.
-        userType:
-          type:
-          - string
-          - 'null'
-          example: developer
-          description: The type of user providing the feedback.
-        difficultyScore:
-          type:
-          - number
-          - 'null'
-          example: 5
-          description: A score indicating the difficulty experienced by the user.
-        positive:
-          type:
-          - string
-          - 'null'
-          example: Easy to navigate.
-          description: This field is for users to mention what they liked.
-        areasForImprovement:
-          type:
-          - string
-          - 'null'
-          example: Slow response time.
-          description: Details aspects of the service or product that could benefit from enhancements or modifications. Aids in pinpointing areas needing attention for improvement.
-    featureLifecycleCountSchema:
-      type: object
-      description: A number features in each of the lifecycle stages
-      required:
-      - initial
-      - preLive
-      - live
-      - completed
-      - archived
-      additionalProperties: false
-      properties:
-        initial:
-          type: number
-          example: 1
-          description: Number of features in the initial stage
-        preLive:
-          type: number
-          example: 1
-          description: Number of features in the pre-live stage
-        live:
-          type: number
-          example: 1
-          description: Number of features in the live stage
-        completed:
-          type: number
-          example: 1
-          description: Number of features in the completed stage
-        archived:
-          type: number
-          example: 1
-          description: Number of features in the archived stage
-    projectActivitySchema:
-      type: array
-      description: An array of project activity information. Each item contains a date and the total number of activities for that date.
-      items:
-        type: object
-        additionalProperties: false
-        required:
-        - date
-        - count
-        properties:
-          date:
-            type: string
-            example: '2022-12-14'
-            description: Activity date
-          count:
-            type: integer
-            minimum: 0
-            description: Activity count
-    clientSegmentSchema:
-      type: object
-      description: Represents a client API segment of users defined by a set of constraints.
-      additionalProperties: false
-      required:
-      - id
-      - constraints
-      properties:
-        id:
-          type: number
-          description: The segment's id.
-        name:
-          type: string
-          description: The name of the segment.
-          example: segment A
-        constraints:
-          type: array
-          description: List of constraints that determine which users are part of the segment
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-    clientFeaturesDeltaSchema:
-      type: object
-      required:
-      - events
-      description: Schema for delta updates of feature configurations.
-      properties:
-        events:
-          description: A list of delta events.
-          type: array
-          items:
-            type: object
-            anyOf:
-            - type: object
-              required:
-              - eventId
-              - type
-              - feature
-              properties:
-                eventId:
-                  type: number
-                type:
-                  type: string
-                  enum:
-                  - feature-updated
-                feature:
-                  $ref: '#/components/schemas/clientFeatureSchema'
-            - type: object
-              required:
-              - eventId
-              - type
-              - featureName
-              - project
-              properties:
-                eventId:
-                  type: number
-                type:
-                  type: string
-                  enum:
-                  - feature-removed
-                featureName:
-                  type: string
-                project:
-                  type: string
-            - type: object
-              required:
-              - eventId
-              - type
-              - segment
-              properties:
-                eventId:
-                  type: number
-                type:
-                  type: string
-                  enum:
-                  - segment-updated
-                segment:
-                  $ref: '#/components/schemas/clientSegmentSchema'
-            - type: object
-              required:
-              - eventId
-              - type
-              - segmentId
-              properties:
-                eventId:
-                  type: number
-                type:
-                  type: string
-                  enum:
-                  - segment-removed
-                segmentId:
-                  type: number
-            - type: object
-              required:
-              - type
-              - features
-              - segments
-              - eventId
-              properties:
-                eventId:
-                  type: number
-                type:
-                  type: string
-                  enum:
-                  - hydration
-                features:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/clientFeatureSchema'
-                segments:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/clientSegmentSchema'
-    plausibleMetricsResponseSchema:
-      type: object
-      required:
-      - data
-      description: Response containing Plausible analytics data for favorite events.
-      additionalProperties: false
-      properties:
-        data:
-          type: array
-          description: Array of analytics data points
-          items:
-            type: object
-            required:
-            - count
-            - date
-            additionalProperties: false
-            properties:
-              count:
-                type: number
-                description: Number of events for this time period
-                example: 1
-              date:
-                type: string
-                description: Date and time of the event (hourly granularity)
-                example: '2025-10-15 06:00:00'
-    changeMilestoneProgressionSchema:
-      type: object
-      additionalProperties: true
-      required:
-      - targetMilestone
-      - transitionCondition
-      description: Request body to create or update a milestone progression
-      properties:
-        targetMilestone:
-          type: string
-          description: The ID of the target milestone
-          example: 11K7NXD655W7R89659K58RE07B
-        transitionCondition:
-          $ref: '#/components/schemas/transitionConditionSchema'
-          description: The condition configuration for the transition
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
     instanceInsightsSchema:
       additionalProperties: false
       description: A summary of this Unleash instance's usage statistics, including user and flag counts, and trends over time.
@@ -3969,308 +3748,6 @@ components:
                 example: 3
                 minimum: 0
                 description: Total count of archived flags during this week
-    edgeLicenseStateSchema:
-      description: A model representing the Edge license state response.
-      type: object
-      additionalProperties: false
-      required:
-      - edgeLicenseState
-      properties:
-        edgeLicenseState:
-          description: State of the current Enterprise Edge license
-          type: string
-          enum:
-          - Valid
-          - Invalid
-          - Expired
-    overrideSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - contextName
-      - values
-      description: An override for deciding which variant should be assigned to a user based on the context name
-      properties:
-        contextName:
-          description: The name of the context field used to determine overrides
-          type: string
-          example: userId
-        values:
-          description: Which values that should be overriden
-          type: array
-          items:
-            type: string
-          example:
-          - red
-          - blue
-    createSafeguardSchema:
-      type: object
-      required:
-      - impactMetric
-      - triggerCondition
-      description: Request body to create a safeguard with metric-based alert condition.
-      additionalProperties: false
-      properties:
-        impactMetric:
-          type: object
-          required:
-          - metricName
-          - timeRange
-          - aggregationMode
-          - labelSelectors
-          properties:
-            metricName:
-              type: string
-              description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
-              example: unleash_counter_feature_toggle_usage_total
-            timeRange:
-              type: string
-              enum:
-              - hour
-              - day
-              - week
-              - month
-              description: The time range for the metric data.
-              example: day
-            aggregationMode:
-              type: string
-              description: The aggregation mode for the metric data.
-              enum:
-              - rps
-              - count
-              - avg
-              - sum
-              - p95
-              - p99
-              - p50
-              example: rps
-            labelSelectors:
-              type: object
-              additionalProperties:
-                type: array
-                items:
-                  type: string
-              description: The selected labels and their values for filtering the metric data.
-              example:
-                environment:
-                - development
-                project:
-                - default
-          description: Metric configuration that should be evaluated for the safeguard.
-        triggerCondition:
-          $ref: '#/components/schemas/safeguardTriggerConditionSchema'
-          description: The condition that triggers the safeguard.
-    feedbackListSchema:
-      type: array
-      description: A list of feedback items.
-      items:
-        $ref: '#/components/schemas/feedbackSchema'
-    featureStrategySchema:
-      description: A single activation strategy configuration schema for a feature
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      properties:
-        id:
-          type: string
-          description: A uuid for the feature strategy
-          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
-        name:
-          type: string
-          description: The name or type of strategy
-          example: flexibleRollout
-        title:
-          type:
-          - string
-          - 'null'
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-        disabled:
-          type:
-          - boolean
-          - 'null'
-          description: A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
-          example: false
-        featureName:
-          type: string
-          description: The name or feature the strategy is attached to
-          example: myAwesomeFeature
-        sortOrder:
-          type: number
-          description: The order of the strategy in the list
-          example: 9999
-        segments:
-          type: array
-          description: A list of segment ids attached to the strategy
-          example:
-          - 1
-          - 2
-          items:
-            type: number
-        constraints:
-          type: array
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
-          items:
-            $ref: '#/components/schemas/constraintSchema'
-        variants:
-          type: array
-          description: Strategy level variants
-          items:
-            $ref: '#/components/schemas/strategyVariantSchema'
-        parameters:
-          $ref: '#/components/schemas/parametersSchema'
-    meteredRequestsSchema:
-      type: object
-      description: Contains the recorded metered groups requests segmented by day/month
-      required:
-      - dateRange
-      - apiData
-      - grouping
-      additionalProperties: false
-      properties:
-        grouping:
-          type: string
-          enum:
-          - monthly
-          - daily
-          description: Whether the data is aggregated by month or by day.
-          example: monthly
-        dateRange:
-          type: object
-          required:
-          - from
-          - to
-          additionalProperties: false
-          description: The date range there is data for. The range is inclusive and goes from the start of the `from` date to the end of the `to` date
-          properties:
-            from:
-              type: string
-              format: date
-              example: '2023-04-01'
-              description: The start of the dateRange
-            to:
-              type: string
-              format: date
-              example: '2023-04-30'
-              description: The end of the dateRange
-        apiData:
-          type: array
-          description: Contains the recorded daily/monthly requests for each metered group
-          items:
-            type: object
-            required:
-            - meteredGroup
-            - dataPoints
-            additionalProperties: false
-            properties:
-              meteredGroup:
-                type: string
-                example: default
-                description: The metered group representing charging unit in the organization using Unleash
-              dataPoints:
-                type: array
-                description: The recorded data points for the metered group
-                items:
-                  type: object
-                  required:
-                  - period
-                  - requests
-                  additionalProperties: false
-                  properties:
-                    period:
-                      type: string
-                      pattern: ^\d{4}-\d{2}(-\d{2})?$
-                      example: '2023-04-01'
-                      description: The date of the data point. Formatted as a full date (e.g. 2023-04-01) if the data is aggregated by day or as a month (e.g. 2023-04) if the data is aggregated by month.
-                    requests:
-                      type: number
-                      minimum: 0
-                      example: 1200
-                      description: Number of requests
-    roleSchema:
-      type: object
-      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
-      additionalProperties: false
-      required:
-      - id
-      - type
-      - name
-      properties:
-        id:
-          type: integer
-          description: The role id
-          example: 9
-          minimum: 0
-        type:
-          description: A role can either be a global root role (applies to all projects) or a project role
-          type: string
-          example: root
-        name:
-          description: The name of the role
-          type: string
-          example: Editor
-        description:
-          description: A more detailed description of the role and what use it's intended for
-          type: string
-          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
-        project:
-          description: What project the role belongs to
-          type:
-          - string
-          - 'null'
-          example: default
-    strategyVariantSchema:
-      type: object
-      additionalProperties: false
-      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
-      required:
-      - name
-      - weight
-      - weightType
-      - stickiness
-      properties:
-        name:
-          type: string
-          description: The variant name. Must be unique for this feature flag
-          example: blue_group
-        weight:
-          type: integer
-          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
-          type: string
-          example: fix
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
     personalDashboardSchema:
       type: object
       description: Project and flags relevant to the user
@@ -4404,158 +3881,6 @@ components:
                 example: release
                 description: The type of the feature flag
           description: A list of flags a user created or favorited
-    licensedUsersSchema:
-      description: A response model representing user license data.
-      type: object
-      additionalProperties: false
-      required:
-      - licensedUsers
-      - seatCount
-      properties:
-        seatCount:
-          type: integer
-          minimum: 0
-          example: 25
-          description: The total number of licensed seats currently available for this Unleash instance.
-        licensedUsers:
-          type: object
-          required:
-          - history
-          - current
-          description: An object containing historical and current licensed user data.
-          properties:
-            history:
-              type: array
-              description: A monthly history of licensed user counts.
-              items:
-                $ref: '#/components/schemas/licensedUserSchema'
-            current:
-              description: The current number of licenses in use.
-              type: integer
-              minimum: 0
-              example: 25
-    dependentFeatureSchema:
-      type: object
-      description: Feature dependency on a parent feature in read model
-      required:
-      - feature
-      additionalProperties: false
-      properties:
-        feature:
-          type: string
-          description: The name of the feature we depend on.
-          example: parent_feature
-        enabled:
-          type: boolean
-          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
-          example: false
-        variants:
-          type: array
-          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
-          items:
-            type: string
-          example:
-          - variantA
-          - variantB
-    cdnApiTokenSchema:
-      description: The data required to create an CDN API token.
-      type: object
-      required:
-      - tokenName
-      - environment
-      properties:
-        tokenName:
-          type: string
-          description: The name of the token.
-          example: token-64522
-        project:
-          type: string
-          description: The project that the token should be valid for. Defaults to "*" meaning every project.
-          example: project-851
-        environment:
-          type: string
-          description: The environment that the token should be valid for.
-          example: development
-        expiresAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The time when this token should expire.
-          example: '2023-07-04T11:26:24+02:00'
-    featureLifecycleCompletedSchema:
-      description: A feature that has been marked as completed
-      additionalProperties: false
-      type: object
-      required:
-      - status
-      properties:
-        status:
-          type: string
-          enum:
-          - kept
-          - discarded
-          example: kept
-          description: The status of the feature after it has been marked as completed
-        statusValue:
-          type: string
-          example: variant1
-          description: The metadata value passed in together with status
-    variantSchema:
-      type: object
-      additionalProperties: false
-      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
-      required:
-      - name
-      - weight
-      properties:
-        name:
-          type: string
-          description: The variants name. Is unique for this feature flag
-          example: blue_group
-        weight:
-          type: number
-          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
-          type: string
-          example: variable
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          additionalProperties: false
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
-        overrides:
-          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
-          type: array
-          items:
-            $ref: '#/components/schemas/overrideSchema'
     clientFeatureSchema:
       type: object
       required:
@@ -4613,203 +3938,71 @@ components:
           description: Feature dependencies for this flag
           items:
             $ref: '#/components/schemas/dependentFeatureSchema'
-    meteredConnectionsSchema:
+    clientSegmentSchema:
       type: object
-      description: Contains the recorded metered groups connections segmented by day/month
-      required:
-      - dateRange
-      - apiData
-      - grouping
+      description: Represents a client API segment of users defined by a set of constraints.
       additionalProperties: false
-      properties:
-        grouping:
-          type: string
-          enum:
-          - monthly
-          - daily
-          description: Whether the data is aggregated by month or by day.
-          example: monthly
-        dateRange:
-          type: object
-          required:
-          - from
-          - to
-          additionalProperties: false
-          description: The date range there is data for. The range is inclusive and goes from the start of the `from` date to the end of the `to` date
-          properties:
-            from:
-              type: string
-              format: date
-              example: '2023-04-01'
-              description: The start of the dateRange
-            to:
-              type: string
-              format: date
-              example: '2023-04-30'
-              description: The end of the dateRange
-        apiData:
-          type: array
-          description: Contains the recorded daily/monthly connections for each metered group
-          items:
-            type: object
-            required:
-            - meteredGroup
-            - dataPoints
-            additionalProperties: false
-            properties:
-              meteredGroup:
-                type: string
-                example: default
-                description: The metered group representing charging unit in the organization using Unleash
-              dataPoints:
-                type: array
-                description: The recorded data points for the metered group
-                items:
-                  type: object
-                  required:
-                  - period
-                  - connections
-                  additionalProperties: false
-                  properties:
-                    period:
-                      type: string
-                      pattern: ^\d{4}-\d{2}(-\d{2})?$
-                      example: '2023-04-01'
-                      description: The date of the data point. Formatted as a full date (e.g. 2023-04-01) if the data is aggregated by day or as a month (e.g. 2023-04) if the data is aggregated by month.
-                    connections:
-                      type: number
-                      minimum: 0
-                      example: 10.5
-                      description: Number of connections. 1 connection = 7200 backend SDK requests per day
-    createImpactMetricsConfigSchema:
-      type: object
       required:
-      - metricName
-      - timeRange
-      - yAxisMin
-      - aggregationMode
-      - labelSelectors
-      description: Describes the configuration for a single impact metric chart.
-      additionalProperties: true
+      - id
+      - constraints
       properties:
         id:
+          type: number
+          description: The segment's id.
+        name:
           type: string
-          description: The unique ULID identifier for this impact metric configuration. Generated automatically if not provided.
-          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
-        metricName:
-          type: string
-          description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
-          example: unleash_counter_feature_toggle_usage_total
-        timeRange:
-          type: string
-          enum:
-          - hour
-          - day
-          - week
-          - month
-          description: The time range for the metric data.
-          example: day
-        yAxisMin:
-          type: string
-          enum:
-          - auto
-          - zero
-          description: Whether the chart should begin at zero on the y-axis.
-          example: auto
-        aggregationMode:
-          type: string
-          description: The aggregation mode for the metric data.
-          enum:
-          - rps
-          - count
-          - avg
-          - sum
-          - p95
-          - p99
-          - p50
-          example: rps
-        labelSelectors:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-          description: The selected labels and their values for filtering the metric data.
-          example:
-            environment:
-            - development
-            project:
-            - default
-        title:
-          type: string
-          description: Optional title for the impact metric chart.
-          example: Feature Toggle Usage
-    featureLifecycleSchema:
-      type: array
-      description: A list of lifecycle stages for a given feature
-      items:
-        additionalProperties: false
-        type: object
-        required:
-        - stage
-        - enteredStageAt
-        properties:
-          stage:
-            type: string
-            enum:
-            - initial
-            - pre-live
-            - live
-            - completed
-            - archived
-            example: initial
-            description: The name of the lifecycle stage that got recorded for a given feature
-          status:
-            type: string
-            example: kept
-            description: The name of the detailed status of a given stage. E.g. completed stage can be kept or discarded.
-          enteredStageAt:
-            type: string
-            format: date-time
-            example: '2023-01-28T16:21:39.975Z'
-            description: The date when the feature entered a given stage
-        description: The lifecycle stage of the feature
-    scimTokenSchema:
+          description: The name of the segment.
+          example: segment A
+        constraints:
+          type: array
+          description: List of constraints that determine which users are part of the segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+    cdnApiTokenSchema:
+      description: The data required to create an CDN API token.
       type: object
       required:
-      - token
-      description: An object describing a SCIM provisioning API token.
-      additionalProperties: false
+      - tokenName
+      - environment
       properties:
-        token:
+        tokenName:
           type: string
-          description: The token used for SCIM API authentication. Can be revoked at a later stage by generating a new one.
-          example: xyzrandomstring
-    parametersSchema:
+          description: The name of the token.
+          example: token-64522
+        project:
+          type: string
+          description: The project that the token should be valid for. Defaults to "*" meaning every project.
+          example: project-851
+        environment:
+          type: string
+          description: The environment that the token should be valid for.
+          example: development
+        expiresAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The time when this token should expire.
+          example: '2023-07-04T11:26:24+02:00'
+    safeguardTriggerConditionSchema:
       type: object
-      description: A list of parameters for a strategy
-      additionalProperties:
-        type: string
-    milestoneProgressionSchema:
-      type: object
-      additionalProperties: false
       required:
-      - sourceMilestone
-      - targetMilestone
-      - transitionCondition
-      description: A milestone progression configuration
+      - operator
+      - threshold
+      additionalProperties: false
+      description: The condition that triggers the safeguard.
       properties:
-        sourceMilestone:
+        operator:
           type: string
-          description: The ID of the source milestone
-          example: milestone-1
-        targetMilestone:
-          type: string
-          description: The ID of the target milestone
-          example: milestone-2
-        transitionCondition:
-          $ref: '#/components/schemas/transitionConditionSchema'
-          description: The condition that triggers the transition
+          enum:
+          - '>'
+          - <
+          description: The comparison operator for the threshold check.
+          example: '>'
+        threshold:
+          type: number
+          description: The threshold value to compare against.
+          example: 100
     projectStatusSchema:
       type: object
       additionalProperties: false
@@ -4981,58 +4174,865 @@ components:
                   type: integer
                   description: The number of flags in this project that have been changed over the last 30 days.
                   example: 5
-    constraintSchema:
-      additionalProperties: false
+    impactMetricsConfigListSchema:
       type: object
       required:
-      - contextName
-      - operator
-      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      - configs
+      description: A list of impact metrics configurations for a feature flag.
+      additionalProperties: false
       properties:
-        contextName:
-          description: The name of the context field that this constraint should apply to.
-          example: appName
+        configs:
+          type: array
+          description: The list of impact metrics configurations.
+          items:
+            $ref: '#/components/schemas/impactMetricsConfigSchema'
+    changeMilestoneProgressionSchema:
+      type: object
+      additionalProperties: true
+      required:
+      - targetMilestone
+      - transitionCondition
+      description: Request body to create or update a milestone progression
+      properties:
+        targetMilestone:
           type: string
-        operator:
-          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          description: The ID of the target milestone
+          example: 11K7NXD655W7R89659K58RE07B
+        transitionCondition:
+          $ref: '#/components/schemas/transitionConditionSchema'
+          description: The condition configuration for the transition
+    feedbackListSchema:
+      type: array
+      description: A list of feedback items.
+      items:
+        $ref: '#/components/schemas/feedbackSchema'
+    impactMetricsConfigSchema:
+      type: object
+      required:
+      - metricName
+      - timeRange
+      - yAxisMin
+      - aggregationMode
+      - labelSelectors
+      - type
+      - displayName
+      - id
+      description: Describes the configuration for a single impact metric chart.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: The unique ULID identifier for this impact metric configuration. Generated automatically if not provided.
+          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
+        metricName:
+          type: string
+          description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+          example: unleash_counter_feature_toggle_usage_total
+        timeRange:
           type: string
           enum:
-          - NOT_IN
-          - IN
-          - STR_ENDS_WITH
-          - STR_STARTS_WITH
-          - STR_CONTAINS
-          - NUM_EQ
-          - NUM_GT
-          - NUM_GTE
-          - NUM_LT
-          - NUM_LTE
-          - DATE_AFTER
-          - DATE_BEFORE
-          - SEMVER_EQ
-          - SEMVER_GT
-          - SEMVER_LT
-          example: IN
-        caseInsensitive:
-          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          - hour
+          - day
+          - week
+          - month
+          description: The time range for the metric data.
+          example: day
+        aggregationMode:
+          type: string
+          description: The aggregation mode for the metric data.
+          enum:
+          - rps
+          - count
+          - avg
+          - sum
+          - p95
+          - p99
+          - p50
+          example: rps
+        labelSelectors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: The selected labels and their values for filtering the metric data.
+          example:
+            environment:
+            - development
+            project:
+            - default
+        type:
+          type: string
+          description: The type of metric
+          enum:
+          - counter
+          - gauge
+          - histogram
+          - unknown
+          example: counter
+        displayName:
+          type: string
+          description: The human readable display name of the impact metric
+          example: feature_toggle_usage_total
+        yAxisMin:
+          type: string
+          enum:
+          - auto
+          - zero
+          description: Whether the chart should begin at zero on the y-axis.
+          example: auto
+        step:
+          type:
+          - string
+          - 'null'
+          enum:
+          - 1m
+          - 15m
+          - 3h
+          - 1d
+          description: The step interval for querying metrics data. This is automatically calculated from the timeRange and stored when the metric is created or updated.
+          example: 15m
+        title:
+          type: string
+          description: Optional title for the impact metric chart.
+          example: Feature Toggle Usage
+        mode:
+          type: string
+          enum:
+          - read
+          - write
+          description: 'The access mode for this impact metric configuration: "read" when referenced by a safeguard, "write" otherwise.'
+          example: write
+    transitionConditionSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - intervalMinutes
+      description: A transition condition for milestone progression
+      properties:
+        intervalMinutes:
+          type: integer
+          minimum: 1
+          description: The interval in minutes before transitioning
+          example: 30
+    dependentFeatureSchema:
+      type: object
+      description: Feature dependency on a parent feature in read model
+      required:
+      - feature
+      additionalProperties: false
+      properties:
+        feature:
+          type: string
+          description: The name of the feature we depend on.
+          example: parent_feature
+        enabled:
           type: boolean
-          default: false
-        inverted:
-          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
-          type: boolean
-          default: false
-        values:
+          description: Whether the parent feature should be enabled. When `false` variants are ignored. `true` by default.
+          example: false
+        variants:
           type: array
-          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          description: The list of variants the parent feature should resolve to. Leave empty when you only want to check the `enabled` status.
           items:
             type: string
           example:
-          - my-app
-          - my-other-app
-        value:
-          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          - variantA
+          - variantB
+    cdnApiTokensSchema:
+      description: List of CDN tokens.
+      type: object
+      properties:
+        tokens:
+          type: array
+          description: List of tokens for CDN
+          items:
+            $ref: '#/components/schemas/cdnApiTokenSchema'
+    scimSettingsSchema:
+      type: object
+      required:
+      - enabled
+      - hasToken
+      description: An object describing settings for SCIM provisioning.
+      additionalProperties: false
+      properties:
+        enabled:
+          type: boolean
+          description: Whether SCIM provisioning is currently enabled.
+          example: true
+        hasToken:
+          type: boolean
+          description: Whether a SCIM provisioning API token is currently set.
+          example: true
+    featureLinkSchema:
+      type: object
+      required:
+      - url
+      properties:
+        url:
           type: string
-          example: my-app
+          example: https://github.com/search?q=cleanupReminder&type=code
+          description: The URL the feature is linked to
+        title:
+          type:
+          - string
+          - 'null'
+          example: Github cleanup
+          description: The description of the link
+      description: The link to any URL related to the feature
+    edgeLicenseStateSchema:
+      description: A model representing the Edge license state response.
+      type: object
+      additionalProperties: false
+      required:
+      - edgeLicenseState
+      properties:
+        edgeLicenseState:
+          description: State of the current Enterprise Edge license
+          type: string
+          enum:
+          - Valid
+          - Invalid
+          - Expired
+    userAccessOverviewSchema:
+      type: object
+      required:
+      - overview
+      - user
+      - rootRole
+      - projectRoles
+      additionalProperties: false
+      description: Describes the access overview (list of permissions and metadata) for a user.
+      properties:
+        overview:
+          type: object
+          required:
+          - root
+          - project
+          - environment
+          additionalProperties: false
+          description: The access overview (list of permissions) for the user
+          properties:
+            root:
+              type: array
+              description: The list of root permissions
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - displayName
+                - type
+                - hasPermission
+                additionalProperties: false
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the permission
+                    example: 1
+                  name:
+                    type: string
+                    description: The name of the permission
+                    example: CREATE_FEATURE_STRATEGY
+                  displayName:
+                    type: string
+                    description: The display name of the permission
+                    example: Create activation strategies
+                  type:
+                    type: string
+                    description: The type of the permission
+                    example: environment
+                  environment:
+                    type:
+                    - string
+                    - 'null'
+                    description: The environment that the permission applies to
+                    example: dev
+                  hasPermission:
+                    type: boolean
+                    description: Whether the user has this permission
+                    example: true
+            project:
+              type: array
+              description: The list of project permissions
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - displayName
+                - type
+                - hasPermission
+                additionalProperties: false
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the permission
+                    example: 1
+                  name:
+                    type: string
+                    description: The name of the permission
+                    example: CREATE_FEATURE_STRATEGY
+                  displayName:
+                    type: string
+                    description: The display name of the permission
+                    example: Create activation strategies
+                  type:
+                    type: string
+                    description: The type of the permission
+                    example: environment
+                  environment:
+                    type:
+                    - string
+                    - 'null'
+                    description: The environment that the permission applies to
+                    example: dev
+                  hasPermission:
+                    type: boolean
+                    description: Whether the user has this permission
+                    example: true
+            environment:
+              type: array
+              description: The list of environment permissions
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - displayName
+                - type
+                - hasPermission
+                additionalProperties: false
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the permission
+                    example: 1
+                  name:
+                    type: string
+                    description: The name of the permission
+                    example: CREATE_FEATURE_STRATEGY
+                  displayName:
+                    type: string
+                    description: The display name of the permission
+                    example: Create activation strategies
+                  type:
+                    type: string
+                    description: The type of the permission
+                    example: environment
+                  environment:
+                    type:
+                    - string
+                    - 'null'
+                    description: The environment that the permission applies to
+                    example: dev
+                  hasPermission:
+                    type: boolean
+                    description: Whether the user has this permission
+                    example: true
+        user:
+          description: The user that this access overview is for
+          $ref: '#/components/schemas/userSchema'
+        rootRole:
+          description: The name of the root role that this user has
+          $ref: '#/components/schemas/roleSchema'
+        projectRoles:
+          type: array
+          description: The list of project roles that this user has in the selected project
+          items:
+            type: object
+            required:
+            - id
+            - type
+            - name
+            - permissions
+            additionalProperties: false
+            properties:
+              id:
+                type: integer
+                description: The role id
+                example: 9
+                minimum: 0
+              type:
+                description: A role can either be a global root role (applies to all projects) or a project role
+                type: string
+                example: root
+              name:
+                description: The name of the role
+                type: string
+                example: Editor
+              description:
+                description: A more detailed description of the role and what use it's intended for
+                type: string
+                example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+              project:
+                description: What project the role belongs to
+                type:
+                - string
+                - 'null'
+                example: default
+              permissions:
+                type: array
+                description: The permissions that this role has
+                items:
+                  type: object
+                  required:
+                  - id
+                  - name
+                  - displayName
+                  - type
+                  additionalProperties: false
+                  properties:
+                    id:
+                      type: integer
+                      description: The ID of the permission
+                      example: 1
+                    name:
+                      type: string
+                      description: The name of the permission
+                      example: CREATE_FEATURE_STRATEGY
+                    displayName:
+                      type: string
+                      description: The display name of the permission
+                      example: Create activation strategies
+                    type:
+                      type: string
+                      description: The type of the permission
+                      example: environment
+                    environment:
+                      type:
+                      - string
+                      - 'null'
+                      description: The environment that the permission applies to
+                      example: dev
+    feedbackSchema:
+      additionalProperties: false
+      description: Schema representing feedback information.
+      type: object
+      required:
+      - id
+      - category
+      - userType
+      - difficultyScore
+      - positive
+      - areasForImprovement
+      - createdAt
+      properties:
+        id:
+          type: number
+          example: 123
+          description: The unique identifier of the feedback.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2022-12-12T12:13:24.218Z'
+          description: The date and time when the feedback was provided.
+        category:
+          type: string
+          example: UI/UX
+          description: The category of the feedback.
+        userType:
+          type:
+          - string
+          - 'null'
+          example: developer
+          description: The type of user providing the feedback.
+        difficultyScore:
+          type:
+          - number
+          - 'null'
+          example: 5
+          description: A score indicating the difficulty experienced by the user.
+        positive:
+          type:
+          - string
+          - 'null'
+          example: Easy to navigate.
+          description: This field is for users to mention what they liked.
+        areasForImprovement:
+          type:
+          - string
+          - 'null'
+          example: Slow response time.
+          description: Details aspects of the service or product that could benefit from enhancements or modifications. Aids in pinpointing areas needing attention for improvement.
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    licensedUserSchema:
+      description: A schema representing a single licensed user data point.
+      type: object
+      additionalProperties: false
+      required:
+      - date
+      - count
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: The date associated with the licensed users count.
+          example: '2024-10-01T00:00:00.000Z'
+        count:
+          type: integer
+          description: The count of licensed users on the given date.
+          minimum: 0
+          example: 100
+    userSchema:
+      type: object
+      additionalProperties: false
+      description: An Unleash user
+      required:
+      - id
+      properties:
+        id:
+          description: The user id
+          type: integer
+          example: 123
+        name:
+          description: Name of the user
+          type:
+          - string
+          - 'null'
+          example: User
+        email:
+          description: Email of the user
+          type: string
+          example: user@example.com
+        username:
+          description: A unique username for the user
+          type:
+          - string
+          - 'null'
+          example: hunter
+        imageUrl:
+          description: URL used for the user profile image
+          type: string
+          example: https://example.com/242x200.png
+        inviteLink:
+          description: If the user is actively inviting other users, this is the link that can be shared with other users
+          type: string
+          example: http://localhost:4242/invite-link/some-secret
+        loginAttempts:
+          description: How many unsuccessful attempts at logging in has the user made
+          type: integer
+          minimum: 0
+          example: 3
+        emailSent:
+          description: Is the welcome email sent to the user or not
+          type: boolean
+          example: false
+        rootRole:
+          description: Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned
+          type: integer
+          example: 1
+          minimum: 0
+        seenAt:
+          description: The last time this user logged in
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-06-30T11:42:00.345Z'
+        createdAt:
+          description: The user was created at this time
+          type: string
+          format: date-time
+          example: '2023-06-30T11:41:00.123Z'
+        accountType:
+          description: A user is either an actual User or a Service Account
+          type: string
+          enum:
+          - User
+          - Service Account
+          example: User
+        permissions:
+          description: Deprecated
+          type: array
+          items:
+            type: string
+        scimId:
+          description: The SCIM ID of the user, only present if managed by SCIM
+          type:
+          - string
+          - 'null'
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
+        seatType:
+          description: The seat type of this user
+          type:
+          - string
+          - 'null'
+          example: Regular
+        activeSessions:
+          description: Count of active browser sessions for this user
+          type:
+          - integer
+          - 'null'
+          example: 2
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after last login
+          type: number
+          example: 1
+    variantSchema:
+      type: object
+      additionalProperties: false
+      description: A variant allows for further separation of users into segments. See [our excellent documentation](https://docs.getunleash.io/concepts/feature-flag-variants#what-are-variants) for a more detailed description
+      required:
+      - name
+      - weight
+      properties:
+        name:
+          type: string
+          description: The variants name. Is unique for this feature flag
+          example: blue_group
+        weight:
+          type: number
+          description: The weight is the likelihood of any one user getting this variant. It is a number between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
+          type: string
+          example: variable
+          enum:
+          - variable
+          - fix
+        stickiness:
+          type: string
+          description: '[Stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time'
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          additionalProperties: false
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+        overrides:
+          description: Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
+          type: array
+          items:
+            $ref: '#/components/schemas/overrideSchema'
+    actionableChangeRequestsSchema:
+      type: object
+      description: Data related to actionable change requests in a project.
+      required:
+      - total
+      properties:
+        total:
+          type: integer
+          minimum: 0
+          description: The number of actionable change requests in the project.
+    roleSchema:
+      type: object
+      description: A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - name
+      properties:
+        id:
+          type: integer
+          description: The role id
+          example: 9
+          minimum: 0
+        type:
+          description: A role can either be a global root role (applies to all projects) or a project role
+          type: string
+          example: root
+        name:
+          description: The name of the role
+          type: string
+          example: Editor
+        description:
+          description: A more detailed description of the role and what use it's intended for
+          type: string
+          example: Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default.
+        project:
+          description: What project the role belongs to
+          type:
+          - string
+          - 'null'
+          example: default
+    overrideSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - contextName
+      - values
+      description: An override for deciding which variant should be assigned to a user based on the context name
+      properties:
+        contextName:
+          description: The name of the context field used to determine overrides
+          type: string
+          example: userId
+        values:
+          description: Which values that should be overriden
+          type: array
+          items:
+            type: string
+          example:
+          - red
+          - blue
+    projectActivitySchema:
+      type: array
+      description: An array of project activity information. Each item contains a date and the total number of activities for that date.
+      items:
+        type: object
+        additionalProperties: false
+        required:
+        - date
+        - count
+        properties:
+          date:
+            type: string
+            example: '2022-12-14'
+            description: Activity date
+          count:
+            type: integer
+            minimum: 0
+            description: Activity count
+    milestoneProgressionSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - sourceMilestone
+      - targetMilestone
+      - transitionCondition
+      description: A milestone progression configuration
+      properties:
+        sourceMilestone:
+          type: string
+          description: The ID of the source milestone
+          example: milestone-1
+        targetMilestone:
+          type: string
+          description: The ID of the target milestone
+          example: milestone-2
+        transitionCondition:
+          $ref: '#/components/schemas/transitionConditionSchema'
+          description: The condition that triggers the transition
+    createSafeguardSchema:
+      type: object
+      required:
+      - impactMetric
+      - triggerCondition
+      description: Request body to create a safeguard with metric-based alert condition.
+      additionalProperties: false
+      properties:
+        impactMetric:
+          type: object
+          required:
+          - metricName
+          - timeRange
+          - aggregationMode
+          - labelSelectors
+          properties:
+            metricName:
+              type: string
+              description: The Prometheus metric series to query. It includes both unleash prefix and metric type and display name
+              example: unleash_counter_feature_toggle_usage_total
+            timeRange:
+              type: string
+              enum:
+              - hour
+              - day
+              - week
+              - month
+              description: The time range for the metric data.
+              example: day
+            aggregationMode:
+              type: string
+              description: The aggregation mode for the metric data.
+              enum:
+              - rps
+              - count
+              - avg
+              - sum
+              - p95
+              - p99
+              - p50
+              example: rps
+            labelSelectors:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              description: The selected labels and their values for filtering the metric data.
+              example:
+                environment:
+                - development
+                project:
+                - default
+          description: Metric configuration that should be evaluated for the safeguard.
+        triggerCondition:
+          $ref: '#/components/schemas/safeguardTriggerConditionSchema'
+          description: The condition that triggers the safeguard.
+    featureLifecycleCountSchema:
+      type: object
+      description: A number features in each of the lifecycle stages
+      required:
+      - initial
+      - preLive
+      - live
+      - completed
+      - archived
+      additionalProperties: false
+      properties:
+        initial:
+          type: number
+          example: 1
+          description: Number of features in the initial stage
+        preLive:
+          type: number
+          example: 1
+          description: Number of features in the pre-live stage
+        live:
+          type: number
+          example: 1
+          description: Number of features in the live stage
+        completed:
+          type: number
+          example: 1
+          description: Number of features in the completed stage
+        archived:
+          type: number
+          example: 1
+          description: Number of features in the archived stage
+    featureLifecycleCompletedSchema:
+      description: A feature that has been marked as completed
+      additionalProperties: false
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - kept
+          - discarded
+          example: kept
+          description: The status of the feature after it has been marked as completed
+        statusValue:
+          type: string
+          example: variant1
+          description: The metadata value passed in together with status
   securitySchemes:
     apiKey:
       type: apiKey

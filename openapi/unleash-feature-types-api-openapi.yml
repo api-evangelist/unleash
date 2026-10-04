@@ -192,6 +192,20 @@ paths:
           type: string
 components:
   schemas:
+    updateFeatureTypeLifetimeSchema:
+      type: object
+      required:
+      - lifetimeDays
+      description: Data used when updating the lifetime of a [feature flag type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types).
+      properties:
+        lifetimeDays:
+          description: The new lifetime (in days) that you want to assign to the feature flag type. If the value is `null` or `0`, then the feature flags of that type will never be marked as potentially stale. Otherwise, they will be considered potentially stale after the number of days indicated by this property.
+          example: 7
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+          maximum: 2147483647
     featureTypeSchema:
       type: object
       description: A [feature flag type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types).
@@ -261,20 +275,6 @@ components:
             name: Permission
             description: Permission feature flags are used to control permissions in your system.
             lifetimeDays: null
-    updateFeatureTypeLifetimeSchema:
-      type: object
-      required:
-      - lifetimeDays
-      description: Data used when updating the lifetime of a [feature flag type](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types).
-      properties:
-        lifetimeDays:
-          description: The new lifetime (in days) that you want to assign to the feature flag type. If the value is `null` or `0`, then the feature flags of that type will never be marked as potentially stale. Otherwise, they will be considered potentially stale after the number of days indicated by this property.
-          example: 7
-          type:
-          - integer
-          - 'null'
-          minimum: 0
-          maximum: 2147483647
   securitySchemes:
     apiKey:
       type: apiKey
