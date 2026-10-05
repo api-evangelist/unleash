@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.getunleash.io/openapi/frontend-api.yaml",
+ "requested_url": "https://docs.getunleash.io/openapi/frontend-api.yaml",
+ "status": 200,
+ "content_type": "application/x-yaml; charset=utf-8",
+ "bytes": 21375,
+ "sha256": "a3c4d1de41394f4cad0853b954932190e405494ce55f920d653cc951069b7dd2",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
