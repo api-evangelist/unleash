@@ -650,6 +650,10 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/unleash/refs/heads/main/rules/unleash-rules.yml
 common:
+- type: RateLimits
+  url: rate-limits/unleash-rate-limits.yml
+- type: FinOps
+  url: finops/unleash-finops.yml
 - type: Plans
   url: plans/unleash-plans-pricing.yml
 - type: CapabilityMap
