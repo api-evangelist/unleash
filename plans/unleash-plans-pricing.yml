@@ -39,3 +39,27 @@ plans:
   overage: Request Quote
 rate_limit_statements:
 - 53M API requests per month ($5 per million thereafter) for Cloud
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Pay-As-You-Go
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Custom Enterprise
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - none
