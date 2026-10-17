@@ -87,58 +87,19 @@ paths:
                 $ref: '#/components/schemas/healthCheckSchema'
 components:
   schemas:
-    invoicesSchema:
-      type: array
-      description: A list of invoices
-      items:
-        type: object
-        description: Data describing an invoice
-        required:
-        - amountFormatted
-        - paid
-        - status
-        - invoiceURL
-        - invoicePDF
-        additionalProperties: false
-        properties:
-          amountFormatted:
-            type: string
-            description: A formatted representation of the amount due.
-            example: € 123.00
-          paid:
-            type: boolean
-            description: '`true` if the invoice has been paid, `false` if it has not.'
-            example: true
-          status:
-            type: string
-            description: The current status of the invoice
-            example: pending
-          dueDate:
-            type: string
-            description: When the invoice is due
-            example: '2018-11-13'
-          invoiceURL:
-            type: string
-            format: uri
-            description: A URL pointing to where the invoice can be found.
-            example: https://invoice.url
-          invoicePDF:
-            type: string
-            format: uri
-            description: A link to a PDF-version of the invoice.
-            example: https://invoice.url/pdf
-    readyCheckSchema:
+    healthCheckSchema:
       type: object
-      description: Used by service orchestrators to decide whether this Unleash instance should be considered ready to serve requests.
+      description: Used by service orchestrators to decide whether this Unleash instance should be marked as healthy or unhealthy
       additionalProperties: false
       required:
       - health
       properties:
         health:
-          description: The readiness state this Unleash instance is in. GOOD if the server is up and running. If the server is unhealthy you will get an unsuccessful http response.
+          description: The state this Unleash instance is in. GOOD if the server is up and running. It never returns BAD, if the server is unhealthy you will get an unsuccessful http response.
           type: string
           enum:
           - GOOD
+          - BAD
           example: GOOD
     detailedInvoicesLineSchema:
       type: object
@@ -191,20 +152,46 @@ components:
           type: number
           description: Unit price for the line item
           example: 0.05
-    healthCheckSchema:
-      type: object
-      description: Used by service orchestrators to decide whether this Unleash instance should be marked as healthy or unhealthy
-      additionalProperties: false
-      required:
-      - health
-      properties:
-        health:
-          description: The state this Unleash instance is in. GOOD if the server is up and running. It never returns BAD, if the server is unhealthy you will get an unsuccessful http response.
-          type: string
-          enum:
-          - GOOD
-          - BAD
-          example: GOOD
+    invoicesSchema:
+      type: array
+      description: A list of invoices
+      items:
+        type: object
+        description: Data describing an invoice
+        required:
+        - amountFormatted
+        - paid
+        - status
+        - invoiceURL
+        - invoicePDF
+        additionalProperties: false
+        properties:
+          amountFormatted:
+            type: string
+            description: A formatted representation of the amount due.
+            example: € 123.00
+          paid:
+            type: boolean
+            description: '`true` if the invoice has been paid, `false` if it has not.'
+            example: true
+          status:
+            type: string
+            description: The current status of the invoice
+            example: pending
+          dueDate:
+            type: string
+            description: When the invoice is due
+            example: '2018-11-13'
+          invoiceURL:
+            type: string
+            format: uri
+            description: A URL pointing to where the invoice can be found.
+            example: https://invoice.url
+          invoicePDF:
+            type: string
+            format: uri
+            description: A link to a PDF-version of the invoice.
+            example: https://invoice.url/pdf
     detailedInvoicesSchema:
       type: object
       description: Detailed invoices response with nested line items
@@ -296,6 +283,19 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/detailedInvoicesLineSchema'
+    readyCheckSchema:
+      type: object
+      description: Used by service orchestrators to decide whether this Unleash instance should be considered ready to serve requests.
+      additionalProperties: false
+      required:
+      - health
+      properties:
+        health:
+          description: The readiness state this Unleash instance is in. GOOD if the server is up and running. If the server is unhealthy you will get an unsuccessful http response.
+          type: string
+          enum:
+          - GOOD
+          example: GOOD
   securitySchemes:
     apiKey:
       type: apiKey

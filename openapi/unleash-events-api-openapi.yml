@@ -267,34 +267,76 @@ paths:
                 $ref: '#/components/schemas/eventSearchResponseSchema'
 components:
   schemas:
-    featureEventsSchema:
+    eventsSchema:
       type: object
       additionalProperties: false
       required:
+      - version
       - events
-      description: One or more events happening to a specific feature flag
+      description: A list of events that has happened in the system
       properties:
         version:
           type: integer
-          description: An API versioning number
           minimum: 1
           enum:
           - 1
+          description: The api version of this response. A natural increasing number. Only increases if format changes
           example: 1
-        toggleName:
-          description: The name of the feature flag these events relate to
-          type: string
-          example: my.first.feature.flag
         events:
           description: The list of events
           type: array
           items:
             $ref: '#/components/schemas/eventSchema'
         totalEvents:
-          description: How many events are there for this feature flag
           type: integer
+          description: The total count of events
           minimum: 0
-          example: 13
+          example: 842
+    eventSearchResponseSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - events
+      - total
+      description: A list of events that have been registered by the system
+      properties:
+        events:
+          description: The list of events
+          type: array
+          items:
+            $ref: '#/components/schemas/eventSchema'
+        total:
+          type: integer
+          description: The total count of events
+          minimum: 0
+          example: 842
+    tagSchema:
+      type: object
+      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
+      additionalProperties: false
+      required:
+      - value
+      - type
+      properties:
+        value:
+          type: string
+          description: The value of the tag.
+          minLength: 2
+          maxLength: 50
+          example: a-tag-value
+        type:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
+          example: simple
+        color:
+          type:
+          - string
+          - 'null'
+          description: The hexadecimal color code for the tag type.
+          example: '#FFFFFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
     eventSchema:
       type: object
       additionalProperties: false
@@ -580,51 +622,34 @@ components:
           type: string
           description: The unique identifier for the transaction group this event belongs to, if applicable.
           example: 01HQVX5K8P9EXAMPLE123456
-    tagSchema:
-      type: object
-      description: Representation of a [tag](https://docs.getunleash.io/concepts/feature-flags#tags)
-      additionalProperties: false
-      required:
-      - value
-      - type
-      properties:
-        value:
-          type: string
-          description: The value of the tag.
-          minLength: 2
-          maxLength: 50
-          example: a-tag-value
-        type:
-          type: string
-          minLength: 2
-          maxLength: 50
-          description: The [type](https://docs.getunleash.io/concepts/feature-flags#tags) of the tag
-          example: simple
-        color:
-          type:
-          - string
-          - 'null'
-          description: The hexadecimal color code for the tag type.
-          example: '#FFFFFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-    eventSearchResponseSchema:
+    featureEventsSchema:
       type: object
       additionalProperties: false
       required:
       - events
-      - total
-      description: A list of events that have been registered by the system
+      description: One or more events happening to a specific feature flag
       properties:
+        version:
+          type: integer
+          description: An API versioning number
+          minimum: 1
+          enum:
+          - 1
+          example: 1
+        toggleName:
+          description: The name of the feature flag these events relate to
+          type: string
+          example: my.first.feature.flag
         events:
           description: The list of events
           type: array
           items:
             $ref: '#/components/schemas/eventSchema'
-        total:
+        totalEvents:
+          description: How many events are there for this feature flag
           type: integer
-          description: The total count of events
           minimum: 0
-          example: 842
+          example: 13
     eventCreatorsSchema:
       type: array
       description: A list of event creators
@@ -643,31 +668,6 @@ components:
             description: Name of the user. If the user has no set name, the API falls back to using the user's username (if they have one) or email (if neither name or username is set).
             type: string
             example: User
-    eventsSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - version
-      - events
-      description: A list of events that has happened in the system
-      properties:
-        version:
-          type: integer
-          minimum: 1
-          enum:
-          - 1
-          description: The api version of this response. A natural increasing number. Only increases if format changes
-          example: 1
-        events:
-          description: The list of events
-          type: array
-          items:
-            $ref: '#/components/schemas/eventSchema'
-        totalEvents:
-          type: integer
-          description: The total count of events
-          minimum: 0
-          example: 842
   securitySchemes:
     apiKey:
       type: apiKey

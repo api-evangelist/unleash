@@ -352,18 +352,6 @@ components:
           example: '2023-09-04T11:26:24+02:00'
           type: string
           format: date-time
-    apiTokensSchema:
-      type: object
-      description: An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)
-      additionalProperties: false
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: array
-          description: A list of Unleash API tokens.
-          items:
-            $ref: '#/components/schemas/apiTokenSchema'
     createApiTokenSchema:
       type: object
       description: The data required to create an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).
@@ -473,6 +461,18 @@ components:
           - 'null'
           description: Alias is no longer in active use and will often be NULL. It's kept around as a way of allowing old proxy tokens created with the old metadata format to keep working.
           example: randomid-or-some-alias
+    apiTokensSchema:
+      type: object
+      description: An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)
+      additionalProperties: false
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: array
+          description: A list of Unleash API tokens.
+          items:
+            $ref: '#/components/schemas/apiTokenSchema'
   securitySchemes:
     apiKey:
       type: apiKey

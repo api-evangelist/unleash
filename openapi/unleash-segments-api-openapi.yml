@@ -515,15 +515,6 @@ paths:
                 $ref: '#/components/schemas/segmentsSchema'
 components:
   schemas:
-    segmentsSchema:
-      description: Data containing a list of [segments](https://docs.getunleash.io/concepts/segments)
-      type: object
-      properties:
-        segments:
-          type: array
-          description: A list of segments
-          items:
-            $ref: '#/components/schemas/adminSegmentSchema'
     adminSegmentSchema:
       type: object
       required:
@@ -585,6 +576,86 @@ components:
           format: date-time
           description: When the segment was created
           example: '2023-04-12T11:13:31.960Z'
+    upsertSegmentSchema:
+      type: object
+      description: Data used to create or update a segment
+      required:
+      - name
+      - constraints
+      properties:
+        name:
+          description: The name of the segment
+          example: beta-users
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of what the segment is for
+          example: Users willing to help us test and build new features.
+        project:
+          type:
+          - string
+          - 'null'
+          description: The project the segment belongs to if any.
+          example: red-vista
+        constraints:
+          type: array
+          description: The list of constraints that make up this segment
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+    constraintSchema:
+      additionalProperties: false
+      type: object
+      required:
+      - contextName
+      - operator
+      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply to.
+          example: appName
+          type: string
+        operator:
+          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
+          type: string
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+        caseInsensitive:
+          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
+          type: boolean
+          default: false
+        inverted:
+          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
+          type: boolean
+          default: false
+        values:
+          type: array
+          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
+          items:
+            type: string
+          example:
+          - my-app
+          - my-other-app
+        value:
+          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
+          type: string
+          example: my-app
     nameSchema:
       type: object
       additionalProperties: false
@@ -596,6 +667,15 @@ components:
           description: The name of the represented object.
           example: betaUser
           type: string
+    segmentsSchema:
+      description: Data containing a list of [segments](https://docs.getunleash.io/concepts/segments)
+      type: object
+      properties:
+        segments:
+          type: array
+          description: A list of segments
+          items:
+            $ref: '#/components/schemas/adminSegmentSchema'
     segmentStrategiesSchema:
       type: object
       required:
@@ -666,86 +746,6 @@ components:
                 type: string
                 description: The name of the strategy's type.
                 example: flexibleRollout
-    constraintSchema:
-      additionalProperties: false
-      type: object
-      required:
-      - contextName
-      - operator
-      description: A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)
-      properties:
-        contextName:
-          description: The name of the context field that this constraint should apply to.
-          example: appName
-          type: string
-        operator:
-          description: The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).
-          type: string
-          enum:
-          - NOT_IN
-          - IN
-          - STR_ENDS_WITH
-          - STR_STARTS_WITH
-          - STR_CONTAINS
-          - NUM_EQ
-          - NUM_GT
-          - NUM_GTE
-          - NUM_LT
-          - NUM_LTE
-          - DATE_AFTER
-          - DATE_BEFORE
-          - SEMVER_EQ
-          - SEMVER_GT
-          - SEMVER_LT
-          example: IN
-        caseInsensitive:
-          description: Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).
-          type: boolean
-          default: false
-        inverted:
-          description: Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.
-          type: boolean
-          default: false
-        values:
-          type: array
-          description: The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.
-          items:
-            type: string
-          example:
-          - my-app
-          - my-other-app
-        value:
-          description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
-          type: string
-          example: my-app
-    upsertSegmentSchema:
-      type: object
-      description: Data used to create or update a segment
-      required:
-      - name
-      - constraints
-      properties:
-        name:
-          description: The name of the segment
-          example: beta-users
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of what the segment is for
-          example: Users willing to help us test and build new features.
-        project:
-          type:
-          - string
-          - 'null'
-          description: The project the segment belongs to if any.
-          example: red-vista
-        constraints:
-          type: array
-          description: The list of constraints that make up this segment
-          items:
-            $ref: '#/components/schemas/constraintSchema'
   securitySchemes:
     apiKey:
       type: apiKey

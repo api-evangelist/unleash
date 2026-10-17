@@ -411,32 +411,11 @@ paths:
           type: string
 components:
   schemas:
-    legalValueSchema:
-      type: object
-      additionalProperties: false
-      description: Describes a legal value. Typically used to limit possible values for contextFields or strategy properties
-      required:
-      - value
-      properties:
-        value:
-          description: The valid value
-          type: string
-          example: '#c154c1'
-        description:
-          description: Describes this specific legal value
-          type: string
-          example: Deep fuchsia
-    nameSchema:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      description: An object with a name
-      properties:
-        name:
-          description: The name of the represented object.
-          example: betaUser
-          type: string
+    contextFieldsSchema:
+      type: array
+      description: A list of context fields
+      items:
+        $ref: '#/components/schemas/contextFieldSchema'
     updateContextFieldSchema:
       type: object
       description: Data to update an existing context field configuration.
@@ -466,11 +445,21 @@ components:
           description: The project this context field belongs to (if it is project-specific)
           type: string
           example: my-project
-    contextFieldsSchema:
-      type: array
-      description: A list of context fields
-      items:
-        $ref: '#/components/schemas/contextFieldSchema'
+    legalValueSchema:
+      type: object
+      additionalProperties: false
+      description: Describes a legal value. Typically used to limit possible values for contextFields or strategy properties
+      required:
+      - value
+      properties:
+        value:
+          description: The valid value
+          type: string
+          example: '#c154c1'
+        description:
+          description: Describes this specific legal value
+          type: string
+          example: Deep fuchsia
     contextFieldSchema:
       type: object
       additionalProperties: false
@@ -526,6 +515,17 @@ components:
           description: The project this context field belongs to (if it is project-specific)
           type: string
           example: my-project
+    nameSchema:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      description: An object with a name
+      properties:
+        name:
+          description: The name of the represented object.
+          example: betaUser
+          type: string
     createContextFieldSchema:
       type: object
       description: Data used to create a context field configuration.

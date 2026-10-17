@@ -482,9 +482,9 @@ paths:
           type: string
 components:
   schemas:
-    parentFeatureOptionsSchema:
+    parentVariantOptionsSchema:
       type: array
-      description: A list of parent feature names available for a given child feature. Features that have their own parents are excluded.
+      description: A list of parent variant names available for a given parent feature. This list includes strategy variants and feature environment variants.
       items:
         type: string
     dependenciesExistSchema:
@@ -512,9 +512,9 @@ components:
           example:
           - variantA
           - variantB
-    parentVariantOptionsSchema:
+    parentFeatureOptionsSchema:
       type: array
-      description: A list of parent variant names available for a given parent feature. This list includes strategy variants and feature environment variants.
+      description: A list of parent feature names available for a given child feature. Features that have their own parents are excluded.
       items:
         type: string
   securitySchemes:

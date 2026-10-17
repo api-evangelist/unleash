@@ -245,102 +245,6 @@ paths:
                 $ref: '#/components/schemas/instanceAdminStatsSchema'
 components:
   schemas:
-    licenseReadSchema:
-      description: A model representing a license response.
-      type: object
-      additionalProperties: false
-      required:
-      - isValid
-      properties:
-        token:
-          description: The actual license token.
-          type: string
-        isValid:
-          description: Whether the license is valid or not.
-          type: boolean
-        customer:
-          description: Name of the customer that owns the license. This is the name of the company that purchased the license.
-          type: string
-        type:
-          description: Type of license.
-          type: string
-        instanceName:
-          description: Name of the Unleash instance where this license is valid.
-          type: string
-        instanceId:
-          description: Identifier of the Unleash instance where this license is valid.
-          type: string
-        plan:
-          description: Name of plan that the license is for.
-          type: string
-        resources:
-          type: object
-          description: The resources available in the license.
-          additionalProperties: false
-          properties:
-            seats:
-              description: Number of seats in the license.
-              type: number
-            releaseTemplates:
-              description: Number of release templates in the license.
-              type: number
-            edgeInstances:
-              description: Number of Edge instances in the license.
-              type: number
-            readOnlyUsers:
-              description: Number of read-only users in the license.
-              type: number
-        expireAt:
-          description: Date when the license expires.
-          type: string
-          format: date-time
-          example: '2023-07-31T13:33:02Z'
-        issuedAt:
-          description: Date when the license was issued.
-          type: string
-          format: date-time
-          example: '2023-07-31T13:33:02Z'
-    loginEventSchema:
-      description: A model representing a single login event.
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      properties:
-        id:
-          description: The event's ID. Event IDs are incrementing integers. In other words, a more recent event will always have a higher ID than an older event.
-          type: integer
-          minimum: 1
-          example: 13
-        username:
-          description: The username of the user that attempted to log in. Will return "Incorrectly configured provider" when attempting to log in using a misconfigured provider.
-          type: string
-          example: admin
-        auth_type:
-          description: The authentication type used to log in.
-          example: simple
-          type: string
-        created_at:
-          description: The date and time of when the login was attempted.
-          type: string
-          format: date-time
-          example: '2023-03-01T12:04:26.061Z'
-        successful:
-          description: Whether the login was successful or not.
-          type: boolean
-          example: true
-        ip:
-          description: The IP address of the client that attempted to log in.
-          type:
-          - string
-          - 'null'
-          example: ::ffff:127.0.0.1
-        failure_reason:
-          description: The reason for the login failure. This property is only present if the login was unsuccessful.
-          type:
-          - string
-          - 'null'
-          example: No user found
     instanceAdminStatsSchema:
       type: object
       additionalProperties: false
@@ -574,6 +478,47 @@ components:
           type: string
           description: A SHA-256 checksum of the instance statistics to be used to verify that the data in this object has not been tampered with
           example: b023323477abb1eb145bebf3cdb30a1c2063e3edc1f7ae474ed8ed6c80de9a3b
+    loginEventSchema:
+      description: A model representing a single login event.
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      properties:
+        id:
+          description: The event's ID. Event IDs are incrementing integers. In other words, a more recent event will always have a higher ID than an older event.
+          type: integer
+          minimum: 1
+          example: 13
+        username:
+          description: The username of the user that attempted to log in. Will return "Incorrectly configured provider" when attempting to log in using a misconfigured provider.
+          type: string
+          example: admin
+        auth_type:
+          description: The authentication type used to log in.
+          example: simple
+          type: string
+        created_at:
+          description: The date and time of when the login was attempted.
+          type: string
+          format: date-time
+          example: '2023-03-01T12:04:26.061Z'
+        successful:
+          description: Whether the login was successful or not.
+          type: boolean
+          example: true
+        ip:
+          description: The IP address of the client that attempted to log in.
+          type:
+          - string
+          - 'null'
+          example: ::ffff:127.0.0.1
+        failure_reason:
+          description: The reason for the login failure. This property is only present if the login was unsuccessful.
+          type:
+          - string
+          - 'null'
+          example: No user found
     licenseUpdateSchema:
       description: A model representing a set license token.
       type: object
@@ -584,6 +529,61 @@ components:
         token:
           description: The actual license token.
           type: string
+    licenseReadSchema:
+      description: A model representing a license response.
+      type: object
+      additionalProperties: false
+      required:
+      - isValid
+      properties:
+        token:
+          description: The actual license token.
+          type: string
+        isValid:
+          description: Whether the license is valid or not.
+          type: boolean
+        customer:
+          description: Name of the customer that owns the license. This is the name of the company that purchased the license.
+          type: string
+        type:
+          description: Type of license.
+          type: string
+        instanceName:
+          description: Name of the Unleash instance where this license is valid.
+          type: string
+        instanceId:
+          description: Identifier of the Unleash instance where this license is valid.
+          type: string
+        plan:
+          description: Name of plan that the license is for.
+          type: string
+        resources:
+          type: object
+          description: The resources available in the license.
+          additionalProperties: false
+          properties:
+            seats:
+              description: Number of seats in the license.
+              type: number
+            releaseTemplates:
+              description: Number of release templates in the license.
+              type: number
+            edgeInstances:
+              description: Number of Edge instances in the license.
+              type: number
+            readOnlyUsers:
+              description: Number of read-only users in the license.
+              type: number
+        expireAt:
+          description: Date when the license expires.
+          type: string
+          format: date-time
+          example: '2023-07-31T13:33:02Z'
+        issuedAt:
+          description: Date when the license was issued.
+          type: string
+          format: date-time
+          example: '2023-07-31T13:33:02Z'
     loginHistorySchema:
       description: A response model with a list of login events.
       type: object

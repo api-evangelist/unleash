@@ -1446,56 +1446,17 @@ paths:
           type: string
 components:
   schemas:
-    createStrategyVariantSchema:
+    releasePlanTemplateIdSchema:
+      additionalProperties: false
+      description: Schema for creating a release plan for a feature flag environment by copying and applying the configuration from a release plan template.
       type: object
-      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
       required:
-      - name
-      - weight
-      - weightType
-      - stickiness
+      - templateId
       properties:
-        name:
+        templateId:
           type: string
-          description: The variant name. Must be unique for this feature flag
-          example: blue_group
-        weight:
-          type: integer
-          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
-          minimum: 0
-          maximum: 1000
-        weightType:
-          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
-          type: string
-          example: fix
-          enum:
-          - variable
-          - fix
-        stickiness:
-          type: string
-          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
-          example: custom.context.field
-        payload:
-          type: object
-          required:
-          - type
-          - value
-          description: Extra data configured for this variant
-          properties:
-            type:
-              description: The type of the value. Commonly used types are string, number, json and csv.
-              type: string
-              enum:
-              - json
-              - csv
-              - string
-              - number
-            value:
-              description: The actual value of payload
-              type: string
-          example:
-            type: json
-            value: '{"color": "red"}'
+          description: The release plan template's ID. Release template IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
     safeguardSchema:
       type: object
       required:
@@ -1581,158 +1542,122 @@ components:
                 project:
                 - default
           description: The metric configuration used to evaluate the safeguard condition.
-    releasePlanTemplateSchema:
-      additionalProperties: false
-      description: Schema representing the creation of a release template.
+    createStrategyVariantSchema:
       type: object
+      description: This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
       required:
-      - id
-      - discriminator
       - name
-      - createdByUserId
-      - createdAt
+      - weight
+      - weightType
+      - stickiness
       properties:
-        id:
-          type: string
-          description: The release plan/template's ID. Release template IDs are ulids.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW2
-        discriminator:
-          type: string
-          description: A field to distinguish between release plans and release templates.
-          example: template
-          enum:
-          - template
         name:
           type: string
-          description: The name of the release template.
-          example: My release plan
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of the release template.
-          example: This is my release plan
-        createdByUserId:
-          type: number
-          description: 'Release template: The ID of the user who created this template.'
-          example: 53
-        createdAt:
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+        weight:
+          type: integer
+          description: The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information
+          minimum: 0
+          maximum: 1000
+        weightType:
+          description: Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).
           type: string
-          format: date-time
-          description: The date and time that the release template was created.
-          example: '2022-01-01T00:00:00Z'
-        milestones:
-          type: array
-          description: A list of the milestones in this release template.
-          items:
-            $ref: '#/components/schemas/releasePlanMilestoneSchema'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date and time that the release template was archived.
-          example: '2022-01-01T00:00:00Z'
-    parametersSchema:
-      type: object
-      description: A list of parameters for a strategy
-      additionalProperties:
-        type: string
-    safeguardTriggerConditionSchema:
-      type: object
-      required:
-      - operator
-      - threshold
-      additionalProperties: false
-      description: The condition that triggers the safeguard.
-      properties:
-        operator:
-          type: string
+          example: fix
           enum:
-          - '>'
-          - <
-          description: The comparison operator for the threshold check.
-          example: '>'
-        threshold:
-          type: number
-          description: The threshold value to compare against.
-          example: 100
-    releasePlanTemplateIdSchema:
-      additionalProperties: false
-      description: Schema for creating a release plan for a feature flag environment by copying and applying the configuration from a release plan template.
-      type: object
-      required:
-      - templateId
-      properties:
-        templateId:
+          - variable
+          - fix
+        stickiness:
           type: string
-          description: The release plan template's ID. Release template IDs are ulids.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW2
-    releasePlanMilestoneStrategySchema:
+          description: The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time
+          example: custom.context.field
+        payload:
+          type: object
+          required:
+          - type
+          - value
+          description: Extra data configured for this variant
+          properties:
+            type:
+              description: The type of the value. Commonly used types are string, number, json and csv.
+              type: string
+              enum:
+              - json
+              - csv
+              - string
+              - number
+            value:
+              description: The actual value of payload
+              type: string
+          example:
+            type: json
+            value: '{"color": "red"}'
+    releasePlanMilestoneSchema:
       additionalProperties: false
-      description: Schema representing the creation of a release plan milestone strategy.
+      description: Schema representing the creation of a release plan milestone.
       type: object
       required:
       - id
-      - milestoneId
+      - name
       - sortOrder
-      - strategyName
+      - releasePlanDefinitionId
       properties:
         id:
           type: string
-          description: The milestone strategy's ID. Milestone strategy IDs are ulids.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW3
-        milestoneId:
-          type: string
-          description: The ID of the milestone that this strategy belongs to.
+          description: The milestone's ID. Milestone IDs are ulids.
           example: 01JB9GGTGQYEQ9D40R17T3YVW1
+        name:
+          type: string
+          description: The name of the milestone.
+          example: My milestone
         sortOrder:
-          type: number
-          description: The order of the strategy in the list
-          example: 9999
-        title:
+          type: integer
+          description: The order of the milestone in the release plan.
+          example: 1
+        releasePlanDefinitionId:
+          type: string
+          description: The ID of the release plan/template that this milestone belongs to.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+        startedAt:
           type:
           - string
           - 'null'
-          description: A descriptive title for the strategy
-          example: Gradual Rollout 25-Prod
-        strategyName:
-          type: string
-          description: The name of the strategy type
-          example: flexibleRollout
-        parameters:
-          description: An object containing the parameters for the strategy
-          example:
-            groupId: some_new
-            rollout: '25'
-            stickiness: sessionId
-          $ref: '#/components/schemas/parametersSchema'
-        constraints:
+          format: date-time
+          description: The date and time when the milestone was started.
+          example: '2024-01-01T00:00:00.000Z'
+        transitionCondition:
+          type:
+          - object
+          - 'null'
+          additionalProperties: false
+          required:
+          - intervalMinutes
+          properties:
+            intervalMinutes:
+              type: integer
+              minimum: 1
+              description: The interval in minutes before transitioning
+              example: 30
+          description: The condition configuration for the transition
+        progressionExecutedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when the milestone progression was executed.
+          example: '2024-01-01T00:00:00.000Z'
+        pausedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when the milestone was paused.
+          example: '2024-01-01T00:00:00.000Z'
+        strategies:
           type: array
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
-          example:
-          - values:
-            - '1'
-            - '2'
-            inverted: false
-            operator: IN
-            contextName: appName
-            caseInsensitive: false
+          description: A list of strategies that are attached to this milestone.
           items:
-            $ref: '#/components/schemas/constraintSchema'
-        variants:
-          type: array
-          description: Strategy level variants
-          items:
-            $ref: '#/components/schemas/createStrategyVariantSchema'
-        segments:
-          type: array
-          description: Ids of segments to use for this strategy
-          example:
-          - 1
-          - 2
-          items:
-            type: number
+            $ref: '#/components/schemas/releasePlanMilestoneStrategySchema'
     releasePlanSchema:
       additionalProperties: false
       description: Schema representing the creation of a release plan.
@@ -1805,72 +1730,76 @@ components:
           description: An array of safeguards configured for this release plan.
           items:
             $ref: '#/components/schemas/safeguardSchema'
-    releasePlanMilestoneSchema:
+    parametersSchema:
+      type: object
+      description: A list of parameters for a strategy
+      additionalProperties:
+        type: string
+    releasePlanMilestoneStrategySchema:
       additionalProperties: false
-      description: Schema representing the creation of a release plan milestone.
+      description: Schema representing the creation of a release plan milestone strategy.
       type: object
       required:
       - id
-      - name
+      - milestoneId
       - sortOrder
-      - releasePlanDefinitionId
+      - strategyName
       properties:
         id:
           type: string
-          description: The milestone's ID. Milestone IDs are ulids.
+          description: The milestone strategy's ID. Milestone strategy IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW3
+        milestoneId:
+          type: string
+          description: The ID of the milestone that this strategy belongs to.
           example: 01JB9GGTGQYEQ9D40R17T3YVW1
-        name:
-          type: string
-          description: The name of the milestone.
-          example: My milestone
         sortOrder:
-          type: integer
-          description: The order of the milestone in the release plan.
-          example: 1
-        releasePlanDefinitionId:
+          type: number
+          description: The order of the strategy in the list
+          example: 9999
+        title:
+          type:
+          - string
+          - 'null'
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+        strategyName:
           type: string
-          description: The ID of the release plan/template that this milestone belongs to.
-          example: 01JB9GGTGQYEQ9D40R17T3YVW2
-        startedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date and time when the milestone was started.
-          example: '2024-01-01T00:00:00.000Z'
-        transitionCondition:
-          type:
-          - object
-          - 'null'
-          additionalProperties: false
-          required:
-          - intervalMinutes
-          properties:
-            intervalMinutes:
-              type: integer
-              minimum: 1
-              description: The interval in minutes before transitioning
-              example: 30
-          description: The condition configuration for the transition
-        progressionExecutedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date and time when the milestone progression was executed.
-          example: '2024-01-01T00:00:00.000Z'
-        pausedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date and time when the milestone was paused.
-          example: '2024-01-01T00:00:00.000Z'
-        strategies:
+          description: The name of the strategy type
+          example: flexibleRollout
+        parameters:
+          description: An object containing the parameters for the strategy
+          example:
+            groupId: some_new
+            rollout: '25'
+            stickiness: sessionId
+          $ref: '#/components/schemas/parametersSchema'
+        constraints:
           type: array
-          description: A list of strategies that are attached to this milestone.
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
+          example:
+          - values:
+            - '1'
+            - '2'
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
           items:
-            $ref: '#/components/schemas/releasePlanMilestoneStrategySchema'
+            $ref: '#/components/schemas/constraintSchema'
+        variants:
+          type: array
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/createStrategyVariantSchema'
+        segments:
+          type: array
+          description: Ids of segments to use for this strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
     constraintSchema:
       additionalProperties: false
       type: object
@@ -1923,6 +1852,77 @@ components:
           description: The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.
           type: string
           example: my-app
+    safeguardTriggerConditionSchema:
+      type: object
+      required:
+      - operator
+      - threshold
+      additionalProperties: false
+      description: The condition that triggers the safeguard.
+      properties:
+        operator:
+          type: string
+          enum:
+          - '>'
+          - <
+          description: The comparison operator for the threshold check.
+          example: '>'
+        threshold:
+          type: number
+          description: The threshold value to compare against.
+          example: 100
+    releasePlanTemplateSchema:
+      additionalProperties: false
+      description: Schema representing the creation of a release template.
+      type: object
+      required:
+      - id
+      - discriminator
+      - name
+      - createdByUserId
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: The release plan/template's ID. Release template IDs are ulids.
+          example: 01JB9GGTGQYEQ9D40R17T3YVW2
+        discriminator:
+          type: string
+          description: A field to distinguish between release plans and release templates.
+          example: template
+          enum:
+          - template
+        name:
+          type: string
+          description: The name of the release template.
+          example: My release plan
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of the release template.
+          example: This is my release plan
+        createdByUserId:
+          type: number
+          description: 'Release template: The ID of the user who created this template.'
+          example: 53
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time that the release template was created.
+          example: '2022-01-01T00:00:00Z'
+        milestones:
+          type: array
+          description: A list of the milestones in this release template.
+          items:
+            $ref: '#/components/schemas/releasePlanMilestoneSchema'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time that the release template was archived.
+          example: '2022-01-01T00:00:00Z'
   securitySchemes:
     apiKey:
       type: apiKey
