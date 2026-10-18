@@ -640,6 +640,8 @@ apis:
   humanURL: https://docs.getunleash.io/api#client-api
   baseURL: https://app.unleash-instance.example.com
   tags:
+  - Addons
+  tags_raw:
   - Add Ons
   properties:
   - type: OpenAPI
