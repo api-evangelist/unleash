@@ -86,3 +86,16 @@
     detected: '2026-10-19'
   status: not-a-workflow
   arazzo: null
+- slug: unleash-atlassian-own
+  label: Atlassian (own)
+  partner: atlassian
+  partner_name: Atlassian (own)
+  category: Continuous integration
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.atlassian.com/vendors/1221324/bricks-software-as
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

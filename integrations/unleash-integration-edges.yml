@@ -93,6 +93,24 @@ edges:
     detected: '2026-10-19'
   detected_by: sweep-cloud-native.py
   first_seen: '2026-10-15'
+- partner_name: Atlassian (own)
+  partner: atlassian
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.atlassian.com/vendors/1221324/bricks-software-as
+  mirror_of: atlassian/integrations/atlassian-integration-edges.yml
+  apps:
+  - Unleash Enterprise For Jira
+  - Unleash for Jira Server
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: Continuous integration
 generated: '2026-10-14'
 method: searched
 checked:
@@ -102,6 +120,7 @@ checked:
 - https://github.com/cncf/k8s-conformance
 - https://github.com/cncf/landscape
 - https://registry.modelcontextprotocol.io/v0/servers
+- atlassian/integrations/atlassian-integration-edges.yml
 source:
 - https://github.com/cncf/landscape
 - https://github.com/cncf/k8s-conformance
