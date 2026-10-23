@@ -551,3 +551,9 @@ components:
       type: http
       scheme: bearer
       description: API key needed to access this API, in Bearer token format
+x-provenance:
+  method: harvested
+  publisher: Unleash
+  source: https://docs.getunleash.io/openapi/frontend-api.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
